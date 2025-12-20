@@ -57,6 +57,7 @@ class AppRoutes {
 
   // Studio claim
   static const String studioClaim = '/studio/claim';
+  static const String studioCreate = '/studio/create';
 
   // Notifications
   static const String notifications = '/notifications';

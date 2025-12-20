@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/discovered_studio.dart';
 import 'package:useme/core/services/location_service.dart';
 import 'package:useme/core/services/studio_claim_service.dart';
+import 'package:useme/routing/app_routes.dart';
 
 /// Écran pour revendiquer son studio (lier un Google Place à son compte)
 class StudioClaimScreen extends StatefulWidget {
@@ -497,11 +497,6 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
   }
 
   void _showManualCreationDialog() {
-    // TODO: Navigate to manual studio creation form
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Création manuelle - bientôt disponible'),
-      ),
-    );
+    context.push(AppRoutes.studioCreate);
   }
 }

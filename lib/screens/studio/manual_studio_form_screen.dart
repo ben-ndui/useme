@@ -1,0 +1,365 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/core/models/studio_profile.dart';
+import 'package:useme/core/services/location_service.dart';
+import 'package:useme/core/services/studio_claim_service.dart';
+import 'package:useme/routing/app_routes.dart';
+
+/// Écran pour créer manuellement un profil studio (sans lien Google)
+class ManualStudioFormScreen extends StatefulWidget {
+  const ManualStudioFormScreen({super.key});
+
+  @override
+  State<ManualStudioFormScreen> createState() => _ManualStudioFormScreenState();
+}
+
+class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _studioClaimService = StudioClaimService();
+  final _locationService = LocationService();
+
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _postalCodeController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _websiteController = TextEditingController();
+
+  bool _isSubmitting = false;
+  GeoPoint? _location;
+
+  final List<String> _availableServices = [
+    'Enregistrement',
+    'Mixage',
+    'Mastering',
+    'Production',
+    'Composition',
+    'Sound Design',
+  ];
+  final List<String> _selectedServices = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentLocation();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _descriptionController.dispose();
+    _addressController.dispose();
+    _cityController.dispose();
+    _postalCodeController.dispose();
+    _phoneController.dispose();
+    _websiteController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadCurrentLocation() async {
+    try {
+      final latLng = await _locationService.getCurrentLatLng();
+      setState(() {
+        _location = GeoPoint(latLng.latitude, latLng.longitude);
+      });
+    } catch (e) {
+      // Ignorer - la localisation sera null
+    }
+  }
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isSubmitting = true);
+
+    try {
+      final authState = context.read<AuthBloc>().state;
+      if (authState is! AuthAuthenticatedState) {
+        throw Exception('Non connecté');
+      }
+
+      final profile = StudioProfile(
+        name: _nameController.text.trim(),
+        description: _descriptionController.text.trim().isEmpty
+            ? null
+            : _descriptionController.text.trim(),
+        address: _addressController.text.trim().isEmpty
+            ? null
+            : _addressController.text.trim(),
+        city: _cityController.text.trim().isEmpty
+            ? null
+            : _cityController.text.trim(),
+        postalCode: _postalCodeController.text.trim().isEmpty
+            ? null
+            : _postalCodeController.text.trim(),
+        country: 'France',
+        location: _location,
+        phone: _phoneController.text.trim().isEmpty
+            ? null
+            : _phoneController.text.trim(),
+        website: _websiteController.text.trim().isEmpty
+            ? null
+            : _websiteController.text.trim(),
+        services: _selectedServices,
+        claimedAt: DateTime.now(),
+      );
+
+      await _studioClaimService.createManualStudio(
+        userId: authState.user.uid,
+        profile: profile,
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Studio créé avec succès !'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        context.go(AppRoutes.home);
+      }
+    } catch (e) {
+      setState(() => _isSubmitting = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erreur: $e'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Créer mon studio')),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            // Info card
+            _buildInfoCard(theme),
+            const SizedBox(height: 24),
+
+            // Nom du studio
+            TextFormField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                labelText: 'Nom du studio *',
+                hintText: 'Ex: Studio Harmonie',
+                prefixIcon: const Icon(FontAwesomeIcons.microphone, size: 16),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              textCapitalization: TextCapitalization.words,
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'Le nom du studio est requis';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 16),
+
+            // Description
+            TextFormField(
+              controller: _descriptionController,
+              decoration: InputDecoration(
+                labelText: 'Description',
+                hintText: 'Décrivez votre studio en quelques mots...',
+                prefixIcon: const Icon(FontAwesomeIcons.alignLeft, size: 16),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              maxLines: 3,
+              textCapitalization: TextCapitalization.sentences,
+            ),
+            const SizedBox(height: 24),
+
+            // Section Adresse
+            Text('Localisation', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 12),
+
+            TextFormField(
+              controller: _addressController,
+              decoration: InputDecoration(
+                labelText: 'Adresse',
+                hintText: 'Ex: 123 rue de la Musique',
+                prefixIcon: const Icon(FontAwesomeIcons.locationDot, size: 16),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              textCapitalization: TextCapitalization.words,
+            ),
+            const SizedBox(height: 12),
+
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                    controller: _postalCodeController,
+                    decoration: InputDecoration(
+                      labelText: 'Code postal',
+                      hintText: '75001',
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  flex: 3,
+                  child: TextFormField(
+                    controller: _cityController,
+                    decoration: InputDecoration(
+                      labelText: 'Ville *',
+                      hintText: 'Paris',
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    textCapitalization: TextCapitalization.words,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'La ville est requise';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+
+            // Section Contact
+            Text('Contact', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 12),
+
+            TextFormField(
+              controller: _phoneController,
+              decoration: InputDecoration(
+                labelText: 'Téléphone',
+                hintText: '06 12 34 56 78',
+                prefixIcon: const Icon(FontAwesomeIcons.phone, size: 16),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              keyboardType: TextInputType.phone,
+            ),
+            const SizedBox(height: 12),
+
+            TextFormField(
+              controller: _websiteController,
+              decoration: InputDecoration(
+                labelText: 'Site web',
+                hintText: 'https://www.monstudio.com',
+                prefixIcon: const Icon(FontAwesomeIcons.globe, size: 16),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              keyboardType: TextInputType.url,
+            ),
+            const SizedBox(height: 24),
+
+            // Section Services
+            Text('Services proposés', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 12),
+
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: _availableServices.map((service) {
+                final isSelected = _selectedServices.contains(service);
+                return FilterChip(
+                  label: Text(service),
+                  selected: isSelected,
+                  onSelected: (selected) {
+                    setState(() {
+                      if (selected) {
+                        _selectedServices.add(service);
+                      } else {
+                        _selectedServices.remove(service);
+                      }
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 32),
+
+            // Submit button
+            FilledButton.icon(
+              onPressed: _isSubmitting ? null : _submit,
+              icon: _isSubmitting
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                    )
+                  : const FaIcon(FontAwesomeIcons.check, size: 14),
+              label: Text(_isSubmitting ? 'Création en cours...' : 'Créer mon studio'),
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
+            ),
+            const SizedBox(height: 32),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoCard(ThemeData theme) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: FaIcon(
+                FontAwesomeIcons.buildingUser,
+                size: 20,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Création manuelle',
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Votre studio sera visible aux artistes dès sa création. Vous pourrez compléter votre profil plus tard.',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

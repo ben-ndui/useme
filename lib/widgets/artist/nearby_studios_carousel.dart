@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:useme/core/blocs/map/map_bloc.dart';
 import 'package:useme/core/blocs/map/map_state.dart';
 import 'package:useme/core/models/discovered_studio.dart';
+import 'package:useme/widgets/artist/report_missing_studio_sheet.dart';
 
 /// Modern carousel showing nearby recording studios
 class NearbyStudiosCarousel extends StatelessWidget {

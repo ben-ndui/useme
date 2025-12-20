@@ -14,6 +14,7 @@ import 'package:useme/screens/studio/add_artist_screen.dart';
 import 'package:useme/screens/studio/services_page.dart';
 import 'package:useme/screens/studio/service_form_screen.dart';
 import 'package:useme/screens/studio/studio_claim_screen.dart';
+import 'package:useme/screens/studio/manual_studio_form_screen.dart';
 import 'package:useme/screens/studio/team_management_screen.dart';
 import 'package:useme/screens/engineer/engineer_main_scaffold.dart';
 import 'package:useme/screens/engineer/session_tracking_screen.dart';
@@ -201,6 +202,10 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.studioClaim,
           builder: (context, state) => const StudioClaimScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.studioCreate,
+          builder: (context, state) => const ManualStudioFormScreen(),
         ),
 
         // Notifications
