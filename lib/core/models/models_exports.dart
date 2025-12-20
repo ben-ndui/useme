@@ -10,3 +10,4 @@ export 'studio_invitation.dart';
 export 'favorite.dart';
 export 'working_hours.dart';
 export 'time_off.dart';
+export 'payment_method.dart';

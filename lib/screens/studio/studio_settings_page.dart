@@ -93,6 +93,13 @@ class _StudioSettingsPageState extends State<StudioSettingsPage> {
               subtitle: 'Gérer les ingénieurs',
               onTap: () => context.push(AppRoutes.teamManagement),
             ),
+            _buildSettingsTile(
+              context,
+              icon: FontAwesomeIcons.creditCard,
+              title: 'Moyens de paiement',
+              subtitle: 'Espèces, virement, PayPal...',
+              onTap: () => context.push(AppRoutes.paymentMethods),
+            ),
 
             const Divider(height: 32),
 
