@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
@@ -492,9 +493,7 @@ class _ArtistCreationFormState extends State<_ArtistCreationForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OutlinedButton.icon(
-              onPressed: () {
-                // TODO: Share via system share
-              },
+              onPressed: _shareInvitation,
               icon: const FaIcon(FontAwesomeIcons.shareNodes, size: 14),
               label: const Text('Partager'),
             ),
@@ -507,6 +506,22 @@ class _ArtistCreationFormState extends State<_ArtistCreationForm> {
         ),
       ],
     );
+  }
+
+  void _shareInvitation() {
+    if (_createdInvitation == null) return;
+
+    final code = _createdInvitation!.code;
+    final studioName = widget.studioName ?? 'notre studio';
+    final message = '''
+Rejoins $studioName sur Use Me !
+
+Utilise ce code d'invitation : $code
+
+Télécharge l'app Use Me et entre ce code pour te connecter au studio.
+''';
+
+    SharePlus.instance.share(ShareParams(text: message, subject: 'Invitation Use Me - $studioName'));
   }
 
   Future<void> _submitForm() async {
