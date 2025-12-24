@@ -30,6 +30,12 @@ class AppRoutes {
   static const String serviceAdd = '/services/add';
   static const String serviceEdit = '/services/:id/edit';
 
+  // Room routes (Studio)
+  static const String rooms = '/rooms';
+  static const String roomDetail = '/rooms/:id';
+  static const String roomAdd = '/rooms/add';
+  static const String roomEdit = '/rooms/:id/edit';
+
   // Booking routes (Studio)
   static const String bookings = '/bookings';
   static const String bookingDetail = '/bookings/:id';
@@ -37,8 +43,10 @@ class AppRoutes {
 
   // Engineer routes
   static const String engineerDashboard = '/engineer';
-  static const String sessionTracking = '/engineer/session/:id';
+  static const String engineerSessions = '/engineer/sessions';
+  static const String engineerSessionDetail = '/engineer/sessions/:id';
   static const String engineerAvailability = '/engineer/availability';
+  static const String engineerInvitations = '/engineer/invitations';
 
   // Artist (Client) portal routes
   static const String artistPortal = '/artist';
@@ -60,15 +68,22 @@ class AppRoutes {
   static const String studioCreate = '/studio/create';
   static const String paymentMethods = '/studio/payment-methods';
 
+  // Admin (SuperAdmin) routes
+  static const String studioClaims = '/admin/studio-claims';
+
   // Notifications
   static const String notifications = '/notifications';
 
   // Messaging
   static const String conversations = '/conversations';
   static const String chat = '/conversations/:id';
+  static const String conversationSettings = '/conversations/:id/settings';
 
   // About
   static const String about = '/about';
+
+  // Account
+  static const String account = '/account';
 
   // Favorites
   static const String favorites = '/favorites';

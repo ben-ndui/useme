@@ -13,6 +13,9 @@ import 'package:useme/screens/studio/artist_form_screen.dart';
 import 'package:useme/screens/studio/add_artist_screen.dart';
 import 'package:useme/screens/studio/services_page.dart';
 import 'package:useme/screens/studio/service_form_screen.dart';
+import 'package:useme/screens/studio/rooms_page.dart';
+import 'package:useme/screens/studio/room_form_screen.dart';
+import 'package:useme/screens/studio/session_detail_screen.dart';
 import 'package:useme/screens/studio/studio_claim_screen.dart';
 import 'package:useme/screens/studio/manual_studio_form_screen.dart';
 import 'package:useme/screens/studio/payment_methods_screen.dart';
@@ -20,14 +23,19 @@ import 'package:useme/screens/studio/team_management_screen.dart';
 import 'package:useme/screens/engineer/engineer_main_scaffold.dart';
 import 'package:useme/screens/engineer/session_tracking_screen.dart';
 import 'package:useme/screens/engineer/engineer_availability_screen.dart';
+import 'package:useme/screens/engineer/team_invitations_screen.dart';
 import 'package:useme/screens/artist/artist_main_scaffold.dart';
+import 'package:useme/screens/artist/artist_session_detail_screen.dart';
 import 'package:useme/screens/artist/session_request_screen.dart';
 import 'package:useme/screens/shared/notifications_screen.dart';
 import 'package:useme/screens/shared/profile_screen.dart';
 import 'package:useme/screens/shared/conversations_screen.dart';
 import 'package:useme/screens/shared/chat_screen.dart';
+import 'package:useme/screens/shared/conversation_settings_screen.dart';
 import 'package:useme/screens/shared/about_screen.dart';
+import 'package:useme/screens/shared/account_screen.dart';
 import 'package:useme/screens/shared/favorites_screen.dart';
+import 'package:useme/screens/admin/studio_claims_screen.dart';
 import 'app_routes.dart';
 
 /// GoRouter configuration for Use Me
@@ -70,6 +78,10 @@ class AppRouter {
         ),
         GoRoute(
           path: AppRoutes.settings,
+          builder: (context, state) => const StudioMainScaffold(initialPage: 4),
+        ),
+        GoRoute(
+          path: '/studio/messages',
           builder: (context, state) => const StudioMainScaffold(initialPage: 3),
         ),
 
@@ -82,7 +94,7 @@ class AppRouter {
           path: AppRoutes.sessionDetail,
           builder: (context, state) {
             final sessionId = state.pathParameters['id']!;
-            return _PlaceholderScreen(title: 'Session $sessionId');
+            return SessionDetailScreen(sessionId: sessionId);
           },
         ),
         GoRoute(
@@ -130,17 +142,34 @@ class AppRouter {
           },
         ),
 
+        // Room routes
+        GoRoute(
+          path: AppRoutes.rooms,
+          builder: (context, state) => const RoomsPage(),
+        ),
+        GoRoute(
+          path: AppRoutes.roomAdd,
+          builder: (context, state) => const RoomFormScreen(),
+        ),
+        GoRoute(
+          path: '/rooms/:id/edit',
+          builder: (context, state) {
+            final roomId = state.pathParameters['id']!;
+            return RoomFormScreen(roomId: roomId);
+          },
+        ),
+
         // Engineer routes
         GoRoute(
           path: AppRoutes.engineerDashboard,
           builder: (context, state) => const EngineerMainScaffold(initialPage: 0),
         ),
         GoRoute(
-          path: '/engineer/sessions',
+          path: AppRoutes.engineerSessions,
           builder: (context, state) => const EngineerMainScaffold(initialPage: 1),
         ),
         GoRoute(
-          path: AppRoutes.sessionTracking,
+          path: AppRoutes.engineerSessionDetail,
           builder: (context, state) {
             final sessionId = state.pathParameters['id']!;
             return SessionTrackingScreen(sessionId: sessionId);
@@ -149,6 +178,10 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.engineerAvailability,
           builder: (context, state) => const EngineerAvailabilityScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.engineerInvitations,
+          builder: (context, state) => const TeamInvitationsScreen(),
         ),
 
         // Artist portal routes
@@ -164,7 +197,7 @@ class AppRouter {
           path: '/artist/sessions/:id',
           builder: (context, state) {
             final sessionId = state.pathParameters['id']!;
-            return _PlaceholderScreen(title: 'Session $sessionId');
+            return ArtistSessionDetailScreen(sessionId: sessionId);
           },
         ),
         GoRoute(
@@ -213,6 +246,12 @@ class AppRouter {
           builder: (context, state) => const PaymentMethodsScreen(),
         ),
 
+        // Admin (SuperAdmin) routes
+        GoRoute(
+          path: AppRoutes.studioClaims,
+          builder: (context, state) => const StudioClaimsScreen(),
+        ),
+
         // Notifications
         GoRoute(
           path: AppRoutes.notifications,
@@ -231,11 +270,24 @@ class AppRouter {
             return ChatScreen(conversationId: conversationId);
           },
         ),
+        GoRoute(
+          path: AppRoutes.conversationSettings,
+          builder: (context, state) {
+            final conversationId = state.pathParameters['id']!;
+            return ConversationSettingsScreen(conversationId: conversationId);
+          },
+        ),
 
         // About
         GoRoute(
           path: AppRoutes.about,
           builder: (context, state) => const AboutScreen(),
+        ),
+
+        // Account
+        GoRoute(
+          path: AppRoutes.account,
+          builder: (context, state) => const AccountScreen(),
         ),
 
         // Favorites
