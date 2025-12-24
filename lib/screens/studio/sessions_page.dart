@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 
 /// Sessions page with calendar and list views
@@ -25,23 +26,25 @@ class _SessionsPageState extends State<SessionsPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).languageCode;
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
-        title: const Text('Sessions'),
+        title: Text(l10n.sessionsLabel),
         backgroundColor: theme.colorScheme.surface,
         actions: [
           IconButton(
             icon: const FaIcon(FontAwesomeIcons.filter, size: 16),
-            onPressed: _showFilterSheet,
+            onPressed: () => _showFilterSheet(context, l10n),
           ),
         ],
       ),
       body: Column(
         children: [
           // Calendar
-          _buildCalendar(context),
+          _buildCalendar(context, locale),
 
           // Divider
           Container(
@@ -50,7 +53,7 @@ class _SessionsPageState extends State<SessionsPage> {
           ),
 
           // Sessions for selected day
-          Expanded(child: _buildSessionsList(context)),
+          Expanded(child: _buildSessionsList(context, l10n, locale)),
         ],
       ),
       floatingActionButton: Padding(
@@ -63,7 +66,7 @@ class _SessionsPageState extends State<SessionsPage> {
     );
   }
 
-  Widget _buildCalendar(BuildContext context) {
+  Widget _buildCalendar(BuildContext context, String locale) {
     final theme = Theme.of(context);
 
     return BlocBuilder<SessionBloc, SessionState>(
@@ -73,7 +76,7 @@ class _SessionsPageState extends State<SessionsPage> {
           lastDay: DateTime.now().add(const Duration(days: 365)),
           focusedDay: _focusedDay,
           calendarFormat: _calendarFormat,
-          locale: 'fr_FR',
+          locale: locale,
           startingDayOfWeek: StartingDayOfWeek.monday,
           selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
           eventLoader: (day) => _getSessionsForDay(state.sessions, day),
@@ -175,7 +178,7 @@ class _SessionsPageState extends State<SessionsPage> {
                       height: 6,
                       margin: const EdgeInsets.symmetric(horizontal: 1),
                       decoration: BoxDecoration(
-                        color: _getStatusColor(session.status),
+                        color: _getStatusColor(session.displayStatus),
                         shape: BoxShape.circle,
                       ),
                     );
@@ -189,7 +192,7 @@ class _SessionsPageState extends State<SessionsPage> {
     );
   }
 
-  Widget _buildSessionsList(BuildContext context) {
+  Widget _buildSessionsList(BuildContext context, AppLocalizations l10n, String locale) {
     return BlocBuilder<SessionBloc, SessionState>(
       builder: (context, state) {
         if (state.isLoading) {
@@ -207,7 +210,7 @@ class _SessionsPageState extends State<SessionsPage> {
         sessions.sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart));
 
         if (sessions.isEmpty) {
-          return _buildEmptyDayState(context);
+          return _buildEmptyDayState(context, l10n);
         }
 
         return ListView.builder(
@@ -215,11 +218,11 @@ class _SessionsPageState extends State<SessionsPage> {
           itemCount: sessions.length + 1, // +1 for header
           itemBuilder: (context, index) {
             if (index == 0) {
-              return _buildDayHeader(context, sessions.length);
+              return _buildDayHeader(context, sessions.length, l10n, locale);
             }
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: _SessionCard(session: sessions[index - 1]),
+              child: _SessionCard(session: sessions[index - 1], l10n: l10n, locale: locale),
             );
           },
         );
@@ -227,12 +230,12 @@ class _SessionsPageState extends State<SessionsPage> {
     );
   }
 
-  Widget _buildDayHeader(BuildContext context, int count) {
+  Widget _buildDayHeader(BuildContext context, int count, AppLocalizations l10n, String locale) {
     final theme = Theme.of(context);
     final isToday = isSameDay(_selectedDay, DateTime.now());
     final dateLabel = isToday
-        ? 'Aujourd\'hui'
-        : DateFormat('EEEE d MMMM', 'fr_FR').format(_selectedDay);
+        ? l10n.today
+        : DateFormat('EEEE d MMMM', locale).format(_selectedDay);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -254,7 +257,7 @@ class _SessionsPageState extends State<SessionsPage> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              '$count session${count > 1 ? 's' : ''}',
+              count > 1 ? l10n.sessionsCount(count) : l10n.sessionCount(count),
               style: theme.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: theme.colorScheme.primary,
@@ -266,7 +269,7 @@ class _SessionsPageState extends State<SessionsPage> {
     );
   }
 
-  Widget _buildEmptyDayState(BuildContext context) {
+  Widget _buildEmptyDayState(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final isToday = isSameDay(_selectedDay, DateTime.now());
 
@@ -288,7 +291,7 @@ class _SessionsPageState extends State<SessionsPage> {
           ),
           const SizedBox(height: 16),
           Text(
-            isToday ? 'Journée libre' : 'Aucune session',
+            isToday ? l10n.freeDay : l10n.noSessions,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -296,8 +299,8 @@ class _SessionsPageState extends State<SessionsPage> {
           const SizedBox(height: 4),
           Text(
             isToday
-                ? 'Aucune session programmée aujourd\'hui'
-                : 'Pas de session ce jour',
+                ? l10n.noSessionTodayScheduled
+                : l10n.noSessionThisDay,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.outline,
             ),
@@ -305,21 +308,22 @@ class _SessionsPageState extends State<SessionsPage> {
           const SizedBox(height: 20),
           FilledButton.tonal(
             onPressed: () => context.push(AppRoutes.sessionAdd),
-            child: const Text('Planifier une session'),
+            child: Text(l10n.scheduleSession),
           ),
         ],
       ),
     );
   }
 
-  void _showFilterSheet() {
+  void _showFilterSheet(BuildContext context, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
-      builder: (context) => _FilterSheet(
+      builder: (ctx) => _FilterSheet(
+        l10n: l10n,
         selectedStatus: _selectedStatus,
         onStatusSelected: (status) {
           setState(() => _selectedStatus = status);
-          Navigator.pop(context);
+          Navigator.pop(ctx);
         },
       ),
     );
@@ -347,13 +351,15 @@ class _SessionsPageState extends State<SessionsPage> {
 
 class _SessionCard extends StatelessWidget {
   final Session session;
+  final AppLocalizations l10n;
+  final String locale;
 
-  const _SessionCard({required this.session});
+  const _SessionCard({required this.session, required this.l10n, required this.locale});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final timeFormat = DateFormat('HH:mm', 'fr_FR');
+    final timeFormat = DateFormat('HH:mm', locale);
 
     return Material(
       color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
@@ -418,7 +424,7 @@ class _SessionCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          session.type.label,
+                          session.typeLabel,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.outline,
                           ),
@@ -429,8 +435,8 @@ class _SessionCard extends StatelessWidget {
                 ),
               ),
 
-              // Status badge
-              _StatusBadge(status: session.status),
+              // Status badge (use displayStatus for time-based updates)
+              _StatusBadge(status: session.displayStatus, l10n: l10n),
             ],
           ),
         ),
@@ -465,18 +471,19 @@ class _SessionCard extends StatelessWidget {
 
 class _StatusBadge extends StatelessWidget {
   final SessionStatus status;
+  final AppLocalizations l10n;
 
-  const _StatusBadge({required this.status});
+  const _StatusBadge({required this.status, required this.l10n});
 
   @override
   Widget build(BuildContext context) {
     final (color, label) = switch (status) {
-      SessionStatus.pending => (Colors.orange, 'Attente'),
-      SessionStatus.confirmed => (Colors.blue, 'Confirmé'),
-      SessionStatus.inProgress => (Colors.green, 'En cours'),
-      SessionStatus.completed => (Colors.grey, 'Terminé'),
-      SessionStatus.cancelled => (Colors.red, 'Annulé'),
-      SessionStatus.noShow => (Colors.red, 'Absent'),
+      SessionStatus.pending => (Colors.orange, l10n.waitingStatus),
+      SessionStatus.confirmed => (Colors.blue, l10n.confirmedStatus),
+      SessionStatus.inProgress => (Colors.green, l10n.inProgressStatus),
+      SessionStatus.completed => (Colors.grey, l10n.completedStatus),
+      SessionStatus.cancelled => (Colors.red, l10n.cancelledStatus),
+      SessionStatus.noShow => (Colors.red, l10n.noShowStatus),
     };
 
     return Container(
@@ -498,10 +505,11 @@ class _StatusBadge extends StatelessWidget {
 // =============================================================================
 
 class _FilterSheet extends StatelessWidget {
+  final AppLocalizations l10n;
   final SessionStatus? selectedStatus;
   final ValueChanged<SessionStatus?> onStatusSelected;
 
-  const _FilterSheet({required this.selectedStatus, required this.onStatusSelected});
+  const _FilterSheet({required this.l10n, required this.selectedStatus, required this.onStatusSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -526,7 +534,7 @@ class _FilterSheet extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              'Filtrer par statut',
+              l10n.filterByStatus,
               style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
@@ -535,36 +543,36 @@ class _FilterSheet extends StatelessWidget {
               runSpacing: 8,
               children: [
                 _FilterChip(
-                  label: 'Tous',
+                  label: l10n.all,
                   isSelected: selectedStatus == null,
                   onTap: () => onStatusSelected(null),
                 ),
                 _FilterChip(
-                  label: 'En attente',
+                  label: l10n.pendingStatus,
                   color: Colors.orange,
                   isSelected: selectedStatus == SessionStatus.pending,
                   onTap: () => onStatusSelected(SessionStatus.pending),
                 ),
                 _FilterChip(
-                  label: 'Confirmées',
+                  label: l10n.confirmed,
                   color: Colors.blue,
                   isSelected: selectedStatus == SessionStatus.confirmed,
                   onTap: () => onStatusSelected(SessionStatus.confirmed),
                 ),
                 _FilterChip(
-                  label: 'En cours',
+                  label: l10n.inProgressStatus,
                   color: Colors.green,
                   isSelected: selectedStatus == SessionStatus.inProgress,
                   onTap: () => onStatusSelected(SessionStatus.inProgress),
                 ),
                 _FilterChip(
-                  label: 'Terminées',
+                  label: l10n.completedStatus,
                   color: Colors.grey,
                   isSelected: selectedStatus == SessionStatus.completed,
                   onTap: () => onStatusSelected(SessionStatus.completed),
                 ),
                 _FilterChip(
-                  label: 'Annulées',
+                  label: l10n.cancelledStatus,
                   color: Colors.red,
                   isSelected: selectedStatus == SessionStatus.cancelled,
                   onTap: () => onStatusSelected(SessionStatus.cancelled),

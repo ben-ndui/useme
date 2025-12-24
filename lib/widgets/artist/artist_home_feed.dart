@@ -8,7 +8,9 @@ import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/artist/nearby_studios_carousel.dart';
+import 'package:useme/widgets/artist/studio_detail_bottom_sheet.dart';
 
 /// Main feed content for artist home (inside draggable sheet - dark blue bg)
 class ArtistHomeFeed extends StatelessWidget {
@@ -21,7 +23,9 @@ class ArtistHomeFeed extends StatelessWidget {
       children: [
         _WelcomeHeader(),
         const SizedBox(height: 28),
-        const NearbyStudiosCarousel(),
+        NearbyStudiosCarousel(
+          onStudioTap: (studio) => StudioDetailBottomSheet.show(context, studio),
+        ),
         const SizedBox(height: 28),
         _QuickActionsSection(),
         const SizedBox(height: 28),
@@ -64,7 +68,9 @@ class _WelcomeHeaderState extends State<_WelcomeHeader>
 
   @override
   Widget build(BuildContext context) {
-    final today = DateFormat('EEEE d MMMM', 'fr_FR').format(DateTime.now());
+    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).languageCode;
+    final today = DateFormat('EEEE d MMMM', locale).format(DateTime.now());
 
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, authState) {
@@ -96,7 +102,7 @@ class _WelcomeHeaderState extends State<_WelcomeHeader>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _getGreeting(),
+                      _getGreeting(l10n),
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.white.withValues(alpha: 0.7),
@@ -219,20 +225,11 @@ class _WelcomeHeaderState extends State<_WelcomeHeader>
     );
   }
 
-  String _getGreeting() {
+  String _getGreeting(AppLocalizations l10n) {
     final hour = DateTime.now().hour;
-    if (hour < 12) return 'Bonjour';
-    if (hour < 18) return 'Bon après-midi';
-    return 'Bonsoir';
-  }
-
-  String _getGreetingEmoji() {
-    final hour = DateTime.now().hour;
-    if (hour < 6) return '🌙';
-    if (hour < 12) return '☀️';
-    if (hour < 18) return '🎵';
-    if (hour < 21) return '🌅';
-    return '🌙';
+    if (hour < 12) return l10n.goodMorning;
+    if (hour < 18) return l10n.goodAfternoon;
+    return l10n.goodEvening;
   }
 }
 
@@ -376,13 +373,15 @@ class _NotificationButtonState extends State<_NotificationButton>
 class _QuickActionsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            'Accès rapide',
+            l10n.quickAccess,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -400,27 +399,27 @@ class _QuickActionsSection extends StatelessWidget {
             children: [
               _QuickActionPill(
                 icon: FontAwesomeIcons.plus,
-                label: 'Réserver',
+                label: l10n.book,
                 onTap: () => context.push('/artist/request'),
               ),
               _QuickActionPill(
                 icon: FontAwesomeIcons.calendarDays,
-                label: 'Sessions',
+                label: l10n.sessionsLabel,
                 onTap: () => context.push('/artist/sessions'),
               ),
               _QuickActionPill(
                 icon: FontAwesomeIcons.solidMessage,
-                label: 'Messages',
+                label: l10n.messages,
                 onTap: () => context.push('/messages'),
               ),
               _QuickActionPill(
                 icon: FontAwesomeIcons.solidHeart,
-                label: 'Favoris',
+                label: l10n.favoritesLabel,
                 onTap: () => context.push('/artist/favorites'),
               ),
               _QuickActionPill(
                 icon: FontAwesomeIcons.sliders,
-                label: 'Préférences',
+                label: l10n.preferencesLabel,
                 onTap: () => context.push('/artist/settings'),
               ),
             ],
@@ -501,6 +500,8 @@ class _QuickActionPillState extends State<_QuickActionPill> {
 class _UpcomingSessionsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -510,12 +511,12 @@ class _UpcomingSessionsSection extends StatelessWidget {
             children: [
               Expanded(
                 child: _SectionHeader(
-                  title: 'Sessions à venir',
+                  title: l10n.upcomingSessions,
                   icon: FontAwesomeIcons.calendarDays,
                 ),
               ),
               _GlassChip(
-                label: 'Voir tout',
+                label: l10n.viewAll,
                 onTap: () => context.push('/artist/sessions'),
               ),
             ],
@@ -531,9 +532,9 @@ class _UpcomingSessionsSection extends StatelessWidget {
               if (upcoming.isEmpty) {
                 return _EmptyStateCard(
                   icon: FontAwesomeIcons.calendarXmark,
-                  title: 'Aucune session prévue',
-                  subtitle: 'Réserve ta prochaine session en studio',
-                  actionLabel: 'Réserver',
+                  title: l10n.noUpcomingSessions,
+                  subtitle: l10n.bookNextSession,
+                  actionLabel: l10n.book,
                   onAction: () => context.push('/artist/request'),
                 );
               }
@@ -582,13 +583,15 @@ class _UpcomingSessionsSection extends StatelessWidget {
 class _RecentActivitySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _SectionHeader(
-            title: 'Activité récente',
+            title: l10n.recentActivity,
             icon: FontAwesomeIcons.clockRotateLeft,
           ),
           const SizedBox(height: 16),
@@ -598,8 +601,8 @@ class _RecentActivitySection extends StatelessWidget {
               if (past.isEmpty) {
                 return _EmptyStateCard(
                   icon: FontAwesomeIcons.music,
-                  title: 'Pas encore d\'historique',
-                  subtitle: 'Tes sessions terminées apparaîtront ici',
+                  title: l10n.noHistory,
+                  subtitle: l10n.completedSessionsHere,
                 );
               }
 
@@ -646,8 +649,10 @@ class _ModernSessionCardState extends State<_ModernSessionCard> {
 
   @override
   Widget build(BuildContext context) {
-    final timeFormat = DateFormat('HH:mm', 'fr_FR');
-    final dateFormat = DateFormat('EEE d MMM', 'fr_FR');
+    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).languageCode;
+    final timeFormat = DateFormat('HH:mm', locale);
+    final dateFormat = DateFormat('EEE d MMM', locale);
 
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
@@ -709,7 +714,7 @@ class _ModernSessionCardState extends State<_ModernSessionCard> {
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
-                                widget.session.type.label,
+                                widget.session.typeLabel,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -743,8 +748,8 @@ class _ModernSessionCardState extends State<_ModernSessionCard> {
                     ),
                   ),
 
-                  // Status chip
-                  _StatusChip(status: widget.session.status),
+                  // Status chip (use displayStatus for time-based updates)
+                  _StatusChip(status: widget.session.displayStatus, l10n: l10n),
                 ],
               ),
             ),
@@ -795,8 +800,9 @@ class _DateBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dayFormat = DateFormat('d', 'fr_FR');
-    final monthFormat = DateFormat('MMM', 'fr_FR');
+    final locale = Localizations.localeOf(context).languageCode;
+    final dayFormat = DateFormat('d', locale);
+    final monthFormat = DateFormat('MMM', locale);
 
     return Container(
       width: 56,
@@ -841,18 +847,19 @@ class _DateBadge extends StatelessWidget {
 
 class _StatusChip extends StatelessWidget {
   final SessionStatus status;
+  final AppLocalizations l10n;
 
-  const _StatusChip({required this.status});
+  const _StatusChip({required this.status, required this.l10n});
 
   @override
   Widget build(BuildContext context) {
     final (color, icon, label) = switch (status) {
-      SessionStatus.pending => (Colors.orange, FontAwesomeIcons.hourglass, 'Attente'),
-      SessionStatus.confirmed => (Colors.blue, FontAwesomeIcons.circleCheck, 'Confirmée'),
-      SessionStatus.inProgress => (Colors.green, FontAwesomeIcons.play, 'En cours'),
-      SessionStatus.completed => (Colors.grey, FontAwesomeIcons.check, 'Terminée'),
-      SessionStatus.cancelled => (Colors.red, FontAwesomeIcons.xmark, 'Annulée'),
-      SessionStatus.noShow => (Colors.red, FontAwesomeIcons.userXmark, 'Absent'),
+      SessionStatus.pending => (Colors.orange, FontAwesomeIcons.hourglass, l10n.waitingStatus),
+      SessionStatus.confirmed => (Colors.blue, FontAwesomeIcons.circleCheck, l10n.confirmedStatus),
+      SessionStatus.inProgress => (Colors.green, FontAwesomeIcons.play, l10n.inProgressStatus),
+      SessionStatus.completed => (Colors.grey, FontAwesomeIcons.check, l10n.completedStatus),
+      SessionStatus.cancelled => (Colors.red, FontAwesomeIcons.xmark, l10n.cancelledStatus),
+      SessionStatus.noShow => (Colors.red, FontAwesomeIcons.userXmark, l10n.noShowStatus),
     };
 
     return Container(

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Engineer sessions page - Calendar view with week selector (like artist)
 class EngineerSessionsPage extends StatefulWidget {
@@ -32,29 +33,31 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).languageCode;
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      appBar: _buildAppBar(context),
+      appBar: _buildAppBar(context, l10n),
       body: _isListView
-          ? _buildAllSessionsList(colorScheme)
+          ? _buildAllSessionsList(colorScheme, l10n, locale)
           : Column(
               children: [
-                _buildWeekCalendar(colorScheme),
-                Expanded(child: _buildSessionsList(colorScheme)),
+                _buildWeekCalendar(colorScheme, locale),
+                Expanded(child: _buildSessionsList(colorScheme, l10n, locale)),
               ],
             ),
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context, AppLocalizations l10n) {
     final colorScheme = Theme.of(context).colorScheme;
     return AppBar(
       backgroundColor: colorScheme.surface,
       surfaceTintColor: Colors.transparent,
       elevation: 0,
       title: Text(
-        'Mes sessions',
+        l10n.mySessions,
         style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: colorScheme.onSurface),
       ),
       centerTitle: true,
@@ -102,9 +105,9 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
     );
   }
 
-  Widget _buildWeekCalendar(ColorScheme colorScheme) {
+  Widget _buildWeekCalendar(ColorScheme colorScheme, String locale) {
     final days = List.generate(7, (i) => _weekStart.add(Duration(days: i)));
-    final monthFormat = DateFormat('MMMM yyyy', 'fr_FR');
+    final monthFormat = DateFormat('MMMM yyyy', locale);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
@@ -136,14 +139,14 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
             ],
           ),
           const SizedBox(height: 16),
-          Row(children: days.map((day) => Expanded(child: _buildDayCell(colorScheme, day))).toList()),
+          Row(children: days.map((day) => Expanded(child: _buildDayCell(colorScheme, day, locale))).toList()),
         ],
       ),
     );
   }
 
-  Widget _buildDayCell(ColorScheme colorScheme, DateTime day) {
-    final dayFormat = DateFormat('E', 'fr_FR');
+  Widget _buildDayCell(ColorScheme colorScheme, DateTime day, String locale) {
+    final dayFormat = DateFormat('E', locale);
     final isSelected = _isSameDay(day, _selectedDate);
     final isToday = _isSameDay(day, DateTime.now());
 
@@ -175,8 +178,8 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
     );
   }
 
-  Widget _buildSessionsList(ColorScheme colorScheme) {
-    final dateFormat = DateFormat('EEEE d MMMM', 'fr_FR');
+  Widget _buildSessionsList(ColorScheme colorScheme, AppLocalizations l10n, String locale) {
+    final dateFormat = DateFormat('EEEE d MMMM', locale);
 
     return Container(
       decoration: BoxDecoration(
@@ -203,7 +206,7 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
                 final daySessions = _getSessionsForDay(state.sessions, _selectedDate);
 
                 if (daySessions.isEmpty) {
-                  return _buildEmptyDay(colorScheme);
+                  return _buildEmptyDay(colorScheme, l10n);
                 }
 
                 return ListView.builder(
@@ -211,6 +214,8 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
                   itemCount: daySessions.length,
                   itemBuilder: (context, index) => _SessionTile(
                     session: daySessions[index],
+                    l10n: l10n,
+                    locale: locale,
                     onTap: () => context.push('/engineer/sessions/${daySessions[index].id}'),
                   ),
                 );
@@ -227,7 +232,7 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
       ..sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart));
   }
 
-  Widget _buildEmptyDay(ColorScheme colorScheme) {
+  Widget _buildEmptyDay(ColorScheme colorScheme, AppLocalizations l10n) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -238,15 +243,15 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
             child: FaIcon(FontAwesomeIcons.mugHot, size: 32, color: colorScheme.primary),
           ),
           const SizedBox(height: 20),
-          Text('Pas de session', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
+          Text(l10n.noSession, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
           const SizedBox(height: 6),
-          Text('Profitez de votre journée !', style: TextStyle(fontSize: 13, color: colorScheme.onSurfaceVariant)),
+          Text(l10n.enjoyYourDay, style: TextStyle(fontSize: 13, color: colorScheme.onSurfaceVariant)),
         ],
       ),
     );
   }
 
-  Widget _buildAllSessionsList(ColorScheme colorScheme) {
+  Widget _buildAllSessionsList(ColorScheme colorScheme, AppLocalizations l10n, String locale) {
     return BlocBuilder<SessionBloc, SessionState>(
       builder: (context, state) {
         if (state.isLoading) {
@@ -269,7 +274,7 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
         ).toList()..sort((a, b) => b.scheduledStart.compareTo(a.scheduledStart));
 
         if (sessions.isEmpty) {
-          return _buildEmptyList(colorScheme);
+          return _buildEmptyList(colorScheme, l10n);
         }
 
         return RefreshIndicator(
@@ -285,18 +290,18 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (inProgress.isNotEmpty) ...[
-                  _buildSectionHeader(colorScheme, 'En cours', Colors.green, inProgress.length),
-                  ...inProgress.map((s) => _SessionListTile(session: s, isPast: false, onTap: () => context.push('/engineer/sessions/${s.id}'))),
+                  _buildSectionHeader(colorScheme, l10n.inProgressStatus, Colors.green, inProgress.length),
+                  ...inProgress.map((s) => _SessionListTile(session: s, isPast: false, l10n: l10n, locale: locale, onTap: () => context.push('/engineer/sessions/${s.id}'))),
                   const SizedBox(height: 24),
                 ],
                 if (upcoming.isNotEmpty) ...[
-                  _buildSectionHeader(colorScheme, 'À venir', Colors.blue, upcoming.length),
-                  ...upcoming.map((s) => _SessionListTile(session: s, isPast: false, onTap: () => context.push('/engineer/sessions/${s.id}'))),
+                  _buildSectionHeader(colorScheme, l10n.upcomingStatus, Colors.blue, upcoming.length),
+                  ...upcoming.map((s) => _SessionListTile(session: s, isPast: false, l10n: l10n, locale: locale, onTap: () => context.push('/engineer/sessions/${s.id}'))),
                   const SizedBox(height: 24),
                 ],
                 if (past.isNotEmpty) ...[
-                  _buildSectionHeader(colorScheme, 'Passées', Colors.grey, past.length),
-                  ...past.take(15).map((s) => _SessionListTile(session: s, isPast: true, onTap: () => context.push('/engineer/sessions/${s.id}'))),
+                  _buildSectionHeader(colorScheme, l10n.pastStatus, Colors.grey, past.length),
+                  ...past.take(15).map((s) => _SessionListTile(session: s, isPast: true, l10n: l10n, locale: locale, onTap: () => context.push('/engineer/sessions/${s.id}'))),
                 ],
               ],
             ),
@@ -331,7 +336,7 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
     );
   }
 
-  Widget _buildEmptyList(ColorScheme colorScheme) {
+  Widget _buildEmptyList(ColorScheme colorScheme, AppLocalizations l10n) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -342,9 +347,9 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
             child: FaIcon(FontAwesomeIcons.calendarXmark, size: 32, color: colorScheme.onPrimaryContainer.withValues(alpha: 0.6)),
           ),
           const SizedBox(height: 20),
-          Text('Aucune session', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
+          Text(l10n.noSessions, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
           const SizedBox(height: 6),
-          Text('Pas de sessions assignées', style: TextStyle(fontSize: 13, color: colorScheme.onSurfaceVariant)),
+          Text(l10n.noAssignedSessions, style: TextStyle(fontSize: 13, color: colorScheme.onSurfaceVariant)),
         ],
       ),
     );
@@ -354,14 +359,16 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
 /// Session tile for calendar view
 class _SessionTile extends StatelessWidget {
   final Session session;
+  final AppLocalizations l10n;
+  final String locale;
   final VoidCallback onTap;
 
-  const _SessionTile({required this.session, required this.onTap});
+  const _SessionTile({required this.session, required this.l10n, required this.locale, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final timeFormat = DateFormat('HH:mm', 'fr_FR');
+    final timeFormat = DateFormat('HH:mm', locale);
 
     return GestureDetector(
       onTap: onTap,
@@ -406,7 +413,7 @@ class _SessionTile extends StatelessWidget {
                       const SizedBox(width: 6),
                       Expanded(
                         child: Text(
-                          '${session.type.label} • ${session.durationMinutes ~/ 60}h',
+                          '${session.typeLabel} • ${session.durationMinutes ~/ 60}h',
                           style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -418,13 +425,13 @@ class _SessionTile extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            if (session.status == SessionStatus.confirmed)
+            if (session.displayStatus == SessionStatus.confirmed)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(color: colorScheme.primary, borderRadius: BorderRadius.circular(8)),
                 child: Text('Go', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colorScheme.onPrimary)),
               )
-            else if (session.status == SessionStatus.inProgress)
+            else if (session.displayStatus == SessionStatus.inProgress)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(8)),
@@ -448,13 +455,13 @@ class _SessionTile extends StatelessWidget {
   }
 
   (Color, String) _getStatusInfo() {
-    return switch (session.status) {
-      SessionStatus.pending => (Colors.orange, 'En attente'),
-      SessionStatus.confirmed => (Colors.blue, 'Confirmée'),
-      SessionStatus.inProgress => (Colors.green, 'En cours'),
-      SessionStatus.completed => (Colors.grey, 'Terminée'),
-      SessionStatus.cancelled => (Colors.red, 'Annulée'),
-      SessionStatus.noShow => (Colors.red, 'Absent'),
+    return switch (session.displayStatus) {
+      SessionStatus.pending => (Colors.orange, l10n.pendingStatus),
+      SessionStatus.confirmed => (Colors.blue, l10n.confirmedStatus),
+      SessionStatus.inProgress => (Colors.green, l10n.inProgressStatus),
+      SessionStatus.completed => (Colors.grey, l10n.completedStatus),
+      SessionStatus.cancelled => (Colors.red, l10n.cancelledStatus),
+      SessionStatus.noShow => (Colors.red, l10n.noShowStatus),
     };
   }
 
@@ -473,15 +480,17 @@ class _SessionTile extends StatelessWidget {
 class _SessionListTile extends StatelessWidget {
   final Session session;
   final bool isPast;
+  final AppLocalizations l10n;
+  final String locale;
   final VoidCallback onTap;
 
-  const _SessionListTile({required this.session, required this.isPast, required this.onTap});
+  const _SessionListTile({required this.session, required this.isPast, required this.l10n, required this.locale, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final dateFormat = DateFormat('EEE d MMM', 'fr_FR');
-    final timeFormat = DateFormat('HH:mm', 'fr_FR');
+    final dateFormat = DateFormat('EEE d MMM', locale);
+    final timeFormat = DateFormat('HH:mm', locale);
 
     return Opacity(
       opacity: isPast ? 0.6 : 1.0,
@@ -521,11 +530,11 @@ class _SessionListTile extends StatelessWidget {
                   ],
                 ),
               ),
-              if (isPast && session.status == SessionStatus.completed)
+              if (session.displayStatus == SessionStatus.completed)
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(color: Colors.green.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6)),
-                  child: const Text('Terminée', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.green)),
+                  child: Text(l10n.completedStatus, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.green)),
                 )
               else
                 FaIcon(FontAwesomeIcons.chevronRight, size: 12, color: colorScheme.onSurfaceVariant),
@@ -537,8 +546,7 @@ class _SessionListTile extends StatelessWidget {
   }
 
   Color _getStatusColor() {
-    if (isPast) return Colors.grey;
-    return switch (session.status) {
+    return switch (session.displayStatus) {
       SessionStatus.pending => Colors.orange,
       SessionStatus.confirmed => Colors.blue,
       SessionStatus.inProgress => Colors.green,

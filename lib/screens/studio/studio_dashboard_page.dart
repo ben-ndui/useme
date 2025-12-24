@@ -6,7 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/core/services/booking_acceptance_service.dart';
+import 'package:useme/core/services/payment_config_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
+import 'package:useme/widgets/studio/accept_booking_sheet.dart';
 
 /// Studio Dashboard - modern home page for studio owner
 class StudioDashboardPage extends StatelessWidget {
@@ -14,27 +18,30 @@ class StudioDashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).languageCode;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: RefreshIndicator(
         onRefresh: () async => _refreshData(context),
         child: CustomScrollView(
           slivers: [
-            _StudioAppBar(),
+            _StudioAppBar(l10n: l10n, locale: locale),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
                   const SizedBox(height: 8),
-                  _QuickAccessRow(),
+                  _QuickAccessRow(l10n: l10n),
                   const SizedBox(height: 24),
-                  _StatsGrid(),
+                  _StatsGrid(l10n: l10n),
                   const SizedBox(height: 24),
-                  _TodayTimeline(),
+                  _TodayTimeline(l10n: l10n, locale: locale),
                   const SizedBox(height: 24),
-                  _PendingRequests(),
+                  _PendingRequests(l10n: l10n, locale: locale),
                   const SizedBox(height: 24),
-                  _RecentArtists(),
+                  _RecentArtists(l10n: l10n),
                   const SizedBox(height: 100),
                 ]),
               ),
@@ -61,10 +68,15 @@ class StudioDashboardPage extends StatelessWidget {
 // =============================================================================
 
 class _StudioAppBar extends StatelessWidget {
+  final AppLocalizations l10n;
+  final String locale;
+
+  const _StudioAppBar({required this.l10n, required this.locale});
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final today = DateFormat('EEEE d MMMM', 'fr_FR').format(DateTime.now());
+    final today = DateFormat('EEEE d MMMM', locale).format(DateTime.now());
 
     return SliverAppBar(
       expandedHeight: 140,
@@ -77,12 +89,12 @@ class _StudioAppBar extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: BlocBuilder<AuthBloc, AuthState>(
               builder: (context, authState) {
-                String studioName = 'Mon Studio';
+                String studioName = l10n.myStudio;
                 String? photoUrl;
 
                 if (authState is AuthAuthenticatedState) {
                   final user = authState.user as AppUser;
-                  studioName = user.displayName ?? user.name ?? 'Mon Studio';
+                  studioName = user.displayName ?? user.name ?? l10n.myStudio;
                   photoUrl = user.photoURL;
                 }
 
@@ -160,6 +172,10 @@ class _StudioAppBar extends StatelessWidget {
 // =============================================================================
 
 class _QuickAccessRow extends StatelessWidget {
+  final AppLocalizations l10n;
+
+  const _QuickAccessRow({required this.l10n});
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -169,23 +185,23 @@ class _QuickAccessRow extends StatelessWidget {
         children: [
           _QuickPill(
             icon: FontAwesomeIcons.plus,
-            label: 'Session',
+            label: l10n.session,
             isPrimary: true,
             onTap: () => context.push(AppRoutes.sessionAdd),
           ),
           _QuickPill(
             icon: FontAwesomeIcons.userPlus,
-            label: 'Artiste',
+            label: l10n.artist,
             onTap: () => context.push(AppRoutes.artistAdd),
           ),
           _QuickPill(
             icon: FontAwesomeIcons.calendarDays,
-            label: 'Planning',
+            label: l10n.planning,
             onTap: () => context.push(AppRoutes.sessions),
           ),
           _QuickPill(
             icon: FontAwesomeIcons.chartLine,
-            label: 'Stats',
+            label: l10n.stats,
             onTap: () {},
           ),
         ],
@@ -252,12 +268,16 @@ class _QuickPill extends StatelessWidget {
 // =============================================================================
 
 class _StatsGrid extends StatelessWidget {
+  final AppLocalizations l10n;
+
+  const _StatsGrid({required this.l10n});
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SectionTitle(title: 'Vue d\'ensemble'),
+        _SectionTitle(title: l10n.overview),
         const SizedBox(height: 12),
         Row(
           children: [
@@ -266,7 +286,7 @@ class _StatsGrid extends StatelessWidget {
                 builder: (context, state) {
                   final today = state.sessions.where((s) => s.isOnDate(DateTime.now())).length;
                   return _StatCard(
-                    label: 'Aujourd\'hui',
+                    label: l10n.today,
                     value: today.toString(),
                     icon: FontAwesomeIcons.calendar,
                     color: const Color(0xFF3B82F6),
@@ -280,7 +300,7 @@ class _StatsGrid extends StatelessWidget {
                 builder: (context, state) {
                   final pending = state.sessions.where((s) => s.status == SessionStatus.pending).length;
                   return _StatCard(
-                    label: 'En attente',
+                    label: l10n.pendingStatus,
                     value: pending.toString(),
                     icon: FontAwesomeIcons.hourglass,
                     color: const Color(0xFFF59E0B),
@@ -297,7 +317,7 @@ class _StatsGrid extends StatelessWidget {
               child: BlocBuilder<ArtistBloc, ArtistState>(
                 builder: (context, state) {
                   return _StatCard(
-                    label: 'Artistes',
+                    label: l10n.artists,
                     value: state.artists.length.toString(),
                     icon: FontAwesomeIcons.users,
                     color: const Color(0xFF8B5CF6),
@@ -314,7 +334,7 @@ class _StatsGrid extends StatelessWidget {
                     s.scheduledStart.year == now.year && s.scheduledStart.month == now.month
                   ).length;
                   return _StatCard(
-                    label: 'Ce mois',
+                    label: l10n.thisMonth,
                     value: month.toString(),
                     icon: FontAwesomeIcons.chartSimple,
                     color: const Color(0xFF10B981),
@@ -395,6 +415,11 @@ class _StatCard extends StatelessWidget {
 // =============================================================================
 
 class _TodayTimeline extends StatelessWidget {
+  final AppLocalizations l10n;
+  final String locale;
+
+  const _TodayTimeline({required this.l10n, required this.locale});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -403,8 +428,8 @@ class _TodayTimeline extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _SectionTitle(title: 'Sessions du jour'),
-            _ViewAllChip(onTap: () => context.push(AppRoutes.sessions)),
+            _SectionTitle(title: l10n.todaySessions),
+            _ViewAllChip(label: l10n.viewAll, onTap: () => context.push(AppRoutes.sessions)),
           ],
         ),
         const SizedBox(height: 12),
@@ -419,8 +444,8 @@ class _TodayTimeline extends StatelessWidget {
             if (todaySessions.isEmpty) {
               return _EmptyCard(
                 icon: FontAwesomeIcons.calendarCheck,
-                title: 'Journée libre',
-                subtitle: 'Aucune session programmée',
+                title: l10n.freeDay,
+                subtitle: l10n.noSessionScheduled,
               );
             }
 
@@ -428,7 +453,7 @@ class _TodayTimeline extends StatelessWidget {
               children: todaySessions.take(4).map((session) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: _TimelineSessionCard(session: session),
+                  child: _TimelineSessionCard(session: session, l10n: l10n, locale: locale),
                 );
               }).toList(),
             );
@@ -441,13 +466,15 @@ class _TodayTimeline extends StatelessWidget {
 
 class _TimelineSessionCard extends StatelessWidget {
   final Session session;
+  final AppLocalizations l10n;
+  final String locale;
 
-  const _TimelineSessionCard({required this.session});
+  const _TimelineSessionCard({required this.session, required this.l10n, required this.locale});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final timeFormat = DateFormat('HH:mm', 'fr_FR');
+    final timeFormat = DateFormat('HH:mm', locale);
     final isNow = _isCurrentSession();
 
     return Material(
@@ -514,7 +541,7 @@ class _TimelineSessionCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          session.type.label,
+                          session.typeLabel,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.outline,
                           ),
@@ -525,8 +552,8 @@ class _TimelineSessionCard extends StatelessWidget {
                 ),
               ),
 
-              // Status
-              _StatusBadge(status: session.status),
+              // Status (use displayStatus for time-based updates)
+              _StatusBadge(status: session.displayStatus, l10n: l10n),
             ],
           ),
         ),
@@ -577,6 +604,11 @@ class _TimelineSessionCard extends StatelessWidget {
 // =============================================================================
 
 class _PendingRequests extends StatelessWidget {
+  final AppLocalizations l10n;
+  final String locale;
+
+  const _PendingRequests({required this.l10n, required this.locale});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SessionBloc, SessionState>(
@@ -588,12 +620,12 @@ class _PendingRequests extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _SectionTitle(title: 'Demandes en attente', count: pending.length),
+            _SectionTitle(title: l10n.pendingRequests, count: pending.length),
             const SizedBox(height: 12),
             ...pending.take(3).map((session) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: _PendingCard(session: session),
+                child: _PendingCard(session: session, locale: locale),
               );
             }),
           ],
@@ -605,65 +637,171 @@ class _PendingRequests extends StatelessWidget {
 
 class _PendingCard extends StatelessWidget {
   final Session session;
+  final String locale;
 
-  const _PendingCard({required this.session});
+  const _PendingCard({required this.session, required this.locale});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dateFormat = DateFormat('EEE d MMM', 'fr_FR');
+    final l10n = AppLocalizations.of(context)!;
+    final dateFormat = DateFormat('EEE d MMM', locale);
 
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.orange.withValues(alpha: 0.08),
+    return Material(
+      color: Colors.orange.withValues(alpha: 0.08),
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        onTap: () => context.push('/sessions/${session.id}'),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.orange.withValues(alpha: 0.2)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: Colors.orange.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Center(
-              child: FaIcon(FontAwesomeIcons.clock, size: 18, color: Colors.orange),
-            ),
+        child: Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.orange.withValues(alpha: 0.2)),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  session.artistName,
-                  style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  '${session.type.label} • ${dateFormat.format(session.scheduledStart)}',
-                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
-                ),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
+          child: Row(
             children: [
-              _ActionBtn(
-                icon: FontAwesomeIcons.xmark,
-                color: Colors.red,
-                onTap: () {},
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: Colors.orange.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Center(
+                  child: FaIcon(FontAwesomeIcons.clock, size: 18, color: Colors.orange),
+                ),
               ),
-              const SizedBox(width: 8),
-              _ActionBtn(
-                icon: FontAwesomeIcons.check,
-                color: Colors.green,
-                onTap: () {},
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      session.artistName,
+                      style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      '${session.typeLabel} • ${dateFormat.format(session.scheduledStart)}',
+                      style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _ActionBtn(
+                    icon: FontAwesomeIcons.xmark,
+                    color: Colors.red,
+                    onTap: () => _confirmDecline(context, l10n),
+                  ),
+                  const SizedBox(width: 8),
+                  _ActionBtn(
+                    icon: FontAwesomeIcons.check,
+                    color: Colors.green,
+                    onTap: () => _confirmAccept(context, l10n),
+                  ),
+                ],
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _confirmAccept(BuildContext context, AppLocalizations l10n) async {
+    // Calculer le montant total (basé sur la durée)
+    final totalAmount = session.durationHours * 50.0; // TODO: Utiliser le tarif réel
+
+    // Afficher le bottom sheet de paiement
+    final result = await AcceptBookingSheet.show(
+      context,
+      session: session,
+      totalAmount: totalAmount,
+    );
+
+    if (result == null || !context.mounted) return;
+
+    // Utiliser le service pour accepter la réservation
+    final authState = context.read<AuthBloc>().state;
+    if (authState is! AuthAuthenticatedState) return;
+
+    final studioId = authState.user.uid;
+
+    // Sauvegarder comme défaut si demandé
+    if (result.saveAsDefault) {
+      final paymentService = PaymentConfigService();
+      final depositPercent = (result.depositAmount / result.totalAmount) * 100;
+      await paymentService.updateDefaultPaymentMethod(
+        studioId: studioId,
+        type: result.paymentMethod.type,
+        depositPercent: depositPercent,
+      );
+    }
+
+    final acceptanceService = BookingAcceptanceService();
+    final response = await acceptanceService.acceptBooking(
+      session: session,
+      studio: authState.user as AppUser,
+      artistId: session.artistId,
+      paymentMethod: result.paymentMethod,
+      totalAmount: result.totalAmount,
+      depositAmount: result.depositAmount,
+      customMessage: result.customMessage,
+      selectedEngineers: result.selectedEngineers,
+      proposeToEngineers: result.proposeToEngineers,
+    );
+
+    if (!context.mounted) return;
+
+    if (response.isSuccess) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.sessionAccepted),
+          backgroundColor: Colors.green,
+        ),
+      );
+      // Ouvrir la conversation créée
+      if (response.data != null) {
+        context.push('/conversations/${response.data}');
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(response.message)),
+      );
+    }
+  }
+
+  void _confirmDecline(BuildContext context, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.declineSession),
+        content: Text(l10n.confirmDeclineSession),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              context.read<SessionBloc>().add(UpdateSessionStatusEvent(
+                sessionId: session.id,
+                status: SessionStatus.cancelled,
+              ));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(l10n.sessionDeclined),
+                  backgroundColor: theme.colorScheme.error,
+                ),
+              );
+            },
+            style: FilledButton.styleFrom(backgroundColor: theme.colorScheme.error),
+            child: Text(l10n.decline),
           ),
         ],
       ),
@@ -676,6 +814,10 @@ class _PendingCard extends StatelessWidget {
 // =============================================================================
 
 class _RecentArtists extends StatelessWidget {
+  final AppLocalizations l10n;
+
+  const _RecentArtists({required this.l10n});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ArtistBloc, ArtistState>(
@@ -688,8 +830,8 @@ class _RecentArtists extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _SectionTitle(title: 'Artistes récents'),
-                _ViewAllChip(onTap: () => context.push(AppRoutes.artists)),
+                _SectionTitle(title: l10n.recentArtists),
+                _ViewAllChip(label: l10n.viewAll, onTap: () => context.push(AppRoutes.artists)),
               ],
             ),
             const SizedBox(height: 12),
@@ -798,9 +940,10 @@ class _SectionTitle extends StatelessWidget {
 }
 
 class _ViewAllChip extends StatelessWidget {
+  final String label;
   final VoidCallback onTap;
 
-  const _ViewAllChip({required this.onTap});
+  const _ViewAllChip({required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -809,7 +952,7 @@ class _ViewAllChip extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Text(
-        'Voir tout',
+        label,
         style: theme.textTheme.bodyMedium?.copyWith(
           color: theme.colorScheme.primary,
           fontWeight: FontWeight.w500,
@@ -919,18 +1062,19 @@ class _ActionBtn extends StatelessWidget {
 
 class _StatusBadge extends StatelessWidget {
   final SessionStatus status;
+  final AppLocalizations l10n;
 
-  const _StatusBadge({required this.status});
+  const _StatusBadge({required this.status, required this.l10n});
 
   @override
   Widget build(BuildContext context) {
     final (color, label) = switch (status) {
-      SessionStatus.pending => (Colors.orange, 'Attente'),
-      SessionStatus.confirmed => (Colors.blue, 'Confirmé'),
-      SessionStatus.inProgress => (Colors.green, 'En cours'),
-      SessionStatus.completed => (Colors.grey, 'Terminé'),
-      SessionStatus.cancelled => (Colors.red, 'Annulé'),
-      SessionStatus.noShow => (Colors.red, 'Absent'),
+      SessionStatus.pending => (Colors.orange, l10n.waitingStatus),
+      SessionStatus.confirmed => (Colors.blue, l10n.confirmedStatus),
+      SessionStatus.inProgress => (Colors.green, l10n.inProgressStatus),
+      SessionStatus.completed => (Colors.grey, l10n.completedStatus),
+      SessionStatus.cancelled => (Colors.red, l10n.cancelledStatus),
+      SessionStatus.noShow => (Colors.red, l10n.noShowStatus),
     };
 
     return Container(
