@@ -36,6 +36,10 @@ import 'package:useme/screens/shared/about_screen.dart';
 import 'package:useme/screens/shared/account_screen.dart';
 import 'package:useme/screens/shared/favorites_screen.dart';
 import 'package:useme/screens/admin/studio_claims_screen.dart';
+import 'package:useme/screens/admin/subscription_tiers_screen.dart';
+import 'package:useme/screens/admin/stripe_config_screen.dart';
+import 'package:useme/screens/shared/upgrade_screen.dart';
+import 'package:useme/screens/dev/store_screenshots_page.dart';
 import 'app_routes.dart';
 
 /// GoRouter configuration for Use Me
@@ -251,6 +255,20 @@ class AppRouter {
           path: AppRoutes.studioClaims,
           builder: (context, state) => const StudioClaimsScreen(),
         ),
+        GoRoute(
+          path: '/admin/subscription-tiers',
+          builder: (context, state) => const SubscriptionTiersScreen(),
+        ),
+        GoRoute(
+          path: '/admin/stripe-config',
+          builder: (context, state) => const StripeConfigScreen(),
+        ),
+
+        // Subscription / Upgrade
+        GoRoute(
+          path: '/upgrade',
+          builder: (context, state) => const UpgradeScreen(),
+        ),
 
         // Notifications
         GoRoute(
@@ -294,6 +312,12 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.favorites,
           builder: (context, state) => const FavoritesScreen(),
+        ),
+
+        // Dev tools (debug only)
+        GoRoute(
+          path: '/dev/screenshots',
+          builder: (context, state) => const StoreScreenshotsPage(),
         ),
       ],
 

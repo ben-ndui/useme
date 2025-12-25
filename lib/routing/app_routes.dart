@@ -70,6 +70,7 @@ class AppRoutes {
 
   // Admin (SuperAdmin) routes
   static const String studioClaims = '/admin/studio-claims';
+  static const String storeScreenshots = '/dev/screenshots';
 
   // Notifications
   static const String notifications = '/notifications';

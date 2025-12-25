@@ -19,7 +19,7 @@ CURRENT_STEP=0
 
 print_header() {
     echo -e "${PURPLE}================================${NC}"
-    echo -e "${WHITE}  🍎 iOS Build Script - ïON     ${NC}"
+    echo -e "${WHITE}  🍎 iOS Build Script - Use Me   ${NC}"
     echo -e "${PURPLE}================================${NC}"
     echo ""
 }
