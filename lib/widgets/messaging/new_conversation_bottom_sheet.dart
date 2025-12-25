@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/services/contact_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Bottom sheet pour démarrer une nouvelle conversation.
 class NewConversationBottomSheet extends StatefulWidget {
@@ -31,10 +32,13 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
 
   List<AppUser> _contacts = [];
   List<AppUser> _filteredContacts = [];
+  List<AppUser> _searchResults = [];
   bool _isLoading = true;
+  bool _isSearching = false;
   String? _error;
   AppUser? _selectedContact;
   bool _isCreating = false;
+  String _currentQuery = '';
 
   @override
   void initState() {
@@ -65,18 +69,45 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
       }
     } catch (e) {
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         setState(() {
-          _error = 'Erreur lors du chargement des contacts';
+          _error = l10n.errorLoadingContacts;
           _isLoading = false;
         });
       }
     }
   }
 
-  void _onSearchChanged(String query) {
+  Future<void> _onSearchChanged(String query) async {
+    _currentQuery = query;
+
+    // Filtre local des contacts liés
     setState(() {
       _filteredContacts = _contactService.searchContacts(_contacts, query);
     });
+
+    // Recherche globale si query >= 2 caractères
+    if (query.length >= 2) {
+      setState(() => _isSearching = true);
+
+      final authState = context.read<AuthBloc>().state;
+      if (authState is AuthAuthenticatedState) {
+        final results = await _contactService.searchAllUsers(query, authState.user.id);
+
+        // Vérifie que la query n'a pas changé pendant la recherche
+        if (_currentQuery == query && mounted) {
+          setState(() {
+            _searchResults = results;
+            _isSearching = false;
+          });
+        }
+      }
+    } else {
+      setState(() {
+        _searchResults = [];
+        _isSearching = false;
+      });
+    }
   }
 
   Future<void> _startConversation(AppUser contact) async {
@@ -90,15 +121,17 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
       _isCreating = true;
     });
 
+    final l10n = AppLocalizations.of(context)!;
+
     // Créer les ParticipantInfo
     final currentUserInfo = ParticipantInfo(
-      name: currentUser.displayName ?? currentUser.name ?? 'Utilisateur',
+      name: currentUser.displayName ?? currentUser.name ?? l10n.user,
       avatarUrl: currentUser.photoURL,
       role: currentUser.role.useMeLabel,
     );
 
     final otherUserInfo = ParticipantInfo(
-      name: contact.displayName ?? contact.name ?? 'Contact',
+      name: contact.displayName ?? contact.name ?? l10n.contact,
       avatarUrl: contact.photoURL,
       role: contact.role.useMeLabel,
     );
@@ -134,6 +167,7 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final bottomPadding = MediaQuery.of(context).viewInsets.bottom;
 
     return Container(
@@ -145,15 +179,15 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
       ),
       child: Column(
         children: [
-          _buildHeader(theme),
-          _buildSearchBar(theme),
-          Expanded(child: _buildContent(theme)),
+          _buildHeader(theme, l10n),
+          _buildSearchBar(theme, l10n),
+          Expanded(child: _buildContent(theme, l10n)),
         ],
       ),
     );
   }
 
-  Widget _buildHeader(ThemeData theme) {
+  Widget _buildHeader(ThemeData theme, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 12, 12, 0),
       child: Column(
@@ -172,7 +206,7 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
             children: [
               Expanded(
                 child: Text(
-                  'Nouvelle conversation',
+                  l10n.newConversation,
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -189,14 +223,14 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
     );
   }
 
-  Widget _buildSearchBar(ThemeData theme) {
+  Widget _buildSearchBar(ThemeData theme, AppLocalizations l10n) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: TextField(
         controller: _searchController,
         onChanged: _onSearchChanged,
         decoration: InputDecoration(
-          hintText: 'Rechercher un contact...',
+          hintText: l10n.searchContact,
           prefixIcon: const Icon(FontAwesomeIcons.magnifyingGlass, size: 16),
           filled: true,
           fillColor: theme.colorScheme.surfaceContainerHighest,
@@ -210,7 +244,7 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
     );
   }
 
-  Widget _buildContent(ThemeData theme) {
+  Widget _buildContent(ThemeData theme, AppLocalizations l10n) {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -236,32 +270,88 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
                 });
                 _loadContacts();
               },
-              child: const Text('Réessayer'),
+              child: Text(l10n.retry),
             ),
           ],
         ),
       );
     }
 
-    if (_filteredContacts.isEmpty) {
-      return _buildEmptyState(theme);
+    // Combine contacts liés + résultats de recherche
+    final hasLinkedContacts = _filteredContacts.isNotEmpty;
+    final hasSearchResults = _searchResults.isNotEmpty;
+    final hasQuery = _currentQuery.length >= 2;
+
+    if (!hasLinkedContacts && !hasSearchResults && !_isSearching) {
+      return _buildEmptyState(theme, l10n);
     }
 
-    return ListView.builder(
+    return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      itemCount: _filteredContacts.length,
-      itemBuilder: (context, index) {
-        final contact = _filteredContacts[index];
-        return FadeInUp(
-          delay: Duration(milliseconds: 50 * index),
-          duration: const Duration(milliseconds: 300),
-          child: _buildContactTile(theme, contact),
-        );
-      },
+      children: [
+        // Section: Contacts liés
+        if (hasLinkedContacts) ...[
+          _buildSectionHeader(theme, l10n.myContacts, FontAwesomeIcons.userGroup),
+          ..._filteredContacts.asMap().entries.map((entry) {
+            return FadeInUp(
+              delay: Duration(milliseconds: 50 * entry.key),
+              duration: const Duration(milliseconds: 300),
+              child: _buildContactTile(theme, entry.value, l10n),
+            );
+          }),
+        ],
+
+        // Section: Résultats de recherche globale
+        if (hasQuery) ...[
+          if (hasLinkedContacts) const SizedBox(height: 16),
+          _buildSectionHeader(theme, l10n.searchResults, FontAwesomeIcons.magnifyingGlass),
+          if (_isSearching)
+            const Padding(
+              padding: EdgeInsets.all(16),
+              child: Center(child: CircularProgressIndicator()),
+            )
+          else if (hasSearchResults)
+            ..._searchResults.asMap().entries.map((entry) {
+              return FadeInUp(
+                delay: Duration(milliseconds: 50 * entry.key),
+                duration: const Duration(milliseconds: 300),
+                child: _buildContactTile(theme, entry.value, l10n),
+              );
+            })
+          else
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                l10n.noResult,
+                style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+                textAlign: TextAlign.center,
+              ),
+            ),
+        ],
+      ],
     );
   }
 
-  Widget _buildEmptyState(ThemeData theme) {
+  Widget _buildSectionHeader(ThemeData theme, String title, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      child: Row(
+        children: [
+          FaIcon(icon, size: 14, color: theme.colorScheme.primary),
+          const SizedBox(width: 8),
+          Text(
+            title,
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: theme.colorScheme.primary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyState(ThemeData theme, AppLocalizations l10n) {
     final hasSearchQuery = _searchController.text.isNotEmpty;
 
     return Center(
@@ -275,7 +365,7 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
           ),
           const SizedBox(height: 16),
           Text(
-            hasSearchQuery ? 'Aucun résultat' : 'Aucun contact disponible',
+            hasSearchQuery ? l10n.noResult : l10n.noContactAvailable,
             style: theme.textTheme.titleMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),
@@ -283,8 +373,8 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
           const SizedBox(height: 8),
           Text(
             hasSearchQuery
-                ? 'Essayez avec d\'autres termes'
-                : 'Vos contacts apparaîtront ici',
+                ? l10n.tryOtherTerms
+                : l10n.contactsWillAppearHere,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
             ),
@@ -294,7 +384,7 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
     );
   }
 
-  Widget _buildContactTile(ThemeData theme, AppUser contact) {
+  Widget _buildContactTile(ThemeData theme, AppUser contact, AppLocalizations l10n) {
     final isSelected = _selectedContact?.uid == contact.uid;
     final isLoading = isSelected && _isCreating;
 
@@ -302,7 +392,7 @@ class _NewConversationBottomSheetState extends State<NewConversationBottomSheet>
       onTap: _isCreating ? null : () => _startConversation(contact),
       leading: _buildAvatar(theme, contact),
       title: Text(
-        contact.displayName ?? contact.name ?? 'Sans nom',
+        contact.displayName ?? contact.name ?? l10n.noName,
         style: theme.textTheme.bodyLarge?.copyWith(
           fontWeight: FontWeight.w500,
         ),
