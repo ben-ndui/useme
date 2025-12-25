@@ -29,7 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.1053737369070-akmcqtcto4449fq8s1l8oke6r486gfp1</string>
+				<string>com.googleusercontent.apps.1053737369070-7a61ov70fhavca4i6ftu16uaqjejl92l</string>
 			</array>
 		</dict>
 	</array>
@@ -38,7 +38,7 @@
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 	<key>GIDClientID</key>
-	<string>1053737369070-akmcqtcto4449fq8s1l8oke6r486gfp1.apps.googleusercontent.com</string>
+	<string>1053737369070-7a61ov70fhavca4i6ftu16uaqjejl92l.apps.googleusercontent.com</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCalendarsFullAccessUsageDescription</key>
@@ -47,6 +47,12 @@
 	<string>Pour trouver les studios d'enregistrement proches de vous</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Pour trouver les studios d'enregistrement proches de vous</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Use Me a besoin d'accéder à votre microphone pour enregistrer des messages vocaux.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Use Me a besoin d'accéder à votre caméra pour prendre des photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Use Me a besoin d'accéder à vos photos pour les partager dans les conversations.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
