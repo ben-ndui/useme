@@ -14,6 +14,7 @@ class SmoothDraggableWidget extends StatefulWidget {
     this.color1,
     this.color2,
     this.bottomPadding = 20,
+    this.floatingBottomPadding = 40,
   });
 
   final Widget bodyContent;
@@ -25,6 +26,7 @@ class SmoothDraggableWidget extends StatefulWidget {
   final Color? color1;
   final Color? color2;
   final double bottomPadding;
+  final double floatingBottomPadding;
 
   @override
   State<SmoothDraggableWidget> createState() => _SmoothDraggableWidgetState();
@@ -157,7 +159,7 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
       builder: (context, isVisible, child) {
         return Positioned(
           right: 20,
-          bottom: 40,
+          bottom: widget.floatingBottomPadding,
           child: AnimatedOpacity(
             opacity: isVisible ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 300),

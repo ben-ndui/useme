@@ -4,7 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
+import 'package:useme/widgets/common/app_loader.dart';
 
 /// Services (catalog) list page
 class ServicesPage extends StatelessWidget {
@@ -12,18 +14,20 @@ class ServicesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Catalogue services'),
+        title: Text(l10n.serviceCatalogTitle),
       ),
       body: BlocBuilder<ServiceBloc, ServiceState>(
         builder: (context, state) {
           if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const AppLoader();
           }
 
           if (state.services.isEmpty) {
-            return _buildEmptyState(context);
+            return _buildEmptyState(context, l10n);
           }
 
           return RefreshIndicator(
@@ -34,7 +38,7 @@ class ServicesPage extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               itemCount: state.services.length,
               itemBuilder: (context, index) {
-                return _buildServiceCard(context, state.services[index]);
+                return _buildServiceCard(context, state.services[index], l10n);
               },
             ),
           );
@@ -43,12 +47,12 @@ class ServicesPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push(AppRoutes.serviceAdd),
         icon: const FaIcon(FontAwesomeIcons.plus, size: 18),
-        label: const Text('Nouveau service'),
+        label: Text(l10n.newService),
       ),
     );
   }
 
-  Widget _buildEmptyState(BuildContext context) {
+  Widget _buildEmptyState(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     return Center(
@@ -58,26 +62,26 @@ class ServicesPage extends StatelessWidget {
           FaIcon(FontAwesomeIcons.tags, size: 64, color: theme.colorScheme.outline),
           const SizedBox(height: 16),
           Text(
-            'Aucun service',
+            l10n.noService,
             style: theme.textTheme.titleLarge?.copyWith(color: theme.colorScheme.outline),
           ),
           const SizedBox(height: 8),
           Text(
-            'Créez votre catalogue de services',
+            l10n.createServiceCatalog,
             style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.outline),
           ),
           const SizedBox(height: 24),
           FilledButton.icon(
             onPressed: () => context.push(AppRoutes.serviceAdd),
             icon: const FaIcon(FontAwesomeIcons.plus, size: 16),
-            label: const Text('Nouveau service'),
+            label: Text(l10n.newService),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildServiceCard(BuildContext context, StudioService service) {
+  Widget _buildServiceCard(BuildContext context, StudioService service, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     return Card(
@@ -142,7 +146,7 @@ class ServicesPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
-                      service.isActive ? 'Actif' : 'Inactif',
+                      service.isActive ? l10n.active : l10n.inactive,
                       style: TextStyle(
                         fontSize: 11,
                         color: service.isActive ? Colors.green.shade700 : Colors.grey.shade600,

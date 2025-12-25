@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Bottom sheet pour signaler un studio manquant.
 class ReportMissingStudioSheet extends StatefulWidget {
@@ -72,12 +74,7 @@ class _ReportMissingStudioSheetState extends State<ReportMissingStudioSheet> {
     } catch (e) {
       setState(() => _isSubmitting = false);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erreur: $e'),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
+        AppSnackBar.error(context, 'Erreur: $e');
       }
     }
   }
@@ -85,6 +82,7 @@ class _ReportMissingStudioSheetState extends State<ReportMissingStudioSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final bottomPadding = MediaQuery.of(context).viewInsets.bottom;
 
     return Container(
@@ -93,11 +91,11 @@ class _ReportMissingStudioSheetState extends State<ReportMissingStudioSheet> {
         color: theme.colorScheme.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      child: _isSuccess ? _buildSuccessContent(theme) : _buildFormContent(theme),
+      child: _isSuccess ? _buildSuccessContent(theme, l10n) : _buildFormContent(theme, l10n),
     );
   }
 
-  Widget _buildSuccessContent(ThemeData theme) {
+  Widget _buildSuccessContent(ThemeData theme, AppLocalizations l10n) {
     return Padding(
       padding: const EdgeInsets.all(32),
       child: Column(
@@ -116,14 +114,14 @@ class _ReportMissingStudioSheetState extends State<ReportMissingStudioSheet> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Demande envoyée !',
+            l10n.requestSubmitted,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Nous allons vérifier et ajouter ce studio prochainement.',
+            l10n.weWillVerifyAndAddStudio,
             textAlign: TextAlign.center,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
@@ -134,7 +132,7 @@ class _ReportMissingStudioSheetState extends State<ReportMissingStudioSheet> {
     );
   }
 
-  Widget _buildFormContent(ThemeData theme) {
+  Widget _buildFormContent(ThemeData theme, AppLocalizations l10n) {
     return Form(
       key: _formKey,
       child: SingleChildScrollView(
@@ -180,13 +178,13 @@ class _ReportMissingStudioSheetState extends State<ReportMissingStudioSheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Studio manquant ?',
+                        l10n.missingStudio,
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        'Dis-nous quel studio tu cherches',
+                        l10n.tellUsWhichStudio,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
@@ -202,15 +200,15 @@ class _ReportMissingStudioSheetState extends State<ReportMissingStudioSheet> {
             TextFormField(
               controller: _studioNameController,
               decoration: InputDecoration(
-                labelText: 'Nom du studio',
-                hintText: 'Ex: Studio XYZ',
+                labelText: l10n.studioName,
+                hintText: l10n.studioNameExample,
                 prefixIcon: const Icon(FontAwesomeIcons.microphone, size: 16),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
               textCapitalization: TextCapitalization.words,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Veuillez entrer le nom du studio';
+                  return l10n.pleaseEnterStudioName;
                 }
                 return null;
               },
@@ -221,15 +219,15 @@ class _ReportMissingStudioSheetState extends State<ReportMissingStudioSheet> {
             TextFormField(
               controller: _cityController,
               decoration: InputDecoration(
-                labelText: 'Ville',
-                hintText: 'Ex: Paris, Lyon...',
+                labelText: l10n.city,
+                hintText: l10n.cityExample,
                 prefixIcon: const Icon(FontAwesomeIcons.locationDot, size: 16),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
               textCapitalization: TextCapitalization.words,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Veuillez entrer la ville';
+                  return l10n.pleaseEnterCity;
                 }
                 return null;
               },
@@ -240,8 +238,8 @@ class _ReportMissingStudioSheetState extends State<ReportMissingStudioSheet> {
             TextFormField(
               controller: _notesController,
               decoration: InputDecoration(
-                labelText: 'Notes (optionnel)',
-                hintText: 'Adresse, site web, infos utiles...',
+                labelText: l10n.notesOptionalLabel,
+                hintText: l10n.notesHint,
                 prefixIcon: const Icon(FontAwesomeIcons.noteSticky, size: 16),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
@@ -260,7 +258,7 @@ class _ReportMissingStudioSheetState extends State<ReportMissingStudioSheet> {
                       child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                     )
                   : const FaIcon(FontAwesomeIcons.paperPlane, size: 14),
-              label: Text(_isSubmitting ? 'Envoi en cours...' : 'Envoyer la demande'),
+              label: Text(_isSubmitting ? l10n.sending : l10n.sendRequestLabel),
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
@@ -270,7 +268,7 @@ class _ReportMissingStudioSheetState extends State<ReportMissingStudioSheet> {
             // Cancel button
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Annuler'),
+              child: Text(l10n.cancel),
             ),
             const SizedBox(height: 8),
           ],

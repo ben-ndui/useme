@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/app_loader.dart';
 
 /// Session detail screen for artists to view their booked sessions
 class ArtistSessionDetailScreen extends StatefulWidget {
@@ -37,7 +38,7 @@ class _ArtistSessionDetailScreenState extends State<ArtistSessionDetailScreen> {
       body: BlocBuilder<SessionBloc, SessionState>(
         builder: (context, state) {
           if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const AppLoader();
           }
 
           final session = state.selectedSession;

@@ -2,60 +2,114 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/favorite.dart';
+import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/favorite/favorite_button.dart';
 
-/// Écran listant les favoris de l'utilisateur.
+/// Écran listant les favoris de l'utilisateur (adapté selon le rôle).
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    final authState = context.read<AuthBloc>().state;
+
+    // Déterminer les tabs selon le rôle
+    final isStudio = authState is AuthAuthenticatedState &&
+        authState.user.role.name == 'admin';
+
+    final tabs = isStudio
+        ? [
+            _TabConfig(
+              label: l10n.artistsLabel,
+              type: FavoriteType.artist,
+              emptyIcon: FontAwesomeIcons.microphoneLines,
+              emptyTitle: l10n.noFavoriteArtists,
+              emptySubtitle: l10n.addArtistsToFavorite,
+            ),
+          ]
+        : [
+            _TabConfig(
+              label: l10n.studiosLabel,
+              type: FavoriteType.studio,
+              emptyIcon: FontAwesomeIcons.recordVinyl,
+              emptyTitle: l10n.noFavoriteStudios,
+              emptySubtitle: l10n.exploreStudiosToFavorite,
+            ),
+            _TabConfig(
+              label: l10n.engineersLabel,
+              type: FavoriteType.engineer,
+              emptyIcon: FontAwesomeIcons.headphones,
+              emptyTitle: l10n.noFavoriteEngineers,
+              emptySubtitle: l10n.discoverEngineersToFavorite,
+            ),
+          ];
 
     return DefaultTabController(
-      length: 2,
+      length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Mes favoris'),
-          bottom: TabBar(
-            tabs: const [
-              Tab(text: 'Studios'),
-              Tab(text: 'Ingénieurs'),
-            ],
-            labelColor: theme.colorScheme.primary,
-            unselectedLabelColor: theme.colorScheme.onSurfaceVariant,
-            indicatorColor: theme.colorScheme.primary,
-          ),
+          title: Text(l10n.myFavorites),
+          bottom: tabs.length > 1
+              ? TabBar(
+                  tabs: tabs.map((t) => Tab(text: t.label)).toList(),
+                  labelColor: theme.colorScheme.primary,
+                  unselectedLabelColor: theme.colorScheme.onSurfaceVariant,
+                  indicatorColor: theme.colorScheme.primary,
+                )
+              : null,
         ),
         body: BlocBuilder<FavoriteBloc, FavoriteState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const AppLoader();
+            }
+
+            if (tabs.length == 1) {
+              // Single tab - no TabBarView needed
+              final tab = tabs.first;
+              return _FavoritesList(
+                favorites: state.getFavoritesByType(tab.type),
+                emptyIcon: tab.emptyIcon,
+                emptyTitle: tab.emptyTitle,
+                emptySubtitle: tab.emptySubtitle,
+              );
             }
 
             return TabBarView(
-              children: [
-                _FavoritesList(
-                  favorites: state.getFavoritesByType(FavoriteType.studio),
-                  emptyIcon: FontAwesomeIcons.recordVinyl,
-                  emptyTitle: 'Aucun studio favori',
-                  emptySubtitle: 'Explorez les studios et ajoutez-les à vos favoris',
-                ),
-                _FavoritesList(
-                  favorites: state.getFavoritesByType(FavoriteType.engineer),
-                  emptyIcon: FontAwesomeIcons.headphones,
-                  emptyTitle: 'Aucun ingénieur favori',
-                  emptySubtitle: 'Découvrez les ingénieurs et ajoutez-les à vos favoris',
-                ),
-              ],
+              children: tabs.map((tab) => _FavoritesList(
+                favorites: state.getFavoritesByType(tab.type),
+                emptyIcon: tab.emptyIcon,
+                emptyTitle: tab.emptyTitle,
+                emptySubtitle: tab.emptySubtitle,
+              )).toList(),
             );
           },
         ),
       ),
     );
   }
+}
+
+class _TabConfig {
+  final String label;
+  final FavoriteType type;
+  final IconData emptyIcon;
+  final String emptyTitle;
+  final String emptySubtitle;
+
+  const _TabConfig({
+    required this.label,
+    required this.type,
+    required this.emptyIcon,
+    required this.emptyTitle,
+    required this.emptySubtitle,
+  });
 }
 
 class _FavoritesList extends StatelessWidget {
@@ -151,7 +205,7 @@ class _FavoriteCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      favorite.targetName ?? 'Sans nom',
+                      favorite.targetName ?? AppLocalizations.of(context)!.unnamed,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Éditeur d'horaires de travail hebdomadaires
 class WorkingHoursEditor extends StatelessWidget {
@@ -15,6 +16,8 @@ class WorkingHoursEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: List.generate(7, (index) {
@@ -26,6 +29,7 @@ class WorkingHoursEditor extends StatelessWidget {
           dayName: dayName,
           schedule: schedule,
           onChanged: (newSchedule) => onDayChanged(weekday, newSchedule),
+          l10n: l10n,
         );
       }),
     );
@@ -36,11 +40,13 @@ class _DayScheduleRow extends StatelessWidget {
   final String dayName;
   final DaySchedule schedule;
   final Function(DaySchedule) onChanged;
+  final AppLocalizations l10n;
 
   const _DayScheduleRow({
     required this.dayName,
     required this.schedule,
     required this.onChanged,
+    required this.l10n,
   });
 
   @override
@@ -102,7 +108,7 @@ class _DayScheduleRow extends StatelessWidget {
             ),
           ] else
             Text(
-              'Repos',
+              l10n.restDay,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.outline,
                 fontStyle: FontStyle.italic,

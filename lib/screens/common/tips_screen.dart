@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:useme/core/models/tip_item.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Screen displaying tips and guides for app usage with smooth animations
 class TipsScreen extends StatefulWidget {
@@ -24,6 +25,7 @@ class _TipsScreenState extends State<TipsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +36,7 @@ class _TipsScreenState extends State<TipsScreen> {
         children: [
           FadeInDown(
             duration: const Duration(milliseconds: 400),
-            child: _buildHeader(theme),
+            child: _buildHeader(theme, l10n),
           ),
           const SizedBox(height: 24),
           ...widget.sections.asMap().entries.map((entry) {
@@ -51,7 +53,7 @@ class _TipsScreenState extends State<TipsScreen> {
     );
   }
 
-  Widget _buildHeader(ThemeData theme) {
+  Widget _buildHeader(ThemeData theme, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -94,9 +96,9 @@ class _TipsScreenState extends State<TipsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Bienvenue !',
-                  style: TextStyle(
+                Text(
+                  l10n.welcome,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -104,7 +106,7 @@ class _TipsScreenState extends State<TipsScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Decouvrez comment tirer le meilleur de Use Me',
+                  l10n.discoverAppFeatures,
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 13,

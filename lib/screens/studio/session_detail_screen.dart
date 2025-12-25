@@ -9,6 +9,8 @@ import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/booking_acceptance_service.dart';
 import 'package:useme/core/services/payment_config_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/widgets/studio/accept_booking_sheet.dart';
 
 /// Session detail screen for studios to view and manage session requests
@@ -47,20 +49,16 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> {
                     ? l10n.sessionDeclined
                     : null;
             if (message != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message), backgroundColor: Colors.green),
-              );
+              AppSnackBar.success(context, message);
               context.pop();
             }
           } else if (state is SessionErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage ?? l10n.errorOccurred)),
-            );
+            AppSnackBar.error(context, state.errorMessage ?? l10n.errorOccurred);
           }
         },
         builder: (context, state) {
           if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const AppLoader();
           }
 
           final session = state.selectedSession;
@@ -387,12 +385,7 @@ class _ActionButtons extends StatelessWidget {
     if (!context.mounted) return;
 
     if (response.isSuccess) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.sessionAccepted),
-          backgroundColor: Colors.green,
-        ),
-      );
+      AppSnackBar.success(context, l10n.sessionAccepted);
       // Ouvrir la conversation créée
       if (response.data != null) {
         context.push('/conversations/${response.data}');
@@ -400,9 +393,7 @@ class _ActionButtons extends StatelessWidget {
         context.pop();
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(response.message)),
-      );
+      AppSnackBar.error(context, response.message);
     }
   }
 

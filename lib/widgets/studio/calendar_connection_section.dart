@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import '../../core/blocs/calendar/calendar_exports.dart';
+import '../../widgets/common/snackbar/app_snackbar.dart';
 
 /// Section de connexion calendrier pour les paramètres studio
 class CalendarConnectionSection extends StatelessWidget {
@@ -15,20 +16,11 @@ class CalendarConnectionSection extends StatelessWidget {
     return BlocConsumer<CalendarBloc, CalendarState>(
       listener: (context, state) {
         if (state is CalendarErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
-          );
+          AppSnackBar.error(context, state.message);
         } else if (state is UnavailabilityAddedState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Indisponibilité ajoutée')),
-          );
+          AppSnackBar.success(context, 'Indisponibilité ajoutée');
         } else if (state is UnavailabilityDeletedState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Indisponibilité supprimée')),
-          );
+          AppSnackBar.success(context, 'Indisponibilité supprimée');
         }
       },
       builder: (context, state) {

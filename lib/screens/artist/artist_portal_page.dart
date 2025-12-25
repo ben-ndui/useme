@@ -6,7 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/blocs/map/map_bloc.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/artist/artist_home_feed.dart';
+import 'package:useme/widgets/artist/studio_detail_bottom_sheet.dart';
+import 'package:useme/widgets/artist/studio_selector_bottom_sheet.dart';
 import 'package:useme/widgets/common/smooth_draggable_widget.dart';
 import 'package:useme/widgets/map/studio_map_view.dart';
 
@@ -37,6 +40,7 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocProvider(
       create: (context) => MapBloc(),
@@ -66,9 +70,9 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
                   color: theme.colorScheme.primary,
                 ),
                 const SizedBox(width: 8),
-                const Text(
-                  'Use Me',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                Text(
+                  l10n.appName,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ],
             ),
@@ -97,8 +101,10 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
         body: Stack(
           children: [
             // Map in background (full screen)
-            const Positioned.fill(
-              child: StudioMapView(),
+            Positioned.fill(
+              child: StudioMapView(
+                onStudioTap: (studio) => StudioDetailBottomSheet.show(context, studio),
+              ),
             ),
 
             // Collapsible feed overlay with Viba blue gradient
@@ -110,12 +116,13 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
                 maxSize: 1.0,
                 // Uses default Viba blue gradient
                 bottomPadding: 100,
+                floatingBottomPadding: MediaQuery.of(context).size.height * 0.14,
                 floatButtons: [
                   FloatingActionButton.extended(
                     heroTag: 'book',
-                    onPressed: () => context.push('/artist/request'),
+                    onPressed: () => StudioSelectorBottomSheet.showAndNavigate(context),
                     icon: const FaIcon(FontAwesomeIcons.calendarPlus, size: 16),
-                    label: const Text('Réserver'),
+                    label: Text(l10n.book),
                   ),
                 ],
                 bodyContent: const ArtistHomeFeed(),

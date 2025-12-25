@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,8 +6,12 @@ import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/models/app_user.dart';
+import 'package:useme/core/services/profile_photo_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/main.dart';
 import 'package:useme/routing/app_routes.dart';
+import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Profile screen - Edit user profile
 class ProfileScreen extends StatefulWidget {
@@ -23,7 +28,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final _phoneController = TextEditingController();
   final _bioController = TextEditingController();
   final _stageNameController = TextEditingController();
+  final _photoService = ProfilePhotoService();
   bool _isLoading = false;
+  bool _isUploadingPhoto = false;
+  File? _selectedPhoto;
 
   @override
   void initState() {
@@ -56,20 +64,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, authState) {
         if (authState is! AuthAuthenticatedState) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
+          return const AppLoader.fullScreen();
         }
 
         final user = authState.user as AppUser;
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Mon profil'),
+            title: Text(l10n.myProfile),
             actions: [
               TextButton(
                 onPressed: _isLoading ? null : _saveProfile,
@@ -79,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Text('Enregistrer'),
+                    : Text(l10n.save),
               ),
             ],
           ),
@@ -103,23 +110,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(height: 32),
 
                 // Form fields
-                _buildSectionTitle(context, 'Informations personnelles'),
+                _buildSectionTitle(context, l10n.personalInfo),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Nom complet',
-                    prefixIcon: Icon(Icons.person_outline),
+                  decoration: InputDecoration(
+                    labelText: l10n.fullName,
+                    prefixIcon: const Icon(Icons.person_outline),
                   ),
-                  validator: (v) => v?.isEmpty ?? true ? 'Requis' : null,
+                  validator: (v) => v?.isEmpty ?? true ? l10n.required : null,
                 ),
                 if (user.isArtist) ...[
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _stageNameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Nom de scène',
-                      prefixIcon: Icon(Icons.star_outline),
+                    decoration: InputDecoration(
+                      labelText: l10n.stageName,
+                      prefixIcon: const Icon(Icons.star_outline),
                     ),
                   ),
                 ],
@@ -128,52 +135,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   enabled: false, // Email cannot be changed
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    prefixIcon: Icon(Icons.email_outlined),
+                  decoration: InputDecoration(
+                    labelText: l10n.email,
+                    prefixIcon: const Icon(Icons.email_outlined),
                   ),
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
-                  decoration: const InputDecoration(
-                    labelText: 'Téléphone',
-                    prefixIcon: Icon(Icons.phone_outlined),
+                  decoration: InputDecoration(
+                    labelText: l10n.phone,
+                    prefixIcon: const Icon(Icons.phone_outlined),
                   ),
                 ),
                 const SizedBox(height: 24),
 
-                _buildSectionTitle(context, 'Bio'),
+                _buildSectionTitle(context, l10n.bio),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _bioController,
                   maxLines: 3,
-                  decoration: const InputDecoration(
-                    hintText: 'Parlez de vous...',
+                  decoration: InputDecoration(
+                    hintText: l10n.tellAboutYourself,
                   ),
                 ),
                 const SizedBox(height: 32),
 
                 // Account actions
-                _buildSectionTitle(context, 'Compte'),
+                _buildSectionTitle(context, l10n.accountSection),
                 const SizedBox(height: 12),
                 _buildActionTile(
                   context,
                   icon: FontAwesomeIcons.key,
-                  title: 'Changer le mot de passe',
+                  title: l10n.changePassword,
                   onTap: _changePassword,
                 ),
                 _buildActionTile(
                   context,
                   icon: FontAwesomeIcons.arrowRightFromBracket,
-                  title: 'Se déconnecter',
+                  title: l10n.signOut,
                   onTap: _signOut,
                 ),
                 _buildActionTile(
                   context,
                   icon: FontAwesomeIcons.trash,
-                  title: 'Supprimer mon compte',
+                  title: l10n.deleteMyAccount,
                   isDestructive: true,
                   onTap: _showDeleteAccountDialog,
                 ),
@@ -189,54 +196,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final theme = Theme.of(context);
     final initials = _getInitials(user);
 
+    // Determine what image to show
+    ImageProvider? imageProvider;
+    if (_selectedPhoto != null) {
+      imageProvider = FileImage(_selectedPhoto!);
+    } else if (user.photoURL != null) {
+      imageProvider = NetworkImage(user.photoURL!);
+    }
+
     return Center(
-      child: Stack(
-        children: [
-          Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [UseMeTheme.primaryColor, UseMeTheme.secondaryColor],
-              ),
-              shape: BoxShape.circle,
-              image: user.photoURL != null
-                  ? DecorationImage(
-                      image: NetworkImage(user.photoURL!),
-                      fit: BoxFit.cover,
-                    )
-                  : null,
-            ),
-            child: user.photoURL == null
-                ? Center(
-                    child: Text(
-                      initials,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )
-                : null,
-          ),
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: Container(
-              width: 36,
-              height: 36,
+      child: GestureDetector(
+        onTap: _isUploadingPhoto ? null : _changePhoto,
+        child: Stack(
+          children: [
+            Container(
+              width: 100,
+              height: 100,
               decoration: BoxDecoration(
-                color: theme.colorScheme.primary,
+                gradient: LinearGradient(
+                  colors: [UseMeTheme.primaryColor, UseMeTheme.secondaryColor],
+                ),
                 shape: BoxShape.circle,
-                border: Border.all(color: theme.colorScheme.surface, width: 3),
+                image: imageProvider != null
+                    ? DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      )
+                    : null,
               ),
-              child: const Center(
-                child: FaIcon(FontAwesomeIcons.camera, size: 14, color: Colors.white),
+              child: _isUploadingPhoto
+                  ? Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.5),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    )
+                  : imageProvider == null
+                      ? Center(
+                          child: Text(
+                            initials,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      : null,
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: theme.colorScheme.surface, width: 3),
+                ),
+                child: const Center(
+                  child: FaIcon(FontAwesomeIcons.camera, size: 14, color: Colors.white),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -279,6 +310,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Future<void> _changePhoto() async {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is! AuthAuthenticatedState) return;
+
+    final imageFile = await _photoService.pickImage(context);
+    if (imageFile == null) return;
+
+    setState(() {
+      _selectedPhoto = imageFile;
+      _isUploadingPhoto = true;
+    });
+
+    final user = authState.user as AppUser;
+    final uploadResult = await _photoService.uploadProfilePhoto(
+      userId: user.uid,
+      imageFile: imageFile,
+    );
+
+    if (!mounted) return;
+
+    if (uploadResult.code == 200 && (uploadResult.data?.isNotEmpty ?? false)) {
+      // Update user with new photo URL
+      final updatedUser = user.copyWith(photoURL: uploadResult.data);
+      final updateResult = await useMeAuthService.updateUserProfile(updatedUser);
+
+      setState(() => _isUploadingPhoto = false);
+
+      if (updateResult.code == 200) {
+        AppSnackBar.success(context, AppLocalizations.of(context)!.photoUpdated);
+      } else {
+        setState(() => _selectedPhoto = null);
+        AppSnackBar.error(context, updateResult.message);
+      }
+    } else {
+      setState(() {
+        _selectedPhoto = null;
+        _isUploadingPhoto = false;
+      });
+      AppSnackBar.error(context, uploadResult.message);
+    }
+  }
+
   Future<void> _saveProfile() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -300,27 +373,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() => _isLoading = false);
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(response.message),
-            backgroundColor: response.code == 200 ? Colors.green : Colors.red,
-          ),
-        );
-
         if (response.code == 200) {
+          AppSnackBar.success(context, response.message);
           context.pop();
+        } else {
+          AppSnackBar.error(context, response.message);
         }
       }
     }
   }
 
   void _changePassword() async {
+    final l10n = AppLocalizations.of(context)!;
     final authState = context.read<AuthBloc>().state;
     if (authState is AuthAuthenticatedState) {
       context.read<AuthBloc>().add(ResetPasswordEvent(email: authState.user.email));
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Email de réinitialisation envoyé')),
-      );
+      AppSnackBar.success(context, l10n.resetEmailSent);
     }
   }
 
@@ -330,26 +398,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _showDeleteAccountDialog() {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Supprimer le compte'),
-        content: const Text(
-          'Cette action est irréversible. Toutes vos données seront supprimées définitivement.',
-        ),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.deleteAccount),
+        content: Text(l10n.deleteAccountWarning),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Annuler'),
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () async {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               context.read<AuthBloc>().add(const DeleteAccountEvent());
               context.go(AppRoutes.login);
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Supprimer'),
+            child: Text(l10n.delete),
           ),
         ],
       ),

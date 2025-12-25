@@ -1,12 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/discovered_studio.dart';
+import 'package:useme/core/models/studio_profile.dart';
 import 'package:useme/core/services/location_service.dart';
 import 'package:useme/core/services/studio_claim_service.dart';
+import 'package:useme/core/services/studio_claim_approval_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
+import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Écran pour revendiquer son studio (lier un Google Place à son compte)
 class StudioClaimScreen extends StatefulWidget {
@@ -18,6 +25,7 @@ class StudioClaimScreen extends StatefulWidget {
 
 class _StudioClaimScreenState extends State<StudioClaimScreen> {
   final StudioClaimService _claimService = StudioClaimService();
+  final StudioClaimApprovalService _approvalService = StudioClaimApprovalService();
   final LocationService _locationService = LocationService();
 
   List<DiscoveredStudio> _studios = [];
@@ -57,10 +65,11 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mon studio'),
+        title: Text(l10n.claimStudioTitle),
         actions: [
           IconButton(
             icon: const FaIcon(FontAwesomeIcons.arrowsRotate, size: 18),
@@ -68,36 +77,36 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
           ),
         ],
       ),
-      body: _buildBody(theme),
+      body: _buildBody(theme, l10n),
     );
   }
 
-  Widget _buildBody(ThemeData theme) {
+  Widget _buildBody(ThemeData theme, AppLocalizations l10n) {
     if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const AppLoader();
     }
 
     if (_error != null) {
-      return _buildErrorState(theme);
+      return _buildErrorState(theme, l10n);
     }
 
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
         // Header
-        _buildInfoCard(theme),
+        _buildInfoCard(theme, l10n),
         const SizedBox(height: 24),
 
         // Studios list
         Text(
-          'Studios à proximité',
+          l10n.nearbyStudios,
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),
         ),
         const SizedBox(height: 8),
         Text(
-          'Sélectionnez votre studio pour le revendiquer',
+          l10n.selectStudioToClaim,
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.outline,
           ),
@@ -105,19 +114,19 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
         const SizedBox(height: 16),
 
         if (_studios.isEmpty)
-          _buildEmptyState(theme)
+          _buildEmptyState(theme, l10n)
         else
-          ..._studios.map((studio) => _buildStudioTile(theme, studio)),
+          ..._studios.map((studio) => _buildStudioTile(theme, studio, l10n)),
 
         const SizedBox(height: 24),
 
         // Manual creation
-        _buildManualCreationCard(theme),
+        _buildManualCreationCard(theme, l10n),
       ],
     );
   }
 
-  Widget _buildInfoCard(ThemeData theme) {
+  Widget _buildInfoCard(ThemeData theme, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -147,14 +156,14 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Revendiquez votre studio',
+                  l10n.claimYourStudio,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Rendez votre studio visible aux artistes et recevez des demandes de session.',
+                  l10n.claimStudioDescription,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -167,7 +176,7 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
     );
   }
 
-  Widget _buildErrorState(ThemeData theme) {
+  Widget _buildErrorState(ThemeData theme, AppLocalizations l10n) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
@@ -189,7 +198,7 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
             FilledButton.icon(
               onPressed: _loadNearbyStudios,
               icon: const FaIcon(FontAwesomeIcons.arrowsRotate, size: 14),
-              label: const Text('Réessayer'),
+              label: Text(l10n.retry),
             ),
           ],
         ),
@@ -197,7 +206,7 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
     );
   }
 
-  Widget _buildEmptyState(ThemeData theme) {
+  Widget _buildEmptyState(ThemeData theme, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -213,12 +222,12 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Aucun studio trouvé à proximité',
+            l10n.noStudioFoundNearby,
             style: theme.textTheme.titleSmall,
           ),
           const SizedBox(height: 4),
           Text(
-            'Créez votre studio manuellement ci-dessous',
+            l10n.createStudioManuallyBelow,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.outline,
             ),
@@ -228,7 +237,7 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
     );
   }
 
-  Widget _buildStudioTile(ThemeData theme, DiscoveredStudio studio) {
+  Widget _buildStudioTile(ThemeData theme, DiscoveredStudio studio, AppLocalizations l10n) {
     final isClaimed = studio.isPartner;
 
     return Card(
@@ -293,7 +302,7 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
-                              'Partenaire',
+                              l10n.partner,
                               style: theme.textTheme.labelSmall?.copyWith(
                                 color: Colors.green,
                                 fontWeight: FontWeight.w600,
@@ -353,7 +362,7 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
     );
   }
 
-  Widget _buildManualCreationCard(ThemeData theme) {
+  Widget _buildManualCreationCard(ThemeData theme, AppLocalizations l10n) {
     return Card(
       child: InkWell(
         onTap: _showManualCreationDialog,
@@ -383,13 +392,13 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Mon studio n\'apparaît pas',
+                      l10n.studioNotListed,
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     Text(
-                      'Créer manuellement mon profil studio',
+                      l10n.createManualProfile,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.outline,
                       ),
@@ -410,10 +419,11 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
   }
 
   Future<void> _showClaimDialog(DiscoveredStudio studio) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Revendiquer ce studio ?'),
+        title: Text(l10n.claimThisStudio),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -433,7 +443,7 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
             ],
             const SizedBox(height: 16),
             Text(
-              'En revendiquant ce studio, vous le rendez visible aux artistes sur Use Me. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.',
+              l10n.claimStudioInfo,
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
@@ -441,11 +451,11 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Annuler'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Revendiquer'),
+            child: Text(l10n.claim),
           ),
         ],
       ),
@@ -457,43 +467,85 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
   }
 
   Future<void> _claimStudio(DiscoveredStudio studio) async {
-    // Show loading dialog
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
+      builder: (_) => const AppLoader(),
     );
 
     try {
       final authState = context.read<AuthBloc>().state;
       if (authState is AuthAuthenticatedState) {
-        await _claimService.claimStudio(
-          userId: authState.user.uid,
-          studio: studio,
-        );
+        final user = authState.user as AppUser;
+        final isSuperAdmin = user.isSuperAdmin;
 
-        if (mounted) {
-          Navigator.pop(context); // Close loading dialog
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('${studio.name} revendiqué avec succès !'),
-              backgroundColor: Colors.green,
-            ),
+        if (isSuperAdmin) {
+          // SuperAdmin: revendication directe
+          await _claimService.claimStudio(userId: user.uid, studio: studio);
+          if (mounted) {
+            Navigator.pop(context);
+            final l10n = AppLocalizations.of(context)!;
+            AppSnackBar.success(context, l10n.studioClaimedSuccess(studio.name));
+            context.pop(true);
+          }
+        } else {
+          // Non-superAdmin: créer une demande
+          final studioProfile = StudioProfile(
+            name: studio.name,
+            address: studio.address ?? '',
+            location: GeoPoint(studio.position.latitude, studio.position.longitude),
+            photos: studio.photoUrl != null ? [studio.photoUrl!] : [],
+            googlePlaceId: studio.id,
+            googlePlaceName: studio.name,
+            rating: studio.rating,
+            reviewCount: studio.reviewCount,
+            website: studio.website,
+            phone: studio.phoneNumber,
+            services: studio.services,
           );
-          context.pop(true); // Return success
+
+          await _approvalService.createClaimRequest(
+            userId: user.uid,
+            userEmail: user.email ?? '',
+            userName: user.fullName,
+            studioProfile: studioProfile,
+          );
+
+          if (mounted) {
+            Navigator.pop(context);
+            _showPendingClaimDialog(studio.name);
+          }
         }
       }
     } catch (e) {
       if (mounted) {
-        Navigator.pop(context); // Close loading dialog
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erreur: $e'),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
+        Navigator.pop(context);
+        AppSnackBar.error(context, 'Erreur: $e');
       }
     }
+  }
+
+  void _showPendingClaimDialog(String studioName) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        icon: const FaIcon(FontAwesomeIcons.clock, color: Colors.orange, size: 32),
+        title: const Text('Demande envoyée'),
+        content: Text(
+          'Votre demande de revendication pour "$studioName" a été envoyée. '
+          'Un administrateur examinera votre demande prochainement.',
+        ),
+        actions: [
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              context.pop();
+            },
+            child: const Text('Compris'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _showManualCreationDialog() {

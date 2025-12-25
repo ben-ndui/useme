@@ -1,11 +1,18 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/main.dart';
 import 'package:useme/routing/app_routes.dart';
+import 'package:useme/widgets/auth/glass_text_field.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
-/// Login form content styled for draggable sheet overlay
+/// Login form content with glassmorphism design
 class LoginFormContent extends StatefulWidget {
   const LoginFormContent({super.key});
 
@@ -17,7 +24,18 @@ class _LoginFormContentState extends State<LoginFormContent> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _obscurePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedEmail();
+  }
+
+  void _loadSavedEmail() {
+    if (preferencesService.rememberEmailEnabled && preferencesService.savedEmail != null) {
+      _emailController.text = preferencesService.savedEmail!;
+    }
+  }
 
   @override
   void dispose() {
@@ -28,6 +46,8 @@ class _LoginFormContentState extends State<LoginFormContent> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         final isLoading = state is AuthLoadingState;
@@ -35,21 +55,21 @@ class _LoginFormContentState extends State<LoginFormContent> {
         final isAppleLoading = state is AuthAppleLoadingState;
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
-              _buildHeader(),
-              const SizedBox(height: 28),
-              _buildForm(isLoading),
-              const SizedBox(height: 20),
-              _buildDivider(),
-              const SizedBox(height: 20),
-              _buildSocialButtons(isGoogleLoading, isAppleLoading),
+              _buildHeader(l10n),
+              const SizedBox(height: 32),
+              _buildForm(isLoading, l10n),
               const SizedBox(height: 24),
-              _buildSignUpLink(),
-              const SizedBox(height: 12),
-              _buildDemoButton(),
-              const SizedBox(height: 20),
+              _buildDivider(l10n),
+              const SizedBox(height: 24),
+              _buildSocialButtons(isGoogleLoading, isAppleLoading),
+              const SizedBox(height: 28),
+              _buildSignUpLink(l10n),
+              const SizedBox(height: 16),
+              _buildDemoButton(l10n),
+              const SizedBox(height: 24),
             ],
           ),
         );
@@ -57,180 +77,162 @@ class _LoginFormContentState extends State<LoginFormContent> {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(AppLocalizations l10n) {
     return Column(
       children: [
-        // Logo with glow
-        Container(
-          width: 70,
-          height: 70,
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(18),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withValues(alpha: 0.3),
-                blurRadius: 20,
-                spreadRadius: 2,
+        // Logo with glassmorphism
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              width: 72,
+              height: 72,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white.withValues(alpha: 0.3),
+                    Colors.white.withValues(alpha: 0.1),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.3),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    blurRadius: 20,
+                    spreadRadius: 2,
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: const Center(
-            child: FaIcon(FontAwesomeIcons.music, color: Colors.white, size: 30),
+              child: const Center(
+                child: FaIcon(FontAwesomeIcons.music, color: Colors.white, size: 28),
+              ),
+            ),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
         const Text(
           'Use Me',
           style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
+            fontSize: 32,
+            fontWeight: FontWeight.w700,
             color: Colors.white,
+            letterSpacing: -0.5,
           ),
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 8),
         Text(
-          'Reservez votre prochaine session',
+          l10n.bookNextSessionSubtitle,
           style: TextStyle(
-            fontSize: 14,
-            color: Colors.white.withValues(alpha: 0.8),
+            fontSize: 15,
+            color: Colors.white.withValues(alpha: 0.75),
+            fontWeight: FontWeight.w400,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildForm(bool isLoading) {
+  Widget _buildForm(bool isLoading, AppLocalizations l10n) {
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          _buildTextField(
+          GlassTextField(
             controller: _emailController,
-            hint: 'Email',
-            icon: FontAwesomeIcons.envelope,
+            hint: l10n.emailHint,
+            prefixIcon: FontAwesomeIcons.envelope,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             validator: (v) {
-              if (v?.isEmpty ?? true) return 'Email requis';
-              if (!v!.contains('@')) return 'Email invalide';
+              if (v?.isEmpty ?? true) return l10n.emailRequired;
+              if (!v!.contains('@')) return l10n.emailInvalid;
+              return null;
+            },
+          ),
+          const SizedBox(height: 16),
+          GlassPasswordField(
+            controller: _passwordController,
+            hint: l10n.passwordHint,
+            textInputAction: TextInputAction.done,
+            onFieldSubmitted: (_) => _login(),
+            validator: (v) {
+              if (v?.isEmpty ?? true) return l10n.passwordRequired;
+              if (v!.length < 6) return l10n.minCharacters(6);
               return null;
             },
           ),
           const SizedBox(height: 12),
-          _buildTextField(
-            controller: _passwordController,
-            hint: 'Mot de passe',
-            icon: FontAwesomeIcons.lock,
-            obscureText: _obscurePassword,
-            textInputAction: TextInputAction.done,
-            onFieldSubmitted: (_) => _login(),
-            suffixIcon: IconButton(
-              icon: FaIcon(
-                _obscurePassword ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
-                size: 16,
-                color: Colors.white.withValues(alpha: 0.7),
-              ),
-              onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
-            ),
-            validator: (v) {
-              if (v?.isEmpty ?? true) return 'Mot de passe requis';
-              if (v!.length < 6) return 'Minimum 6 caracteres';
-              return null;
-            },
-          ),
-          const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: _forgotPassword,
+              onPressed: () => _forgotPassword(l10n),
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white.withValues(alpha: 0.8),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               ),
-              child: const Text('Mot de passe oublie ?'),
+              child: Text(
+                l10n.forgotPassword,
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
             ),
           ),
-          const SizedBox(height: 16),
-          _buildLoginButton(isLoading),
+          const SizedBox(height: 20),
+          GlassButton(
+            label: l10n.signIn,
+            isLoading: isLoading,
+            onPressed: _login,
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hint,
-    required IconData icon,
-    TextInputType? keyboardType,
-    TextInputAction? textInputAction,
-    bool obscureText = false,
-    Widget? suffixIcon,
-    String? Function(String?)? validator,
-    void Function(String)? onFieldSubmitted,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
-      ),
-      child: TextFormField(
-        controller: controller,
-        keyboardType: keyboardType,
-        textInputAction: textInputAction,
-        obscureText: obscureText,
-        validator: validator,
-        onFieldSubmitted: onFieldSubmitted,
-        style: const TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 14, right: 10),
-            child: FaIcon(icon, size: 16, color: Colors.white.withValues(alpha: 0.7)),
-          ),
-          prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-          suffixIcon: suffixIcon,
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          errorStyle: const TextStyle(color: Colors.orangeAccent),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLoginButton(bool isLoading) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: isLoading ? null : _login,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black87,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-          elevation: 0,
-        ),
-        child: isLoading
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-            : const Text('Se connecter', style: TextStyle(fontWeight: FontWeight.w600)),
-      ),
-    );
-  }
-
-  Widget _buildDivider() {
+  Widget _buildDivider(AppLocalizations l10n) {
     return Row(
       children: [
-        Expanded(child: Divider(color: Colors.white.withValues(alpha: 0.3))),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text('ou', style: TextStyle(color: Colors.white.withValues(alpha: 0.7))),
+        Expanded(
+          child: Container(
+            height: 1,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  Colors.white.withValues(alpha: 0.3),
+                ],
+              ),
+            ),
+          ),
         ),
-        Expanded(child: Divider(color: Colors.white.withValues(alpha: 0.3))),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            l10n.or,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.6),
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            height: 1,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.white.withValues(alpha: 0.3),
+                  Colors.transparent,
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -239,99 +241,80 @@ class _LoginFormContentState extends State<LoginFormContent> {
     return Row(
       children: [
         Expanded(
-          child: _buildSocialButton(
+          child: GlassSocialButton(
             icon: FontAwesomeIcons.google,
             label: 'Google',
             isLoading: isGoogleLoading,
             onPressed: () => _socialLogin('google'),
           ),
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: _buildSocialButton(
-            icon: FontAwesomeIcons.apple,
-            label: 'Apple',
-            isLoading: isAppleLoading,
-            onPressed: () => _socialLogin('apple'),
+        if (Platform.isIOS) ...[
+          const SizedBox(width: 16),
+          Expanded(
+            child: GlassSocialButton(
+              icon: FontAwesomeIcons.apple,
+              label: 'Apple',
+              isLoading: isAppleLoading,
+              onPressed: () => _socialLogin('apple'),
+            ),
           ),
-        ),
+        ],
       ],
     );
   }
 
-  Widget _buildSocialButton({
-    required IconData icon,
-    required String label,
-    required bool isLoading,
-    required VoidCallback onPressed,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: isLoading ? null : onPressed,
-          borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (isLoading)
-                  const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                  )
-                else
-                  FaIcon(icon, size: 18, color: Colors.white),
-                const SizedBox(width: 10),
-                Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSignUpLink() {
+  Widget _buildSignUpLink(AppLocalizations l10n) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Pas encore de compte ?',
-          style: TextStyle(color: Colors.white.withValues(alpha: 0.8)),
+          l10n.noAccountYet,
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.75),
+            fontSize: 15,
+          ),
         ),
         TextButton(
           onPressed: () => context.push(AppRoutes.signup),
-          style: TextButton.styleFrom(foregroundColor: Colors.white),
-          child: const Text('S\'inscrire', style: TextStyle(fontWeight: FontWeight.bold)),
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+          ),
+          child: Text(
+            l10n.signUp,
+            style: const TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 15,
+            ),
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildDemoButton() {
+  Widget _buildDemoButton(AppLocalizations l10n) {
     return TextButton.icon(
-      onPressed: _showDemoSelector,
+      onPressed: () => _showDemoSelector(l10n),
       style: TextButton.styleFrom(
-        foregroundColor: Colors.white.withValues(alpha: 0.7),
+        foregroundColor: Colors.white.withValues(alpha: 0.6),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
-      icon: FaIcon(FontAwesomeIcons.wandMagicSparkles, size: 14),
-      label: const Text('Acces demo'),
+      icon: const FaIcon(FontAwesomeIcons.wandMagicSparkles, size: 14),
+      label: Text(
+        l10n.demoAccess,
+        style: const TextStyle(fontSize: 14),
+      ),
     );
   }
 
   void _login() {
     if (!_formKey.currentState!.validate()) return;
 
+    final email = _emailController.text.trim();
+    preferencesService.setSavedEmail(email);
+
     context.read<AuthBloc>().add(SignInWithEmailEvent(
-          email: _emailController.text.trim(),
+          email: email,
           password: _passwordController.text,
         ));
   }
@@ -344,27 +327,29 @@ class _LoginFormContentState extends State<LoginFormContent> {
     }
   }
 
-  void _forgotPassword() {
+  void _forgotPassword(AppLocalizations l10n) {
     final email = _emailController.text.trim();
     if (email.isEmpty || !email.contains('@')) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Entrez votre email d\'abord')),
-      );
+      AppSnackBar.warning(context, l10n.enterEmailFirst);
       return;
     }
     context.read<AuthBloc>().add(ResetPasswordEvent(email: email));
   }
 
-  void _showDemoSelector() {
+  void _showDemoSelector(AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => _DemoSelectorSheet(),
+      builder: (ctx) => _DemoSelectorSheet(l10n: l10n),
     );
   }
 }
 
 class _DemoSelectorSheet extends StatelessWidget {
+  final AppLocalizations l10n;
+
+  const _DemoSelectorSheet({required this.l10n});
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -388,14 +373,22 @@ class _DemoSelectorSheet extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Text('Mode Demo', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+            Text(
+              l10n.demoMode,
+              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
-            Text('Naviguer sans connexion', style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline)),
+            Text(
+              l10n.browseWithoutLogin,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.outline,
+              ),
+            ),
             const SizedBox(height: 16),
             ListTile(
               leading: const FaIcon(FontAwesomeIcons.buildingUser),
-              title: const Text('Studio (Admin)'),
-              subtitle: const Text('Gerer sessions, artistes, services'),
+              title: Text(l10n.studioAdmin),
+              subtitle: Text(l10n.manageSessionsArtistsServices),
               onTap: () {
                 Navigator.pop(context);
                 context.go(AppRoutes.home);
@@ -403,8 +396,8 @@ class _DemoSelectorSheet extends StatelessWidget {
             ),
             ListTile(
               leading: const FaIcon(FontAwesomeIcons.headphones),
-              title: const Text('Ingenieur son'),
-              subtitle: const Text('Voir et tracker les sessions'),
+              title: Text(l10n.soundEngineer),
+              subtitle: Text(l10n.viewAndTrackSessions),
               onTap: () {
                 Navigator.pop(context);
                 context.go(AppRoutes.engineerDashboard);
@@ -412,8 +405,8 @@ class _DemoSelectorSheet extends StatelessWidget {
             ),
             ListTile(
               leading: const FaIcon(FontAwesomeIcons.music),
-              title: const Text('Artiste'),
-              subtitle: const Text('Reserver des sessions'),
+              title: Text(l10n.artist),
+              subtitle: Text(l10n.bookSessions),
               onTap: () {
                 Navigator.pop(context);
                 context.go(AppRoutes.artistPortal);

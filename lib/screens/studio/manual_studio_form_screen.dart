@@ -7,7 +7,9 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/studio_profile.dart';
 import 'package:useme/core/services/location_service.dart';
 import 'package:useme/core/services/studio_claim_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Écran pour créer manuellement un profil studio (sans lien Google)
 class ManualStudioFormScreen extends StatefulWidget {
@@ -115,23 +117,14 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Studio créé avec succès !'),
-            backgroundColor: Colors.green,
-          ),
-        );
+        final l10n = AppLocalizations.of(context)!;
+        AppSnackBar.success(context, l10n.studioCreatedSuccess);
         context.go(AppRoutes.home);
       }
     } catch (e) {
       setState(() => _isSubmitting = false);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erreur: $e'),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
+        AppSnackBar.error(context, '${AppLocalizations.of(context)!.error}: $e');
       }
     }
   }
@@ -139,31 +132,32 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Créer mon studio')),
+      appBar: AppBar(title: Text(l10n.createMyStudio)),
       body: Form(
         key: _formKey,
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
             // Info card
-            _buildInfoCard(theme),
+            _buildInfoCard(theme, l10n),
             const SizedBox(height: 24),
 
             // Nom du studio
             TextFormField(
               controller: _nameController,
               decoration: InputDecoration(
-                labelText: 'Nom du studio *',
-                hintText: 'Ex: Studio Harmonie',
+                labelText: l10n.studioNameRequired,
+                hintText: l10n.studioNameHint,
                 prefixIcon: const Icon(FontAwesomeIcons.microphone, size: 16),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
               textCapitalization: TextCapitalization.words,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Le nom du studio est requis';
+                  return l10n.studioNameIsRequired;
                 }
                 return null;
               },
@@ -174,8 +168,8 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
             TextFormField(
               controller: _descriptionController,
               decoration: InputDecoration(
-                labelText: 'Description',
-                hintText: 'Décrivez votre studio en quelques mots...',
+                labelText: l10n.description,
+                hintText: l10n.describeYourStudio,
                 prefixIcon: const Icon(FontAwesomeIcons.alignLeft, size: 16),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
@@ -185,14 +179,14 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
             const SizedBox(height: 24),
 
             // Section Adresse
-            Text('Localisation', style: theme.textTheme.titleMedium),
+            Text(l10n.location, style: theme.textTheme.titleMedium),
             const SizedBox(height: 12),
 
             TextFormField(
               controller: _addressController,
               decoration: InputDecoration(
-                labelText: 'Adresse',
-                hintText: 'Ex: 123 rue de la Musique',
+                labelText: l10n.address,
+                hintText: l10n.addressHint,
                 prefixIcon: const Icon(FontAwesomeIcons.locationDot, size: 16),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
@@ -207,7 +201,7 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
                   child: TextFormField(
                     controller: _postalCodeController,
                     decoration: InputDecoration(
-                      labelText: 'Code postal',
+                      labelText: l10n.postalCode,
                       hintText: '75001',
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                     ),
@@ -220,14 +214,14 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
                   child: TextFormField(
                     controller: _cityController,
                     decoration: InputDecoration(
-                      labelText: 'Ville *',
+                      labelText: l10n.cityRequired,
                       hintText: 'Paris',
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     textCapitalization: TextCapitalization.words,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'La ville est requise';
+                        return l10n.cityIsRequired;
                       }
                       return null;
                     },
@@ -238,13 +232,13 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
             const SizedBox(height: 24),
 
             // Section Contact
-            Text('Contact', style: theme.textTheme.titleMedium),
+            Text(l10n.contact, style: theme.textTheme.titleMedium),
             const SizedBox(height: 12),
 
             TextFormField(
               controller: _phoneController,
               decoration: InputDecoration(
-                labelText: 'Téléphone',
+                labelText: l10n.phone,
                 hintText: '06 12 34 56 78',
                 prefixIcon: const Icon(FontAwesomeIcons.phone, size: 16),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -256,7 +250,7 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
             TextFormField(
               controller: _websiteController,
               decoration: InputDecoration(
-                labelText: 'Site web',
+                labelText: l10n.website,
                 hintText: 'https://www.monstudio.com',
                 prefixIcon: const Icon(FontAwesomeIcons.globe, size: 16),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -266,7 +260,7 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
             const SizedBox(height: 24),
 
             // Section Services
-            Text('Services proposés', style: theme.textTheme.titleMedium),
+            Text(l10n.servicesOffered, style: theme.textTheme.titleMedium),
             const SizedBox(height: 12),
 
             Wrap(
@@ -301,7 +295,7 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
                       child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                     )
                   : const FaIcon(FontAwesomeIcons.check, size: 14),
-              label: Text(_isSubmitting ? 'Création en cours...' : 'Créer mon studio'),
+              label: Text(_isSubmitting ? l10n.creatingInProgress : l10n.createMyStudio),
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
@@ -313,7 +307,7 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
     );
   }
 
-  Widget _buildInfoCard(ThemeData theme) {
+  Widget _buildInfoCard(ThemeData theme, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -343,14 +337,14 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Création manuelle',
+                  l10n.manualCreation,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Votre studio sera visible aux artistes dès sa création. Vous pourrez compléter votre profil plus tard.',
+                  l10n.manualCreationDescription,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),

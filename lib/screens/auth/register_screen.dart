@@ -10,6 +10,7 @@ import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/auth/auth_map_background.dart';
 import 'package:useme/widgets/auth/register_form_content.dart';
 import 'package:useme/widgets/common/smooth_draggable_widget.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Register screen with map background and draggable form overlay
 class RegisterScreen extends StatelessWidget {
@@ -40,9 +41,7 @@ class _RegisterScreenContentState extends State<_RegisterScreenContent> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
-          );
+          AppSnackBar.error(context, state.message);
         } else if (state is AuthNeedsRoleSelectionState) {
           // Auto-complete with pre-selected role (no need to show selector again)
           context.read<AuthBloc>().add(CompleteSocialSignUpEvent(role: _selectedRole));
@@ -127,14 +126,9 @@ class _RegisterScreenContentState extends State<_RegisterScreenContent> {
       );
 
       if (acceptedCount > 0 && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              '$acceptedCount studio${acceptedCount > 1 ? 's' : ''} vous attendai${acceptedCount > 1 ? 'ent' : 't'} !',
-            ),
-            backgroundColor: Colors.green,
-            duration: const Duration(seconds: 4),
-          ),
+        AppSnackBar.success(
+          context,
+          '$acceptedCount studio${acceptedCount > 1 ? 's' : ''} vous attendai${acceptedCount > 1 ? 'ent' : 't'} !',
         );
       }
     } catch (e) {

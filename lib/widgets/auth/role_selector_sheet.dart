@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Bottom sheet for selecting user role (used after social login)
 class RoleSelectorSheet extends StatelessWidget {
@@ -25,6 +26,7 @@ class RoleSelectorSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       decoration: BoxDecoration(
@@ -37,12 +39,12 @@ class RoleSelectorSheet extends StatelessWidget {
           children: [
             const SizedBox(height: 20),
             Text(
-              'Choisissez votre profil',
+              l10n.chooseYourProfile,
               style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              isNewUser ? 'Cette action est definitive' : 'Comment souhaitez-vous utiliser l\'app ?',
+              isNewUser ? l10n.actionIsPermanent : l10n.howToUseApp,
               style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
             ),
             const SizedBox(height: 24),
@@ -58,8 +60,8 @@ class RoleSelectorSheet extends StatelessWidget {
                   child: FaIcon(FontAwesomeIcons.buildingUser, size: 18, color: Colors.purple),
                 ),
               ),
-              title: const Text('Studio'),
-              subtitle: const Text('Je possede un studio'),
+              title: Text(l10n.studio),
+              subtitle: Text(l10n.iOwnStudio),
               trailing: const FaIcon(FontAwesomeIcons.chevronRight, size: 14),
               onTap: () => _selectRole(context, BaseUserRole.admin),
             ),
@@ -75,8 +77,8 @@ class RoleSelectorSheet extends StatelessWidget {
                   child: FaIcon(FontAwesomeIcons.headphones, size: 18, color: Colors.orange),
                 ),
               ),
-              title: const Text('Ingenieur son'),
-              subtitle: const Text('Je travaille dans un studio'),
+              title: Text(l10n.soundEngineer),
+              subtitle: Text(l10n.iWorkInStudio),
               trailing: const FaIcon(FontAwesomeIcons.chevronRight, size: 14),
               onTap: () => _selectRole(context, BaseUserRole.worker),
             ),
@@ -92,8 +94,8 @@ class RoleSelectorSheet extends StatelessWidget {
                   child: FaIcon(FontAwesomeIcons.music, size: 18, color: Colors.blue),
                 ),
               ),
-              title: const Text('Artiste'),
-              subtitle: const Text('Je veux reserver des sessions'),
+              title: Text(l10n.artist),
+              subtitle: Text(l10n.iWantToBookSessions),
               trailing: const FaIcon(FontAwesomeIcons.chevronRight, size: 14),
               onTap: () => _selectRole(context, BaseUserRole.client),
             ),

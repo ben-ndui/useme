@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/routing/app_routes.dart';
+import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/favorite/favorite_button.dart';
 
 /// Artists list page
 class ArtistsPage extends StatefulWidget {
@@ -59,7 +61,7 @@ class _ArtistsPageState extends State<ArtistsPage> {
             child: BlocBuilder<ArtistBloc, ArtistState>(
               builder: (context, state) {
                 if (state.isLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const AppLoader();
                 }
 
                 if (state.artists.isEmpty) {
@@ -240,6 +242,16 @@ class _ArtistsPageState extends State<ArtistsPage> {
                   ],
                 ),
               ),
+
+              // Favorite button
+              FavoriteButtonCompact(
+                targetId: artist.id,
+                type: FavoriteType.artist,
+                targetName: artist.displayName,
+                targetPhotoUrl: artist.photoUrl,
+                size: 18,
+              ),
+              const SizedBox(width: 8),
 
               // Arrow
               FaIcon(

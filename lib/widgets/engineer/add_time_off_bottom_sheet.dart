@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Bottom sheet pour ajouter une indisponibilité
 class AddTimeOffBottomSheet extends StatefulWidget {
@@ -36,7 +37,9 @@ class _AddTimeOffBottomSheetState extends State<AddTimeOffBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dateFormat = DateFormat('EEE d MMMM yyyy', 'fr_FR');
+    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).languageCode;
+    final dateFormat = DateFormat('EEE d MMMM yyyy', locale);
 
     return SafeArea(
       child: Padding(
@@ -66,7 +69,7 @@ class _AddTimeOffBottomSheetState extends State<AddTimeOffBottomSheet> {
 
             // Title
             Text(
-              'Ajouter une indisponibilité',
+              l10n.addTimeOff,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -77,10 +80,10 @@ class _AddTimeOffBottomSheetState extends State<AddTimeOffBottomSheet> {
             // Date start
             _buildDateRow(
               context,
-              label: 'Du',
+              label: l10n.fromDate,
               date: _startDate,
               format: dateFormat,
-              onTap: () => _pickDate(context, _startDate, (date) {
+              onTap: () => _pickDate(context, locale, _startDate, (date) {
                 setState(() {
                   _startDate = date;
                   if (_endDate.isBefore(_startDate)) {
@@ -95,10 +98,10 @@ class _AddTimeOffBottomSheetState extends State<AddTimeOffBottomSheet> {
             // Date end
             _buildDateRow(
               context,
-              label: 'Au',
+              label: l10n.toDate,
               date: _endDate,
               format: dateFormat,
-              onTap: () => _pickDate(context, _endDate, (date) {
+              onTap: () => _pickDate(context, locale, _endDate, (date) {
                 setState(() => _endDate = date);
               }, firstDate: _startDate),
             ),
@@ -107,7 +110,7 @@ class _AddTimeOffBottomSheetState extends State<AddTimeOffBottomSheet> {
 
             // Reason suggestions
             Text(
-              'Raison (optionnel)',
+              l10n.reasonOptional,
               style: theme.textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -138,7 +141,7 @@ class _AddTimeOffBottomSheetState extends State<AddTimeOffBottomSheet> {
             TextField(
               controller: _customReasonController,
               decoration: InputDecoration(
-                hintText: 'Ou saisissez une raison...',
+                hintText: l10n.enterCustomReason,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -162,7 +165,7 @@ class _AddTimeOffBottomSheetState extends State<AddTimeOffBottomSheet> {
               child: FilledButton.icon(
                 onPressed: _submit,
                 icon: const FaIcon(FontAwesomeIcons.plus, size: 16),
-                label: const Text('Ajouter'),
+                label: Text(l10n.add),
                 style: FilledButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
@@ -227,6 +230,7 @@ class _AddTimeOffBottomSheetState extends State<AddTimeOffBottomSheet> {
 
   Future<void> _pickDate(
     BuildContext context,
+    String locale,
     DateTime initialDate,
     Function(DateTime) onPicked, {
     DateTime? firstDate,
@@ -236,7 +240,7 @@ class _AddTimeOffBottomSheetState extends State<AddTimeOffBottomSheet> {
       initialDate: initialDate,
       firstDate: firstDate ?? DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365 * 2)),
-      locale: const Locale('fr', 'FR'),
+      locale: Locale(locale),
     );
 
     if (picked != null) {

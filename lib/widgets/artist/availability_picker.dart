@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../../core/models/working_hours.dart';
 import '../../core/services/availability_service.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Widget pour sélectionner un créneau disponible chez un studio
 class AvailabilityPicker extends StatefulWidget {
@@ -12,6 +14,9 @@ class AvailabilityPicker extends StatefulWidget {
   final EnhancedTimeSlot? initialSlot;
   final void Function(DateTime date, EnhancedTimeSlot slot)? onSlotSelected;
 
+  /// Horaires d'ouverture du studio (si null, utilise les heures par défaut 9h-22h)
+  final WorkingHours? workingHours;
+
   const AvailabilityPicker({
     super.key,
     required this.studioId,
@@ -19,6 +24,7 @@ class AvailabilityPicker extends StatefulWidget {
     this.initialDate,
     this.initialSlot,
     this.onSlotSelected,
+    this.workingHours,
   });
 
   @override
@@ -31,7 +37,8 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
   EnhancedTimeSlot? _selectedSlot;
   List<EnhancedTimeSlot> _slots = [];
   bool _isLoading = false;
-  String? _error;
+  late AppLocalizations _l10n;
+  late String _locale;
 
   @override
   void initState() {
@@ -44,7 +51,6 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
   Future<void> _loadSlots() async {
     setState(() {
       _isLoading = true;
-      _error = null;
     });
 
     try {
@@ -52,6 +58,7 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
         studioId: widget.studioId,
         date: _selectedDate,
         slotDurationMinutes: widget.durationMinutes,
+        workingHours: widget.workingHours,
       );
       setState(() {
         _slots = slots;
@@ -65,7 +72,6 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
       });
     } catch (e) {
       setState(() {
-        _error = 'Erreur lors du chargement des disponibilités';
         _isLoading = false;
       });
     }
@@ -74,6 +80,8 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    _l10n = AppLocalizations.of(context)!;
+    _locale = Localizations.localeOf(context).languageCode;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +104,7 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
         selectedDayPredicate: (day) => isSameDay(day, _selectedDate),
         calendarFormat: CalendarFormat.twoWeeks,
         startingDayOfWeek: StartingDayOfWeek.monday,
-        locale: 'fr_FR',
+        locale: _locale,
         headerStyle: HeaderStyle(
           formatButtonVisible: false,
           titleCentered: true,
@@ -130,9 +138,9 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
       runSpacing: 8,
       alignment: WrapAlignment.center,
       children: [
-        _buildLegendItem(theme, Colors.green, 'Dispo'),
-        _buildLegendItem(theme, Colors.orange, 'Limité'),
-        _buildLegendItem(theme, theme.colorScheme.outline, 'Indispo'),
+        _buildLegendItem(theme, Colors.green, _l10n.available),
+        _buildLegendItem(theme, Colors.orange, _l10n.limited),
+        _buildLegendItem(theme, theme.colorScheme.outline, _l10n.unavailable),
       ],
     );
   }
@@ -157,7 +165,8 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
   }
 
   Widget _buildSlotsSection(ThemeData theme) {
-    final dateFormat = DateFormat('EEEE d MMMM', 'fr_FR');
+    final dateFormat = DateFormat('EEEE d MMMM', _locale);
+    final dateStr = dateFormat.format(_selectedDate);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,7 +176,7 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
             FaIcon(FontAwesomeIcons.clock, size: 16, color: theme.colorScheme.primary),
             const SizedBox(width: 8),
             Text(
-              'Créneaux du ${dateFormat.format(_selectedDate)}',
+              _l10n.slotsForDate(dateStr),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
           ],
@@ -175,32 +184,11 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
         const SizedBox(height: 12),
         if (_isLoading)
           const Center(child: Padding(padding: EdgeInsets.all(24), child: CircularProgressIndicator()))
-        else if (_error != null)
-          _buildErrorState(theme)
         else if (_slots.isEmpty)
           _buildEmptyState(theme)
         else
           _buildSlotsGrid(theme),
       ],
-    );
-  }
-
-  Widget _buildErrorState(ThemeData theme) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          FaIcon(FontAwesomeIcons.circleExclamation, color: theme.colorScheme.error),
-          const SizedBox(height: 8),
-          Text(_error!, style: TextStyle(color: theme.colorScheme.error)),
-          const SizedBox(height: 8),
-          TextButton(onPressed: _loadSlots, child: const Text('Réessayer')),
-        ],
-      ),
     );
   }
 
@@ -215,10 +203,10 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
         children: [
           FaIcon(FontAwesomeIcons.calendarXmark, size: 32, color: theme.colorScheme.outline),
           const SizedBox(height: 12),
-          Text('Aucun créneau disponible', style: theme.textTheme.titleSmall),
+          Text(_l10n.noSlotAvailable, style: theme.textTheme.titleSmall),
           const SizedBox(height: 4),
           Text(
-            'Essayez une autre date',
+            _l10n.tryAnotherDate,
             style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
           ),
         ],
@@ -239,19 +227,19 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (fullyAvailable.isNotEmpty) ...[
-          _buildSlotGroup(theme, 'Parfaitement disponibles', fullyAvailable, Colors.green),
+          _buildSlotGroup(theme, _l10n.fullyAvailable, fullyAvailable, Colors.green),
         ],
         if (partiallyAvailable.isNotEmpty) ...[
           const SizedBox(height: 16),
-          _buildSlotGroup(theme, 'Partiellement disponibles', partiallyAvailable, Colors.orange),
+          _buildSlotGroup(theme, _l10n.partiallyAvailable, partiallyAvailable, Colors.orange),
         ],
         if (noEngineer.isNotEmpty) ...[
           const SizedBox(height: 16),
-          _buildSlotGroup(theme, 'Aucun ingénieur dispo', noEngineer, Colors.red),
+          _buildSlotGroup(theme, _l10n.noEngineerAvailable, noEngineer, Colors.red),
         ],
         if (unavailable.isNotEmpty) ...[
           const SizedBox(height: 16),
-          _buildSlotGroup(theme, 'Studio indisponible', unavailable, theme.colorScheme.outline),
+          _buildSlotGroup(theme, _l10n.studioUnavailable, unavailable, theme.colorScheme.outline),
         ],
         if (fullyAvailable.isEmpty && partiallyAvailable.isEmpty)
           _buildNoAvailableHint(theme),
@@ -292,7 +280,7 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
 
   Widget _buildEnhancedSlotChip(ThemeData theme, EnhancedTimeSlot slot) {
     final isSelected = _selectedSlot?.start == slot.start;
-    final timeFormat = DateFormat('HH:mm', 'fr_FR');
+    final timeFormat = DateFormat('HH:mm', _locale);
     final isSelectable = slot.isAvailable && slot.hasAvailableEngineer;
 
     // Couleur selon le niveau
@@ -406,7 +394,7 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'Aucun ingénieur disponible ce jour. Essayez une autre date.',
+                _l10n.noEngineerTryAnotherDate,
                 style: theme.textTheme.bodySmall,
               ),
             ),

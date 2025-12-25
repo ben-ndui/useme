@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/messaging/new_conversation_bottom_sheet.dart';
 
 /// Écran listant toutes les conversations.
@@ -30,10 +32,11 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Messages'),
+        title: Text(l10n.messages),
         actions: [
           IconButton(
             onPressed: () => NewConversationBottomSheet.show(context),
@@ -44,7 +47,7 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
       body: BlocBuilder<MessagingBloc, MessagingState>(
         builder: (context, state) {
           if (state is MessagingLoadingState) {
-            return const Center(child: CircularProgressIndicator());
+            return const AppLoader();
           }
 
           if (state is MessagingErrorState) {
@@ -62,7 +65,7 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: _retryLoad,
-                    child: const Text('Réessayer'),
+                    child: Text(l10n.retry),
                   ),
                 ],
               ),
@@ -71,7 +74,7 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
 
           if (state is ConversationsLoadedState) {
             if (state.conversations.isEmpty) {
-              return _buildEmptyState(theme);
+              return _buildEmptyState(theme, l10n);
             }
 
             return _buildConversationsList(state);
@@ -83,7 +86,7 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
     );
   }
 
-  Widget _buildEmptyState(ThemeData theme) {
+  Widget _buildEmptyState(ThemeData theme, AppLocalizations l10n) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -95,14 +98,14 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
           ),
           const SizedBox(height: 24),
           Text(
-            'Aucune conversation',
+            l10n.noConversations,
             style: theme.textTheme.titleLarge?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Commencez une nouvelle conversation',
+            l10n.startNewConversation,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
             ),
@@ -111,7 +114,7 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
           FilledButton.icon(
             onPressed: () => NewConversationBottomSheet.show(context),
             icon: const FaIcon(FontAwesomeIcons.plus, size: 16),
-            label: const Text('Nouveau message'),
+            label: Text(l10n.newMessage),
           ),
         ],
       ),
@@ -145,6 +148,7 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
 
   void _showConversationOptions(BaseConversation conversation) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final authState = context.read<AuthBloc>().state;
     final currentUserId = authState is AuthAuthenticatedState
         ? authState.user.id
@@ -163,7 +167,7 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
                   isArchived ? Icons.unarchive : Icons.archive,
                   color: theme.colorScheme.onSurface,
                 ),
-                title: Text(isArchived ? 'Désarchiver' : 'Archiver'),
+                title: Text(isArchived ? l10n.unarchive : l10n.archive),
                 onTap: () {
                   Navigator.pop(context);
                   this.context.read<MessagingBloc>().add(

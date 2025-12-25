@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/screens/shared/conversations_screen.dart';
 import 'studio_dashboard_page.dart';
 import 'sessions_page.dart';
@@ -45,11 +46,20 @@ class _StudioMainScaffoldState extends State<StudioMainScaffold> {
   void _loadData() {
     final authState = context.read<AuthBloc>().state;
     if (authState is AuthAuthenticatedState) {
-      final userId = authState.user.uid;
-      context.read<SessionBloc>().add(LoadSessionsEvent(studioId: userId));
-      context.read<ArtistBloc>().add(LoadArtistsEvent(studioId: userId));
-      context.read<ServiceBloc>().add(LoadServicesEvent(studioId: userId));
-      context.read<MessagingBloc>().add(LoadConversationsEvent(userId: userId));
+      final user = authState.user;
+      context.read<SessionBloc>().add(LoadSessionsEvent(studioId: user.uid));
+      context.read<ArtistBloc>().add(LoadArtistsEvent(studioId: user.uid));
+      context.read<ServiceBloc>().add(LoadServicesEvent(studioId: user.uid));
+      context.read<FavoriteBloc>().add(LoadFavoritesEvent(userId: user.uid));
+
+      // Configure l'utilisateur pour la messagerie
+      final messagingBloc = context.read<MessagingBloc>();
+      messagingBloc.setCurrentUser(
+        userId: user.uid,
+        userName: user.displayName ?? user.name ?? 'Studio',
+        avatarUrl: user.photoURL,
+      );
+      messagingBloc.add(LoadConversationsEvent(userId: user.uid));
     }
   }
 
@@ -69,6 +79,8 @@ class _StudioMainScaffoldState extends State<StudioMainScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: PageView(
         controller: _pageController,
@@ -80,6 +92,7 @@ class _StudioMainScaffoldState extends State<StudioMainScaffold> {
       bottomNavigationBar: _ModernBottomNav(
         currentIndex: _currentIndex,
         onTap: _onNavTap,
+        l10n: l10n,
       ),
     );
   }
@@ -92,8 +105,13 @@ class _StudioMainScaffoldState extends State<StudioMainScaffold> {
 class _ModernBottomNav extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
+  final AppLocalizations l10n;
 
-  const _ModernBottomNav({required this.currentIndex, required this.onTap});
+  const _ModernBottomNav({
+    required this.currentIndex,
+    required this.onTap,
+    required this.l10n,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -121,58 +139,83 @@ class _ModernBottomNav extends StatelessWidget {
                 ),
               ],
             ),
-            child: BlocBuilder<MessagingBloc, MessagingState>(
-              builder: (context, messagingState) {
-                final unreadCount = messagingState is ConversationsLoadedState
-                    ? messagingState.totalUnreadCount
-                    : 0;
-
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _NavItem(
-                      icon: FontAwesomeIcons.house,
-                      activeIcon: FontAwesomeIcons.house,
-                      label: 'Accueil',
-                      isSelected: currentIndex == 0,
-                      onTap: () => onTap(0),
-                    ),
-                    _NavItem(
-                      icon: FontAwesomeIcons.calendar,
-                      activeIcon: FontAwesomeIcons.solidCalendar,
-                      label: 'Sessions',
-                      isSelected: currentIndex == 1,
-                      onTap: () => onTap(1),
-                    ),
-                    _NavItem(
-                      icon: FontAwesomeIcons.users,
-                      activeIcon: FontAwesomeIcons.userGroup,
-                      label: 'Artistes',
-                      isSelected: currentIndex == 2,
-                      onTap: () => onTap(2),
-                    ),
-                    _NavItem(
-                      icon: FontAwesomeIcons.comment,
-                      activeIcon: FontAwesomeIcons.solidComment,
-                      label: 'Messages',
-                      isSelected: currentIndex == 3,
-                      onTap: () => onTap(3),
-                      badgeCount: unreadCount,
-                    ),
-                    _NavItem(
-                      icon: FontAwesomeIcons.gear,
-                      activeIcon: FontAwesomeIcons.gear,
-                      label: 'Réglages',
-                      isSelected: currentIndex == 4,
-                      onTap: () => onTap(4),
-                    ),
-                  ],
-                );
-              },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _NavItem(
+                  icon: FontAwesomeIcons.house,
+                  activeIcon: FontAwesomeIcons.house,
+                  label: l10n.home,
+                  isSelected: currentIndex == 0,
+                  onTap: () => onTap(0),
+                ),
+                _NavItem(
+                  icon: FontAwesomeIcons.calendar,
+                  activeIcon: FontAwesomeIcons.solidCalendar,
+                  label: l10n.sessionsLabel,
+                  isSelected: currentIndex == 1,
+                  onTap: () => onTap(1),
+                ),
+                _NavItem(
+                  icon: FontAwesomeIcons.users,
+                  activeIcon: FontAwesomeIcons.userGroup,
+                  label: l10n.artistsLabel,
+                  isSelected: currentIndex == 2,
+                  onTap: () => onTap(2),
+                ),
+                _MessagesNavItem(
+                  isSelected: currentIndex == 3,
+                  onTap: () => onTap(3),
+                  messagesLabel: l10n.messages,
+                ),
+                _NavItem(
+                  icon: FontAwesomeIcons.gear,
+                  activeIcon: FontAwesomeIcons.gear,
+                  label: l10n.settings,
+                  isSelected: currentIndex == 4,
+                  onTap: () => onTap(4),
+                ),
+              ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Widget isolé pour l'item Messages avec BlocBuilder
+class _MessagesNavItem extends StatelessWidget {
+  final bool isSelected;
+  final VoidCallback onTap;
+  final String messagesLabel;
+
+  const _MessagesNavItem({
+    required this.isSelected,
+    required this.onTap,
+    required this.messagesLabel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MessagingBloc, MessagingState>(
+      buildWhen: (previous, current) {
+        // Ne rebuild que si le unreadCount change
+        final prevCount = previous is ConversationsLoadedState ? previous.totalUnreadCount : 0;
+        final currCount = current is ConversationsLoadedState ? current.totalUnreadCount : 0;
+        return prevCount != currCount;
+      },
+      builder: (context, state) {
+        final unreadCount = state is ConversationsLoadedState ? state.totalUnreadCount : 0;
+        return _NavItem(
+          icon: FontAwesomeIcons.comment,
+          activeIcon: FontAwesomeIcons.solidComment,
+          label: messagesLabel,
+          isSelected: isSelected,
+          onTap: onTap,
+          badgeCount: unreadCount,
+        );
+      },
     );
   }
 }

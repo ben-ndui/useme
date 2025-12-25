@@ -6,7 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:useme/core/blocs/map/map_bloc.dart';
 import 'package:useme/core/blocs/map/map_state.dart';
 import 'package:useme/core/models/discovered_studio.dart';
-import 'package:useme/widgets/artist/report_missing_studio_sheet.dart';
+import 'package:useme/core/models/favorite.dart';
+import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/favorite/favorite_button.dart';
 
 /// Modern carousel showing nearby recording studios
 class NearbyStudiosCarousel extends StatelessWidget {
@@ -16,20 +18,22 @@ class NearbyStudiosCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocBuilder<MapBloc, MapState>(
       builder: (context, state) {
         if (state.isLoading && state.nearbyStudios.isEmpty) {
-          return _buildLoadingState();
+          return _buildLoadingState(l10n);
         }
 
         if (state.nearbyStudios.isEmpty) {
-          return _buildEmptyState();
+          return _buildEmptyState(l10n);
         }
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeader(state.nearbyStudios.length),
+            _buildHeader(state.nearbyStudios.length, l10n),
             const SizedBox(height: 16),
             SizedBox(
               height: 200,
@@ -57,7 +61,7 @@ class NearbyStudiosCarousel extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(int count) {
+  Widget _buildHeader(int count, AppLocalizations l10n) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -76,21 +80,21 @@ class NearbyStudiosCarousel extends StatelessWidget {
             child: const FaIcon(FontAwesomeIcons.recordVinyl, size: 16, color: Colors.white),
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Studios à proximité',
-                  style: TextStyle(
+                  l10n.nearbyStudios,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
                 Text(
-                  'Découvre où enregistrer',
-                  style: TextStyle(fontSize: 12, color: Color(0xFFB0C4DE)),
+                  l10n.discoverWhereToRecord,
+                  style: const TextStyle(fontSize: 12, color: Color(0xFFB0C4DE)),
                 ),
               ],
             ),
@@ -115,11 +119,11 @@ class NearbyStudiosCarousel extends StatelessWidget {
     );
   }
 
-  Widget _buildLoadingState() {
+  Widget _buildLoadingState(AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildHeader(0),
+        _buildHeader(0, l10n),
         const SizedBox(height: 16),
         SizedBox(
           height: 200,
@@ -137,7 +141,7 @@ class NearbyStudiosCarousel extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(AppLocalizations l10n) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(32),
@@ -164,19 +168,19 @@ class NearbyStudiosCarousel extends StatelessWidget {
             child: const FaIcon(FontAwesomeIcons.locationCrosshairs, size: 28, color: Color(0xFFB0C4DE)),
           ),
           const SizedBox(height: 16),
-          const Text(
-            'Aucun studio trouvé',
-            style: TextStyle(
+          Text(
+            l10n.noStudioFound,
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.white,
             ),
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Active ta localisation pour découvrir les studios près de toi',
+          Text(
+            l10n.enableLocationToDiscover,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 13, color: Color(0xFFB0C4DE)),
+            style: const TextStyle(fontSize: 13, color: Color(0xFFB0C4DE)),
           ),
         ],
       ),
@@ -199,6 +203,8 @@ class _ModernStudioCardState extends State<_ModernStudioCard> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
       onTapUp: (_) => setState(() => _isPressed = false),
@@ -234,8 +240,39 @@ class _ModernStudioCardState extends State<_ModernStudioCard> {
                 _buildContent(),
 
                 // Partner badge
-                if (widget.studio.isPartner) _buildPartnerBadge(),
+                if (widget.studio.isPartner) _buildPartnerBadge(l10n),
+
+                // Favorite button
+                _buildFavoriteButton(),
               ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFavoriteButton() {
+    return Positioned(
+      top: 10,
+      left: 10,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: FavoriteButtonCompact(
+              targetId: widget.studio.id,
+              type: FavoriteType.studio,
+              targetName: widget.studio.name,
+              targetPhotoUrl: widget.studio.photoUrl,
+              targetAddress: widget.studio.address,
+              size: 16,
             ),
           ),
         ),
@@ -379,7 +416,7 @@ class _ModernStudioCardState extends State<_ModernStudioCard> {
     );
   }
 
-  Widget _buildPartnerBadge() {
+  Widget _buildPartnerBadge(AppLocalizations l10n) {
     return Positioned(
       top: 10,
       right: 10,
@@ -394,14 +431,14 @@ class _ModernStudioCardState extends State<_ModernStudioCard> {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: Colors.green.withValues(alpha: 0.5)),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                FaIcon(FontAwesomeIcons.solidCircleCheck, size: 10, color: Colors.greenAccent),
-                SizedBox(width: 4),
+                const FaIcon(FontAwesomeIcons.solidCircleCheck, size: 10, color: Colors.greenAccent),
+                const SizedBox(width: 4),
                 Text(
-                  'Partner',
-                  style: TextStyle(
+                  l10n.partner,
+                  style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
                     color: Colors.greenAccent,

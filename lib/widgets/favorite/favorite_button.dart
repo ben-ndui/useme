@@ -45,6 +45,9 @@ class FavoriteButton extends StatelessWidget {
 
         return IconButton(
           onPressed: () {
+            debugPrint('❤️ FavoriteButton tapped - targetId: $targetId, userId: $userId');
+            debugPrint('❤️ Current state: ${state.runtimeType}, favorites count: ${state.favorites.length}');
+            debugPrint('❤️ isFavorite before toggle: $isFavorite');
             context.read<FavoriteBloc>().add(
                   ToggleFavoriteEvent(
                     userId: userId,

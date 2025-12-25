@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Session tracking screen - For engineer to check-in/out and add notes
 class SessionTrackingScreen extends StatefulWidget {
@@ -280,9 +281,7 @@ class _SessionTrackingScreenState extends State<SessionTrackingScreen> {
       _isCheckedIn = true;
       _checkInTime = DateTime.now();
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Arrivée pointée !'), backgroundColor: Colors.green),
-    );
+    AppSnackBar.success(context, 'Arrivée pointée !');
   }
 
   void _checkOut() {

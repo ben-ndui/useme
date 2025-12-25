@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/services/invitation_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Widget de recherche d'artistes existants
 class ArtistSearchWidget extends StatefulWidget {
@@ -82,6 +83,7 @@ class _ArtistSearchWidgetState extends State<ArtistSearchWidget> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +93,7 @@ class _ArtistSearchWidgetState extends State<ArtistSearchWidget> {
           controller: _searchController,
           onChanged: _onSearchChanged,
           decoration: InputDecoration(
-            hintText: 'Rechercher par nom ou email...',
+            hintText: l10n.searchByNameOrEmail,
             prefixIcon: const Icon(Icons.search),
             suffixIcon: _isSearching
                 ? const Padding(
@@ -118,21 +120,21 @@ class _ArtistSearchWidgetState extends State<ArtistSearchWidget> {
         // Results or empty state
         if (_searchController.text.length >= 2) ...[
           if (_results.isEmpty && !_isSearching)
-            _buildEmptyState(theme)
+            _buildEmptyState(theme, l10n)
           else
-            ..._results.map((user) => _buildUserTile(theme, user)),
+            ..._results.map((user) => _buildUserTile(theme, user, l10n)),
         ] else
-          _buildInitialState(theme),
+          _buildInitialState(theme, l10n),
 
         const SizedBox(height: 24),
 
         // Create new button
-        _buildCreateNewButton(theme),
+        _buildCreateNewButton(theme, l10n),
       ],
     );
   }
 
-  Widget _buildInitialState(ThemeData theme) {
+  Widget _buildInitialState(ThemeData theme, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -148,12 +150,12 @@ class _ArtistSearchWidgetState extends State<ArtistSearchWidget> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Rechercher un artiste',
+            l10n.searchArtist,
             style: theme.textTheme.titleSmall,
           ),
           const SizedBox(height: 4),
           Text(
-            'Tapez au moins 2 caractères pour rechercher parmi les artistes inscrits',
+            l10n.typeAtLeastTwoChars,
             textAlign: TextAlign.center,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.outline,
@@ -164,7 +166,7 @@ class _ArtistSearchWidgetState extends State<ArtistSearchWidget> {
     );
   }
 
-  Widget _buildEmptyState(ThemeData theme) {
+  Widget _buildEmptyState(ThemeData theme, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -180,12 +182,12 @@ class _ArtistSearchWidgetState extends State<ArtistSearchWidget> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Aucun artiste trouvé',
+            l10n.noArtistFound,
             style: theme.textTheme.titleSmall,
           ),
           const SizedBox(height: 4),
           Text(
-            'Cet artiste n\'est pas encore inscrit. Invitez-le ou créez sa fiche manuellement.',
+            l10n.artistNotRegistered,
             textAlign: TextAlign.center,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.outline,
@@ -196,7 +198,7 @@ class _ArtistSearchWidgetState extends State<ArtistSearchWidget> {
     );
   }
 
-  Widget _buildUserTile(ThemeData theme, AppUser user) {
+  Widget _buildUserTile(ThemeData theme, AppUser user, AppLocalizations l10n) {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
@@ -217,13 +219,13 @@ class _ArtistSearchWidgetState extends State<ArtistSearchWidget> {
         trailing: FilledButton.icon(
           onPressed: () => widget.onUserSelected(user),
           icon: const FaIcon(FontAwesomeIcons.link, size: 14),
-          label: const Text('Lier'),
+          label: Text(l10n.link),
         ),
       ),
     );
   }
 
-  Widget _buildCreateNewButton(ThemeData theme) {
+  Widget _buildCreateNewButton(ThemeData theme, AppLocalizations l10n) {
     return Card(
       child: InkWell(
         onTap: widget.onCreateNew,
@@ -253,13 +255,13 @@ class _ArtistSearchWidgetState extends State<ArtistSearchWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Créer un nouvel artiste',
+                      l10n.createNewArtist,
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     Text(
-                      'L\'artiste n\'est pas sur l\'app ? Créez sa fiche et invitez-le',
+                      l10n.artistNotOnApp,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.outline,
                       ),

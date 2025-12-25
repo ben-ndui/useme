@@ -1,11 +1,8 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/useme_theme.dart';
-import 'package:useme/core/services/notification_service.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/routing/router.dart';
 
@@ -80,73 +77,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _hasNavigated = true;
 
     if (state is AuthAuthenticatedState) {
-      // Initialize notifications for authenticated user
-      _initializeNotifications(state.user.uid);
-
+      // Notifications are handled in main.dart via BlocListener
       final route = AppRouter.getHomeRouteForUser(state.user);
       context.go(route);
     } else {
       context.go(AppRoutes.login);
     }
   }
-
-  Future<void> _initializeNotifications(String userId) async {
-    try {
-      await UseMeNotificationService.instance.initializeForUser(
-        userId: userId,
-        onMessage: _handleForegroundMessage,
-      );
-
-      // Handle notification that launched the app
-      final initialMessage = await UseMeNotificationService.instance.getInitialMessage();
-      if (initialMessage != null && mounted) {
-        _handleNotificationNavigation(initialMessage.data);
-      }
-
-      // Handle notification taps when app is in background
-      UseMeNotificationService.instance.onMessageOpenedApp((message) {
-        if (mounted) {
-          _handleNotificationNavigation(message.data);
-        }
-      });
-
-      debugPrint('✅ Notifications initialisées pour $userId');
-    } catch (e) {
-      debugPrint('❌ Erreur init notifications: $e');
-    }
-  }
-
-  void _handleForegroundMessage(RemoteMessage message) {
-    // Show local notification when app is in foreground
-    UseMeNotificationService.instance.showNotification(
-      id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
-      title: message.notification?.title ?? 'Use Me',
-      body: message.notification?.body ?? '',
-      payload: message.data['type'],
-    );
-  }
-
-  void _handleNotificationNavigation(Map<String, dynamic> data) {
-    final type = data['type'] as String?;
-
-    switch (type) {
-      case 'new_message':
-        final conversationId = data['conversationId'] as String?;
-        if (conversationId != null) {
-          context.push('/conversations/$conversationId');
-        }
-        break;
-      case 'session_request':
-      case 'session_confirmed':
-      case 'session_cancelled':
-        final sessionId = data['sessionId'] as String?;
-        if (sessionId != null) {
-          context.push('/artist/sessions/$sessionId');
-        }
-        break;
-    }
-  }
-
   @override
   void dispose() {
     _controller.dispose();
@@ -189,7 +126,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                           width: 120,
                           height: 120,
                           decoration: BoxDecoration(
-                            color: Colors.white,
                             borderRadius: BorderRadius.circular(30),
                             boxShadow: [
                               BoxShadow(
@@ -199,11 +135,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                               ),
                             ],
                           ),
-                          child: const Center(
-                            child: FaIcon(
-                              FontAwesomeIcons.music,
-                              size: 50,
-                              color: UseMeTheme.primaryColor,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Image.asset(
+                              'assets/logo/playstore.png',
+                              width: 120,
+                              height: 120,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),

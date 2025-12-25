@@ -6,13 +6,15 @@ import 'package:useme/core/blocs/map/map_bloc.dart';
 import 'package:useme/core/blocs/map/map_event.dart';
 import 'package:useme/core/blocs/map/map_state.dart';
 import 'package:useme/core/models/discovered_studio.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/map/custom_studio_pin.dart';
 
 /// Google Maps view showing nearby studios with custom pins
 class StudioMapView extends StatefulWidget {
   final Function(GoogleMapController)? onMapCreated;
+  final Function(DiscoveredStudio)? onStudioTap;
 
-  const StudioMapView({super.key, this.onMapCreated});
+  const StudioMapView({super.key, this.onMapCreated, this.onStudioTap});
 
   @override
   State<StudioMapView> createState() => _StudioMapViewState();
@@ -171,12 +173,12 @@ class _StudioMapViewState extends State<StudioMapView> {
                   ),
                 ],
               ),
-              child: const Column(
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 12),
-                  Text('Recherche de studios...'),
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 12),
+                  Text(AppLocalizations.of(context)!.searchingStudios),
                 ],
               ),
             ),
@@ -210,11 +212,12 @@ class _StudioMapViewState extends State<StudioMapView> {
           position: studio.position,
           infoWindow: InfoWindow(
             title: studio.name,
-            snippet: '${studio.formattedDistance}${studio.isPartner ? ' • Partenaire' : ''}',
+            snippet: '${studio.formattedDistance}${studio.isPartner ? ' • ${AppLocalizations.of(context)!.partnerLabel}' : ''}',
           ),
           icon: icon,
           onTap: () {
             context.read<MapBloc>().add(SelectStudioEvent(studio: studio));
+            widget.onStudioTap?.call(studio);
           },
         ),
       );

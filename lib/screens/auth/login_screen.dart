@@ -10,6 +10,7 @@ import 'package:useme/widgets/auth/auth_map_background.dart';
 import 'package:useme/widgets/auth/login_form_content.dart';
 import 'package:useme/widgets/auth/role_selector_sheet.dart';
 import 'package:useme/widgets/common/smooth_draggable_widget.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Login screen with map background and draggable form overlay
 class LoginScreen extends StatelessWidget {
@@ -32,17 +33,13 @@ class _LoginScreenContent extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
-          );
+          AppSnackBar.error(context, state.message);
         } else if (state is AuthAuthenticatedState) {
           _navigateBasedOnRole(context, state.user);
         } else if (state is AuthNeedsRoleSelectionState) {
           RoleSelectorSheet.show(context, isNewUser: true);
         } else if (state is AuthPasswordResetSentState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Email envoye a ${state.email}')),
-          );
+          AppSnackBar.success(context, 'Email envoyé à ${state.email}');
         }
       },
       child: Scaffold(

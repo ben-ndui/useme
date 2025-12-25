@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/services/engineer_availability_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/favorite/favorite_button.dart';
 
 /// Bottom sheet pour sélectionner un ingénieur disponible
 class EngineerSelectorBottomSheet extends StatelessWidget {
@@ -18,12 +24,21 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
     List<AvailableEngineer> engineers, {
     AvailableEngineer? selectedEngineer,
   }) {
+    final authBloc = context.read<AuthBloc>();
+    final favoriteBloc = context.read<FavoriteBloc>();
+
     return showModalBottomSheet<AvailableEngineer>(
       context: context,
       isScrollControlled: true,
-      builder: (_) => EngineerSelectorBottomSheet(
-        engineers: engineers,
-        selectedEngineer: selectedEngineer,
+      builder: (_) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: authBloc),
+          BlocProvider.value(value: favoriteBloc),
+        ],
+        child: EngineerSelectorBottomSheet(
+          engineers: engineers,
+          selectedEngineer: selectedEngineer,
+        ),
       ),
     );
   }
@@ -31,6 +46,7 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final availableEngineers = engineers.where((e) => e.isAvailable).toList();
     final unavailableEngineers = engineers.where((e) => !e.isAvailable).toList();
 
@@ -77,11 +93,11 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Choisir un ingénieur',
+                      l10n.chooseEngineer,
                       style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '${availableEngineers.length} disponible(s)',
+                      l10n.availableCountLabel(availableEngineers.length),
                       style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
                     ),
                   ],
@@ -103,7 +119,7 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Optionnel : laissez le studio assigner un ingénieur automatiquement',
+                      l10n.optionalEngineerInfo,
                       style: theme.textTheme.bodySmall,
                     ),
                   ),
@@ -116,6 +132,7 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
             _buildEngineerTile(
               context,
               null,
+              l10n: l10n,
               isSelected: selectedEngineer == null,
               onTap: () => Navigator.pop(context, null),
             ),
@@ -124,7 +141,7 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
             // Available engineers
             if (availableEngineers.isNotEmpty) ...[
               Text(
-                'DISPONIBLES',
+                l10n.availableLabel,
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: Colors.green,
                   fontWeight: FontWeight.w600,
@@ -135,6 +152,7 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
               ...availableEngineers.map((e) => _buildEngineerTile(
                 context,
                 e,
+                l10n: l10n,
                 isSelected: selectedEngineer?.user.uid == e.user.uid,
                 onTap: () => Navigator.pop(context, e),
               )),
@@ -144,7 +162,7 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
             if (unavailableEngineers.isNotEmpty) ...[
               const SizedBox(height: 16),
               Text(
-                'INDISPONIBLES',
+                l10n.unavailableLabel,
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: theme.colorScheme.outline,
                   fontWeight: FontWeight.w600,
@@ -155,6 +173,7 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
               ...unavailableEngineers.map((e) => _buildEngineerTile(
                 context,
                 e,
+                l10n: l10n,
                 isSelected: false,
                 onTap: null,
               )),
@@ -170,6 +189,7 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
   Widget _buildEngineerTile(
     BuildContext context,
     AvailableEngineer? engineer, {
+    required AppLocalizations l10n,
     required bool isSelected,
     VoidCallback? onTap,
   }) {
@@ -231,7 +251,7 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isNoPreference ? 'Pas de préférence' : (engineer.user.name ?? 'Ingénieur'),
+                    isNoPreference ? l10n.noPreference : (engineer.user.name ?? l10n.engineer),
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: onTap == null ? theme.colorScheme.outline : null,
@@ -252,8 +272,8 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
                         const SizedBox(width: 6),
                         Text(
                           engineer.isAvailable
-                              ? 'Disponible'
-                              : (engineer.unavailabilityReason ?? 'Indisponible'),
+                              ? l10n.available
+                              : (engineer.unavailabilityReason ?? l10n.unavailable),
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: engineer.isAvailable ? Colors.green : Colors.red,
                           ),
@@ -262,7 +282,7 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
                     ),
                   ] else
                     Text(
-                      'Le studio assignera un ingénieur',
+                      l10n.studioWillAssignEngineer,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.outline,
                       ),
@@ -270,6 +290,16 @@ class EngineerSelectorBottomSheet extends StatelessWidget {
                 ],
               ),
             ),
+
+            // Favorite button (only for actual engineers, not "no preference")
+            if (!isNoPreference)
+              FavoriteButtonCompact(
+                targetId: engineer.user.uid,
+                type: FavoriteType.engineer,
+                targetName: engineer.user.name,
+                targetPhotoUrl: engineer.user.photoURL,
+                size: 18,
+              ),
 
             // Check
             if (isSelected)

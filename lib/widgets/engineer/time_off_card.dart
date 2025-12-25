@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Card affichant une indisponibilité
 class TimeOffCard extends StatelessWidget {
@@ -17,7 +18,9 @@ class TimeOffCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dateFormat = DateFormat('d MMM yyyy', 'fr_FR');
+    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context).languageCode;
+    final dateFormat = DateFormat('d MMM yyyy', locale);
 
     final isActive = timeOff.isActive;
     final isFuture = timeOff.isFuture;
@@ -92,7 +95,9 @@ class TimeOffCard extends StatelessWidget {
                       ),
                     ],
                     Text(
-                      '${timeOff.durationDays} jour${timeOff.durationDays > 1 ? 's' : ''}',
+                      timeOff.durationDays > 1
+                          ? l10n.daysCountPlural(timeOff.durationDays)
+                          : l10n.daysCount(timeOff.durationDays),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.outline,
                       ),
@@ -113,7 +118,7 @@ class TimeOffCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
-                      'En cours',
+                      l10n.inProgress,
                       style: theme.textTheme.labelSmall?.copyWith(
                         color: theme.colorScheme.onPrimary,
                         fontWeight: FontWeight.w600,
@@ -127,7 +132,7 @@ class TimeOffCard extends StatelessWidget {
 
           // Delete button
           IconButton(
-            onPressed: () => _confirmDelete(context),
+            onPressed: () => _confirmDelete(context, l10n),
             icon: FaIcon(
               FontAwesomeIcons.trash,
               size: 16,
@@ -167,16 +172,16 @@ class TimeOffCard extends StatelessWidget {
     return '$startStr → $endStr';
   }
 
-  void _confirmDelete(BuildContext context) {
+  void _confirmDelete(BuildContext context, AppLocalizations l10n) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Supprimer'),
-        content: const Text('Supprimer cette indisponibilité ?'),
+        title: Text(l10n.deleteTimeOff),
+        content: Text(l10n.deleteTimeOffConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Annuler'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () {
@@ -184,7 +189,7 @@ class TimeOffCard extends StatelessWidget {
               onDelete();
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Supprimer'),
+            child: Text(l10n.deleteTimeOff),
           ),
         ],
       ),

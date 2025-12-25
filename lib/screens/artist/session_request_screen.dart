@@ -1,24 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/services_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/artist/availability_picker.dart';
 import 'package:useme/widgets/artist/engineer_selector_bottom_sheet.dart';
+import 'package:useme/widgets/artist/session_request/session_request_exports.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Session request form for artists to request new sessions
 class SessionRequestScreen extends StatefulWidget {
   final String? studioId;
   final String? studioName;
 
-  const SessionRequestScreen({
-    super.key,
-    this.studioId,
-    this.studioName,
-  });
+  const SessionRequestScreen({super.key, this.studioId, this.studioName});
 
   @override
   State<SessionRequestScreen> createState() => _SessionRequestScreenState();
@@ -28,13 +27,57 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
   final _formKey = GlobalKey<FormState>();
   final _notesController = TextEditingController();
   final _sessionService = SessionService();
+  final _roomService = StudioRoomService();
 
-  SessionType _selectedType = SessionType.recording;
+  final Set<SessionType> _selectedTypes = {SessionType.recording};
   DateTime? _selectedDate;
   EnhancedTimeSlot? _selectedSlot;
   AvailableEngineer? _selectedEngineer;
+  StudioRoom? _selectedRoom;
+  List<StudioRoom> _availableRooms = [];
+  bool _loadingRooms = false;
   int _durationHours = 2;
   bool _isSubmitting = false;
+  WorkingHours? _studioWorkingHours;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.studioId != null) {
+      _loadRooms();
+      _loadStudioWorkingHours();
+    }
+  }
+
+  Future<void> _loadStudioWorkingHours() async {
+    try {
+      final doc = await FirebaseFirestore.instance.collection('users').doc(widget.studioId).get();
+      if (doc.exists) {
+        final data = doc.data();
+        final studioProfileData = data?['studioProfile'] as Map<String, dynamic>?;
+        if (studioProfileData != null && studioProfileData['workingHours'] != null) {
+          setState(() {
+            _studioWorkingHours = WorkingHours.fromMap(studioProfileData['workingHours'] as Map<String, dynamic>);
+          });
+        }
+      }
+    } catch (e) {
+      debugPrint('Erreur chargement horaires studio: $e');
+    }
+  }
+
+  Future<void> _loadRooms() async {
+    setState(() => _loadingRooms = true);
+    try {
+      final rooms = await _roomService.getActiveRoomsByStudio(widget.studioId!);
+      setState(() {
+        _availableRooms = rooms;
+        _loadingRooms = false;
+      });
+    } catch (e) {
+      setState(() => _loadingRooms = false);
+    }
+  }
 
   @override
   void dispose() {
@@ -45,78 +88,96 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.studioName != null
-            ? 'Session chez ${widget.studioName}'
-            : 'Demande de session'),
+        title: Text(widget.studioName != null ? l10n.sessionAt(widget.studioName!) : l10n.sessionRequest),
       ),
       body: widget.studioId == null
-          ? _buildNoStudioState(theme)
+          ? _buildNoStudioState(theme, l10n)
           : Form(
               key: _formKey,
               child: ListView(
                 padding: const EdgeInsets.all(16),
                 children: [
-                  _buildInfoCard(theme),
+                  _buildInfoCard(theme, l10n),
                   const SizedBox(height: 24),
-
-                  // Session type
-                  _buildSectionTitle(context, 'Type de session'),
+                  _buildSectionTitle(context, l10n.sessionType),
                   const SizedBox(height: 8),
-                  _buildTypeSelector(context),
+                  SessionTypeSelector(
+                    selectedTypes: _selectedTypes,
+                    onTypesChanged: (types) => setState(() => _selectedTypes
+                      ..clear()
+                      ..addAll(types)),
+                  ),
                   const SizedBox(height: 24),
-
-                  // Duration
-                  _buildSectionTitle(context, 'Durée de la session'),
+                  _buildSectionTitle(context, l10n.sessionDuration),
                   const SizedBox(height: 8),
                   _buildDurationSelector(context),
                   const SizedBox(height: 24),
-
-                  // Availability picker
-                  _buildSectionTitle(context, 'Choisissez votre créneau'),
+                  if (_availableRooms.isNotEmpty) ...[
+                    _buildSectionTitle(context, l10n.selectRoom),
+                    const SizedBox(height: 8),
+                    SessionRoomSelector(
+                      availableRooms: _availableRooms,
+                      selectedRoom: _selectedRoom,
+                      isLoading: _loadingRooms,
+                      onRoomSelected: (room) => setState(() {
+                        _selectedRoom = room;
+                        if (room != null && !room.requiresEngineer) _selectedEngineer = null;
+                      }),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+                  _buildSectionTitle(context, l10n.chooseSlot),
                   const SizedBox(height: 8),
                   AvailabilityPicker(
                     studioId: widget.studioId!,
                     durationMinutes: _durationHours * 60,
-                    onSlotSelected: (date, slot) {
-                      setState(() {
-                        _selectedDate = date;
-                        _selectedSlot = slot;
-                        _selectedEngineer = null; // Reset engineer on slot change
-                      });
-                    },
+                    workingHours: _studioWorkingHours,
+                    onSlotSelected: (date, slot) => setState(() {
+                      _selectedDate = date;
+                      _selectedSlot = slot;
+                      _selectedEngineer = null;
+                    }),
                   ),
                   const SizedBox(height: 24),
-
-                  // Engineer selection (only if slot selected)
-                  if (_selectedSlot != null && _selectedSlot!.availableEngineers.isNotEmpty) ...[
-                    _buildSectionTitle(context, 'Préférence d\'ingénieur'),
+                  if (_selectedSlot != null &&
+                      _selectedSlot!.availableEngineers.isNotEmpty &&
+                      (_selectedRoom == null || _selectedRoom!.requiresEngineer)) ...[
+                    _buildSectionTitle(context, l10n.engineerPreference),
                     const SizedBox(height: 8),
-                    _buildEngineerSelector(theme),
+                    SessionEngineerSelector(
+                      selectedEngineer: _selectedEngineer,
+                      availableCount: _selectedSlot!.availableCount,
+                      onTap: () => _showEngineerSelector(context),
+                    ),
                     const SizedBox(height: 24),
                   ],
-
-                  // Notes
-                  _buildSectionTitle(context, 'Notes (optionnel)'),
+                  if (_selectedRoom != null && !_selectedRoom!.requiresEngineer) ...[
+                    const SelfServiceInfoCard(),
+                    const SizedBox(height: 24),
+                  ],
+                  _buildSectionTitle(context, l10n.notesOptional),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _notesController,
                     maxLines: 3,
-                    decoration: const InputDecoration(
-                      hintText: 'Décrivez votre projet, vos besoins...',
-                    ),
+                    decoration: InputDecoration(hintText: l10n.describeProject),
                   ),
                   const SizedBox(height: 32),
-
-                  // Selected summary
-                  if (_selectedSlot != null) _buildSelectedSummary(theme),
+                  if (_selectedSlot != null && _selectedDate != null)
+                    SessionRequestSummary(
+                      date: _selectedDate!,
+                      slotStart: _selectedSlot!.start,
+                      slotEnd: _selectedSlot!.end,
+                      selectedRoom: _selectedRoom,
+                      selectedEngineer: _selectedEngineer,
+                    ),
                   const SizedBox(height: 16),
-
-                  // Submit button
                   FilledButton(
-                    onPressed: _canSubmit ? _submitRequest : null,
+                    onPressed: _canSubmit ? () => _submitRequest(l10n) : null,
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: _isSubmitting
@@ -125,7 +186,7 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
                               height: 20,
                               child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                             )
-                          : const Text('Envoyer la demande'),
+                          : Text(l10n.sendRequest),
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -135,7 +196,7 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
     );
   }
 
-  Widget _buildNoStudioState(ThemeData theme) {
+  Widget _buildNoStudioState(ThemeData theme, AppLocalizations l10n) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
@@ -144,10 +205,10 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
           children: [
             FaIcon(FontAwesomeIcons.buildingUser, size: 48, color: theme.colorScheme.outline),
             const SizedBox(height: 16),
-            Text('Aucun studio sélectionné', style: theme.textTheme.titleMedium),
+            Text(l10n.noStudioSelected, style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
             Text(
-              'Sélectionnez d\'abord un studio pour voir ses disponibilités.',
+              l10n.selectStudioFirst,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.outline),
             ),
@@ -155,7 +216,7 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
             OutlinedButton.icon(
               onPressed: () => context.pop(),
               icon: const FaIcon(FontAwesomeIcons.arrowLeft, size: 14),
-              label: const Text('Retour'),
+              label: Text(l10n.back),
             ),
           ],
         ),
@@ -163,7 +224,7 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
     );
   }
 
-  Widget _buildInfoCard(ThemeData theme) {
+  Widget _buildInfoCard(ThemeData theme, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -174,43 +235,14 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
         children: [
           FaIcon(FontAwesomeIcons.circleInfo, size: 20, color: theme.colorScheme.primary),
           const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              'Les créneaux verts ont plus d\'ingénieurs disponibles. Vous pouvez aussi choisir votre ingénieur préféré.',
-              style: theme.textTheme.bodySmall,
-            ),
-          ),
+          Expanded(child: Text(l10n.slotInfoText, style: theme.textTheme.bodySmall)),
         ],
       ),
     );
   }
 
   Widget _buildSectionTitle(BuildContext context, String title) {
-    return Text(
-      title,
-      style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-    );
-  }
-
-  Widget _buildTypeSelector(BuildContext context) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        SessionType.recording,
-        SessionType.mix,
-        SessionType.mastering,
-        SessionType.editing
-      ].map((type) {
-        final isSelected = _selectedType == type;
-        return ChoiceChip(
-          label: Text(type.label),
-          selected: isSelected,
-          onSelected: (_) => setState(() => _selectedType = type),
-          avatar: isSelected ? null : FaIcon(_getTypeIcon(type), size: 14),
-        );
-      }).toList(),
-    );
+    return Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600));
   }
 
   Widget _buildDurationSelector(BuildContext context) {
@@ -222,225 +254,30 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
           child: ChoiceChip(
             label: Text('${hours}h'),
             selected: isSelected,
-            onSelected: (_) {
-              setState(() {
-                _durationHours = hours;
-                _selectedSlot = null;
-                _selectedEngineer = null;
-              });
-            },
+            onSelected: (_) => setState(() {
+              _durationHours = hours;
+              _selectedSlot = null;
+              _selectedEngineer = null;
+            }),
           ),
         );
       }).toList(),
     );
   }
 
-  Widget _buildEngineerSelector(ThemeData theme) {
-    return InkWell(
-      onTap: () => _showEngineerSelector(context),
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(12),
-          border: _selectedEngineer != null
-              ? Border.all(color: theme.colorScheme.primary, width: 2)
-              : null,
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: _selectedEngineer != null
-                    ? theme.colorScheme.primaryContainer
-                    : theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(22),
-              ),
-              child: _selectedEngineer != null && _selectedEngineer!.user.photoURL != null
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(22),
-                      child: Image.network(
-                        _selectedEngineer!.user.photoURL!,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Center(
-                          child: Text(
-                            _selectedEngineer!.user.name?[0].toUpperCase() ?? 'I',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : Center(
-                      child: FaIcon(
-                        _selectedEngineer != null
-                            ? FontAwesomeIcons.userCheck
-                            : FontAwesomeIcons.shuffle,
-                        size: 18,
-                        color: _selectedEngineer != null
-                            ? theme.colorScheme.primary
-                            : theme.colorScheme.outline,
-                      ),
-                    ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _selectedEngineer != null
-                        ? (_selectedEngineer!.user.name ?? 'Ingénieur')
-                        : 'Pas de préférence',
-                    style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    _selectedEngineer != null
-                        ? 'Ingénieur sélectionné'
-                        : 'Laisser le studio choisir',
-                    style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
-                  ),
-                ],
-              ),
-            ),
-            // Badge count
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.green.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  FaIcon(FontAwesomeIcons.userGear, size: 10, color: Colors.green),
-                  const SizedBox(width: 4),
-                  Text(
-                    '${_selectedSlot!.availableCount} dispo',
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      color: Colors.green,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 8),
-            FaIcon(FontAwesomeIcons.chevronRight, size: 14, color: theme.colorScheme.outline),
-          ],
-        ),
-      ),
-    );
-  }
-
   Future<void> _showEngineerSelector(BuildContext context) async {
     if (_selectedSlot == null) return;
-
     final selected = await EngineerSelectorBottomSheet.show(
       context,
       _selectedSlot!.availableEngineers,
       selectedEngineer: _selectedEngineer,
     );
-
-    if (mounted) {
-      setState(() => _selectedEngineer = selected);
-    }
-  }
-
-  Widget _buildSelectedSummary(ThemeData theme) {
-    final dateFormat = DateFormat('EEEE d MMMM yyyy', 'fr_FR');
-    final timeFormat = DateFormat('HH:mm', 'fr_FR');
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.green.withValues(alpha: 0.1),
-        border: Border.all(color: Colors.green),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Colors.green.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: FaIcon(FontAwesomeIcons.check, size: 16, color: Colors.green),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Récapitulatif',
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        color: Colors.green.shade700,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    if (_selectedDate != null)
-                      Text(
-                        dateFormat.format(_selectedDate!),
-                        style: theme.textTheme.bodyMedium?.copyWith(color: Colors.green.shade700),
-                      ),
-                    Text(
-                      '${timeFormat.format(_selectedSlot!.start)} - ${timeFormat.format(_selectedSlot!.end)}',
-                      style: theme.textTheme.bodySmall?.copyWith(color: Colors.green.shade600),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          if (_selectedEngineer != null) ...[
-            const Divider(height: 24),
-            Row(
-              children: [
-                FaIcon(FontAwesomeIcons.userCheck, size: 14, color: Colors.green.shade600),
-                const SizedBox(width: 8),
-                Text(
-                  'Ingénieur : ${_selectedEngineer!.user.name ?? 'Non spécifié'}',
-                  style: theme.textTheme.bodySmall?.copyWith(color: Colors.green.shade600),
-                ),
-              ],
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  IconData _getTypeIcon(SessionType type) {
-    switch (type) {
-      case SessionType.recording:
-        return FontAwesomeIcons.microphone;
-      case SessionType.mix:
-      case SessionType.mixing:
-        return FontAwesomeIcons.sliders;
-      case SessionType.mastering:
-        return FontAwesomeIcons.compactDisc;
-      case SessionType.editing:
-        return FontAwesomeIcons.scissors;
-      default:
-        return FontAwesomeIcons.music;
-    }
+    if (mounted) setState(() => _selectedEngineer = selected);
   }
 
   bool get _canSubmit => _selectedSlot != null && !_isSubmitting;
 
-  Future<void> _submitRequest() async {
+  Future<void> _submitRequest(AppLocalizations l10n) async {
     if (!_canSubmit) return;
 
     final authState = context.read<AuthBloc>().state;
@@ -452,9 +289,11 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
       final session = Session(
         id: '',
         studioId: widget.studioId!,
+        roomId: _selectedRoom?.id,
+        roomName: _selectedRoom?.name,
         artistIds: [authState.user.uid],
         artistNames: [authState.user.name ?? 'Artiste'],
-        type: _selectedType,
+        types: _selectedTypes.toList(),
         status: SessionStatus.pending,
         scheduledStart: _selectedSlot!.start,
         scheduledEnd: _selectedSlot!.end,
@@ -470,35 +309,18 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
 
       if (mounted) {
         if (response.code == 200) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Demande envoyée ! Le studio vous répondra bientôt.'),
-              backgroundColor: Colors.green,
-            ),
-          );
+          AppSnackBar.success(context, l10n.requestSent);
           context.pop();
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(response.message),
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
-          );
+          AppSnackBar.error(context, response.message);
         }
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erreur: ${e.toString()}'),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
+        AppSnackBar.error(context, 'Error: ${e.toString()}');
       }
     } finally {
-      if (mounted) {
-        setState(() => _isSubmitting = false);
-      }
+      if (mounted) setState(() => _isSubmitting = false);
     }
   }
 }

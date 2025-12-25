@@ -4,6 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/services/services_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/widgets/engineer/add_time_off_bottom_sheet.dart';
 import 'package:useme/widgets/engineer/time_off_card.dart';
 import 'package:useme/widgets/engineer/working_hours_editor.dart';
@@ -14,9 +17,10 @@ class EngineerAvailabilityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final authState = context.read<AuthBloc>().state;
     if (authState is! AuthAuthenticatedState) {
-      return const Scaffold(body: Center(child: Text('Non connecté')));
+      return Scaffold(body: Center(child: Text(l10n.notConnected)));
     }
 
     final engineerId = authState.user.uid;
@@ -37,35 +41,25 @@ class _AvailabilityContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mes disponibilités'),
+        title: Text(l10n.myAvailabilities),
         centerTitle: true,
       ),
       body: BlocConsumer<EngineerAvailabilityBloc, EngineerAvailabilityState>(
         listener: (context, state) {
           if (state.successMessage != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.successMessage!),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.green,
-              ),
-            );
+            AppSnackBar.success(context, state.successMessage!);
           }
           if (state.errorMessage != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage!),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.red,
-              ),
-            );
+            AppSnackBar.error(context, state.errorMessage!);
           }
         },
         builder: (context, state) {
           if (state.isLoading && state.workingHours == null) {
-            return const Center(child: CircularProgressIndicator());
+            return const AppLoader();
           }
 
           return ListView(
@@ -75,7 +69,7 @@ class _AvailabilityContent extends StatelessWidget {
               _buildSectionHeader(
                 context,
                 icon: FontAwesomeIcons.clock,
-                title: 'Horaires de travail',
+                title: l10n.workingHours,
               ),
               const SizedBox(height: 12),
 
@@ -99,17 +93,17 @@ class _AvailabilityContent extends StatelessWidget {
               _buildSectionHeader(
                 context,
                 icon: FontAwesomeIcons.calendarXmark,
-                title: 'Indisponibilités',
+                title: l10n.unavailabilities,
                 trailing: TextButton.icon(
                   onPressed: () => _addTimeOff(context),
                   icon: const FaIcon(FontAwesomeIcons.plus, size: 14),
-                  label: const Text('Ajouter'),
+                  label: Text(l10n.add),
                 ),
               ),
               const SizedBox(height: 12),
 
               if (state.timeOffs.isEmpty)
-                _buildEmptyTimeOffs(context)
+                _buildEmptyTimeOffs(context, l10n)
               else
                 ...state.timeOffs.map((timeOff) => TimeOffCard(
                   timeOff: timeOff,
@@ -163,7 +157,7 @@ class _AvailabilityContent extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyTimeOffs(BuildContext context) {
+  Widget _buildEmptyTimeOffs(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     return Container(
@@ -185,14 +179,14 @@ class _AvailabilityContent extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Aucune indisponibilité',
+            l10n.noTimeOff,
             style: theme.textTheme.bodyLarge?.copyWith(
               color: theme.colorScheme.outline,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Ajoutez vos vacances, congés ou absences',
+            l10n.addTimeOffHint,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.outline.withValues(alpha: 0.7),
             ),

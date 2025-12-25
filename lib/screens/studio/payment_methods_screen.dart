@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/core/services/payment_config_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/app_loader.dart';
 
 /// Écran de configuration des moyens de paiement pour un studio
 class PaymentMethodsScreen extends StatefulWidget {
@@ -55,26 +57,29 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Moyens de paiement')),
+      appBar: AppBar(title: Text(l10n.paymentMethods)),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const AppLoader()
           : ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                _buildInfoCard(theme),
+                _buildInfoCard(theme, l10n),
                 const SizedBox(height: 24),
-                _buildDepositSection(theme),
+                _buildDepositSection(theme, l10n),
                 const SizedBox(height: 24),
-                _buildPaymentMethodsSection(theme),
+                _buildPaymentMethodsSection(theme, l10n),
+                const SizedBox(height: 24),
+                _buildCancellationPolicySection(theme, l10n),
                 const SizedBox(height: 32),
               ],
             ),
     );
   }
 
-  Widget _buildInfoCard(ThemeData theme) {
+  Widget _buildInfoCard(ThemeData theme, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -104,14 +109,14 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Configurez vos paiements',
+                  l10n.configurePayments,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Ces options seront proposées aux artistes lors de la confirmation de réservation.',
+                  l10n.paymentOptionsDescription,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -124,14 +129,14 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
     );
   }
 
-  Widget _buildDepositSection(ThemeData theme) {
+  Widget _buildDepositSection(ThemeData theme, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Acompte par défaut', style: theme.textTheme.titleMedium),
+        Text(l10n.defaultDeposit, style: theme.textTheme.titleMedium),
         const SizedBox(height: 8),
         Text(
-          'Pourcentage du montant total demandé en acompte',
+          l10n.depositPercentDescription,
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.outline,
           ),
@@ -176,87 +181,182 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
     );
   }
 
-  Widget _buildPaymentMethodsSection(ThemeData theme) {
+  Widget _buildPaymentMethodsSection(ThemeData theme, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Moyens de paiement acceptés', style: theme.textTheme.titleMedium),
+        Text(l10n.acceptedPaymentMethods, style: theme.textTheme.titleMedium),
         const SizedBox(height: 16),
-        ...(_config?.methods ?? []).map((method) => _buildPaymentMethodCard(theme, method)),
+        ...(_config?.methods ?? []).map((method) => _buildPaymentMethodCard(theme, method, l10n)),
       ],
     );
   }
 
-  Widget _buildPaymentMethodCard(ThemeData theme, PaymentMethod method) {
+  Widget _buildCancellationPolicySection(ThemeData theme, AppLocalizations l10n) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.cancellationPolicy, style: theme.textTheme.titleMedium),
+        const SizedBox(height: 8),
+        Text(
+          l10n.cancellationPolicyDescription,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.outline,
+          ),
+        ),
+        const SizedBox(height: 16),
+        ...CancellationPolicy.values.map((policy) => RadioListTile<CancellationPolicy>(
+              title: Text(policy.label),
+              subtitle: Text(
+                policy.description,
+                style: theme.textTheme.bodySmall,
+              ),
+              value: policy,
+              groupValue: _config?.cancellationPolicy ?? CancellationPolicy.moderate,
+              onChanged: (value) => _updateCancellationPolicy(value!),
+              contentPadding: EdgeInsets.zero,
+            )),
+        if (_config?.cancellationPolicy == CancellationPolicy.custom) ...[
+          const SizedBox(height: 16),
+          TextFormField(
+            initialValue: _config?.customCancellationTerms,
+            decoration: InputDecoration(
+              labelText: l10n.customCancellationTerms,
+              hintText: l10n.customCancellationHint,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            maxLines: 3,
+            onChanged: _updateCustomCancellationTerms,
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildPaymentMethodCard(ThemeData theme, PaymentMethod method, AppLocalizations l10n) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
-      child: ExpansionTile(
-        leading: Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            color: method.isEnabled
-                ? theme.colorScheme.primaryContainer
-                : theme.colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Center(
-            child: FaIcon(
-              _getIconForType(method.type),
-              size: 16,
-              color: method.isEnabled
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.outline,
-            ),
-          ),
-        ),
-        title: Text(method.type.label),
-        subtitle: method.details != null && method.details!.isNotEmpty
-            ? Text(
-                method.details!,
-                style: theme.textTheme.bodySmall,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              )
-            : null,
-        trailing: Switch.adaptive(
-          value: method.isEnabled,
-          onChanged: (enabled) => _toggleMethod(method.type, enabled),
-        ),
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: Column(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header avec switch
+            Row(
               children: [
-                TextFormField(
-                  initialValue: method.details,
-                  decoration: InputDecoration(
-                    labelText: _getDetailsLabelForType(method.type),
-                    hintText: _getDetailsHintForType(method.type),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: method.isEnabled
+                        ? theme.colorScheme.primaryContainer
+                        : theme.colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: FaIcon(
+                      _getIconForType(method.type),
+                      size: 16,
+                      color: method.isEnabled
+                          ? theme.colorScheme.primary
+                          : theme.colorScheme.outline,
                     ),
                   ),
-                  onChanged: (value) => _updateMethodDetails(method.type, value),
                 ),
-                const SizedBox(height: 12),
-                TextFormField(
-                  initialValue: method.instructions,
-                  decoration: InputDecoration(
-                    labelText: 'Instructions (optionnel)',
-                    hintText: 'Ex: Mettre le nom de l\'artiste en référence',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    method.type.label,
+                    style: theme.textTheme.titleMedium,
                   ),
-                  maxLines: 2,
-                  onChanged: (value) =>
-                      _updateMethodInstructions(method.type, value),
+                ),
+                Switch.adaptive(
+                  value: method.isEnabled,
+                  onChanged: (enabled) => _toggleMethod(method.type, enabled),
                 ),
               ],
             ),
-          ),
-        ],
+            // Champs de configuration (visibles seulement si activé)
+            if (method.isEnabled) ...[
+              const SizedBox(height: 16),
+              TextFormField(
+                initialValue: method.details,
+                decoration: InputDecoration(
+                  labelText: _getDetailsLabelForType(method.type, l10n),
+                  hintText: _getDetailsHintForType(method.type),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onChanged: (value) => _updateMethodDetails(method.type, value),
+              ),
+              // Champs supplémentaires pour virement bancaire
+              if (method.type == PaymentMethodType.bankTransfer) ...[
+                const SizedBox(height: 12),
+                TextFormField(
+                  initialValue: method.bic,
+                  decoration: InputDecoration(
+                    labelText: l10n.bic,
+                    hintText: 'BNPAFRPP',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onChanged: (value) => _updateBankDetails(
+                    type: method.type,
+                    bic: value,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  initialValue: method.accountHolder,
+                  decoration: InputDecoration(
+                    labelText: l10n.accountHolder,
+                    hintText: 'Studio XYZ',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onChanged: (value) => _updateBankDetails(
+                    type: method.type,
+                    accountHolder: value,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  initialValue: method.bankName,
+                  decoration: InputDecoration(
+                    labelText: l10n.bankName,
+                    hintText: 'BNP Paribas',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onChanged: (value) => _updateBankDetails(
+                    type: method.type,
+                    bankName: value,
+                  ),
+                ),
+              ],
+              const SizedBox(height: 12),
+              TextFormField(
+                initialValue: method.instructions,
+                decoration: InputDecoration(
+                  labelText: l10n.instructionsOptional,
+                  hintText: l10n.instructionsHint,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                maxLines: 2,
+                onChanged: (value) =>
+                    _updateMethodInstructions(method.type, value),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
@@ -276,16 +376,16 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
     }
   }
 
-  String _getDetailsLabelForType(PaymentMethodType type) {
+  String _getDetailsLabelForType(PaymentMethodType type, AppLocalizations l10n) {
     switch (type) {
       case PaymentMethodType.bankTransfer:
-        return 'IBAN';
+        return l10n.iban;
       case PaymentMethodType.paypal:
-        return 'Email PayPal';
+        return l10n.paypalEmail;
       case PaymentMethodType.card:
-        return 'Informations';
+        return l10n.information;
       default:
-        return 'Détails';
+        return l10n.details;
     }
   }
 
@@ -365,6 +465,59 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
     await _paymentService.updatePaymentConfig(
       studioId: _studioId!,
       config: _config!.copyWith(defaultDepositPercent: percent),
+    );
+  }
+
+  Future<void> _updateCancellationPolicy(CancellationPolicy policy) async {
+    if (_studioId == null) return;
+
+    setState(() {
+      _config = _config!.copyWith(cancellationPolicy: policy);
+    });
+
+    await _paymentService.updatePaymentConfig(
+      studioId: _studioId!,
+      config: _config!,
+    );
+  }
+
+  Future<void> _updateCustomCancellationTerms(String terms) async {
+    if (_studioId == null) return;
+
+    _config = _config!.copyWith(customCancellationTerms: terms);
+
+    await Future.delayed(const Duration(milliseconds: 500));
+    await _paymentService.updatePaymentConfig(
+      studioId: _studioId!,
+      config: _config!,
+    );
+  }
+
+  Future<void> _updateBankDetails({
+    required PaymentMethodType type,
+    String? bic,
+    String? accountHolder,
+    String? bankName,
+  }) async {
+    if (_studioId == null) return;
+
+    final methods = _config!.methods.map((m) {
+      if (m.type == type) {
+        return m.copyWith(
+          bic: bic ?? m.bic,
+          accountHolder: accountHolder ?? m.accountHolder,
+          bankName: bankName ?? m.bankName,
+        );
+      }
+      return m;
+    }).toList();
+
+    _config = _config!.copyWith(methods: methods);
+
+    await Future.delayed(const Duration(milliseconds: 500));
+    await _paymentService.updatePaymentConfig(
+      studioId: _studioId!,
+      config: _config!,
     );
   }
 }

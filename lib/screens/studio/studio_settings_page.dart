@@ -3,14 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/calendar/calendar_exports.dart';
+import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/data/tips_data.dart';
 import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/services/notification_service.dart';
-import 'package:useme/main.dart';
+import 'package:useme/core/services/studio_claim_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/screens/common/tips_screen.dart';
+import 'package:useme/widgets/common/settings/settings_exports.dart';
 import 'package:useme/widgets/studio/calendar_connection_section.dart';
+import 'package:useme/widgets/studio/settings/studio_settings_exports.dart';
+import 'package:useme/widgets/studio/studio_working_hours_section.dart';
 
 /// Studio settings page
 class StudioSettingsPage extends StatefulWidget {
@@ -61,89 +64,91 @@ class _StudioSettingsPageState extends State<StudioSettingsPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocProvider.value(
       value: _calendarBloc,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Réglages'),
-        ),
+        appBar: AppBar(title: Text(l10n.settings)),
         body: ListView(
           children: [
             // Studio section
-            _buildSectionHeader(context, 'Studio'),
-            _buildSettingsTile(
-              context,
+            SettingsSectionHeader(title: l10n.studio),
+            SettingsTile(
               icon: FontAwesomeIcons.buildingUser,
-              title: 'Profil studio',
-              subtitle: 'Nom, adresse, contact',
+              title: l10n.studioProfile,
+              subtitle: l10n.nameAddressContact,
               onTap: () => context.push(AppRoutes.profile),
             ),
-            _buildSettingsTile(
-              context,
+            SettingsTile(
               icon: FontAwesomeIcons.tags,
-              title: 'Services',
-              subtitle: 'Catalogue des prestations',
+              title: l10n.services,
+              subtitle: l10n.serviceCatalog,
               onTap: () => context.push(AppRoutes.services),
             ),
-            _buildSettingsTile(
-              context,
+            SettingsTile(
+              icon: FontAwesomeIcons.doorOpen,
+              title: l10n.rooms,
+              subtitle: l10n.createRoomsHint,
+              onTap: () => context.push(AppRoutes.rooms),
+            ),
+            SettingsTile(
               icon: FontAwesomeIcons.userTie,
-              title: 'Équipe',
-              subtitle: 'Gérer les ingénieurs',
+              title: l10n.team,
+              subtitle: l10n.manageEngineers,
               onTap: () => context.push(AppRoutes.teamManagement),
             ),
-            _buildSettingsTile(
-              context,
+            SettingsTile(
               icon: FontAwesomeIcons.creditCard,
-              title: 'Moyens de paiement',
-              subtitle: 'Espèces, virement, PayPal...',
+              title: l10n.paymentMethods,
+              subtitle: l10n.paymentMethodsSubtitle,
               onTap: () => context.push(AppRoutes.paymentMethods),
             ),
 
             const Divider(height: 32),
 
             // Visibility section
-            _buildSectionHeader(context, 'Visibilité'),
-            _buildVisibilitySection(context),
+            SettingsSectionHeader(title: l10n.visibility),
+            StudioVisibilitySection(
+              currentUser: _currentUser,
+              onUnclaimRequested: () => _showUnclaimDialog(context, l10n),
+              onClaimSuccess: _loadUserId,
+            ),
 
             const Divider(height: 32),
 
-            // Calendar section
-            _buildSectionHeader(context, 'Calendrier'),
-            if (_userId != null)
+            // Calendar & Availability section
+            SettingsSectionHeader(title: l10n.calendar),
+            if (_userId != null) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: StudioWorkingHoursSection(userId: _userId!),
+              ),
+              const SizedBox(height: 12),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: CalendarConnectionSection(userId: _userId!),
               ),
+            ],
 
             const Divider(height: 32),
 
             // App section
-            _buildSectionHeader(context, 'Application'),
-            _buildNotificationTile(context),
-            BlocBuilder<ThemeBloc, ThemeState>(
-              builder: (context, state) {
-                return _buildSettingsTile(
-                  context,
-                  icon: FontAwesomeIcons.palette,
-                  title: 'Apparence',
-                  subtitle: _getThemeLabel(state.themeMode),
-                  onTap: () => _showThemeSelector(context),
-                );
-              },
-            ),
-            _buildSettingsTile(
-              context,
+            SettingsSectionHeader(title: l10n.application),
+            SettingsNotificationTile(userId: _userId),
+            const SettingsRememberEmailTile(),
+            const SettingsThemeTile(),
+            const SettingsLanguageTile(),
+            SettingsTile(
               icon: FontAwesomeIcons.lightbulb,
-              title: 'Guide d\'utilisation',
-              subtitle: 'Astuces et conseils',
+              title: l10n.userGuide,
+              subtitle: l10n.tipsAndAdvice,
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) => TipsScreen(
-                    title: 'Guide studio',
-                    sections: TipsData.studioTips,
+                    title: l10n.studioGuide,
+                    sections: TipsData.studioTips(l10n),
                   ),
                 ),
               ),
@@ -151,40 +156,71 @@ class _StudioSettingsPageState extends State<StudioSettingsPage> {
 
             const Divider(height: 32),
 
+            // Subscription section
+            const SettingsSectionHeader(title: 'Abonnement'),
+            SubscriptionSection(user: _currentUser),
+
+            const Divider(height: 32),
+
             // Account section
-            _buildSectionHeader(context, 'Compte'),
-            _buildSettingsTile(
-              context,
+            SettingsSectionHeader(title: l10n.account),
+            SettingsTile(
               icon: FontAwesomeIcons.userGear,
-              title: 'Compte',
-              subtitle: 'Email, mot de passe',
-              onTap: () {},
+              title: l10n.account,
+              subtitle: l10n.emailPassword,
+              onTap: () => context.push(AppRoutes.account),
             ),
-            _buildSettingsTile(
-              context,
+            SettingsTile(
               icon: FontAwesomeIcons.circleInfo,
-              title: 'À propos',
-              subtitle: 'Version, mentions légales',
+              title: l10n.about,
+              subtitle: l10n.versionLegal,
               onTap: () => context.push(AppRoutes.about),
             ),
-            _buildSettingsTile(
-              context,
-              icon: FontAwesomeIcons.rightFromBracket,
-              title: 'Déconnexion',
-              subtitle: '',
-              isDestructive: true,
-              onTap: () => _showLogoutDialog(context),
-            ),
+            const SettingsLogoutTile(),
+
+            // Super Admin section (only visible to superAdmin)
+            if (_currentUser?.isSuperAdmin == true) ...[
+              const Divider(height: 32),
+              const SettingsSectionHeader(title: 'Administration'),
+              SettingsTile(
+                icon: FontAwesomeIcons.buildingCircleCheck,
+                title: l10n.studioClaims,
+                subtitle: l10n.studioClaimsSubtitle,
+                onTap: () => context.push(AppRoutes.studioClaims),
+              ),
+              SettingsTile(
+                icon: FontAwesomeIcons.tags,
+                title: 'Abonnements',
+                subtitle: 'Configurer les tiers et limites',
+                onTap: () => context.push('/admin/subscription-tiers'),
+              ),
+              SettingsTile(
+                icon: FontAwesomeIcons.mobile,
+                title: 'Screenshots Store',
+                subtitle: 'Générer les captures App Store',
+                onTap: () => context.push(AppRoutes.storeScreenshots),
+              ),
+            ],
+
+            // DevMaster section (only visible to devMaster)
+            if (_currentUser?.hasDevMasterAccess == true || _currentUser?.hasAdminRights == true) ...[
+              const Divider(height: 32),
+              const SettingsSectionHeader(title: 'DevMaster'),
+              SettingsTile(
+                icon: FontAwesomeIcons.stripe,
+                title: 'Configuration Stripe',
+                subtitle: 'Clés API et Price IDs',
+                onTap: () => context.push('/admin/stripe-config'),
+              ),
+            ],
 
             const SizedBox(height: 32),
 
             // App version
             Center(
               child: Text(
-                'Use Me v1.0.0',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.outline,
-                ),
+                l10n.version('1.0.0'),
+                style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
               ),
             ),
             const SizedBox(height: 16),
@@ -194,402 +230,49 @@ class _StudioSettingsPageState extends State<StudioSettingsPage> {
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, String title) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-      child: Text(
-        title.toUpperCase(),
-        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.2,
-            ),
-      ),
-    );
-  }
-
-  Widget _buildSettingsTile(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-    bool isDestructive = false,
-  }) {
-    final theme = Theme.of(context);
-    final color = isDestructive ? Colors.red : theme.colorScheme.onSurface;
-
-    return ListTile(
-      leading: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: isDestructive
-              ? Colors.red.withValues(alpha: 0.1)
-              : theme.colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: FaIcon(
-            icon,
-            size: 18,
-            color: isDestructive ? Colors.red : theme.colorScheme.primary,
-          ),
-        ),
-      ),
-      title: Text(title, style: TextStyle(color: color)),
-      subtitle: subtitle.isNotEmpty
-          ? Text(subtitle, style: theme.textTheme.bodySmall)
-          : null,
-      trailing: isDestructive
-          ? null
-          : FaIcon(
-              FontAwesomeIcons.chevronRight,
-              size: 14,
-              color: theme.colorScheme.outline,
-            ),
-      onTap: onTap,
-    );
-  }
-
-  Widget _buildVisibilitySection(BuildContext context) {
-    final theme = Theme.of(context);
-    final isPartner = _currentUser?.isPartner ?? false;
-    final studioProfile = _currentUser?.studioProfile;
-
-    if (isPartner && studioProfile != null) {
-      // Already a partner - show studio info
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: Colors.green.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Center(
-                        child: FaIcon(
-                          FontAwesomeIcons.circleCheck,
-                          size: 20,
-                          color: Colors.green,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Studio visible',
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            studioProfile.name,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.outline,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  'Les artistes peuvent voir votre studio et vous envoyer des demandes de session.',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                OutlinedButton.icon(
-                  onPressed: () => context.push(AppRoutes.studioClaim),
-                  icon: const FaIcon(FontAwesomeIcons.penToSquare, size: 14),
-                  label: const Text('Modifier'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
-    // Not a partner - show claim option
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Card(
-        child: InkWell(
-          onTap: () async {
-            final result = await context.push<bool>(AppRoutes.studioClaim);
-            if (result == true) {
-              // Reload user data
-              _loadUserId();
-            }
-          },
-          borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primaryContainer,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child: FaIcon(
-                          FontAwesomeIcons.eye,
-                          size: 20,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Rendez-vous visible',
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            'Les artistes ne peuvent pas encore vous trouver',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.outline,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    FaIcon(
-                      FontAwesomeIcons.chevronRight,
-                      size: 14,
-                      color: theme.colorScheme.outline,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  'Revendiquez votre studio pour apparaître sur la carte et recevoir des demandes de session.',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _showLogoutDialog(BuildContext context) {
-    // Capture parent context before showing dialog
+  void _showUnclaimDialog(BuildContext context, AppLocalizations l10n) {
+    final studioName = _currentUser?.studioProfile?.name ?? '';
     final authBloc = context.read<AuthBloc>();
+    final sessionBloc = context.read<SessionBloc>();
+    final artistBloc = context.read<ArtistBloc>();
+    final serviceBloc = context.read<ServiceBloc>();
     final router = GoRouter.of(context);
+    final isSuperAdmin = _currentUser?.isSuperAdmin ?? false;
 
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Déconnexion'),
-        content: const Text('Voulez-vous vraiment vous déconnecter ?'),
+        title: Text(l10n.unclaimStudioTitle),
+        content: Text(l10n.unclaimStudioMessage(studioName)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('Annuler'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () async {
               Navigator.pop(dialogContext);
-              await UseMeNotificationService.instance.removeToken();
-              // Logout via AuthBloc using captured references
-              authBloc.add(const SignOutEvent());
-              router.go(AppRoutes.login);
+              if (_userId != null) {
+                await StudioClaimService().unclaimStudio(_userId!);
+
+                sessionBloc.add(const ClearSessionsEvent());
+                artistBloc.add(const ClearArtistsEvent());
+                serviceBloc.add(const ClearServicesEvent());
+
+                authBloc.add(const ReloadUserEvent());
+
+                if (isSuperAdmin) {
+                  _loadUserId();
+                } else {
+                  router.go(AppRoutes.artistPortal);
+                }
+              }
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Déconnexion'),
+            child: Text(l10n.unclaim),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildNotificationTile(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return ListenableBuilder(
-      listenable: preferencesService,
-      builder: (context, _) {
-        final isEnabled = preferencesService.notificationsEnabled;
-
-        return ListTile(
-          leading: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: FaIcon(
-                isEnabled ? FontAwesomeIcons.solidBell : FontAwesomeIcons.bellSlash,
-                size: 18,
-                color: theme.colorScheme.primary,
-              ),
-            ),
-          ),
-          title: const Text('Notifications'),
-          subtitle: Text(
-            isEnabled ? 'Activées' : 'Désactivées',
-            style: theme.textTheme.bodySmall,
-          ),
-          trailing: Switch.adaptive(
-            value: isEnabled,
-            onChanged: (value) => _toggleNotifications(context, value),
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> _toggleNotifications(BuildContext context, bool enable) async {
-    if (enable) {
-      final granted = await UseMeNotificationService.instance.requestPermissions();
-      if (granted) {
-        await preferencesService.setNotificationsEnabled(true, userId: _userId);
-      } else {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Veuillez autoriser les notifications dans les réglages'),
-            ),
-          );
-        }
-      }
-    } else {
-      await preferencesService.setNotificationsEnabled(false, userId: _userId);
-    }
-  }
-
-  String _getThemeLabel(ThemeMode mode) {
-    switch (mode) {
-      case ThemeMode.light:
-        return 'Clair';
-      case ThemeMode.dark:
-        return 'Sombre';
-      case ThemeMode.system:
-        return 'Système';
-    }
-  }
-
-  void _showThemeSelector(BuildContext context) {
-    final theme = Theme.of(context);
-    final currentMode = context.read<ThemeBloc>().state.themeMode;
-
-    showModalBottomSheet(
-      context: context,
-      builder: (ctx) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text('Apparence', style: theme.textTheme.titleLarge),
-            ),
-            _buildThemeOption(
-              ctx,
-              icon: FontAwesomeIcons.circleHalfStroke,
-              title: 'Système',
-              subtitle: 'Suit les réglages de l\'appareil',
-              mode: ThemeMode.system,
-              isSelected: currentMode == ThemeMode.system,
-            ),
-            _buildThemeOption(
-              ctx,
-              icon: FontAwesomeIcons.sun,
-              title: 'Clair',
-              subtitle: 'Thème lumineux',
-              mode: ThemeMode.light,
-              isSelected: currentMode == ThemeMode.light,
-            ),
-            _buildThemeOption(
-              ctx,
-              icon: FontAwesomeIcons.moon,
-              title: 'Sombre',
-              subtitle: 'Thème sombre',
-              mode: ThemeMode.dark,
-              isSelected: currentMode == ThemeMode.dark,
-            ),
-            const SizedBox(height: 16),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildThemeOption(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required ThemeMode mode,
-    required bool isSelected,
-  }) {
-    final theme = Theme.of(this.context);
-
-    return ListTile(
-      leading: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: isSelected
-              ? theme.colorScheme.primaryContainer
-              : theme.colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: FaIcon(
-            icon,
-            size: 18,
-            color: isSelected
-                ? theme.colorScheme.primary
-                : theme.colorScheme.onSurfaceVariant,
-          ),
-        ),
-      ),
-      title: Text(title),
-      subtitle: Text(subtitle, style: theme.textTheme.bodySmall),
-      trailing: isSelected
-          ? FaIcon(
-              FontAwesomeIcons.circleCheck,
-              size: 20,
-              color: theme.colorScheme.primary,
-            )
-          : null,
-      onTap: () {
-        this.context.read<ThemeBloc>().add(ChangeThemeEvent(themeMode: mode));
-        Navigator.pop(context);
-      },
     );
   }
 }

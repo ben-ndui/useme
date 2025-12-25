@@ -5,6 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/core/models/app_user.dart';
+import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/app_loader.dart';
 
 /// Notifications screen - loads from Firestore user_notifications collection
 class NotificationsScreen extends StatelessWidget {
@@ -14,18 +17,20 @@ class NotificationsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final authState = context.watch<AuthBloc>().state;
     if (authState is! AuthAuthenticatedState) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const AppLoader.fullScreen();
     }
 
     final userId = authState.user.uid;
 
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notifications'),
+        title: Text(l10n.notifications),
         actions: [
           TextButton(
             onPressed: () => _markAllAsRead(userId),
-            child: const Text('Tout marquer lu'),
+            child: Text(l10n.markAllAsRead),
           ),
         ],
       ),
@@ -37,16 +42,16 @@ class NotificationsScreen extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const AppLoader();
           }
 
           if (snapshot.hasError) {
-            return _buildErrorState(context, snapshot.error.toString());
+            return _buildErrorState(context, l10n, snapshot.error.toString());
           }
 
           final docs = snapshot.data?.docs ?? [];
           if (docs.isEmpty) {
-            return _buildEmptyState(context);
+            return _buildEmptyState(context, l10n);
           }
 
           return ListView.separated(
@@ -56,7 +61,7 @@ class NotificationsScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final doc = docs[index];
               final data = doc.data() as Map<String, dynamic>;
-              return _buildNotificationCard(context, doc.id, data);
+              return _buildNotificationCard(context, l10n, doc.id, data);
             },
           );
         },
@@ -64,7 +69,7 @@ class NotificationsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState(BuildContext context) {
+  Widget _buildEmptyState(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     return Center(
@@ -74,12 +79,12 @@ class NotificationsScreen extends StatelessWidget {
           FaIcon(FontAwesomeIcons.bellSlash, size: 64, color: theme.colorScheme.outline),
           const SizedBox(height: 16),
           Text(
-            'Aucune notification',
+            l10n.noNotifications,
             style: theme.textTheme.titleLarge?.copyWith(color: theme.colorScheme.outline),
           ),
           const SizedBox(height: 8),
           Text(
-            'Vous serez notifié des nouvelles sessions',
+            l10n.notifyNewSessions,
             style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.outline),
           ),
         ],
@@ -87,7 +92,7 @@ class NotificationsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildErrorState(BuildContext context, String error) {
+  Widget _buildErrorState(BuildContext context, AppLocalizations l10n, String error) {
     final theme = Theme.of(context);
 
     return Center(
@@ -96,7 +101,7 @@ class NotificationsScreen extends StatelessWidget {
         children: [
           FaIcon(FontAwesomeIcons.circleExclamation, size: 64, color: theme.colorScheme.error),
           const SizedBox(height: 16),
-          Text('Erreur de chargement', style: theme.textTheme.titleLarge),
+          Text(l10n.loadingError, style: theme.textTheme.titleLarge),
           const SizedBox(height: 8),
           Text(error, style: theme.textTheme.bodySmall),
         ],
@@ -104,12 +109,13 @@ class NotificationsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildNotificationCard(BuildContext context, String docId, Map<String, dynamic> data) {
+  Widget _buildNotificationCard(BuildContext context, AppLocalizations l10n, String docId, Map<String, dynamic> data) {
     final theme = Theme.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
     final timeFormat = DateFormat('HH:mm');
-    final dateFormat = DateFormat('d MMM', 'fr_FR');
+    final dateFormat = DateFormat('d MMM', locale);
 
-    final title = data['title'] as String? ?? 'Notification';
+    final title = data['title'] as String? ?? l10n.notifications;
     final body = data['body'] as String? ?? '';
     final type = data['type'] as String? ?? 'other';
     final isRead = data['isRead'] as bool? ?? false;
@@ -204,6 +210,11 @@ class NotificationsScreen extends StatelessWidget {
     final type = data['type'] as String? ?? '';
     final notifData = data['data'] as Map<String, dynamic>? ?? {};
 
+    // Déterminer le rôle de l'utilisateur
+    final authState = context.read<AuthBloc>().state;
+    final isStudio = authState is AuthAuthenticatedState &&
+        (authState.user as AppUser).role.name == 'admin';
+
     switch (type) {
       case 'new_message':
         final conversationId = notifData['conversationId'] as String?;
@@ -212,11 +223,29 @@ class NotificationsScreen extends StatelessWidget {
         }
         break;
       case 'session_request':
-      case 'session_confirmed':
-      case 'session_cancelled':
+        // session_request = pour les studios (demande d'un artiste)
         final sessionId = notifData['sessionId'] as String?;
         if (sessionId != null) {
-          context.push('/artist/sessions/$sessionId');
+          context.push('/sessions/$sessionId');
+        }
+        break;
+      case 'session_confirmed':
+      case 'session_cancelled':
+        // Ces notifs sont pour les artistes (réponse du studio)
+        final sessionId = notifData['sessionId'] as String?;
+        if (sessionId != null) {
+          if (isStudio) {
+            context.push('/sessions/$sessionId');
+          } else {
+            context.push('/artist/sessions/$sessionId');
+          }
+        }
+        break;
+      case 'session_assigned':
+        // Pour les ingénieurs (nouvelle session assignée)
+        final sessionId = notifData['sessionId'] as String?;
+        if (sessionId != null) {
+          context.push('/engineer/sessions/$sessionId');
         }
         break;
       case 'booking_created':
@@ -270,6 +299,8 @@ class NotificationsScreen extends StatelessWidget {
         return FontAwesomeIcons.circleCheck;
       case 'session_cancelled':
         return FontAwesomeIcons.circleXmark;
+      case 'session_assigned':
+        return FontAwesomeIcons.headphones;
       case 'booking_created':
         return FontAwesomeIcons.music;
       case 'booking_confirmed':
@@ -294,6 +325,7 @@ class NotificationsScreen extends StatelessWidget {
         return Colors.orange;
       case 'session_confirmed':
       case 'booking_confirmed':
+      case 'session_assigned':
         return Colors.green;
       case 'session_cancelled':
       case 'booking_cancelled':

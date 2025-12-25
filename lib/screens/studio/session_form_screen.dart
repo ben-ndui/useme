@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/widgets/common/limit_reached_dialog.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Session creation/editing form
 class SessionFormScreen extends StatefulWidget {
@@ -36,18 +39,38 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(isEditing ? 'Modifier la session' : 'Nouvelle session'),
-        actions: [
-          if (isEditing)
-            IconButton(
-              icon: const FaIcon(FontAwesomeIcons.trash, size: 18),
-              onPressed: _showDeleteDialog,
-            ),
-        ],
-      ),
-      body: Form(
+    return BlocListener<SessionBloc, SessionState>(
+      listener: (context, state) {
+        if (state is SessionLimitReachedState) {
+          LimitReachedDialog.show(
+            context,
+            limitType: 'sessions',
+            currentCount: state.currentCount,
+            maxAllowed: state.maxAllowed,
+            tierId: state.tierId,
+          );
+        } else if (state is SessionCreatedState) {
+          AppSnackBar.success(context, 'Session créée');
+          context.pop();
+        } else if (state is SessionUpdatedState) {
+          AppSnackBar.success(context, 'Session modifiée');
+          context.pop();
+        } else if (state is SessionErrorState) {
+          AppSnackBar.error(context, state.errorMessage ?? 'Erreur');
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(isEditing ? 'Modifier la session' : 'Nouvelle session'),
+          actions: [
+            if (isEditing)
+              IconButton(
+                icon: const FaIcon(FontAwesomeIcons.trash, size: 18),
+                onPressed: _showDeleteDialog,
+              ),
+          ],
+        ),
+        body: Form(
         key: _formKey,
         child: ListView(
           padding: const EdgeInsets.all(16),
@@ -98,6 +121,7 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
             ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -333,10 +357,23 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
   void _submitForm() {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedArtists.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Sélectionnez au moins un artiste')),
-      );
+      AppSnackBar.warning(context, 'Sélectionnez au moins un artiste');
       return;
+    }
+
+    // Get user subscription info
+    final authState = context.read<AuthBloc>().state;
+    String? subscriptionTierId;
+    int? sessionsThisMonth;
+    String studioId = '';
+
+    if (authState is AuthAuthenticatedState) {
+      final user = authState.user;
+      if (user is AppUser) {
+        studioId = user.uid;
+        subscriptionTierId = user.subscriptionTierId;
+        sessionsThisMonth = user.sessionsThisMonth;
+      }
     }
 
     final startDateTime = DateTime(
@@ -350,7 +387,7 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
 
     final session = Session(
       id: widget.sessionId ?? '',
-      studioId: '', // TODO: Get from auth
+      studioId: studioId,
       artistIds: _selectedArtists.map((a) => a.id).toList(),
       artistNames: _selectedArtists.map((a) => a.displayName).toList(),
       type: _selectedType,
@@ -365,10 +402,12 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
     if (isEditing) {
       context.read<SessionBloc>().add(UpdateSessionEvent(session: session));
     } else {
-      context.read<SessionBloc>().add(CreateSessionEvent(session: session));
+      context.read<SessionBloc>().add(CreateSessionEvent(
+            session: session,
+            subscriptionTierId: subscriptionTierId,
+            currentSessionCount: sessionsThisMonth,
+          ));
     }
-
-    context.pop();
   }
 
   void _showDeleteDialog() {

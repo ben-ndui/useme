@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// About screen showing app info and legal links.
 class AboutScreen extends StatefulWidget {
@@ -32,9 +33,10 @@ class _AboutScreenState extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('À propos')),
+      appBar: AppBar(title: Text(l10n.about)),
       body: ListView(
         children: [
           const SizedBox(height: 32),
@@ -60,14 +62,14 @@ class _AboutScreenState extends State<AboutScreen> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Use Me',
+                  l10n.appName,
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'La plateforme des studios',
+                  l10n.studiosPlatform,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -80,7 +82,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    'Version $_version ($_buildNumber)',
+                    l10n.versionBuild(_version, _buildNumber),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -94,40 +96,40 @@ class _AboutScreenState extends State<AboutScreen> {
           const Divider(),
 
           // Legal section
-          _buildSectionHeader(context, 'Informations légales'),
+          _buildSectionHeader(context, l10n.legalInfo),
           _buildTile(
             context,
             icon: FontAwesomeIcons.fileContract,
-            title: 'Conditions d\'utilisation',
+            title: l10n.termsOfService,
             onTap: () => _openUrl('https://useme.app/terms'),
           ),
           _buildTile(
             context,
             icon: FontAwesomeIcons.shieldHalved,
-            title: 'Politique de confidentialité',
+            title: l10n.privacyPolicy,
             onTap: () => _openUrl('https://useme.app/privacy'),
           ),
           _buildTile(
             context,
             icon: FontAwesomeIcons.scaleBalanced,
-            title: 'Mentions légales',
+            title: l10n.legalNotices,
             onTap: () => _openUrl('https://useme.app/legal'),
           ),
 
           const Divider(height: 32),
 
           // Support section
-          _buildSectionHeader(context, 'Support'),
+          _buildSectionHeader(context, l10n.support),
           _buildTile(
             context,
             icon: FontAwesomeIcons.circleQuestion,
-            title: 'Centre d\'aide',
+            title: l10n.helpCenter,
             onTap: () => _openUrl('https://useme.app/help'),
           ),
           _buildTile(
             context,
             icon: FontAwesomeIcons.envelope,
-            title: 'Nous contacter',
+            title: l10n.contactUs,
             subtitle: 'support@useme.app',
             onTap: () => _openUrl('mailto:support@useme.app'),
           ),
@@ -135,7 +137,7 @@ class _AboutScreenState extends State<AboutScreen> {
           const Divider(height: 32),
 
           // Social section
-          _buildSectionHeader(context, 'Suivez-nous'),
+          _buildSectionHeader(context, l10n.followUs),
           _buildTile(
             context,
             icon: FontAwesomeIcons.instagram,
@@ -151,7 +153,7 @@ class _AboutScreenState extends State<AboutScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Text(
-                '© ${DateTime.now().year} Use Me. Tous droits réservés.',
+                l10n.copyright(DateTime.now().year.toString()),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.outline,
                 ),

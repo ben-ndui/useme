@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/screens/engineer/engineer_dashboard_page.dart';
 import 'package:useme/screens/engineer/engineer_sessions_page.dart';
 import 'package:useme/screens/engineer/engineer_settings_page.dart';
@@ -47,12 +48,20 @@ class _EngineerMainScaffoldState extends State<EngineerMainScaffold> {
   void _loadData() {
     final authState = context.read<AuthBloc>().state;
     if (authState is AuthAuthenticatedState) {
-      final userId = authState.user.uid;
+      final user = authState.user;
 
       // Load sessions assigned to this engineer
-      context.read<SessionBloc>().add(LoadEngineerSessionsEvent(engineerId: userId));
-      context.read<MessagingBloc>().add(LoadConversationsEvent(userId: userId));
-      context.read<FavoriteBloc>().add(LoadFavoritesEvent(userId: userId));
+      context.read<SessionBloc>().add(LoadEngineerSessionsEvent(engineerId: user.uid));
+      context.read<FavoriteBloc>().add(LoadFavoritesEvent(userId: user.uid));
+
+      // Configure l'utilisateur pour la messagerie
+      final messagingBloc = context.read<MessagingBloc>();
+      messagingBloc.setCurrentUser(
+        userId: user.uid,
+        userName: user.displayName ?? user.name ?? 'Ingénieur',
+        avatarUrl: user.photoURL,
+      );
+      messagingBloc.add(LoadConversationsEvent(userId: user.uid));
     }
   }
 
@@ -76,54 +85,61 @@ class _EngineerMainScaffoldState extends State<EngineerMainScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MessagingBloc, MessagingState>(
-      builder: (context, messagingState) {
-        final unreadCount = messagingState is ConversationsLoadedState
-            ? messagingState.totalUnreadCount
-            : 0;
+    final l10n = AppLocalizations.of(context)!;
 
-        return Scaffold(
-          extendBody: true,
-          body: PageView(
-            controller: _pageController,
-            onPageChanged: _onPageChanged,
-            physics: const NeverScrollableScrollPhysics(),
-            children: _pages,
-          ),
-          bottomNavigationBar: FloatingBottomNav(
+    return Scaffold(
+      extendBody: true,
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        physics: const NeverScrollableScrollPhysics(),
+        children: _pages,
+      ),
+      bottomNavigationBar: BlocBuilder<MessagingBloc, MessagingState>(
+        buildWhen: (previous, current) {
+          final prevCount = previous is ConversationsLoadedState ? previous.totalUnreadCount : 0;
+          final currCount = current is ConversationsLoadedState ? current.totalUnreadCount : 0;
+          return prevCount != currCount;
+        },
+        builder: (context, messagingState) {
+          final unreadCount = messagingState is ConversationsLoadedState
+              ? messagingState.totalUnreadCount
+              : 0;
+
+          return FloatingBottomNav(
             currentIndex: _currentIndex,
             onTap: _onNavTapped,
             items: [
-              const FloatingNavItem(
+              FloatingNavItem(
                 icon: FontAwesomeIcons.house,
                 selectedIcon: FontAwesomeIcons.houseChimney,
-                label: 'Accueil',
+                label: l10n.home,
               ),
-              const FloatingNavItem(
+              FloatingNavItem(
                 icon: FontAwesomeIcons.calendarDays,
                 selectedIcon: FontAwesomeIcons.calendarCheck,
-                label: 'Sessions',
+                label: l10n.sessionsLabel,
               ),
-              const FloatingNavItem(
+              FloatingNavItem(
                 icon: FontAwesomeIcons.heart,
                 selectedIcon: FontAwesomeIcons.solidHeart,
-                label: 'Favoris',
+                label: l10n.favorites,
               ),
               FloatingNavItem(
                 icon: FontAwesomeIcons.comment,
                 selectedIcon: FontAwesomeIcons.solidComment,
-                label: 'Messages',
+                label: l10n.messages,
                 badgeCount: unreadCount,
               ),
-              const FloatingNavItem(
+              FloatingNavItem(
                 icon: FontAwesomeIcons.gear,
                 selectedIcon: FontAwesomeIcons.gears,
-                label: 'Réglages',
+                label: l10n.settings,
               ),
             ],
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

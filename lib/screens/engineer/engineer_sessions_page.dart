@@ -7,8 +7,10 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/engineer/sessions/engineer_sessions_exports.dart';
 
-/// Engineer sessions page - Calendar view with week selector (like artist)
+/// Engineer sessions page - Calendar view with week selector
 class EngineerSessionsPage extends StatefulWidget {
   const EngineerSessionsPage({super.key});
 
@@ -38,7 +40,7 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      appBar: _buildAppBar(context, l10n),
+      appBar: _buildAppBar(context, l10n, colorScheme),
       body: _isListView
           ? _buildAllSessionsList(colorScheme, l10n, locale)
           : Column(
@@ -50,16 +52,12 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context, AppLocalizations l10n) {
-    final colorScheme = Theme.of(context).colorScheme;
+  AppBar _buildAppBar(BuildContext context, AppLocalizations l10n, ColorScheme colorScheme) {
     return AppBar(
       backgroundColor: colorScheme.surface,
       surfaceTintColor: Colors.transparent,
       elevation: 0,
-      title: Text(
-        l10n.mySessions,
-        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: colorScheme.onSurface),
-      ),
+      title: Text(l10n.mySessions, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
       centerTitle: true,
       actions: [
         IconButton(
@@ -76,10 +74,7 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
   Widget _buildViewToggle(ColorScheme colorScheme) {
     return Container(
       padding: const EdgeInsets.all(2),
-      decoration: BoxDecoration(
-        color: colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(10),
-      ),
+      decoration: BoxDecoration(color: colorScheme.surfaceContainerHighest, borderRadius: BorderRadius.circular(10)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -191,28 +186,21 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
-            child: Text(
-              dateFormat.format(_selectedDate),
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: colorScheme.onSurface),
-            ),
+            child: Text(dateFormat.format(_selectedDate), style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
           ),
           Expanded(
             child: BlocBuilder<SessionBloc, SessionState>(
               builder: (context, state) {
-                if (state.isLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+                if (state.isLoading) return const AppLoader.compact();
 
                 final daySessions = _getSessionsForDay(state.sessions, _selectedDate);
 
-                if (daySessions.isEmpty) {
-                  return _buildEmptyDay(colorScheme, l10n);
-                }
+                if (daySessions.isEmpty) return _buildEmptyDay(colorScheme, l10n);
 
                 return ListView.builder(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
                   itemCount: daySessions.length,
-                  itemBuilder: (context, index) => _SessionTile(
+                  itemBuilder: (context, index) => EngineerSessionTile(
                     session: daySessions[index],
                     l10n: l10n,
                     locale: locale,
@@ -254,9 +242,7 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
   Widget _buildAllSessionsList(ColorScheme colorScheme, AppLocalizations l10n, String locale) {
     return BlocBuilder<SessionBloc, SessionState>(
       builder: (context, state) {
-        if (state.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
+        if (state.isLoading) return const AppLoader.compact();
 
         final sessions = state.sessions.where((s) => s.status != SessionStatus.cancelled).toList();
         final now = DateTime.now();
@@ -273,9 +259,7 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
           ((s.status == SessionStatus.pending || s.status == SessionStatus.confirmed) && s.scheduledStart.isBefore(today))
         ).toList()..sort((a, b) => b.scheduledStart.compareTo(a.scheduledStart));
 
-        if (sessions.isEmpty) {
-          return _buildEmptyList(colorScheme, l10n);
-        }
+        if (sessions.isEmpty) return _buildEmptyList(colorScheme, l10n);
 
         return RefreshIndicator(
           onRefresh: () async {
@@ -291,17 +275,17 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
               children: [
                 if (inProgress.isNotEmpty) ...[
                   _buildSectionHeader(colorScheme, l10n.inProgressStatus, Colors.green, inProgress.length),
-                  ...inProgress.map((s) => _SessionListTile(session: s, isPast: false, l10n: l10n, locale: locale, onTap: () => context.push('/engineer/sessions/${s.id}'))),
+                  ...inProgress.map((s) => EngineerSessionListTile(session: s, isPast: false, l10n: l10n, locale: locale, onTap: () => context.push('/engineer/sessions/${s.id}'))),
                   const SizedBox(height: 24),
                 ],
                 if (upcoming.isNotEmpty) ...[
                   _buildSectionHeader(colorScheme, l10n.upcomingStatus, Colors.blue, upcoming.length),
-                  ...upcoming.map((s) => _SessionListTile(session: s, isPast: false, l10n: l10n, locale: locale, onTap: () => context.push('/engineer/sessions/${s.id}'))),
+                  ...upcoming.map((s) => EngineerSessionListTile(session: s, isPast: false, l10n: l10n, locale: locale, onTap: () => context.push('/engineer/sessions/${s.id}'))),
                   const SizedBox(height: 24),
                 ],
                 if (past.isNotEmpty) ...[
                   _buildSectionHeader(colorScheme, l10n.pastStatus, Colors.grey, past.length),
-                  ...past.take(15).map((s) => _SessionListTile(session: s, isPast: true, l10n: l10n, locale: locale, onTap: () => context.push('/engineer/sessions/${s.id}'))),
+                  ...past.take(15).map((s) => EngineerSessionListTile(session: s, isPast: true, l10n: l10n, locale: locale, onTap: () => context.push('/engineer/sessions/${s.id}'))),
                 ],
               ],
             ),
@@ -353,215 +337,5 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
         ],
       ),
     );
-  }
-}
-
-/// Session tile for calendar view
-class _SessionTile extends StatelessWidget {
-  final Session session;
-  final AppLocalizations l10n;
-  final String locale;
-  final VoidCallback onTap;
-
-  const _SessionTile({required this.session, required this.l10n, required this.locale, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final timeFormat = DateFormat('HH:mm', locale);
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(color: colorScheme.surface, borderRadius: BorderRadius.circular(14)),
-        child: Row(
-          children: [
-            Container(
-              width: 50,
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              decoration: BoxDecoration(color: colorScheme.primaryContainer.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(8)),
-              child: Column(
-                children: [
-                  Text(timeFormat.format(session.scheduledStart), style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colorScheme.primary)),
-                ],
-              ),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          session.artistName,
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: colorScheme.onSurface),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      _buildStatusBadge(colorScheme),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      FaIcon(_getTypeIcon(session.type), size: 10, color: colorScheme.onSurfaceVariant),
-                      const SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          '${session.typeLabel} • ${session.durationMinutes ~/ 60}h',
-                          style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 8),
-            if (session.displayStatus == SessionStatus.confirmed)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(color: colorScheme.primary, borderRadius: BorderRadius.circular(8)),
-                child: Text('Go', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colorScheme.onPrimary)),
-              )
-            else if (session.displayStatus == SessionStatus.inProgress)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(8)),
-                child: const FaIcon(FontAwesomeIcons.play, size: 12, color: Colors.white),
-              )
-            else
-              FaIcon(FontAwesomeIcons.chevronRight, size: 12, color: colorScheme.onSurfaceVariant),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatusBadge(ColorScheme colorScheme) {
-    final (color, label) = _getStatusInfo();
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6)),
-      child: Text(label, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: color)),
-    );
-  }
-
-  (Color, String) _getStatusInfo() {
-    return switch (session.displayStatus) {
-      SessionStatus.pending => (Colors.orange, l10n.pendingStatus),
-      SessionStatus.confirmed => (Colors.blue, l10n.confirmedStatus),
-      SessionStatus.inProgress => (Colors.green, l10n.inProgressStatus),
-      SessionStatus.completed => (Colors.grey, l10n.completedStatus),
-      SessionStatus.cancelled => (Colors.red, l10n.cancelledStatus),
-      SessionStatus.noShow => (Colors.red, l10n.noShowStatus),
-    };
-  }
-
-  IconData _getTypeIcon(SessionType type) {
-    return switch (type) {
-      SessionType.recording => FontAwesomeIcons.microphone,
-      SessionType.mix || SessionType.mixing => FontAwesomeIcons.sliders,
-      SessionType.mastering => FontAwesomeIcons.compactDisc,
-      SessionType.editing => FontAwesomeIcons.scissors,
-      _ => FontAwesomeIcons.music,
-    };
-  }
-}
-
-/// Session tile for list view
-class _SessionListTile extends StatelessWidget {
-  final Session session;
-  final bool isPast;
-  final AppLocalizations l10n;
-  final String locale;
-  final VoidCallback onTap;
-
-  const _SessionListTile({required this.session, required this.isPast, required this.l10n, required this.locale, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final dateFormat = DateFormat('EEE d MMM', locale);
-    final timeFormat = DateFormat('HH:mm', locale);
-
-    return Opacity(
-      opacity: isPast ? 0.6 : 1.0,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(color: _getStatusColor().withValues(alpha: 0.12), borderRadius: BorderRadius.circular(10)),
-                child: FaIcon(_getTypeIcon(session.type), size: 16, color: _getStatusColor()),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(session.artistName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        FaIcon(FontAwesomeIcons.calendar, size: 10, color: isPast ? colorScheme.onSurfaceVariant : colorScheme.primary),
-                        const SizedBox(width: 6),
-                        Text(
-                          '${dateFormat.format(session.scheduledStart)} à ${timeFormat.format(session.scheduledStart)}',
-                          style: TextStyle(fontSize: 12, color: isPast ? colorScheme.onSurfaceVariant : colorScheme.primary, fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              if (session.displayStatus == SessionStatus.completed)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(color: Colors.green.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6)),
-                  child: Text(l10n.completedStatus, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.green)),
-                )
-              else
-                FaIcon(FontAwesomeIcons.chevronRight, size: 12, color: colorScheme.onSurfaceVariant),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Color _getStatusColor() {
-    return switch (session.displayStatus) {
-      SessionStatus.pending => Colors.orange,
-      SessionStatus.confirmed => Colors.blue,
-      SessionStatus.inProgress => Colors.green,
-      SessionStatus.completed => Colors.grey,
-      SessionStatus.cancelled || SessionStatus.noShow => Colors.red,
-    };
-  }
-
-  IconData _getTypeIcon(SessionType type) {
-    return switch (type) {
-      SessionType.recording => FontAwesomeIcons.microphone,
-      SessionType.mix || SessionType.mixing => FontAwesomeIcons.sliders,
-      SessionType.mastering => FontAwesomeIcons.compactDisc,
-      SessionType.editing => FontAwesomeIcons.scissors,
-      _ => FontAwesomeIcons.music,
-    };
   }
 }
