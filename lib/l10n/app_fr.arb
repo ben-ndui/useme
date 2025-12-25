@@ -1,0 +1,962 @@
+{
+  "@@locale": "fr",
+
+  "appName": "Use Me",
+
+  "settings": "Réglages",
+  "profile": "Profil",
+  "myProfile": "Mon profil",
+  "personalInfo": "Informations personnelles",
+  "application": "Application",
+  "account": "Compte",
+  "emailPassword": "Email, mot de passe",
+  "about": "À propos",
+  "versionLegal": "Version, mentions légales",
+  "logout": "Déconnexion",
+  "logoutConfirmTitle": "Déconnexion",
+  "logoutConfirmMessage": "Voulez-vous vraiment vous déconnecter ?",
+  "cancel": "Annuler",
+
+  "notifications": "Notifications",
+  "notificationsEnabled": "Activées",
+  "notificationsDisabled": "Désactivées",
+  "notificationsMuted": "Notifications silencieuses",
+  "enableNotificationsInSettings": "Veuillez autoriser les notifications dans les réglages",
+
+  "rememberEmail": "Mémoriser l'email",
+  "rememberEmailEnabled": "Email pré-rempli à la connexion",
+  "rememberEmailDisabled": "Email non mémorisé",
+
+  "appearance": "Apparence",
+  "themeLight": "Clair",
+  "themeDark": "Sombre",
+  "themeSystem": "Système",
+  "themeLightSubtitle": "Thème lumineux",
+  "themeDarkSubtitle": "Thème sombre",
+  "themeSystemSubtitle": "Suit les réglages de l'appareil",
+
+  "language": "Langue",
+  "languageFrench": "Français",
+  "languageEnglish": "English",
+  "languageSystem": "Système",
+  "languageSystemSubtitle": "Suit les réglages de l'appareil",
+
+  "userGuide": "Guide d'utilisation",
+  "tipsAndAdvice": "Astuces et conseils",
+  "artistGuide": "Guide artiste",
+  "engineerGuide": "Guide ingénieur",
+  "studioGuide": "Guide studio",
+
+  "messages": "Messages",
+  "noConversations": "Aucune conversation",
+  "startNewConversation": "Commencez une nouvelle conversation",
+  "newMessage": "Nouveau message",
+  "loading": "Chargement...",
+  "error": "Erreur",
+  "retry": "Réessayer",
+
+  "conversationSettings": "Paramètres",
+  "viewProfile": "Voir le profil",
+  "viewParticipants": "Voir les participants",
+  "information": "Informations",
+  "block": "Bloquer",
+  "blockContact": "Bloquer ce contact",
+  "blockConfirmTitle": "Bloquer",
+  "blockConfirmMessage": "Voulez-vous bloquer {name} ? Vous ne recevrez plus de messages de ce contact.",
+  "@blockConfirmMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "blocked": "{name} a été bloqué",
+  "@blocked": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "report": "Signaler",
+  "reportProblem": "Signaler un problème",
+  "reportConfirmTitle": "Signaler",
+  "reportConfirmMessage": "Pourquoi souhaitez-vous signaler cette conversation ?",
+  "reportSent": "Signalement envoyé",
+  "leaveConversation": "Quitter la conversation",
+  "deleteFromList": "Supprimer de votre liste",
+  "leaveConfirmTitle": "Quitter la conversation",
+  "leaveConfirmMessage": "Voulez-vous quitter la conversation avec {name} ? L'historique sera supprimé.",
+  "@leaveConfirmMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "leave": "Quitter",
+  "actions": "Actions",
+
+  "accountSettings": "Compte",
+  "credentials": "Identifiants",
+  "email": "Email",
+  "notAvailable": "Non disponible",
+  "changePassword": "Changer le mot de passe",
+  "sendResetEmail": "Recevoir un email de réinitialisation",
+  "emailSentTo": "Email envoyé à {email}",
+  "@emailSentTo": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "sendError": "Erreur lors de l'envoi",
+  "dangerZone": "Zone de danger",
+  "deleteAccount": "Supprimer mon compte",
+  "deleteAccountWarning": "Cette action est irréversible",
+  "deleteAccountConfirmTitle": "Supprimer le compte",
+  "deleteAccountConfirmMessage": "Êtes-vous sûr de vouloir supprimer votre compte ? Toutes vos données seront perdues. Cette action est irréversible.",
+  "delete": "Supprimer",
+  "confirmDeletion": "Confirmer la suppression",
+  "enterPassword": "Entrez votre mot de passe pour confirmer :",
+  "password": "Mot de passe",
+  "confirm": "Confirmer",
+  "deletionError": "Erreur lors de la suppression",
+
+  "studio": "Studio",
+  "studioProfile": "Profil studio",
+  "nameAddressContact": "Nom, adresse, contact",
+  "services": "Services",
+  "serviceCatalog": "Catalogue des prestations",
+  "team": "Équipe",
+  "manageEngineers": "Gérer les ingénieurs",
+  "paymentMethods": "Moyens de paiement",
+  "paymentMethodsSubtitle": "Espèces, virement, PayPal...",
+  "visibility": "Visibilité",
+  "studioVisible": "Studio visible",
+  "artistsCanSee": "Les artistes peuvent voir votre studio et vous envoyer des demandes de session.",
+  "edit": "Modifier",
+  "becomeVisible": "Rendez-vous visible",
+  "artistsCantFind": "Les artistes ne peuvent pas encore vous trouver",
+  "claimStudio": "Revendiquez votre studio pour apparaître sur la carte et recevoir des demandes de session.",
+  "calendar": "Calendrier",
+  "availability": "Disponibilités",
+  "manageSlots": "Gérer mes créneaux",
+
+  "participants": "{count} participants",
+  "@participants": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "copy": "Copier",
+  "deleteMessage": "Supprimer",
+
+  "version": "Use Me v{version}",
+  "@version": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+
+  "studiosPlatform": "La plateforme des studios",
+  "versionBuild": "Version {version} ({build})",
+  "@versionBuild": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "build": {
+        "type": "String"
+      }
+    }
+  },
+  "legalInfo": "Informations légales",
+  "termsOfService": "Conditions d'utilisation",
+  "privacyPolicy": "Politique de confidentialité",
+  "legalNotices": "Mentions légales",
+  "support": "Support",
+  "helpCenter": "Centre d'aide",
+  "contactUs": "Nous contacter",
+  "followUs": "Suivez-nous",
+  "copyright": "© {year} Use Me. Tous droits réservés.",
+  "@copyright": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "archive": "Archiver",
+  "unarchive": "Désarchiver",
+
+  "mySessions": "Mes sessions",
+  "book": "Réserver",
+  "noSession": "Pas de session",
+  "enjoyYourDay": "Profitez de votre journée !",
+  "inProgressStatus": "En cours",
+  "upcomingStatus": "À venir",
+  "pastStatus": "Passées",
+  "noSessions": "Aucune session",
+  "bookFirstSession": "Réservez votre première session",
+  "pendingStatus": "En attente",
+  "confirmedStatus": "Confirmée",
+  "completedStatus": "Terminée",
+  "cancelledStatus": "Annulée",
+  "noShowStatus": "Absent",
+  "hoursOfSession": "{hours}h de session",
+  "@hoursOfSession": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+
+  "sessionAt": "Session chez {studio}",
+  "@sessionAt": {
+    "placeholders": {
+      "studio": {
+        "type": "String"
+      }
+    }
+  },
+  "sessionRequest": "Demande de session",
+  "noStudioSelected": "Aucun studio sélectionné",
+  "selectStudioFirst": "Sélectionnez d'abord un studio pour voir ses disponibilités.",
+  "back": "Retour",
+  "sessionType": "Type de session",
+  "sessionDuration": "Durée de la session",
+  "chooseSlot": "Choisissez votre créneau",
+  "engineerPreference": "Préférence d'ingénieur",
+  "notesOptional": "Notes (optionnel)",
+  "describeProject": "Décrivez votre projet, vos besoins...",
+  "sendRequest": "Envoyer la demande",
+  "summaryLabel": "Récapitulatif",
+  "noPreference": "Pas de préférence",
+  "engineerSelectedLabel": "Ingénieur sélectionné",
+  "letStudioChoose": "Laisser le studio choisir",
+  "availableCount": "{count} dispo",
+  "@availableCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "requestSent": "Demande envoyée ! Le studio vous répondra bientôt.",
+  "slotInfoText": "Les créneaux verts ont plus d'ingénieurs disponibles. Vous pouvez aussi choisir votre ingénieur préféré.",
+  "engineer": "Ingénieur",
+  "notSpecified": "Non spécifié",
+
+  "goodMorning": "Bonjour",
+  "goodAfternoon": "Bon après-midi",
+  "goodEvening": "Bonsoir",
+  "quickAccess": "Accès rapide",
+  "sessionsLabel": "Sessions",
+  "favoritesLabel": "Favoris",
+  "preferencesLabel": "Préférences",
+  "upcomingSessions": "Sessions à venir",
+  "viewAll": "Voir tout",
+  "noUpcomingSessions": "Aucune session prévue",
+  "bookNextSession": "Réserve ta prochaine session en studio",
+  "recentActivity": "Activité récente",
+  "noHistory": "Pas encore d'historique",
+  "completedSessionsHere": "Tes sessions terminées apparaîtront ici",
+  "waitingStatus": "Attente",
+
+  "todaySessions": "Sessions du jour",
+  "today": "Aujourd'hui",
+  "noSessionToday": "Pas de session aujourd'hui",
+  "noSessionsPlanned": "Aucune session prévue",
+  "noAssignedSessions": "Vous n'avez pas de sessions assignées",
+  "notConnected": "Non connecté",
+  "myAvailabilities": "Mes disponibilités",
+  "workingHours": "Horaires de travail",
+  "unavailabilities": "Indisponibilités",
+  "add": "Ajouter",
+  "noTimeOff": "Aucune indisponibilité",
+  "addTimeOffHint": "Ajoutez vos vacances, congés ou absences",
+
+  "myStudio": "Mon Studio",
+  "overview": "Vue d'ensemble",
+  "session": "Session",
+  "artist": "Artiste",
+  "artists": "Artistes",
+  "artistsLabel": "Artistes",
+  "planning": "Planning",
+  "stats": "Stats",
+  "thisMonth": "Ce mois",
+  "freeDay": "Journée libre",
+  "noSessionScheduled": "Aucune session programmée",
+  "pendingRequests": "Demandes en attente",
+  "recentArtists": "Artistes récents",
+  "filterByStatus": "Filtrer par statut",
+  "all": "Tous",
+  "confirmed": "Confirmées",
+  "sessionCount": "{count} session",
+  "@sessionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sessionsCount": "{count} sessions",
+  "@sessionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noSessionThisDay": "Pas de session ce jour",
+  "noSessionTodayScheduled": "Aucune session programmée aujourd'hui",
+  "scheduleSession": "Planifier une session",
+  "serviceCatalogTitle": "Catalogue services",
+  "noService": "Aucun service",
+  "createServiceCatalog": "Créez votre catalogue de services",
+  "newService": "Nouveau service",
+  "active": "Actif",
+  "inactive": "Inactif",
+
+  "rooms": "Salles",
+  "noRooms": "Aucune salle",
+  "createRoomsHint": "Configurez les salles de votre studio",
+  "addRoom": "Ajouter une salle",
+  "editRoom": "Modifier la salle",
+  "roomName": "Nom de la salle",
+  "roomNameHint": "Ex: Studio A, Cabine 1...",
+  "roomDescriptionHint": "Décrivez la salle et ses caractéristiques",
+  "accessType": "Type d'accès",
+  "withEngineer": "Avec ingénieur",
+  "withEngineerDesc": "Ingénieur son requis",
+  "selfService": "Libre accès",
+  "selfServiceDesc": "Sans ingénieur",
+  "equipment": "Équipements",
+  "equipmentHint": "Micro, console, enceintes... (séparés par virgule)",
+  "roomActive": "Salle active",
+  "roomVisibleForBooking": "Visible pour les réservations",
+  "roomHiddenForBooking": "Masquée des réservations",
+  "deleteRoom": "Supprimer la salle",
+  "deleteRoomConfirm": "Voulez-vous vraiment supprimer cette salle ?",
+  "selectRoom": "Choisir une salle",
+  "noRoomAvailable": "Aucune salle disponible",
+
+  "restDay": "Repos",
+  "inProgress": "En cours",
+  "deleteTimeOff": "Supprimer",
+  "deleteTimeOffConfirm": "Supprimer cette indisponibilité ?",
+  "daysCount": "{count} jour",
+  "@daysCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysCountPlural": "{count} jours",
+  "@daysCountPlural": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "addTimeOff": "Ajouter une indisponibilité",
+  "fromDate": "Du",
+  "toDate": "Au",
+  "reasonOptional": "Raison (optionnel)",
+  "enterCustomReason": "Ou saisissez une raison...",
+  "errorLoadingAvailability": "Erreur lors du chargement des disponibilités",
+  "available": "Dispo",
+  "limited": "Limité",
+  "unavailable": "Indispo",
+  "slotsForDate": "Créneaux du {date}",
+  "@slotsForDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "noSlotAvailable": "Aucun créneau disponible",
+  "tryAnotherDate": "Essayez une autre date",
+  "fullyAvailable": "Parfaitement disponibles",
+  "partiallyAvailable": "Partiellement disponibles",
+  "noEngineerAvailable": "Aucun ingénieur dispo",
+  "studioUnavailable": "Studio indisponible",
+  "noEngineerTryAnotherDate": "Aucun ingénieur disponible ce jour. Essayez une autre date.",
+  "chooseEngineer": "Choisir un ingénieur",
+  "availableCountLabel": "{count} disponible(s)",
+  "@availableCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "optionalEngineerInfo": "Optionnel : laissez le studio assigner un ingénieur automatiquement",
+  "availableLabel": "DISPONIBLES",
+  "unavailableLabel": "INDISPONIBLES",
+  "studioWillAssignEngineer": "Le studio assignera un ingénieur",
+  "bookNextSessionSubtitle": "Réservez votre prochaine session",
+  "emailHint": "Email",
+  "emailRequired": "Email requis",
+  "emailInvalid": "Email invalide",
+  "passwordHint": "Mot de passe",
+  "passwordRequired": "Mot de passe requis",
+  "minCharacters": "Minimum {count} caractères",
+  "@minCharacters": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "forgotPassword": "Mot de passe oublié ?",
+  "signIn": "Se connecter",
+  "or": "ou",
+  "noAccountYet": "Pas encore de compte ?",
+  "signUp": "S'inscrire",
+  "demoAccess": "Accès démo",
+  "enterEmailFirst": "Entrez votre email d'abord",
+  "demoMode": "Mode Démo",
+  "browseWithoutLogin": "Naviguer sans connexion",
+  "studioAdmin": "Studio (Admin)",
+  "manageSessionsArtistsServices": "Gérer sessions, artistes, services",
+  "soundEngineer": "Ingénieur son",
+  "viewAndTrackSessions": "Voir et tracker les sessions",
+  "bookSessions": "Réserver des sessions",
+  "createAccount": "Créer un compte",
+  "joinCommunity": "Rejoignez la communauté",
+  "iAm": "Je suis...",
+  "orByEmail": "ou par email",
+  "stageNameOrName": "Nom de scène ou nom",
+  "fullName": "Nom complet",
+  "nameRequired": "Nom requis",
+  "confirmPassword": "Confirmer le mot de passe",
+  "confirmationRequired": "Confirmation requise",
+  "passwordsDontMatch": "Mots de passe différents",
+  "createMyAccount": "Créer mon compte",
+  "alreadyHaveAccount": "Déjà un compte ?",
+  "chooseYourProfile": "Choisissez votre profil",
+  "actionIsPermanent": "Cette action est définitive",
+  "howToUseApp": "Comment souhaitez-vous utiliser l'app ?",
+  "iOwnStudio": "Je possède un studio",
+  "iWorkInStudio": "Je travaille dans un studio",
+  "iWantToBookSessions": "Je veux réserver des sessions",
+  "acceptBooking": "Accepter la réservation",
+  "choosePaymentMethod": "Choisissez le mode de paiement",
+  "noPaymentMethodConfigured": "Aucun moyen de paiement configuré. Allez dans Réglages > Moyens de paiement.",
+  "paymentMode": "Mode de paiement",
+  "depositRequested": "Acompte demandé",
+  "customMessageOptional": "Message personnalisé (optionnel)",
+  "customMessageHint": "Ex: Merci pour ta confiance !",
+  "totalAmount": "Montant total",
+  "depositToPay": "Acompte à régler",
+  "paymentBy": "Paiement par",
+  "ofTotalAmount": "{percent}% du montant total",
+  "@ofTotalAmount": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "acceptAndSendInfo": "Accepter et envoyer les infos",
+  "welcome": "Bienvenue !",
+  "discoverAppFeatures": "Découvrez comment tirer le meilleur de Use Me",
+
+  "nearbyStudios": "Studios à proximité",
+  "discoverWhereToRecord": "Découvre où enregistrer",
+  "noStudioFound": "Aucun studio trouvé",
+  "enableLocationToDiscover": "Active ta localisation pour découvrir les studios près de toi",
+  "partner": "Partner",
+
+  "missingStudio": "Studio manquant ?",
+  "tellUsWhichStudio": "Dis-nous quel studio tu cherches",
+  "studioName": "Nom du studio",
+  "studioNameExample": "Ex: Studio XYZ",
+  "pleaseEnterStudioName": "Veuillez entrer le nom du studio",
+  "city": "Ville",
+  "cityExample": "Ex: Paris, Lyon...",
+  "pleaseEnterCity": "Veuillez entrer la ville",
+  "notesOptionalLabel": "Notes (optionnel)",
+  "notesHint": "Adresse, site web, infos utiles...",
+  "sending": "Envoi en cours...",
+  "sendRequestLabel": "Envoyer la demande",
+  "requestSubmitted": "Demande envoyée !",
+  "weWillVerifyAndAddStudio": "Nous allons vérifier et ajouter ce studio prochainement.",
+
+  "searchingStudios": "Recherche de studios...",
+  "partnerLabel": "Partenaire",
+
+  "newConversation": "Nouvelle conversation",
+  "searchContact": "Rechercher un contact...",
+  "errorLoadingContacts": "Erreur lors du chargement des contacts",
+  "user": "Utilisateur",
+  "contact": "Contact",
+  "noResult": "Aucun résultat",
+  "noContactAvailable": "Aucun contact disponible",
+  "myContacts": "Mes contacts",
+  "searchResults": "Résultats de recherche",
+  "tryOtherTerms": "Essayez avec d'autres termes",
+  "contactsWillAppearHere": "Vos contacts apparaîtront ici",
+  "noName": "Sans nom",
+
+  "searchByNameOrEmail": "Rechercher par nom ou email...",
+  "searchArtist": "Rechercher un artiste",
+  "typeAtLeastTwoChars": "Tapez au moins 2 caractères pour rechercher parmi les artistes inscrits",
+  "noArtistFound": "Aucun artiste trouvé",
+  "artistNotRegistered": "Cet artiste n'est pas encore inscrit. Invitez-le ou créez sa fiche manuellement.",
+  "link": "Lier",
+  "createNewArtist": "Créer un nouvel artiste",
+  "artistNotOnApp": "L'artiste n'est pas sur l'app ? Créez sa fiche et invitez-le",
+
+  "home": "Accueil",
+  "favorites": "Favoris",
+
+  "myFavorites": "Mes favoris",
+  "studios": "Studios",
+  "studiosLabel": "Studios",
+  "engineers": "Ingénieurs",
+  "engineersLabel": "Ingénieurs",
+  "noFavoriteStudio": "Aucun studio favori",
+  "noFavoriteStudios": "Aucun studio favori",
+  "exploreStudiosAndAddFavorites": "Explorez les studios et ajoutez-les à vos favoris",
+  "exploreStudiosToFavorite": "Explorez les studios et ajoutez-les à vos favoris",
+  "noFavoriteEngineer": "Aucun ingénieur favori",
+  "noFavoriteEngineers": "Aucun ingénieur favori",
+  "discoverEngineersAndAddFavorites": "Découvrez les ingénieurs et ajoutez-les à vos favoris",
+  "discoverEngineersToFavorite": "Découvrez les ingénieurs et ajoutez-les à vos favoris",
+  "noFavoriteArtists": "Aucun artiste favori",
+  "addArtistsToFavorite": "Ajoutez des artistes à vos favoris depuis la liste des artistes",
+  "unnamed": "Sans nom",
+
+  "claimStudioTitle": "Mon studio",
+  "nearbyStudiosTitle": "Studios à proximité",
+  "selectStudioToClaim": "Sélectionnez votre studio pour le revendiquer",
+  "connectGoogleCalendarDesc": "Connectez votre agenda Google pour synchroniser automatiquement vos disponibilités.",
+  "connectGoogleCalendar": "Connecter Google Calendar",
+  "claimYourStudioTitle": "Revendiquez votre studio",
+  "claimYourStudio": "Revendiquez votre studio",
+  "claimYourStudioDesc": "Rendez votre studio visible aux artistes et recevez des demandes de session.",
+  "claimStudioDescription": "Rendez votre studio visible aux artistes et recevez des demandes de session.",
+  "noStudioFoundNearby": "Aucun studio trouvé à proximité",
+  "createStudioManually": "Créez votre studio manuellement ci-dessous",
+  "createStudioManuallyBelow": "Créez votre studio manuellement ci-dessous",
+  "studioNotAppearing": "Mon studio n'apparaît pas",
+  "studioNotListed": "Mon studio n'apparaît pas",
+  "createStudioProfileManually": "Créer manuellement mon profil studio",
+  "createManualProfile": "Créer manuellement mon profil studio",
+  "claimThisStudio": "Revendiquer ce studio ?",
+  "claimStudioExplanation": "En revendiquant ce studio, vous le rendez visible aux artistes sur Use Me. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.",
+  "claimStudioInfo": "En revendiquant ce studio, vous le rendez visible aux artistes sur Use Me. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.",
+  "claim": "Revendiquer",
+  "studioClaimedSuccess": "{name} revendiqué avec succès !",
+  "@studioClaimedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "studioClaims": "Revendications studios",
+  "studioClaimsSubtitle": "Approuver ou refuser les demandes",
+  "unclaim": "Retirer",
+  "unclaimStudioTitle": "Retirer le studio ?",
+  "unclaimStudioMessage": "Voulez-vous vraiment retirer \"{name}\" ? Votre studio ne sera plus visible par les artistes.",
+  "@unclaimStudioMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "studioUnclaimed": "Studio retiré avec succès",
+
+  "configurePayments": "Configurez vos paiements",
+  "paymentOptionsDescription": "Ces options seront proposées aux artistes lors de la confirmation de réservation.",
+  "defaultDeposit": "Acompte par défaut",
+  "depositPercentDescription": "Pourcentage du montant total demandé en acompte",
+  "acceptedPaymentMethods": "Moyens de paiement acceptés",
+  "instructionsOptional": "Instructions (optionnel)",
+  "instructionsHint": "Ex: Mettre le nom de l'artiste en référence",
+  "paypalEmail": "Email PayPal",
+  "cardInfo": "Informations",
+  "details": "Détails",
+  "iban": "IBAN",
+
+  "createMyStudio": "Créer mon studio",
+  "studioNameRequired": "Nom du studio *",
+  "studioNameHint": "Ex: Studio Harmonie",
+  "studioNameRequiredError": "Le nom du studio est requis",
+  "studioNameIsRequired": "Le nom du studio est requis",
+  "description": "Description",
+  "describeStudioHint": "Décrivez votre studio en quelques mots...",
+  "describeYourStudio": "Décrivez votre studio en quelques mots...",
+  "location": "Localisation",
+  "address": "Adresse",
+  "addressHint": "Ex: 123 rue de la Musique",
+  "postalCode": "Code postal",
+  "cityRequired": "Ville *",
+  "cityRequiredError": "La ville est requise",
+  "cityIsRequired": "La ville est requise",
+  "phone": "Téléphone",
+  "phoneHint": "06 12 34 56 78",
+  "website": "Site web",
+  "websiteHint": "https://www.monstudio.com",
+  "offeredServices": "Services proposés",
+  "servicesOffered": "Services proposés",
+  "creating": "Création en cours...",
+  "creatingInProgress": "Création en cours...",
+  "studioCreatedSuccess": "Studio créé avec succès !",
+  "manualCreation": "Création manuelle",
+  "studioVisibleAfterCreation": "Votre studio sera visible aux artistes dès sa création. Vous pourrez compléter votre profil plus tard.",
+  "manualCreationDescription": "Votre studio sera visible aux artistes dès sa création. Vous pourrez compléter votre profil plus tard.",
+
+  "editSession": "Modifier la session",
+  "newSession": "Nouvelle session",
+  "dateAndTime": "Date et heure",
+  "duration": "Durée",
+  "save": "Enregistrer",
+  "createSession": "Créer la session",
+  "addArtistFirst": "Ajouter un artiste d'abord",
+  "selectArtist": "Sélectionner un artiste",
+  "addAnotherArtist": "Ajouter un autre artiste",
+  "allArtistsSelected": "Tous les artistes sont déjà sélectionnés",
+  "selectAtLeastOneArtist": "Sélectionnez au moins un artiste",
+  "deleteSession": "Supprimer la session",
+  "actionIrreversible": "Cette action est irréversible.",
+
+  "editService": "Modifier le service",
+  "newServiceTitle": "Nouveau service",
+  "serviceName": "Nom du service",
+  "serviceNameHint": "Ex: Mix, Mastering, Recording...",
+  "fieldRequired": "Champ requis",
+  "serviceDescription": "Description (optionnel)",
+  "serviceDescriptionHint": "Description du service...",
+  "hourlyRate": "Tarif horaire (€)",
+  "perHour": "€/h",
+  "invalidNumber": "Nombre invalide",
+  "minimumDuration": "Durée minimum",
+  "serviceActive": "Service actif",
+  "availableForBooking": "Disponible à la réservation",
+  "notAvailableForBooking": "Non disponible",
+  "createService": "Créer le service",
+  "deleteService": "Supprimer le service",
+
+  "teamMembers": "Membres de l'équipe",
+  "pendingInvitations": "Invitations en attente",
+  "noMember": "Aucun membre",
+  "addEngineersToTeam": "Ajoutez des ingénieurs à votre équipe",
+  "noInvitation": "Aucune invitation",
+  "pendingInvitationsHere": "Les invitations en attente apparaîtront ici",
+  "codeCopied": "Code copié",
+  "removeFromTeam": "Retirer de l'équipe",
+  "removeMemberConfirm": "Retirer ce membre ?",
+  "memberNoAccessAnymore": "{name} ne pourra plus accéder aux sessions du studio.",
+  "@memberNoAccessAnymore": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "memberRemoved": "Membre retiré",
+  "remove": "Retirer",
+  "invitationCancelled": "Invitation annulée",
+  "addMember": "Ajouter un membre",
+  "searchByEmailOrInvite": "Recherchez par email ou invitez un nouvel ingénieur",
+  "userNotRegistered": "Utilisateur non inscrit",
+  "sendInvitationToJoin": "Envoyez-lui une invitation pour rejoindre votre équipe.",
+  "sendInvitation": "Envoyer l'invitation",
+  "enterValidEmail": "Entrez un email valide",
+  "invitationCreated": "Invitation créée",
+  "shareCodeWithEngineer": "Partagez ce code avec l'ingénieur :",
+
+  "searchArtistHint": "Rechercher un artiste...",
+  "noArtistEmpty": "Aucun artiste",
+  "addFirstArtist": "Ajoutez votre premier artiste",
+  "addArtist": "Ajouter un artiste",
+  "tryAnotherSearch": "Essayez une autre recherche",
+  "search": "Rechercher",
+  "create": "Créer",
+  "findExistingArtist": "Trouvez un artiste existant",
+  "searchAmongRegistered": "Recherchez parmi les artistes déjà inscrits sur Use Me pour le lier à votre studio.",
+  "artistAddedToStudio": "{name} ajouté à votre studio !",
+  "@artistAddedToStudio": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "artistName": "Nom d'artiste",
+  "stageNameHint": "Le nom de scène...",
+  "civilName": "Nom civil",
+  "firstAndLastName": "Prénom et nom...",
+  "emailHintArtist": "Email de l'artiste...",
+  "emailRequiredForInvitation": "Email requis pour l'invitation",
+  "phoneOptional": "Téléphone (optionnel)",
+  "phoneHintGeneric": "Téléphone...",
+  "musicalGenres": "Genres musicaux",
+  "sendInvitationToggle": "Envoyer une invitation",
+  "artistWillReceiveCode": "L'artiste recevra un code pour rejoindre votre studio",
+  "createAndInvite": "Créer et inviter",
+  "createProfile": "Créer la fiche",
+  "createArtistProfile": "Créer une fiche artiste",
+  "createProfileAndInvite": "Créez la fiche et invitez l'artiste. Son compte sera automatiquement lié quand il s'inscrira.",
+  "artistCreated": "Artiste créé !",
+  "shareCodeWithArtist": "Partagez ce code avec l'artiste pour qu'il rejoigne votre studio",
+  "share": "Partager",
+  "done": "Terminé",
+
+  "notificationsTitle": "Notifications",
+  "markAllRead": "Tout marquer lu",
+  "markAllAsRead": "Tout marquer lu",
+  "noNotification": "Aucune notification",
+  "noNotifications": "Aucune notification",
+  "notifiedForNewSessions": "Vous serez notifié des nouvelles sessions",
+  "notifyNewSessions": "Vous serez notifié des nouvelles sessions",
+  "loadingError": "Erreur de chargement",
+
+  "personalInformation": "Informations personnelles",
+  "fullNameLabel": "Nom complet",
+  "required": "Requis",
+  "stageName": "Nom de scène",
+  "bio": "Bio",
+  "tellAboutYourself": "Parlez de vous...",
+  "accountSection": "Compte",
+  "changePasswordAction": "Changer le mot de passe",
+  "logoutAction": "Se déconnecter",
+  "signOut": "Se déconnecter",
+  "deleteMyAccount": "Supprimer mon compte",
+  "resetEmailSent": "Email de réinitialisation envoyé",
+  "deleteAccountTitle": "Supprimer le compte",
+  "deleteAccountFinalWarning": "Cette action est irréversible. Toutes vos données seront supprimées définitivement.",
+
+  "sessionTracking": "Suivi session",
+  "hoursPlanned": "{hours}h prévues",
+  "@hoursPlanned": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "checkIn": "Pointage",
+  "checkInArrival": "Pointer l'arrivée",
+  "arrivalChecked": "Arrivée pointée",
+  "checkOutDeparture": "Pointer le départ",
+  "sessionNotes": "Notes de session",
+  "addSessionNotes": "Ajouter des notes sur la session...",
+  "photos": "Photos",
+  "addPhoto": "Ajouter une photo",
+  "arrivalCheckedSuccess": "Arrivée pointée !",
+  "endSession": "Terminer la session ?",
+  "endSessionConfirm": "Voulez-vous pointer votre départ et terminer cette session ?",
+  "finish": "Terminer",
+  "contactArtist": "Contacter l'artiste",
+  "reportProblemAction": "Signaler un problème",
+
+  "editArtist": "Modifier l'artiste",
+  "newArtistTitle": "Nouvel artiste",
+  "contact": "Contact",
+  "emailHintGeneric": "Email...",
+  "cityHint": "Ville...",
+  "bioOptional": "Bio (optionnel)",
+  "fewWordsAboutArtist": "Quelques mots sur l'artiste...",
+  "createArtist": "Créer l'artiste",
+  "deleteArtist": "Supprimer l'artiste",
+
+  "calendarTitle": "Calendrier",
+  "unavailabilityAdded": "Indisponibilité ajoutée",
+  "unavailabilityDeleted": "Indisponibilité supprimée",
+  "calendarConnected": "Calendrier connecté",
+  "unavailabilities": "Indispos",
+  "never": "Jamais",
+  "lastSync": "Dernier sync",
+  "synchronize": "Synchroniser",
+  "disconnect": "Déconnecter",
+  "disconnectCalendar": "Déconnecter le calendrier ?",
+  "disconnectCalendarWarning": "Vos indisponibilités synchronisées seront supprimées. Les indisponibilités manuelles seront conservées.",
+
+  "tipsSectionGettingStarted": "Premiers pas",
+  "tipsSectionBookings": "Réservations",
+  "tipsSectionProTips": "Astuces pro",
+  "tipsSectionSetup": "Configuration",
+  "tipsSectionSessions": "Sessions",
+  "tipsSectionTips": "Astuces",
+  "tipsSectionStudioSetup": "Configuration du studio",
+  "tipsSectionTeamManagement": "Gestion d'équipe",
+  "tipsSectionVisibility": "Visibilité",
+
+  "tipExploreMapTitle": "Explorez la carte",
+  "tipExploreMapDesc": "La carte vous montre tous les studios autour de vous. Les pins verts sont des studios partenaires avec des avantages exclusifs. Zoomez et déplacez-vous pour découvrir plus de studios.",
+  "tipCompleteProfileTitle": "Complétez votre profil",
+  "tipCompleteProfileDesc": "Un profil complet avec photo et genres musicaux aide les studios à mieux vous connaître. Allez dans Réglages > Mon profil pour ajouter ces infos.",
+  "tipChooseSlotTitle": "Choisir le bon créneau",
+  "tipChooseSlotDesc": "Les créneaux verts indiquent une forte disponibilité d'ingénieurs. Les créneaux orange sont plus limités. Préférez les créneaux verts pour plus de flexibilité.",
+  "tipSelectEngineerTitle": "Sélectionnez votre ingénieur",
+  "tipSelectEngineerDesc": "Vous pouvez choisir un ingénieur spécifique ou laisser le studio assigner. Si vous avez déjà travaillé avec quelqu'un, retrouvez-le dans la liste !",
+  "tipPrepareSessionTitle": "Préparez votre session",
+  "tipPrepareSessionDesc": "Utilisez le champ \"Notes\" pour décrire votre projet : style, références, ce que vous voulez accomplir. Ça aide l'ingénieur à se préparer.",
+  "tipBookAdvanceTitle": "Réservez à l'avance",
+  "tipBookAdvanceDesc": "Les meilleurs créneaux partent vite ! Réservez 2-3 jours à l'avance pour avoir le choix des horaires et des ingénieurs.",
+  "tipManageFavoritesTitle": "Gérez vos favoris",
+  "tipManageFavoritesDesc": "Ajoutez vos studios préférés en favoris pour les retrouver rapidement. Appuyez sur le cœur sur la page du studio.",
+  "tipTrackSessionsTitle": "Suivez vos sessions",
+  "tipTrackSessionsDesc": "Dans l'onglet Sessions, retrouvez tout votre historique. C'est pratique pour re-réserver avec le même ingénieur ou studio.",
+
+  "tipSetScheduleTitle": "Définissez vos horaires",
+  "tipSetScheduleDesc": "Allez dans Réglages > Disponibilités pour configurer vos jours et heures de travail. Les artistes ne pourront réserver que sur vos créneaux actifs.",
+  "tipAddUnavailabilityTitle": "Ajoutez vos indisponibilités",
+  "tipAddUnavailabilityDesc": "Vacances, RDV, ou jour off ? Ajoutez une indisponibilité pour bloquer ces périodes. Vous pouvez ajouter une raison optionnelle.",
+  "tipViewSessionsTitle": "Voir vos sessions",
+  "tipViewSessionsDesc": "L'onglet Sessions affiche toutes vos sessions à venir. Les sessions \"Confirmées\" sont validées, \"En attente\" doivent être confirmées par le studio.",
+  "tipStartSessionTitle": "Démarrer une session",
+  "tipStartSessionDesc": "Le jour J, appuyez sur \"Démarrer\" pour lancer le chrono. À la fin, appuyez sur \"Terminer\" et ajoutez vos notes de session.",
+  "tipSessionNotesTitle": "Notes de session",
+  "tipSessionNotesDesc": "Après chaque session, ajoutez des notes : réglages utilisés, fichiers exportés, remarques. C'est utile pour vous et pour l'artiste.",
+  "tipStayUpdatedTitle": "Restez à jour",
+  "tipStayUpdatedDesc": "Mettez à jour vos disponibilités régulièrement. Un planning à jour = plus de réservations pour vous !",
+  "tipProfileMattersTitle": "Votre profil compte",
+  "tipProfileMattersDesc": "Les artistes peuvent vous choisir spécifiquement. Une photo pro et une bio avec vos spécialités attirent plus de clients.",
+
+  "tipCompleteStudioProfileTitle": "Complétez votre profil studio",
+  "tipCompleteStudioProfileDesc": "Ajoutez photos, description, équipements et services. Un profil complet apparaît plus haut dans les résultats et attire plus d'artistes.",
+  "tipSetStudioHoursTitle": "Définissez vos horaires",
+  "tipSetStudioHoursDesc": "Configurez les horaires d'ouverture du studio dans Réglages. Les artistes ne pourront réserver que pendant ces heures.",
+  "tipAddServicesTitle": "Ajoutez vos services",
+  "tipAddServicesDesc": "Enregistrement, mix, mastering... Définissez vos services avec leurs tarifs. Ça aide les artistes à choisir.",
+  "tipInviteEngineersTitle": "Invitez vos ingénieurs",
+  "tipInviteEngineersDesc": "Allez dans Équipe > Inviter pour ajouter vos ingénieurs. Ils recevront un lien pour rejoindre votre studio.",
+  "tipManageAvailabilitiesTitle": "Gérez les disponibilités",
+  "tipManageAvailabilitiesDesc": "Chaque ingénieur gère ses propres disponibilités. Vous pouvez voir la vue d'ensemble dans le planning du studio.",
+  "tipAssignSessionsTitle": "Assignez les sessions",
+  "tipAssignSessionsDesc": "Quand un artiste ne choisit pas d'ingénieur, c'est à vous de l'assigner. Vérifiez les disponibilités avant d'assigner.",
+  "tipManageRequestsTitle": "Gérer les demandes",
+  "tipManageRequestsDesc": "Les nouvelles demandes apparaissent dans \"En attente\". Validez rapidement pour fidéliser les artistes !",
+  "tipInviteArtistsTitle": "Invitez vos artistes",
+  "tipInviteArtistsDesc": "Vous avez des artistes réguliers ? Invitez-les via Clients > Inviter. Ils pourront réserver plus facilement.",
+  "tipTrackActivityTitle": "Suivez l'activité",
+  "tipTrackActivityDesc": "Le dashboard vous montre les stats : sessions du mois, revenus, artistes actifs. Gardez un œil sur votre activité.",
+  "tipBecomePartnerTitle": "Devenez partenaire",
+  "tipBecomePartnerDesc": "Les studios partenaires apparaissent en vert sur la carte et en priorité. Contactez-nous pour en savoir plus !",
+  "tipEncourageReviewsTitle": "Encouragez les avis",
+  "tipEncourageReviewsDesc": "Après une session réussie, invitez l'artiste à laisser un avis. Les bons avis attirent plus de clients.",
+
+  "teamInvitations": "Invitations d'équipe",
+  "noEmailConfigured": "Email non configuré",
+  "noInvitations": "Aucune invitation",
+  "noInvitationsDescription": "Vous n'avez pas d'invitation en attente.",
+  "invitationSentOn": "Envoyée le {date}",
+  "@invitationSentOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "teamInvitationMessage": "{studioName} vous invite à rejoindre son équipe en tant qu'ingénieur du son.",
+  "@teamInvitationMessage": {
+    "placeholders": {
+      "studioName": {
+        "type": "String"
+      }
+    }
+  },
+  "expiresOn": "Expire le {date}",
+  "@expiresOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "decline": "Refuser",
+  "accept": "Accepter",
+  "invitationAccepted": "Invitation acceptée ! Vous faites maintenant partie de l'équipe.",
+  "declineInvitation": "Refuser l'invitation",
+  "declineInvitationConfirm": "Êtes-vous sûr de vouloir refuser l'invitation de {studioName} ?",
+  "@declineInvitationConfirm": {
+    "placeholders": {
+      "studioName": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationDeclined": "Invitation refusée.",
+  "errorOccurred": "Une erreur est survenue",
+
+  "sessionDetails": "Détails de la session",
+  "toBeAssigned": "À attribuer par le studio",
+  "acceptSession": "Accepter la session",
+  "confirmAcceptSession": "Voulez-vous accepter cette demande de session ?",
+  "sessionAccepted": "Session acceptée !",
+  "declineSession": "Refuser la session",
+  "confirmDeclineSession": "Voulez-vous refuser cette demande de session ?",
+  "sessionDeclined": "Session refusée",
+  "cancelSession": "Annuler la session",
+  "confirmCancelSession": "Voulez-vous annuler cette session ? Cette action est irréversible.",
+
+  "bic": "BIC / SWIFT",
+  "accountHolder": "Titulaire du compte",
+  "bankName": "Nom de la banque",
+  "cancellationPolicy": "Politique d'annulation",
+  "cancellationPolicyDescription": "Définissez vos conditions de remboursement en cas d'annulation",
+  "customCancellationTerms": "Conditions personnalisées",
+  "customCancellationHint": "Décrivez vos conditions d'annulation...",
+  "saveAsDefault": "Enregistrer par défaut",
+  "saveAsDefaultDescription": "Utiliser ce choix pour les prochaines sessions",
+
+  "proposeToEngineers": "Proposer",
+  "assignLater": "Plus tard",
+  "assignLaterDescription": "Vous pourrez assigner un ingénieur depuis les détails de la session",
+  "selectAtLeastOne": "Sélectionnez au moins 1",
+  "assignEngineer": "Ingénieur son",
+  "noEngineersAvailable": "Aucun ingénieur disponible pour ce créneau",
+
+  "proposedSessions": "Sessions proposées",
+  "proposedSessionsEmpty": "Aucune proposition en attente",
+  "acceptProposal": "Accepter",
+  "declineProposal": "Refuser",
+  "joinAsCoEngineer": "Rejoindre",
+  "sessionProposedToYou": "Session proposée",
+  "sessionTaken": "Session prise",
+  "sessionTakenDesc": "Cette session a été acceptée par un autre ingénieur. Vous pouvez demander à rejoindre.",
+  "requestToJoin": "Demander à rejoindre",
+  "joinedAsCoEngineer": "Vous avez rejoint la session !",
+  "proposalAccepted": "Proposition acceptée !",
+  "proposalDeclined": "Proposition refusée",
+  "youAreAssigned": "Vous êtes assigné",
+  "pendingProposal": "En attente de réponse",
+
+  "openingHours": "Horaires d'ouverture",
+  "openingHoursSubtitle": "Définissez quand votre studio est ouvert",
+  "noOpeningHoursConfigured": "Aucun horaire configuré",
+  "openingHoursSaved": "Horaires enregistrés",
+  "restDay": "Fermé",
+
+  "selectStudio": "Choisir un studio",
+  "selectStudioDescription": "Sélectionnez le studio pour votre session",
+  "noLinkedStudios": "Aucun studio lié",
+  "noLinkedStudiosDescription": "Vous n'êtes lié à aucun studio. Explorez les studios pour commencer.",
+  "discoverStudios": "Découvrir les studios",
+  "exploreMapHint": "Explorez la carte pour trouver des studios à proximité",
+
+  "changePhoto": "Changer la photo",
+  "takePhoto": "Prendre une photo",
+  "useCamera": "Utiliser l'appareil photo",
+  "chooseFromGallery": "Choisir depuis la galerie",
+  "selectExistingPhoto": "Sélectionner une photo existante",
+  "photoUpdated": "Photo mise à jour"
+}
