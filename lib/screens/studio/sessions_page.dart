@@ -19,11 +19,26 @@ class SessionsPage extends StatefulWidget {
   State<SessionsPage> createState() => _SessionsPageState();
 }
 
-class _SessionsPageState extends State<SessionsPage> {
+class _SessionsPageState extends State<SessionsPage>
+    with SingleTickerProviderStateMixin {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
   SessionStatus? _selectedStatus;
+  bool _isListView = false;
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +53,42 @@ class _SessionsPageState extends State<SessionsPage> {
         backgroundColor: theme.colorScheme.surface,
         actions: [
           IconButton(
-            icon: const FaIcon(FontAwesomeIcons.filter, size: 16),
-            onPressed: () => _showFilterSheet(context),
+            icon: FaIcon(
+              _isListView ? FontAwesomeIcons.calendar : FontAwesomeIcons.list,
+              size: 16,
+            ),
+            onPressed: () => setState(() => _isListView = !_isListView),
+            tooltip: _isListView ? l10n.calendarView : l10n.listView,
           ),
+          if (!_isListView)
+            IconButton(
+              icon: const FaIcon(FontAwesomeIcons.filter, size: 16),
+              onPressed: () => _showFilterSheet(context),
+            ),
         ],
+        bottom: _isListView
+            ? TabBar(
+                controller: _tabController,
+                tabs: [
+                  Tab(text: l10n.upcoming),
+                  Tab(text: l10n.inProgress),
+                  Tab(text: l10n.past),
+                ],
+              )
+            : null,
       ),
-      body: Column(
-        children: [
-          _buildCalendar(context, locale),
-          Container(height: 1, color: theme.colorScheme.outlineVariant.withValues(alpha: 0.3)),
-          Expanded(child: _buildSessionsList(context, l10n, locale)),
-        ],
-      ),
+      body: _isListView
+          ? _buildListView(context, l10n, locale)
+          : Column(
+              children: [
+                _buildCalendar(context, locale),
+                Container(
+                  height: 1,
+                  color: theme.colorScheme.outlineVariant.withValues(alpha: 0.3),
+                ),
+                Expanded(child: _buildSessionsList(context, l10n, locale)),
+              ],
+            ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 88),
         child: FloatingActionButton(
@@ -240,5 +279,163 @@ class _SessionsPageState extends State<SessionsPage> {
 
   List<Session> _getSessionsForDay(List<Session> sessions, DateTime day) {
     return sessions.where((s) => isSameDay(s.scheduledStart, day)).toList();
+  }
+
+  Widget _buildListView(
+    BuildContext context,
+    AppLocalizations l10n,
+    String locale,
+  ) {
+    return BlocBuilder<SessionBloc, SessionState>(
+      builder: (context, state) {
+        if (state.isLoading) return const AppLoader.compact();
+
+        final now = DateTime.now();
+        final sessions = state.sessions;
+
+        // Séparer par catégorie
+        final upcoming = sessions
+            .where((s) =>
+                s.scheduledStart.isAfter(now) &&
+                s.displayStatus != SessionStatus.inProgress)
+            .toList()
+          ..sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart));
+
+        final inProgress = sessions
+            .where((s) => s.displayStatus == SessionStatus.inProgress)
+            .toList()
+          ..sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart));
+
+        final past = sessions
+            .where((s) =>
+                s.scheduledStart.isBefore(now) &&
+                s.displayStatus != SessionStatus.inProgress)
+            .toList()
+          ..sort((a, b) => b.scheduledStart.compareTo(a.scheduledStart));
+
+        return TabBarView(
+          controller: _tabController,
+          children: [
+            _buildSessionListTab(context, l10n, locale, upcoming, l10n.upcoming),
+            _buildSessionListTab(context, l10n, locale, inProgress, l10n.inProgress),
+            _buildSessionListTab(context, l10n, locale, past, l10n.past),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildSessionListTab(
+    BuildContext context,
+    AppLocalizations l10n,
+    String locale,
+    List<Session> sessions,
+    String tabName,
+  ) {
+    final theme = Theme.of(context);
+
+    if (sessions.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHighest,
+                shape: BoxShape.circle,
+              ),
+              child: FaIcon(
+                FontAwesomeIcons.calendarCheck,
+                size: 28,
+                color: theme.colorScheme.outline,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.noSessions,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // Grouper par date
+    final grouped = <DateTime, List<Session>>{};
+    for (final session in sessions) {
+      final date = DateTime(
+        session.scheduledStart.year,
+        session.scheduledStart.month,
+        session.scheduledStart.day,
+      );
+      grouped.putIfAbsent(date, () => []).add(session);
+    }
+
+    final sortedDates = grouped.keys.toList()
+      ..sort((a, b) => tabName == l10n.past
+          ? b.compareTo(a) // Passé: plus récent d'abord
+          : a.compareTo(b)); // À venir: plus proche d'abord
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: sortedDates.length,
+      itemBuilder: (context, index) {
+        final date = sortedDates[index];
+        final daySessions = grouped[date]!;
+        final isToday = isSameDay(date, DateTime.now());
+        final dateLabel = isToday
+            ? l10n.today
+            : DateFormat('EEEE d MMMM', locale).format(date);
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      dateLabel,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: isToday ? theme.colorScheme.primary : null,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      '${daySessions.length}',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ...daySessions.map(
+              (session) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: SessionCard(session: session, locale: locale),
+              ),
+            ),
+            const SizedBox(height: 8),
+          ],
+        );
+      },
+    );
   }
 }

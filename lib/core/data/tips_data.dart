@@ -72,6 +72,31 @@ class TipsData {
         ),
       ],
     ),
+    TipSection(
+      title: l10n.tipsSectionAIAssistant,
+      icon: FontAwesomeIcons.robot,
+      color: Colors.deepPurple,
+      tips: [
+        TipItem(
+          title: l10n.tipAIAssistantTitle,
+          description: l10n.tipAIAssistantDesc,
+          icon: FontAwesomeIcons.commentDots,
+          iconColor: Colors.purple,
+        ),
+        TipItem(
+          title: l10n.tipAIActionsTitle,
+          description: l10n.tipAIActionsArtistDesc,
+          icon: FontAwesomeIcons.wandMagicSparkles,
+          iconColor: Colors.blue,
+        ),
+        TipItem(
+          title: l10n.tipAIContextTitle,
+          description: l10n.tipAIContextDesc,
+          icon: FontAwesomeIcons.userCheck,
+          iconColor: Colors.green,
+        ),
+      ],
+    ),
   ];
 
   // ============ INGENIEUR ============
@@ -129,6 +154,31 @@ class TipsData {
           title: l10n.tipProfileMattersTitle,
           description: l10n.tipProfileMattersDesc,
           icon: FontAwesomeIcons.idCard,
+        ),
+      ],
+    ),
+    TipSection(
+      title: l10n.tipsSectionAIAssistant,
+      icon: FontAwesomeIcons.robot,
+      color: Colors.deepPurple,
+      tips: [
+        TipItem(
+          title: l10n.tipAIAssistantTitle,
+          description: l10n.tipAIAssistantDesc,
+          icon: FontAwesomeIcons.commentDots,
+          iconColor: Colors.purple,
+        ),
+        TipItem(
+          title: l10n.tipAIActionsTitle,
+          description: l10n.tipAIActionsEngineerDesc,
+          icon: FontAwesomeIcons.wandMagicSparkles,
+          iconColor: Colors.blue,
+        ),
+        TipItem(
+          title: l10n.tipAIContextTitle,
+          description: l10n.tipAIContextDesc,
+          icon: FontAwesomeIcons.userCheck,
+          iconColor: Colors.green,
         ),
       ],
     ),
@@ -219,6 +269,31 @@ class TipsData {
           description: l10n.tipEncourageReviewsDesc,
           icon: FontAwesomeIcons.star,
           iconColor: Colors.amber,
+        ),
+      ],
+    ),
+    TipSection(
+      title: l10n.tipsSectionAIAssistant,
+      icon: FontAwesomeIcons.robot,
+      color: Colors.deepPurple,
+      tips: [
+        TipItem(
+          title: l10n.tipAIAssistantTitle,
+          description: l10n.tipAIAssistantDesc,
+          icon: FontAwesomeIcons.commentDots,
+          iconColor: Colors.purple,
+        ),
+        TipItem(
+          title: l10n.tipAIActionsTitle,
+          description: l10n.tipAIActionsStudioDesc,
+          icon: FontAwesomeIcons.wandMagicSparkles,
+          iconColor: Colors.blue,
+        ),
+        TipItem(
+          title: l10n.tipAIContextTitle,
+          description: l10n.tipAIContextDesc,
+          icon: FontAwesomeIcons.userCheck,
+          iconColor: Colors.green,
         ),
       ],
     ),

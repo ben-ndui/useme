@@ -302,6 +302,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paymentMethodsSubtitle => 'Cash, transfer, PayPal...';
 
   @override
+  String get aiAssistant => 'AI Assistant';
+
+  @override
+  String get aiSettingsSubtitle => 'Configure automatic responses';
+
+  @override
   String get visibility => 'Visibility';
 
   @override
@@ -746,6 +752,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inProgress => 'In progress';
+
+  @override
+  String get upcoming => 'Upcoming';
+
+  @override
+  String get past => 'Past';
+
+  @override
+  String get listView => 'List view';
+
+  @override
+  String get calendarView => 'Calendar view';
 
   @override
   String get deleteTimeOff => 'Delete';
@@ -2027,6 +2045,38 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get tipEncourageReviewsDesc =>
       'After a successful session, invite the artist to leave a review. Good reviews attract more clients.';
+
+  @override
+  String get tipsSectionAIAssistant => 'AI Assistant';
+
+  @override
+  String get tipAIAssistantTitle => 'Talk to your assistant';
+
+  @override
+  String get tipAIAssistantDesc =>
+      'The AI assistant knows all your data. Ask about your sessions, stats, or get help with any question!';
+
+  @override
+  String get tipAIActionsTitle => 'Voice actions';
+
+  @override
+  String get tipAIActionsStudioDesc =>
+      'Ask the assistant to create sessions, accept bookings, manage your services... All through chat!';
+
+  @override
+  String get tipAIActionsEngineerDesc =>
+      'Ask the assistant to start or complete your sessions, manage your time off, and more.';
+
+  @override
+  String get tipAIActionsArtistDesc =>
+      'The assistant can search studios, manage your favorites, create booking requests for you.';
+
+  @override
+  String get tipAIContextTitle => 'It knows you';
+
+  @override
+  String get tipAIContextDesc =>
+      'The assistant knows who you are and adapts its responses to your profile. It can access your real data in real-time.';
 
   @override
   String get teamInvitations => 'Team invitations';

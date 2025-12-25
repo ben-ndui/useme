@@ -302,6 +302,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paymentMethodsSubtitle => 'Espèces, virement, PayPal...';
 
   @override
+  String get aiAssistant => 'Assistant IA';
+
+  @override
+  String get aiSettingsSubtitle => 'Configurer les réponses automatiques';
+
+  @override
   String get visibility => 'Visibilité';
 
   @override
@@ -750,6 +756,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get inProgress => 'En cours';
+
+  @override
+  String get upcoming => 'À venir';
+
+  @override
+  String get past => 'Passées';
+
+  @override
+  String get listView => 'Vue liste';
+
+  @override
+  String get calendarView => 'Vue calendrier';
 
   @override
   String get deleteTimeOff => 'Supprimer';
@@ -2038,6 +2056,38 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get tipEncourageReviewsDesc =>
       'Après une session réussie, invitez l\'artiste à laisser un avis. Les bons avis attirent plus de clients.';
+
+  @override
+  String get tipsSectionAIAssistant => 'Assistant IA';
+
+  @override
+  String get tipAIAssistantTitle => 'Parle à ton assistant';
+
+  @override
+  String get tipAIAssistantDesc =>
+      'L\'assistant IA connaît toutes tes données. Demande-lui tes sessions, stats, ou de l\'aide pour n\'importe quelle question !';
+
+  @override
+  String get tipAIActionsTitle => 'Actions par la voix';
+
+  @override
+  String get tipAIActionsStudioDesc =>
+      'Tu peux demander à l\'assistant de créer des sessions, accepter des réservations, gérer tes services... Tout par le chat !';
+
+  @override
+  String get tipAIActionsEngineerDesc =>
+      'Demande à l\'assistant de démarrer ou terminer tes sessions, gérer tes indisponibilités, et plus encore.';
+
+  @override
+  String get tipAIActionsArtistDesc =>
+      'L\'assistant peut rechercher des studios, gérer tes favoris, créer des demandes de réservation pour toi.';
+
+  @override
+  String get tipAIContextTitle => 'Il te connaît';
+
+  @override
+  String get tipAIContextDesc =>
+      'L\'assistant sait qui tu es et adapte ses réponses selon ton profil. Il peut accéder à tes vraies données en temps réel.';
 
   @override
   String get teamInvitations => 'Invitations d\'équipe';

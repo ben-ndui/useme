@@ -662,6 +662,18 @@ abstract class AppLocalizations {
   /// **'Espèces, virement, PayPal...'**
   String get paymentMethodsSubtitle;
 
+  /// No description provided for @aiAssistant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Assistant IA'**
+  String get aiAssistant;
+
+  /// No description provided for @aiSettingsSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Configurer les réponses automatiques'**
+  String get aiSettingsSubtitle;
+
   /// No description provided for @visibility.
   ///
   /// In fr, this message translates to:
@@ -1507,6 +1519,30 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'En cours'**
   String get inProgress;
+
+  /// No description provided for @upcoming.
+  ///
+  /// In fr, this message translates to:
+  /// **'À venir'**
+  String get upcoming;
+
+  /// No description provided for @past.
+  ///
+  /// In fr, this message translates to:
+  /// **'Passées'**
+  String get past;
+
+  /// No description provided for @listView.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vue liste'**
+  String get listView;
+
+  /// No description provided for @calendarView.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vue calendrier'**
+  String get calendarView;
 
   /// No description provided for @deleteTimeOff.
   ///
@@ -3907,6 +3943,60 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Après une session réussie, invitez l\'artiste à laisser un avis. Les bons avis attirent plus de clients.'**
   String get tipEncourageReviewsDesc;
+
+  /// No description provided for @tipsSectionAIAssistant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Assistant IA'**
+  String get tipsSectionAIAssistant;
+
+  /// No description provided for @tipAIAssistantTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Parle à ton assistant'**
+  String get tipAIAssistantTitle;
+
+  /// No description provided for @tipAIAssistantDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'assistant IA connaît toutes tes données. Demande-lui tes sessions, stats, ou de l\'aide pour n\'importe quelle question !'**
+  String get tipAIAssistantDesc;
+
+  /// No description provided for @tipAIActionsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actions par la voix'**
+  String get tipAIActionsTitle;
+
+  /// No description provided for @tipAIActionsStudioDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tu peux demander à l\'assistant de créer des sessions, accepter des réservations, gérer tes services... Tout par le chat !'**
+  String get tipAIActionsStudioDesc;
+
+  /// No description provided for @tipAIActionsEngineerDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demande à l\'assistant de démarrer ou terminer tes sessions, gérer tes indisponibilités, et plus encore.'**
+  String get tipAIActionsEngineerDesc;
+
+  /// No description provided for @tipAIActionsArtistDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'assistant peut rechercher des studios, gérer tes favoris, créer des demandes de réservation pour toi.'**
+  String get tipAIActionsArtistDesc;
+
+  /// No description provided for @tipAIContextTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Il te connaît'**
+  String get tipAIContextTitle;
+
+  /// No description provided for @tipAIContextDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'assistant sait qui tu es et adapte ses réponses selon ton profil. Il peut accéder à tes vraies données en temps réel.'**
+  String get tipAIContextDesc;
 
   /// No description provided for @teamInvitations.
   ///
