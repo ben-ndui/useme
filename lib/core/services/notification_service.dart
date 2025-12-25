@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -9,6 +10,13 @@ class UseMeNotificationService {
   static UseMeNotificationService? _instance;
   String? _currentUserId;
   final BaseNotificationService _baseService = BaseNotificationService.instance;
+  StreamSubscription<String>? _tokenRefreshSubscription;
+
+  /// Callback pour les messages en foreground (affichage in-app)
+  void Function(RemoteMessage)? onForegroundMessage;
+
+  /// Callback pour la navigation quand une notification est tapée
+  void Function(RemoteMessage)? onNotificationTap;
 
   UseMeNotificationService._();
 
@@ -24,32 +32,101 @@ class UseMeNotificationService {
   /// Indique si le service est initialisé.
   bool get isInitialized => _baseService.isInitialized;
 
-  /// Initialise le service avec l'ID utilisateur.
-  Future<void> initializeForUser({
-    required String userId,
-    void Function(RemoteMessage)? onMessage,
-    void Function(NotificationResponse)? onSelectNotification,
+  /// Initialise le service SANS userId (à appeler au démarrage).
+  Future<void> initialize({
+    void Function(RemoteMessage)? onForegroundMessage,
+    void Function(RemoteMessage)? onNotificationTap,
   }) async {
-    _currentUserId = userId;
+    this.onForegroundMessage = onForegroundMessage;
+    this.onNotificationTap = onNotificationTap;
+
+    // Configurer iOS foreground presentation (important!)
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
 
     await _baseService.initialize(
       androidChannelId: 'useme_channel',
       androidChannelName: 'Use Me Notifications',
-      onMessage: onMessage,
-      onSelectNotification: onSelectNotification,
+      onMessage: (message) {
+        // Foreground: afficher banner in-app
+        this.onForegroundMessage?.call(message);
+      },
+      onSelectNotification: _onLocalNotificationTap,
     );
 
-    // Écouter les refresh de token
-    FirebaseMessaging.instance.onTokenRefresh.listen(_onTokenRefresh);
+    // Configurer le handler pour les taps sur notifications background
+    _baseService.onMessageOpenedApp((message) {
+      this.onNotificationTap?.call(message);
+    });
 
-    // Sauvegarder le token initial
-    if (fcmToken != null) {
-      await _saveTokenToFirestore(fcmToken!);
+    // Vérifier si l'app a été lancée via une notification
+    final initialMessage = await _baseService.getInitialMessage();
+    if (initialMessage != null) {
+      this.onNotificationTap?.call(initialMessage);
+    }
+
+    // Écouter les refresh de token
+    _tokenRefreshSubscription?.cancel();
+    _tokenRefreshSubscription =
+        FirebaseMessaging.instance.onTokenRefresh.listen(_onTokenRefresh);
+
+    // Demander les permissions automatiquement
+    await requestPermissions();
+    debugPrint('✅ Notifications initialisées, token: $fcmToken');
+  }
+
+  /// Gère le tap sur une notification locale
+  void _onLocalNotificationTap(NotificationResponse response) {
+    final payload = response.payload;
+    if (payload != null && onNotificationTap != null) {
+      try {
+        final data = Map<String, dynamic>.from(Uri.splitQueryString(payload));
+        final message = RemoteMessage(
+          data: data,
+          notification: RemoteNotification(
+            title: data['title'],
+            body: data['body'],
+          ),
+        );
+        onNotificationTap!(message);
+      } catch (e) {
+        debugPrint('❌ Erreur parsing notification payload: $e');
+      }
     }
   }
 
   /// Demande les permissions de notification.
-  Future<bool> requestPermissions() => _baseService.requestPermissions();
+  Future<bool> requestPermissions() async {
+    final granted = await _baseService.requestPermissions();
+    if (granted) {
+      // Après permission accordée, obtenir le token avec retry
+      await _getTokenWithRetry();
+    }
+    return granted;
+  }
+
+  /// Obtient le token FCM avec retry (pour iOS APNS timing)
+  Future<String?> _getTokenWithRetry({int maxRetries = 3}) async {
+    for (int i = 0; i < maxRetries; i++) {
+      try {
+        if (i > 0) {
+          await Future.delayed(Duration(milliseconds: 500 * i));
+        }
+        final token = await FirebaseMessaging.instance.getToken();
+        if (token != null && token.isNotEmpty) {
+          debugPrint('✅ Token FCM obtenu (tentative ${i + 1}): ${token.substring(0, 20)}...');
+          return token;
+        }
+      } catch (e) {
+        debugPrint('⚠️ Tentative ${i + 1} échouée: $e');
+      }
+    }
+    debugPrint('❌ Impossible d\'obtenir le token FCM après $maxRetries tentatives');
+    return null;
+  }
 
   /// Vérifie si les permissions sont accordées.
   Future<bool> hasPermissions() => _baseService.hasPermissions();

@@ -7,6 +7,7 @@ class StudioService {
   final double hourlyRate;
   final int minDurationHours;
   final int? maxDurationHours;
+  final List<String> roomIds;
   final bool isActive;
   final DateTime createdAt;
   final DateTime? updatedAt;
@@ -19,6 +20,7 @@ class StudioService {
     required this.hourlyRate,
     this.minDurationHours = 1,
     this.maxDurationHours,
+    this.roomIds = const [],
     this.isActive = true,
     required this.createdAt,
     this.updatedAt,
@@ -33,6 +35,7 @@ class StudioService {
       hourlyRate: (map['hourlyRate'] ?? 0).toDouble(),
       minDurationHours: map['minDurationHours'] as int? ?? 1,
       maxDurationHours: map['maxDurationHours'] as int?,
+      roomIds: List<String>.from(map['roomIds'] ?? []),
       isActive: map['isActive'] ?? true,
       createdAt: _parseDateTime(map['createdAt']) ?? DateTime.now(),
       updatedAt: _parseDateTime(map['updatedAt']),
@@ -56,6 +59,7 @@ class StudioService {
         'hourlyRate': hourlyRate,
         'minDurationHours': minDurationHours,
         'maxDurationHours': maxDurationHours,
+        'roomIds': roomIds,
         'isActive': isActive,
         'createdAt': createdAt.millisecondsSinceEpoch,
         'updatedAt': updatedAt?.millisecondsSinceEpoch,
@@ -69,6 +73,7 @@ class StudioService {
     double? hourlyRate,
     int? minDurationHours,
     int? maxDurationHours,
+    List<String>? roomIds,
     bool? isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -81,6 +86,7 @@ class StudioService {
         hourlyRate: hourlyRate ?? this.hourlyRate,
         minDurationHours: minDurationHours ?? this.minDurationHours,
         maxDurationHours: maxDurationHours ?? this.maxDurationHours,
+        roomIds: roomIds ?? this.roomIds,
         isActive: isActive ?? this.isActive,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,

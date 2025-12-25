@@ -46,11 +46,19 @@ class PaymentMethod extends Equatable {
   final String? details; // Ex: IBAN pour virement, email PayPal, etc.
   final String? instructions; // Instructions supplémentaires
 
+  // Champs spécifiques au virement bancaire
+  final String? bic; // BIC/SWIFT
+  final String? accountHolder; // Nom du titulaire
+  final String? bankName; // Nom de la banque
+
   const PaymentMethod({
     required this.type,
     this.isEnabled = true,
     this.details,
     this.instructions,
+    this.bic,
+    this.accountHolder,
+    this.bankName,
   });
 
   factory PaymentMethod.fromMap(Map<String, dynamic> map) {
@@ -62,6 +70,9 @@ class PaymentMethod extends Equatable {
       isEnabled: map['isEnabled'] ?? true,
       details: map['details'],
       instructions: map['instructions'],
+      bic: map['bic'],
+      accountHolder: map['accountHolder'],
+      bankName: map['bankName'],
     );
   }
 
@@ -70,6 +81,9 @@ class PaymentMethod extends Equatable {
         'isEnabled': isEnabled,
         'details': details,
         'instructions': instructions,
+        'bic': bic,
+        'accountHolder': accountHolder,
+        'bankName': bankName,
       };
 
   PaymentMethod copyWith({
@@ -77,17 +91,65 @@ class PaymentMethod extends Equatable {
     bool? isEnabled,
     String? details,
     String? instructions,
+    String? bic,
+    String? accountHolder,
+    String? bankName,
   }) {
     return PaymentMethod(
       type: type ?? this.type,
       isEnabled: isEnabled ?? this.isEnabled,
       details: details ?? this.details,
       instructions: instructions ?? this.instructions,
+      bic: bic ?? this.bic,
+      accountHolder: accountHolder ?? this.accountHolder,
+      bankName: bankName ?? this.bankName,
     );
   }
 
   @override
-  List<Object?> get props => [type, isEnabled, details, instructions];
+  List<Object?> get props => [
+        type,
+        isEnabled,
+        details,
+        instructions,
+        bic,
+        accountHolder,
+        bankName,
+      ];
+}
+
+/// Politique d'annulation
+enum CancellationPolicy {
+  flexible, // Remboursement complet jusqu'à 24h avant
+  moderate, // Remboursement 50% jusqu'à 48h avant
+  strict, // Pas de remboursement
+  custom; // Politique personnalisée
+
+  String get label {
+    switch (this) {
+      case CancellationPolicy.flexible:
+        return 'Flexible';
+      case CancellationPolicy.moderate:
+        return 'Modérée';
+      case CancellationPolicy.strict:
+        return 'Stricte';
+      case CancellationPolicy.custom:
+        return 'Personnalisée';
+    }
+  }
+
+  String get description {
+    switch (this) {
+      case CancellationPolicy.flexible:
+        return 'Remboursement complet jusqu\'à 24h avant la session';
+      case CancellationPolicy.moderate:
+        return 'Remboursement 50% jusqu\'à 48h avant la session';
+      case CancellationPolicy.strict:
+        return 'Aucun remboursement après paiement';
+      case CancellationPolicy.custom:
+        return 'Conditions personnalisées';
+    }
+  }
 }
 
 /// Configuration des paiements d'un studio
@@ -95,16 +157,31 @@ class StudioPaymentConfig extends Equatable {
   final List<PaymentMethod> methods;
   final double? defaultDepositPercent; // Ex: 30% d'acompte par défaut
   final String? paymentTerms; // Conditions de paiement
+  final PaymentMethodType? defaultPaymentMethod; // Moyen de paiement par défaut
+  final CancellationPolicy cancellationPolicy;
+  final String? customCancellationTerms; // Si policy = custom
 
   const StudioPaymentConfig({
     this.methods = const [],
     this.defaultDepositPercent,
     this.paymentTerms,
+    this.defaultPaymentMethod,
+    this.cancellationPolicy = CancellationPolicy.moderate,
+    this.customCancellationTerms,
   });
 
   /// Moyens de paiement activés
   List<PaymentMethod> get enabledMethods =>
       methods.where((m) => m.isEnabled).toList();
+
+  /// Moyen de paiement par défaut (ou premier activé)
+  PaymentMethod? get defaultMethod {
+    if (defaultPaymentMethod != null) {
+      final method = methods.where((m) => m.type == defaultPaymentMethod && m.isEnabled).firstOrNull;
+      if (method != null) return method;
+    }
+    return enabledMethods.firstOrNull;
+  }
 
   factory StudioPaymentConfig.fromMap(Map<String, dynamic>? map) {
     if (map == null) return const StudioPaymentConfig();
@@ -115,6 +192,19 @@ class StudioPaymentConfig extends Equatable {
           [],
       defaultDepositPercent: (map['defaultDepositPercent'] as num?)?.toDouble(),
       paymentTerms: map['paymentTerms'],
+      defaultPaymentMethod: map['defaultPaymentMethod'] != null
+          ? PaymentMethodType.values.firstWhere(
+              (t) => t.name == map['defaultPaymentMethod'],
+              orElse: () => PaymentMethodType.other,
+            )
+          : null,
+      cancellationPolicy: map['cancellationPolicy'] != null
+          ? CancellationPolicy.values.firstWhere(
+              (p) => p.name == map['cancellationPolicy'],
+              orElse: () => CancellationPolicy.moderate,
+            )
+          : CancellationPolicy.moderate,
+      customCancellationTerms: map['customCancellationTerms'],
     );
   }
 
@@ -122,20 +212,36 @@ class StudioPaymentConfig extends Equatable {
         'methods': methods.map((m) => m.toMap()).toList(),
         'defaultDepositPercent': defaultDepositPercent,
         'paymentTerms': paymentTerms,
+        'defaultPaymentMethod': defaultPaymentMethod?.name,
+        'cancellationPolicy': cancellationPolicy.name,
+        'customCancellationTerms': customCancellationTerms,
       };
 
   StudioPaymentConfig copyWith({
     List<PaymentMethod>? methods,
     double? defaultDepositPercent,
     String? paymentTerms,
+    PaymentMethodType? defaultPaymentMethod,
+    CancellationPolicy? cancellationPolicy,
+    String? customCancellationTerms,
   }) {
     return StudioPaymentConfig(
       methods: methods ?? this.methods,
       defaultDepositPercent: defaultDepositPercent ?? this.defaultDepositPercent,
       paymentTerms: paymentTerms ?? this.paymentTerms,
+      defaultPaymentMethod: defaultPaymentMethod ?? this.defaultPaymentMethod,
+      cancellationPolicy: cancellationPolicy ?? this.cancellationPolicy,
+      customCancellationTerms: customCancellationTerms ?? this.customCancellationTerms,
     );
   }
 
   @override
-  List<Object?> get props => [methods, defaultDepositPercent, paymentTerms];
+  List<Object?> get props => [
+        methods,
+        defaultDepositPercent,
+        paymentTerms,
+        defaultPaymentMethod,
+        cancellationPolicy,
+        customCancellationTerms,
+      ];
 }

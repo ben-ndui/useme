@@ -1,6 +1,8 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'calendar_connection.dart';
 import 'studio_profile.dart';
+import 'studio_subscription.dart';
 
 /// Extension des rôles Use Me sur BaseUserRole.
 ///
@@ -85,6 +87,12 @@ class AppUser extends BaseUser {
   /// Profil studio complet (pour admins partenaires).
   final StudioProfile? studioProfile;
 
+  /// Abonnement du studio (pour admins).
+  final StudioSubscription? subscription;
+
+  /// DevMaster a accès à la config Stripe et système.
+  final bool isDevMaster;
+
   const AppUser({
     required super.uid,
     required super.email,
@@ -108,6 +116,8 @@ class AppUser extends BaseUser {
     this.calendarConnection,
     this.isPartner = false,
     this.studioProfile,
+    this.subscription,
+    this.isDevMaster = false,
   });
 
   /// Crée depuis une Map Firestore.
@@ -139,6 +149,10 @@ class AppUser extends BaseUser {
       studioProfile: map['studioProfile'] != null
           ? StudioProfile.fromMap(map['studioProfile'] as Map<String, dynamic>)
           : null,
+      subscription: map['subscription'] != null
+          ? StudioSubscription.fromMap(map['subscription'] as Map<String, dynamic>)
+          : null,
+      isDevMaster: map['isDevMaster'] ?? false,
     );
   }
 
@@ -155,6 +169,8 @@ class AppUser extends BaseUser {
       'calendarConnection': calendarConnection?.toMap(),
       'isPartner': isPartner,
       'studioProfile': studioProfile?.toMap(),
+      'subscription': subscription?.toMap(),
+      'isDevMaster': isDevMaster,
     };
   }
 
@@ -182,6 +198,8 @@ class AppUser extends BaseUser {
     CalendarConnection? calendarConnection,
     bool? isPartner,
     StudioProfile? studioProfile,
+    StudioSubscription? subscription,
+    bool? isDevMaster,
   }) {
     return AppUser(
       uid: uid ?? this.uid,
@@ -206,6 +224,8 @@ class AppUser extends BaseUser {
       calendarConnection: calendarConnection ?? this.calendarConnection,
       isPartner: isPartner ?? this.isPartner,
       studioProfile: studioProfile ?? this.studioProfile,
+      subscription: subscription ?? this.subscription,
+      isDevMaster: isDevMaster ?? this.isDevMaster,
     );
   }
 
@@ -231,6 +251,29 @@ class AppUser extends BaseUser {
   String get studioDisplayName =>
       studioProfile?.name ?? displayName ?? name ?? 'Studio';
 
+  /// ID du DevMaster principal (depuis .env pour la sécurité)
+  static String get _devMasterUserId =>
+      dotenv.env['DEV_MASTER_USER_ID'] ?? '';
+
+  /// Vérifie si l'utilisateur a accès aux configurations système (DevMaster)
+  /// Retourne true si:
+  /// - L'utilisateur est le DevMaster principal (ID depuis .env)
+  /// - OU l'utilisateur est SuperAdmin avec isDevMaster=true dans Firestore
+  bool get hasDevMasterAccess =>
+      uid == _devMasterUserId || (isSuperAdmin && isDevMaster);
+
+  /// ID du tier d'abonnement actuel (par défaut 'free')
+  String get subscriptionTierId => subscription?.tierId ?? 'free';
+
+  /// Vérifie si l'abonnement est actif
+  bool get hasActiveSubscription => subscription?.isActive ?? true;
+
+  /// Vérifie si c'est un abonnement payant
+  bool get hasPaidSubscription => subscription?.isPaid ?? false;
+
+  /// Nombre de sessions ce mois
+  int get sessionsThisMonth => subscription?.sessionsThisMonth ?? 0;
+
   @override
   List<Object?> get props => [
         ...super.props,
@@ -241,5 +284,7 @@ class AppUser extends BaseUser {
         calendarConnection,
         isPartner,
         studioProfile,
+        subscription,
+        isDevMaster,
       ];
 }

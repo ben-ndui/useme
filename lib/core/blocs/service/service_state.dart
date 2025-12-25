@@ -96,3 +96,20 @@ class ServiceErrorState extends ServiceState {
     super.selectedService,
   }) : super(isLoading: false);
 }
+
+/// Service limit reached state (subscription limit)
+class ServiceLimitReachedState extends ServiceState {
+  final int currentCount;
+  final int maxAllowed;
+  final String tierId;
+
+  const ServiceLimitReachedState({
+    required this.currentCount,
+    required this.maxAllowed,
+    required this.tierId,
+    super.services,
+  }) : super(isLoading: false);
+
+  @override
+  List<Object?> get props => [currentCount, maxAllowed, tierId, services];
+}

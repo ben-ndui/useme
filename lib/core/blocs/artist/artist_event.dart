@@ -69,3 +69,8 @@ class LoadArtistByIdEvent extends ArtistEvent {
   @override
   List<Object?> get props => [artistId];
 }
+
+/// Clear all artists (used on logout)
+class ClearArtistsEvent extends ArtistEvent {
+  const ClearArtistsEvent();
+}

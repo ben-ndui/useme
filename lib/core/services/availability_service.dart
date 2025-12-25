@@ -1,5 +1,6 @@
 import '../models/session.dart';
 import '../models/unavailability.dart';
+import '../models/working_hours.dart';
 import 'engineer_availability_service.dart';
 import 'session_service.dart';
 import 'team_service.dart';
@@ -85,13 +86,30 @@ class AvailabilityService {
         _teamService = teamService ?? TeamService();
 
   /// Récupère les créneaux disponibles pour un jour donné
+  ///
+  /// Si [workingHours] est fourni, utilise ces horaires pour déterminer
+  /// les heures d'ouverture/fermeture au lieu des valeurs par défaut.
   Future<List<TimeSlot>> getAvailableSlots({
     required String studioId,
     required DateTime date,
     int slotDurationMinutes = defaultSlotDurationMinutes,
     int openingHour = defaultOpeningHour,
     int closingHour = defaultClosingHour,
+    WorkingHours? workingHours,
   }) async {
+    // Si workingHours est fourni, vérifier si le studio est ouvert ce jour
+    if (workingHours != null) {
+      final daySchedule = workingHours.getScheduleForDay(date.weekday);
+      if (!daySchedule.enabled) {
+        return []; // Studio fermé ce jour
+      }
+      // Utiliser les horaires configurés
+      final (startH, startM) = daySchedule.startTime;
+      final (endH, endM) = daySchedule.endTime;
+      openingHour = startH + (startM > 0 ? 1 : 0); // Arrondir à l'heure supérieure
+      closingHour = endH;
+    }
+
     // 1. Récupérer les sessions confirmées du jour
     final sessions = await _getSessionsForDate(studioId, date);
 
@@ -110,13 +128,30 @@ class AvailabilityService {
   }
 
   /// Récupère les créneaux enrichis avec info ingénieurs
+  ///
+  /// Si [workingHours] est fourni, utilise ces horaires pour déterminer
+  /// les heures d'ouverture/fermeture au lieu des valeurs par défaut.
   Future<List<EnhancedTimeSlot>> getEnhancedSlots({
     required String studioId,
     required DateTime date,
     int slotDurationMinutes = defaultSlotDurationMinutes,
     int openingHour = defaultOpeningHour,
     int closingHour = defaultClosingHour,
+    WorkingHours? workingHours,
   }) async {
+    // Si workingHours est fourni, vérifier si le studio est ouvert ce jour
+    if (workingHours != null) {
+      final daySchedule = workingHours.getScheduleForDay(date.weekday);
+      if (!daySchedule.enabled) {
+        return []; // Studio fermé ce jour
+      }
+      // Utiliser les horaires configurés
+      final (startH, startM) = daySchedule.startTime;
+      final (endH, endM) = daySchedule.endTime;
+      openingHour = startH + (startM > 0 ? 1 : 0);
+      closingHour = endH;
+    }
+
     // 1. Récupérer les créneaux basiques
     final sessions = await _getSessionsForDate(studioId, date);
     final unavailabilities = await _unavailabilityService.getByDate(studioId, date);

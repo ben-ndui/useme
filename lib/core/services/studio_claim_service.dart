@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/discovered_studio.dart';
@@ -61,6 +62,11 @@ class StudioClaimService {
       throw Exception('Ce studio est déjà revendiqué par un autre utilisateur');
     }
 
+    // Récupérer le user pour vérifier son rôle actuel
+    final userDoc = await _firestore.collection('users').doc(userId).get();
+    final currentRole = userDoc.data()?['role'] as String?;
+    final isSuperAdmin = currentRole == 'superAdmin';
+
     // Récupérer les détails complets du studio
     final details = await _discoveryService.getStudioDetails(studio.id);
     final studioData = details ?? studio;
@@ -85,11 +91,17 @@ class StudioClaimService {
     );
 
     // Mettre à jour l'utilisateur
-    await _firestore.collection('users').doc(userId).update({
+    // Ne pas changer le role si déjà superAdmin
+    final updateData = <String, dynamic>{
       'isPartner': true,
       'studioProfile': studioProfile.toMap(),
       'updatedAt': FieldValue.serverTimestamp(),
-    });
+    };
+    if (!isSuperAdmin) {
+      updateData['role'] = 'admin';
+    }
+
+    await _firestore.collection('users').doc(userId).update(updateData);
   }
 
   /// Crée un studio manuellement (sans lien Google)
@@ -97,11 +109,21 @@ class StudioClaimService {
     required String userId,
     required StudioProfile profile,
   }) async {
-    await _firestore.collection('users').doc(userId).update({
+    // Récupérer le user pour vérifier son rôle actuel
+    final userDoc = await _firestore.collection('users').doc(userId).get();
+    final currentRole = userDoc.data()?['role'] as String?;
+    final isSuperAdmin = currentRole == 'superAdmin';
+
+    final updateData = <String, dynamic>{
       'isPartner': true,
       'studioProfile': profile.toMap(),
       'updatedAt': FieldValue.serverTimestamp(),
-    });
+    };
+    if (!isSuperAdmin) {
+      updateData['role'] = 'admin';
+    }
+
+    await _firestore.collection('users').doc(userId).update(updateData);
   }
 
   /// Met à jour le profil studio
@@ -116,23 +138,45 @@ class StudioClaimService {
   }
 
   /// Retire le statut partenaire (déclaime)
+  /// Si l'utilisateur n'est pas superAdmin, il redevient client
   Future<void> unclaimStudio(String userId) async {
-    await _firestore.collection('users').doc(userId).update({
+    // Vérifier si l'utilisateur est superAdmin
+    final userDoc = await _firestore.collection('users').doc(userId).get();
+    final currentRole = userDoc.data()?['role'] as String?;
+    final isSuperAdmin = currentRole == 'superAdmin';
+
+    final updateData = <String, dynamic>{
       'isPartner': false,
       'studioProfile': FieldValue.delete(),
       'updatedAt': FieldValue.serverTimestamp(),
-    });
+    };
+
+    // Si pas superAdmin, redevenir client
+    if (!isSuperAdmin) {
+      updateData['role'] = 'client';
+    }
+
+    await _firestore.collection('users').doc(userId).update(updateData);
   }
 
-  /// Récupère tous les studios partenaires
+  /// Récupère tous les studios partenaires (admin ou superAdmin avec isPartner)
   Future<List<AppUser>> getPartnerStudios() async {
-    final query = await _firestore
-        .collection('users')
-        .where('isPartner', isEqualTo: true)
-        .where('role', isEqualTo: 'admin')
-        .get();
+    try {
+      final query = await _firestore
+          .collection('users')
+          .where('isPartner', isEqualTo: true)
+          .get()
+          .timeout(const Duration(seconds: 10));
 
-    return query.docs.map((doc) => AppUser.fromMap(doc.data(), doc.id)).toList();
+      // Filter by role in Dart (Firestore doesn't support OR)
+      return query.docs
+          .map((doc) => AppUser.fromMap(doc.data(), doc.id))
+          .where((user) => user.isStudio || user.isSuperAdmin)
+          .toList();
+    } catch (e) {
+      debugPrint('❌ StudioClaimService.getPartnerStudios error: $e');
+      return [];
+    }
   }
 
   /// Stream des studios partenaires proches d'une position
@@ -153,12 +197,13 @@ class StudioClaimService {
     return _firestore
         .collection('users')
         .where('isPartner', isEqualTo: true)
-        .where('role', isEqualTo: 'admin')
         .snapshots()
         .map((snapshot) {
       return snapshot.docs
           .map((doc) => AppUser.fromMap(doc.data(), doc.id))
           .where((user) {
+        // Only include admin or superAdmin roles
+        if (!user.isStudio && !user.isSuperAdmin) return false;
         final loc = user.studioProfile?.location;
         if (loc == null) return false;
         return loc.latitude >= minLat &&

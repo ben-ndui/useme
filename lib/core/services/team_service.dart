@@ -2,15 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:useme/core/models/app_user.dart';
+import 'package:useme/core/services/subscription_config_service.dart';
 
 /// Service pour gérer l'équipe (ingénieurs) d'un studio
 class TeamService {
   final FirebaseFirestore _firestore;
+  final SubscriptionConfigService _subscriptionService;
   static const String _usersCollection = 'users';
   static const String _invitationsCollection = 'team_invitations';
 
-  TeamService({FirebaseFirestore? firestore})
-      : _firestore = firestore ?? FirebaseFirestore.instance;
+  TeamService({
+    FirebaseFirestore? firestore,
+    SubscriptionConfigService? subscriptionService,
+  })  : _firestore = firestore ?? FirebaseFirestore.instance,
+        _subscriptionService = subscriptionService ?? SubscriptionConfigService();
 
   /// Stream des membres de l'équipe d'un studio
   Stream<List<AppUser>> streamTeamMembers(String studioId) {
@@ -28,17 +33,23 @@ class TeamService {
 
   /// Récupérer les membres de l'équipe (one-time)
   Future<List<AppUser>> getTeamMembers(String studioId) async {
-    final snapshot = await _firestore
-        .collection(_usersCollection)
-        .where('studioId', isEqualTo: studioId)
-        .where('role', isEqualTo: 'worker')
-        .get();
+    try {
+      final snapshot = await _firestore
+          .collection(_usersCollection)
+          .where('studioId', isEqualTo: studioId)
+          .where('role', isEqualTo: 'worker')
+          .get()
+          .timeout(const Duration(seconds: 10));
 
-    return snapshot.docs.map((doc) {
-      final data = doc.data();
-      data['uid'] = doc.id;
-      return AppUser.fromMap(data);
-    }).toList();
+      return snapshot.docs.map((doc) {
+        final data = doc.data();
+        data['uid'] = doc.id;
+        return AppUser.fromMap(data);
+      }).toList();
+    } catch (e) {
+      debugPrint('❌ TeamService.getTeamMembers error: $e');
+      return [];
+    }
   }
 
   /// Rechercher un utilisateur par email (pour l'ajouter à l'équipe)
@@ -57,15 +68,38 @@ class TeamService {
   }
 
   /// Ajouter un utilisateur existant à l'équipe du studio
+  /// Si subscriptionTierId et currentEngineerCount sont fournis, vérifie les limites
   Future<SmoothResponse<bool>> addToTeam({
     required String userId,
     required String studioId,
+    String? subscriptionTierId,
+    int? currentEngineerCount,
   }) async {
     try {
+      // Check subscription limits if tier info is provided
+      if (subscriptionTierId != null && currentEngineerCount != null) {
+        final canAdd = await _subscriptionService.canAddEngineer(
+          tierId: subscriptionTierId,
+          currentEngineersCount: currentEngineerCount,
+        );
+
+        if (!canAdd) {
+          final tier = await _subscriptionService.getTier(subscriptionTierId);
+          return SmoothResponse(
+            code: 403,
+            message:
+                'Limite atteinte: ${tier?.maxEngineers ?? 0} ingénieurs max pour votre abonnement',
+            data: false,
+          );
+        }
+      }
+
       // Vérifier que l'utilisateur existe et n'est pas déjà dans une équipe
-      final userDoc = await _firestore.collection(_usersCollection).doc(userId).get();
+      final userDoc =
+          await _firestore.collection(_usersCollection).doc(userId).get();
       if (!userDoc.exists) {
-        return SmoothResponse(code: 404, message: 'Utilisateur non trouvé', data: false);
+        return SmoothResponse(
+            code: 404, message: 'Utilisateur non trouvé', data: false);
       }
 
       final userData = userDoc.data()!;
@@ -107,17 +141,39 @@ class TeamService {
   }
 
   /// Créer une invitation pour un nouvel ingénieur
+  /// Si subscriptionTierId et currentEngineerCount sont fournis, vérifie les limites
   Future<SmoothResponse<TeamInvitation>> createInvitation({
     required String studioId,
     required String studioName,
     required String email,
     String? name,
+    String? subscriptionTierId,
+    int? currentEngineerCount,
   }) async {
     try {
+      // Check subscription limits if tier info is provided
+      if (subscriptionTierId != null && currentEngineerCount != null) {
+        final canAdd = await _subscriptionService.canAddEngineer(
+          tierId: subscriptionTierId,
+          currentEngineersCount: currentEngineerCount,
+        );
+
+        if (!canAdd) {
+          final tier = await _subscriptionService.getTier(subscriptionTierId);
+          return SmoothResponse(
+            code: 403,
+            message:
+                'Limite atteinte: ${tier?.maxEngineers ?? 0} ingénieurs max',
+            data: null,
+          );
+        }
+      }
+
       // Vérifier si une invitation pending existe déjà
       final existing = await _findPendingInvitation(email, studioId);
       if (existing != null) {
-        return SmoothResponse(code: 200, message: 'Invitation existante', data: existing);
+        return SmoothResponse(
+            code: 200, message: 'Invitation existante', data: existing);
       }
 
       final docRef = _firestore.collection(_invitationsCollection).doc();
@@ -134,7 +190,8 @@ class TeamService {
       );
 
       await docRef.set(invitation.toMap());
-      return SmoothResponse(code: 201, message: 'Invitation créée', data: invitation);
+      return SmoothResponse(
+          code: 201, message: 'Invitation créée', data: invitation);
     } catch (e) {
       debugPrint('Erreur createInvitation: $e');
       return SmoothResponse(code: 500, message: 'Erreur: $e', data: null);
@@ -211,6 +268,52 @@ class TeamService {
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((s) => s.docs.map((d) => TeamInvitation.fromMap(d.data())).toList());
+  }
+
+  /// Stream des invitations pending pour un ingénieur (par email)
+  Stream<List<TeamInvitation>> streamMyPendingInvitations(String email) {
+    return _firestore
+        .collection(_invitationsCollection)
+        .where('email', isEqualTo: email.toLowerCase().trim())
+        .where('status', isEqualTo: 'pending')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => TeamInvitation.fromMap(doc.data()))
+            .where((inv) => !inv.isExpired)
+            .toList());
+  }
+
+  /// Récupère les invitations pending pour un ingénieur (one-time)
+  Future<List<TeamInvitation>> getMyPendingInvitations(String email) async {
+    try {
+      final snapshot = await _firestore
+          .collection(_invitationsCollection)
+          .where('email', isEqualTo: email.toLowerCase().trim())
+          .where('status', isEqualTo: 'pending')
+          .get();
+
+      return snapshot.docs
+          .map((doc) => TeamInvitation.fromMap(doc.data()))
+          .where((inv) => !inv.isExpired)
+          .toList();
+    } catch (e) {
+      debugPrint('❌ TeamService.getMyPendingInvitations error: $e');
+      return [];
+    }
+  }
+
+  /// Refuser une invitation
+  Future<SmoothResponse<bool>> declineInvitation(String invitationId) async {
+    try {
+      await _firestore.collection(_invitationsCollection).doc(invitationId).update({
+        'status': 'declined',
+        'declinedAt': DateTime.now().millisecondsSinceEpoch,
+      });
+      return SmoothResponse(code: 200, message: 'Invitation refusée', data: true);
+    } catch (e) {
+      debugPrint('❌ TeamService.declineInvitation error: $e');
+      return SmoothResponse(code: 500, message: 'Erreur: $e', data: false);
+    }
   }
 
   /// Annuler une invitation

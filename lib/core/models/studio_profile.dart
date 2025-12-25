@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:useme/core/models/working_hours.dart';
 
 /// Profil studio pour les admins partenaires
 class StudioProfile extends Equatable {
@@ -39,7 +40,10 @@ class StudioProfile extends Equatable {
   /// Devise
   final String currency;
 
-  /// Horaires d'ouverture (ex: {"monday": {"open": "09:00", "close": "22:00"}})
+  /// Horaires d'ouverture (format structuré WorkingHours)
+  final WorkingHours? workingHours;
+
+  /// @deprecated Utiliser workingHours à la place
   final Map<String, dynamic>? openingHours;
 
   /// ID Google Place (si lié à un lieu Google)
@@ -79,6 +83,7 @@ class StudioProfile extends Equatable {
     this.services = const [],
     this.hourlyRate,
     this.currency = 'EUR',
+    this.workingHours,
     this.openingHours,
     this.googlePlaceId,
     this.googlePlaceName,
@@ -118,6 +123,9 @@ class StudioProfile extends Equatable {
       services: List<String>.from(map['services'] ?? []),
       hourlyRate: (map['hourlyRate'] as num?)?.toDouble(),
       currency: map['currency'] ?? 'EUR',
+      workingHours: map['workingHours'] != null
+          ? WorkingHours.fromMap(map['workingHours'] as Map<String, dynamic>)
+          : null,
       openingHours: map['openingHours'] as Map<String, dynamic>?,
       googlePlaceId: map['googlePlaceId'],
       googlePlaceName: map['googlePlaceName'],
@@ -147,6 +155,7 @@ class StudioProfile extends Equatable {
       'services': services,
       'hourlyRate': hourlyRate,
       'currency': currency,
+      'workingHours': workingHours?.toMap(),
       'openingHours': openingHours,
       'googlePlaceId': googlePlaceId,
       'googlePlaceName': googlePlaceName,
@@ -173,6 +182,7 @@ class StudioProfile extends Equatable {
     List<String>? services,
     double? hourlyRate,
     String? currency,
+    WorkingHours? workingHours,
     Map<String, dynamic>? openingHours,
     String? googlePlaceId,
     String? googlePlaceName,
@@ -196,6 +206,7 @@ class StudioProfile extends Equatable {
       services: services ?? this.services,
       hourlyRate: hourlyRate ?? this.hourlyRate,
       currency: currency ?? this.currency,
+      workingHours: workingHours ?? this.workingHours,
       openingHours: openingHours ?? this.openingHours,
       googlePlaceId: googlePlaceId ?? this.googlePlaceId,
       googlePlaceName: googlePlaceName ?? this.googlePlaceName,
@@ -224,6 +235,9 @@ class StudioProfile extends Equatable {
   /// Vérifie si le studio est lié à Google
   bool get isLinkedToGoogle => googlePlaceId != null;
 
+  /// Vérifie si le studio a configuré ses horaires d'ouverture
+  bool get hasWorkingHours => workingHours != null;
+
   @override
   List<Object?> get props => [
         name,
@@ -235,6 +249,7 @@ class StudioProfile extends Equatable {
         genres,
         services,
         hourlyRate,
+        workingHours,
         googlePlaceId,
         rating,
         isVerified,

@@ -14,6 +14,11 @@ class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
     on<UpdateArtistEvent>(_onUpdateArtist);
     on<DeleteArtistEvent>(_onDeleteArtist);
     on<LoadArtistByIdEvent>(_onLoadArtistById);
+    on<ClearArtistsEvent>(_onClearArtists);
+  }
+
+  void _onClearArtists(ClearArtistsEvent event, Emitter<ArtistState> emit) {
+    emit(const ArtistInitialState());
   }
 
   Future<void> _onLoadArtists(

@@ -7,6 +7,8 @@ import 'package:useme/core/services/services_exports.dart';
 /// Session BLoC - Manages session state
 class SessionBloc extends Bloc<SessionEvent, SessionState> {
   final SessionService _sessionService = SessionService();
+  final SubscriptionConfigService _subscriptionService =
+      SubscriptionConfigService();
 
   SessionBloc() : super(const SessionInitialState()) {
     on<LoadSessionsEvent>(_onLoadSessions);
@@ -20,6 +22,11 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     on<CheckinSessionEvent>(_onCheckinSession);
     on<CheckoutSessionEvent>(_onCheckoutSession);
     on<LoadSessionByIdEvent>(_onLoadSessionById);
+    on<ClearSessionsEvent>(_onClearSessions);
+  }
+
+  void _onClearSessions(ClearSessionsEvent event, Emitter<SessionState> emit) {
+    emit(const SessionInitialState());
   }
 
   Future<void> _onLoadSessions(
@@ -71,7 +78,29 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
   Future<void> _onCreateSession(
       CreateSessionEvent event, Emitter<SessionState> emit) async {
     emit(SessionLoadingState(sessions: state.sessions));
+
     try {
+      // Check subscription limits if tier info is provided
+      if (event.subscriptionTierId != null &&
+          event.currentSessionCount != null) {
+        final canCreate = await _subscriptionService.canCreateSession(
+          tierId: event.subscriptionTierId!,
+          currentSessionsThisMonth: event.currentSessionCount!,
+        );
+
+        if (!canCreate) {
+          final tier =
+              await _subscriptionService.getTier(event.subscriptionTierId!);
+          emit(SessionLimitReachedState(
+            currentCount: event.currentSessionCount!,
+            maxAllowed: tier?.maxSessions ?? 0,
+            tierId: event.subscriptionTierId!,
+            sessions: state.sessions,
+          ));
+          return;
+        }
+      }
+
       final response = await _sessionService.createSession(event.session);
       if (response.code == 200 && response.data != null) {
         final updatedSessions = [response.data!, ...state.sessions];

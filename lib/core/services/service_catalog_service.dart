@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:useme/core/models/models_exports.dart';
 import 'package:uuid/uuid.dart' show Uuid;
@@ -6,7 +7,7 @@ import 'package:uuid/uuid.dart' show Uuid;
 /// Service Catalog Service - CRUD operations for studio services
 class ServiceCatalogService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final String _collection = 'useme_services';
+  final String _collection = 'useme_studio_services';
   final Uuid _uuid = const Uuid();
 
   /// Generate new service ID
@@ -34,9 +35,14 @@ class ServiceCatalogService {
           .collection(_collection)
           .where('studioId', isEqualTo: studioId)
           .orderBy('createdAt', descending: true)
-          .get();
+          .get()
+          .timeout(
+            const Duration(seconds: 10),
+            onTimeout: () => throw Exception('Timeout: Firestore index may be missing'),
+          );
       return snapshot.docs.map((doc) => StudioService.fromMap(doc.data())).toList();
     } catch (e) {
+      debugPrint('❌ ServiceCatalogService.getServicesByStudioId error: $e');
       return [];
     }
   }
@@ -49,9 +55,14 @@ class ServiceCatalogService {
           .where('studioId', isEqualTo: studioId)
           .where('isActive', isEqualTo: true)
           .orderBy('createdAt', descending: true)
-          .get();
+          .get()
+          .timeout(
+            const Duration(seconds: 10),
+            onTimeout: () => throw Exception('Timeout: Firestore index may be missing'),
+          );
       return snapshot.docs.map((doc) => StudioService.fromMap(doc.data())).toList();
     } catch (e) {
+      debugPrint('❌ ServiceCatalogService.getActiveServicesByStudioId error: $e');
       return [];
     }
   }

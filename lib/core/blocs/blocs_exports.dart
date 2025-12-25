@@ -5,3 +5,5 @@ export 'booking/booking_exports.dart';
 export 'calendar/calendar_exports.dart';
 export 'favorite/favorite_exports.dart';
 export 'engineer_availability/engineer_availability_exports.dart';
+export 'locale/locale_exports.dart';
+export 'studio_room/studio_room_exports.dart';

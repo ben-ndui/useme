@@ -39,14 +39,20 @@ class LoadArtistSessionsEvent extends SessionEvent {
   List<Object?> get props => [artistId];
 }
 
-/// Create new session
+/// Create new session (with subscription limit check)
 class CreateSessionEvent extends SessionEvent {
   final Session session;
+  final String? subscriptionTierId;
+  final int? currentSessionCount;
 
-  const CreateSessionEvent({required this.session});
+  const CreateSessionEvent({
+    required this.session,
+    this.subscriptionTierId,
+    this.currentSessionCount,
+  });
 
   @override
-  List<Object?> get props => [session];
+  List<Object?> get props => [session, subscriptionTierId, currentSessionCount];
 }
 
 /// Update existing session
@@ -124,4 +130,9 @@ class LoadSessionByIdEvent extends SessionEvent {
 
   @override
   List<Object?> get props => [sessionId];
+}
+
+/// Clear all sessions (used on logout)
+class ClearSessionsEvent extends SessionEvent {
+  const ClearSessionsEvent();
 }

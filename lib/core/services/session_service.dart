@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:useme/core/models/models_exports.dart';
 
@@ -14,9 +15,14 @@ class SessionService {
           .collection(_collection)
           .where('studioId', isEqualTo: studioId)
           .orderBy('scheduledStart', descending: true)
-          .get();
+          .get()
+          .timeout(
+            const Duration(seconds: 10),
+            onTimeout: () => throw Exception('Timeout: Firestore index may be missing'),
+          );
       return snapshot.docs.map((doc) => Session.fromMap(doc.data())).toList();
     } catch (e) {
+      debugPrint('❌ SessionService.getSessions error: $e');
       return [];
     }
   }
@@ -31,14 +37,62 @@ class SessionService {
         .map((s) => s.docs.map((d) => Session.fromMap(d.data())).toList());
   }
 
-  /// Stream sessions for an engineer
+  /// Stream sessions for an engineer (assigned + proposed)
   Stream<List<Session>> streamEngineerSessions(String engineerId) {
-    return _firestore
+    // Query 1: Sessions where engineer is the main engineer
+    final mainEngineerStream = _firestore
         .collection(_collection)
         .where('engineerId', isEqualTo: engineerId)
-        .orderBy('scheduledStart', descending: true)
+        .snapshots();
+
+    // Query 2: Sessions where engineer is in engineerIds array (multi-engineer)
+    final multiEngineerStream = _firestore
+        .collection(_collection)
+        .where('engineerIds', arrayContains: engineerId)
+        .snapshots();
+
+    // Query 3: Sessions where engineer has been proposed (pending response)
+    final proposedStream = _firestore
+        .collection(_collection)
+        .where('proposedEngineerIds', arrayContains: engineerId)
+        .snapshots();
+
+    // Combine all three streams and merge unique sessions
+    return mainEngineerStream.asyncExpand((mainSnap) {
+      return multiEngineerStream.asyncExpand((multiSnap) {
+        return proposedStream.map((proposedSnap) {
+          final sessionsMap = <String, Session>{};
+
+          for (final doc in mainSnap.docs) {
+            final session = Session.fromMap(doc.data());
+            sessionsMap[session.id] = session;
+          }
+          for (final doc in multiSnap.docs) {
+            final session = Session.fromMap(doc.data());
+            sessionsMap[session.id] = session;
+          }
+          for (final doc in proposedSnap.docs) {
+            final session = Session.fromMap(doc.data());
+            sessionsMap[session.id] = session;
+          }
+
+          final sessions = sessionsMap.values.toList()
+            ..sort((a, b) => b.scheduledStart.compareTo(a.scheduledStart));
+          return sessions;
+        });
+      });
+    });
+  }
+
+  /// Stream only proposed sessions for an engineer (not yet accepted)
+  Stream<List<Session>> streamProposedSessions(String engineerId) {
+    return _firestore
+        .collection(_collection)
+        .where('proposedEngineerIds', arrayContains: engineerId)
+        .where('status', isEqualTo: 'confirmed')
         .snapshots()
-        .map((s) => s.docs.map((d) => Session.fromMap(d.data())).toList());
+        .map((s) => s.docs.map((d) => Session.fromMap(d.data())).toList()
+          ..sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart)));
   }
 
   /// Stream sessions for an artist (cherche dans le tableau artistIds)
@@ -84,9 +138,39 @@ class SessionService {
       final docRef = _firestore.collection(_collection).doc();
       final newSession = session.copyWith(id: docRef.id);
       await docRef.set(newSession.toMap());
+
+      // Si c'est une demande (pending), notifier le studio
+      if (session.status == SessionStatus.pending) {
+        await _createSessionRequestNotification(newSession);
+      }
+
       return SmoothResponse(code: 200, message: 'Session créée', data: newSession);
     } catch (e) {
       return SmoothResponse(code: 500, message: 'Erreur: $e', data: null);
+    }
+  }
+
+  /// Crée une notification pour le studio quand un artiste envoie une demande
+  Future<void> _createSessionRequestNotification(Session session) async {
+    try {
+      final notifRef = _firestore.collection('user_notifications').doc();
+      await notifRef.set({
+        'id': notifRef.id,
+        'userId': session.studioId,
+        'type': 'session_request',
+        'title': 'Nouvelle demande de session',
+        'body': '${session.artistName} souhaite réserver une session ${session.typeLabel}',
+        'data': {
+          'sessionId': session.id,
+          'artistName': session.artistName,
+          'sessionType': session.type.name,
+        },
+        'isRead': false,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+      debugPrint('✅ Notification créée pour le studio ${session.studioId}');
+    } catch (e) {
+      debugPrint('❌ Erreur création notification: $e');
     }
   }
 
@@ -116,13 +200,98 @@ class SessionService {
   /// Update session status
   Future<SmoothResponse<bool>> updateStatus(String sessionId, SessionStatus status) async {
     try {
+      // Récupérer la session pour les infos de notification
+      final session = await getSession(sessionId);
+
       await _firestore.collection(_collection).doc(sessionId).update({
         'status': status.name,
         'updatedAt': DateTime.now().millisecondsSinceEpoch,
       });
+
+      // Notifier l'artiste du changement de statut
+      if (session != null) {
+        await _createStatusChangeNotification(session, status);
+      }
+
       return SmoothResponse(code: 200, message: 'Statut mis à jour', data: true);
     } catch (e) {
       return SmoothResponse(code: 500, message: 'Erreur: $e', data: false);
+    }
+  }
+
+  /// Notifie les artistes et l'ingénieur quand le statut de leur session change
+  Future<void> _createStatusChangeNotification(Session session, SessionStatus newStatus) async {
+    try {
+      String artistTitle;
+      String artistBody;
+      String type;
+
+      switch (newStatus) {
+        case SessionStatus.confirmed:
+          artistTitle = 'Session confirmée !';
+          artistBody = 'Votre session ${session.typeLabel} a été acceptée';
+          type = 'session_confirmed';
+          break;
+        case SessionStatus.cancelled:
+          artistTitle = 'Session refusée';
+          artistBody = 'Votre demande de session ${session.typeLabel} a été refusée';
+          type = 'session_cancelled';
+          break;
+        default:
+          return; // Pas de notif pour les autres statuts
+      }
+
+      // Notifier chaque artiste de la session
+      for (final artistId in session.artistIds) {
+        final notifRef = _firestore.collection('user_notifications').doc();
+        await notifRef.set({
+          'id': notifRef.id,
+          'userId': artistId,
+          'type': type,
+          'title': artistTitle,
+          'body': artistBody,
+          'data': {
+            'sessionId': session.id,
+            'studioId': session.studioId,
+            'sessionType': session.type.name,
+          },
+          'isRead': false,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+      }
+      debugPrint('✅ Notifications envoyées aux artistes');
+
+      // Notifier l'ingénieur si session confirmée et ingénieur assigné
+      if (newStatus == SessionStatus.confirmed && session.hasEngineer) {
+        await _notifyEngineerAssignment(session);
+      }
+    } catch (e) {
+      debugPrint('❌ Erreur notification statut: $e');
+    }
+  }
+
+  /// Notifie l'ingénieur qu'il a été assigné à une session confirmée
+  Future<void> _notifyEngineerAssignment(Session session) async {
+    try {
+      final notifRef = _firestore.collection('user_notifications').doc();
+      await notifRef.set({
+        'id': notifRef.id,
+        'userId': session.engineerId,
+        'type': 'session_assigned',
+        'title': 'Nouvelle session assignée',
+        'body': 'Session ${session.type.label} avec ${session.artistName}',
+        'data': {
+          'sessionId': session.id,
+          'studioId': session.studioId,
+          'artistName': session.artistName,
+          'sessionType': session.type.name,
+        },
+        'isRead': false,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+      debugPrint('✅ Notification envoyée à l\'ingénieur ${session.engineerId}');
+    } catch (e) {
+      debugPrint('❌ Erreur notification ingénieur: $e');
     }
   }
 

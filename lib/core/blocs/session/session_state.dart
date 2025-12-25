@@ -119,3 +119,20 @@ class SessionErrorState extends SessionState {
     super.selectedSession,
   }) : super(isLoading: false);
 }
+
+/// Session limit reached state (subscription limit)
+class SessionLimitReachedState extends SessionState {
+  final int currentCount;
+  final int maxAllowed;
+  final String tierId;
+
+  const SessionLimitReachedState({
+    required this.currentCount,
+    required this.maxAllowed,
+    required this.tierId,
+    super.sessions,
+  }) : super(isLoading: false);
+
+  @override
+  List<Object?> get props => [currentCount, maxAllowed, tierId, sessions];
+}

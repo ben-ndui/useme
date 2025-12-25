@@ -6,6 +6,8 @@ import 'package:useme/core/services/services_exports.dart';
 /// Service BLoC - Manages studio service catalog state
 class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
   final ServiceCatalogService _serviceCatalogService = ServiceCatalogService();
+  final SubscriptionConfigService _subscriptionService =
+      SubscriptionConfigService();
 
   ServiceBloc() : super(const ServiceInitialState()) {
     on<LoadServicesEvent>(_onLoadServices);
@@ -15,6 +17,11 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     on<DeleteServiceEvent>(_onDeleteService);
     on<DeactivateServiceEvent>(_onDeactivateService);
     on<ReactivateServiceEvent>(_onReactivateService);
+    on<ClearServicesEvent>(_onClearServices);
+  }
+
+  void _onClearServices(ClearServicesEvent event, Emitter<ServiceState> emit) {
+    emit(const ServiceInitialState());
   }
 
   Future<void> _onLoadServices(
@@ -50,12 +57,36 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
   Future<void> _onCreateService(
       CreateServiceEvent event, Emitter<ServiceState> emit) async {
     emit(ServiceLoadingState(services: state.services));
+
     try {
+      // Check subscription limits if tier info is provided
+      if (event.subscriptionTierId != null &&
+          event.currentServiceCount != null) {
+        final canCreate = await _subscriptionService.canCreateService(
+          tierId: event.subscriptionTierId!,
+          currentServicesCount: event.currentServiceCount!,
+        );
+
+        if (!canCreate) {
+          final tier =
+              await _subscriptionService.getTier(event.subscriptionTierId!);
+          emit(ServiceLimitReachedState(
+            currentCount: event.currentServiceCount!,
+            maxAllowed: tier?.maxServices ?? 0,
+            tierId: event.subscriptionTierId!,
+            services: state.services,
+          ));
+          return;
+        }
+      }
+
       final service = event.service;
       final studioId = service.studioId;
-      final response = await _serviceCatalogService.createService(studioId, service);
+      final response =
+          await _serviceCatalogService.createService(studioId, service);
       if (response.code == 200) {
-        final services = await _serviceCatalogService.getServicesByStudioId(studioId);
+        final services =
+            await _serviceCatalogService.getServicesByStudioId(studioId);
         emit(ServiceCreatedState(
           createdService: service,
           services: services,

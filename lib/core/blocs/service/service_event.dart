@@ -30,14 +30,20 @@ class SearchServicesEvent extends ServiceEvent {
   List<Object?> get props => [studioId, query];
 }
 
-/// Create new service
+/// Create new service (with subscription limit check)
 class CreateServiceEvent extends ServiceEvent {
   final StudioService service;
+  final String? subscriptionTierId;
+  final int? currentServiceCount;
 
-  const CreateServiceEvent({required this.service});
+  const CreateServiceEvent({
+    required this.service,
+    this.subscriptionTierId,
+    this.currentServiceCount,
+  });
 
   @override
-  List<Object?> get props => [service];
+  List<Object?> get props => [service, subscriptionTierId, currentServiceCount];
 }
 
 /// Update existing service
@@ -78,4 +84,9 @@ class ReactivateServiceEvent extends ServiceEvent {
 
   @override
   List<Object?> get props => [serviceId];
+}
+
+/// Clear all services (used on logout)
+class ClearServicesEvent extends ServiceEvent {
+  const ClearServicesEvent();
 }

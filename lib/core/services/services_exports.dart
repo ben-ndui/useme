@@ -1,6 +1,7 @@
 export 'session_service.dart';
 export 'artist_service.dart';
 export 'service_catalog_service.dart';
+export 'studio_room_service.dart';
 export 'booking_service.dart';
 export 'notification_service.dart';
 export 'unavailability_service.dart';
@@ -14,3 +15,9 @@ export 'engineer_availability_service.dart';
 export 'contact_service.dart';
 export 'payment_config_service.dart';
 export 'booking_acceptance_service.dart';
+export 'engineer_proposal_service.dart';
+export 'profile_photo_service.dart';
+export 'subscription_config_service.dart';
+export 'stripe_config_service.dart';
+export 'stripe_service.dart';
+export 'iap_service.dart';
