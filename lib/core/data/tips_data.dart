@@ -254,6 +254,31 @@ class TipsData {
       ],
     ),
     TipSection(
+      title: l10n.tipsSectionCalendar,
+      icon: FontAwesomeIcons.calendarDays,
+      color: Colors.teal,
+      tips: [
+        TipItem(
+          title: l10n.tipConnectCalendarTitle,
+          description: l10n.tipConnectCalendarDesc,
+          icon: FontAwesomeIcons.google,
+          iconColor: Colors.red,
+        ),
+        TipItem(
+          title: l10n.tipImportEventsTitle,
+          description: l10n.tipImportEventsDesc,
+          icon: FontAwesomeIcons.fileImport,
+          iconColor: Colors.blue,
+        ),
+        TipItem(
+          title: l10n.tipCategorizeEventsTitle,
+          description: l10n.tipCategorizeEventsDesc,
+          icon: FontAwesomeIcons.listCheck,
+          iconColor: Colors.green,
+        ),
+      ],
+    ),
+    TipSection(
       title: l10n.tipsSectionVisibility,
       icon: FontAwesomeIcons.eye,
       color: Colors.orange,

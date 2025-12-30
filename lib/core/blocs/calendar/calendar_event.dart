@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import '../../models/google_calendar_event.dart';
 import '../../models/unavailability.dart';
 
 /// Base calendar event
@@ -93,4 +94,42 @@ class CalendarConnectedEvent extends CalendarEvent {
 
   @override
   List<Object?> get props => [userId, success, error];
+}
+
+/// Internal event: unavailabilities updated from stream
+class UnavailabilitiesUpdatedEvent extends CalendarEvent {
+  final List<Unavailability> unavailabilities;
+
+  const UnavailabilitiesUpdatedEvent({required this.unavailabilities});
+
+  @override
+  List<Object?> get props => [unavailabilities];
+}
+
+// =============================================================================
+// IMPORT PREVIEW EVENTS
+// =============================================================================
+
+/// Fetch calendar events for preview/review
+class FetchCalendarPreviewEvent extends CalendarEvent {
+  final String userId;
+
+  const FetchCalendarPreviewEvent({required this.userId});
+
+  @override
+  List<Object?> get props => [userId];
+}
+
+/// Import categorized events (sessions or unavailabilities)
+class ImportCategorizedEventsEvent extends CalendarEvent {
+  final String userId;
+  final List<GoogleCalendarEvent> events;
+
+  const ImportCategorizedEventsEvent({
+    required this.userId,
+    required this.events,
+  });
+
+  @override
+  List<Object?> get props => [userId, events];
 }

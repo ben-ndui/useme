@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../models/calendar_connection.dart';
+import '../../models/google_calendar_event.dart';
 import '../../models/unavailability.dart';
 
 /// Base calendar state
@@ -108,4 +109,42 @@ class UnavailabilityDeletedState extends CalendarState {
 
   @override
   List<Object?> get props => [unavailabilityId];
+}
+
+// =============================================================================
+// IMPORT PREVIEW STATES
+// =============================================================================
+
+/// Loading preview events state
+class CalendarPreviewLoadingState extends CalendarState {
+  const CalendarPreviewLoadingState();
+}
+
+/// Preview events loaded state
+class CalendarPreviewLoadedState extends CalendarState {
+  final List<GoogleCalendarEvent> events;
+
+  const CalendarPreviewLoadedState({required this.events});
+
+  @override
+  List<Object?> get props => [events];
+}
+
+/// Importing events state
+class CalendarImportingState extends CalendarState {
+  const CalendarImportingState();
+}
+
+/// Import success state
+class CalendarImportSuccessState extends CalendarState {
+  final int sessionsCreated;
+  final int unavailabilitiesCreated;
+
+  const CalendarImportSuccessState({
+    required this.sessionsCreated,
+    required this.unavailabilitiesCreated,
+  });
+
+  @override
+  List<Object?> get props => [sessionsCreated, unavailabilitiesCreated];
 }

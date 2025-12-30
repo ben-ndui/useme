@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../core/blocs/calendar/calendar_exports.dart';
+import '../../l10n/app_localizations.dart';
+import '../../routing/app_routes.dart';
 import '../../widgets/common/snackbar/app_snackbar.dart';
 
 /// Section de connexion calendrier pour les paramètres studio
@@ -15,12 +18,13 @@ class CalendarConnectionSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<CalendarBloc, CalendarState>(
       listener: (context, state) {
+        final l10n = AppLocalizations.of(context)!;
         if (state is CalendarErrorState) {
           AppSnackBar.error(context, state.message);
         } else if (state is UnavailabilityAddedState) {
-          AppSnackBar.success(context, 'Indisponibilité ajoutée');
+          AppSnackBar.success(context, l10n.unavailabilityAdded);
         } else if (state is UnavailabilityDeletedState) {
-          AppSnackBar.success(context, 'Indisponibilité supprimée');
+          AppSnackBar.success(context, l10n.unavailabilityDeleted);
         }
       },
       builder: (context, state) {
@@ -48,6 +52,7 @@ class CalendarConnectionSection extends StatelessWidget {
 
   Widget _buildDisconnectedState(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Card(
       child: Padding(
@@ -74,13 +79,13 @@ class CalendarConnectionSection extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Calendrier',
+                        l10n.calendar,
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       Text(
-                        'Non connecté',
+                        l10n.notConnected,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.outline,
                         ),
@@ -92,7 +97,7 @@ class CalendarConnectionSection extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Connectez votre agenda Google pour synchroniser automatiquement vos disponibilités.',
+              l10n.connectGoogleCalendarDesc,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -107,7 +112,7 @@ class CalendarConnectionSection extends StatelessWidget {
                       );
                 },
                 icon: const FaIcon(FontAwesomeIcons.google, size: 16),
-                label: const Text('Connecter Google Calendar'),
+                label: Text(l10n.connectGoogleCalendar),
               ),
             ),
           ],
@@ -118,6 +123,7 @@ class CalendarConnectionSection extends StatelessWidget {
 
   Widget _buildConnectedState(BuildContext context, CalendarConnectedState state) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final dateFormat = DateFormat('dd/MM/yyyy HH:mm', 'fr_FR');
 
     return Card(
@@ -150,7 +156,7 @@ class CalendarConnectionSection extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Calendrier connecté',
+                        l10n.calendarConnected,
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -183,15 +189,15 @@ class CalendarConnectionSection extends StatelessWidget {
                 _StatItem(
                   icon: FontAwesomeIcons.calendarXmark,
                   value: '${state.unavailabilities.length}',
-                  label: 'Indispos',
+                  label: l10n.unavailabilities,
                 ),
                 const SizedBox(width: 24),
                 _StatItem(
                   icon: FontAwesomeIcons.clockRotateLeft,
                   value: state.connection.lastSync != null
                       ? dateFormat.format(state.connection.lastSync!)
-                      : 'Jamais',
-                  label: 'Dernier sync',
+                      : l10n.never,
+                  label: l10n.lastSync,
                 ),
               ],
             ),
@@ -203,15 +209,24 @@ class CalendarConnectionSection extends StatelessWidget {
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
+                    ),
                     onPressed: state.isSyncing
                         ? null
-                        : () {
-                            context.read<CalendarBloc>().add(
-                                  SyncCalendarEvent(userId: userId),
-                                );
+                        : () async {
+                            await context.push(
+                              '${AppRoutes.calendarImportReview}?userId=$userId',
+                            );
+                            // Recharger le statut après retour du review screen
+                            if (context.mounted) {
+                              context.read<CalendarBloc>().add(
+                                    LoadCalendarStatusEvent(userId: userId),
+                                  );
+                            }
                           },
-                    icon: const FaIcon(FontAwesomeIcons.arrowsRotate, size: 14),
-                    label: const Text('Synchroniser'),
+                    icon: const FaIcon(FontAwesomeIcons.fileImport, size: 14),
+                    label: Text(l10n.reviewAndImport),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -219,10 +234,11 @@ class CalendarConnectionSection extends StatelessWidget {
                   child: OutlinedButton.icon(
                     onPressed: () => _showDisconnectDialog(context),
                     style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
                       foregroundColor: theme.colorScheme.error,
                     ),
                     icon: const FaIcon(FontAwesomeIcons.linkSlash, size: 14),
-                    label: const Text('Déconnecter'),
+                    label: Text(l10n.disconnect),
                   ),
                 ),
               ],
@@ -234,18 +250,16 @@ class CalendarConnectionSection extends StatelessWidget {
   }
 
   void _showDisconnectDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Déconnecter le calendrier ?'),
-        content: const Text(
-          'Vos indisponibilités synchronisées seront supprimées. '
-          'Les indisponibilités manuelles seront conservées.',
-        ),
+        title: Text(l10n.disconnectCalendar),
+        content: Text(l10n.disconnectCalendarWarning),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Annuler'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () {
@@ -257,7 +271,7 @@ class CalendarConnectionSection extends StatelessWidget {
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
-            child: const Text('Déconnecter'),
+            child: Text(l10n.disconnect),
           ),
         ],
       ),

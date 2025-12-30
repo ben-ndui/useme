@@ -960,6 +960,9 @@
   "openingHoursSubtitle": "Définissez quand votre studio est ouvert",
   "noOpeningHoursConfigured": "Aucun horaire configuré",
   "openingHoursSaved": "Horaires enregistrés",
+  "allowNoEngineer": "Réservation sans ingénieur",
+  "allowNoEngineerSubtitle": "Permet aux artistes de réserver même si aucun ingénieur n'est disponible",
+  "settingsSaved": "Paramètre enregistré",
   "restDay": "Fermé",
 
   "selectStudio": "Choisir un studio",
@@ -974,5 +977,150 @@
   "useCamera": "Utiliser l'appareil photo",
   "chooseFromGallery": "Choisir depuis la galerie",
   "selectExistingPhoto": "Sélectionner une photo existante",
-  "photoUpdated": "Photo mise à jour"
+  "photoUpdated": "Photo mise à jour",
+
+  "aiGuideTitle": "Guide de l'assistant IA",
+  "aiGuideHeaderTitle": "Votre assistant personnel",
+  "aiGuideHeaderSubtitle": "Découvrez tout ce que l'IA peut faire pour vous",
+  "aiGuideSecurityTitle": "Toujours sous votre contrôle",
+  "aiGuideSecurityDesc": "L'assistant vous demandera TOUJOURS confirmation avant d'effectuer une action. Rien ne sera fait sans votre accord explicite.",
+
+  "aiGuideIntroTitle": "Comment ça marche ?",
+  "aiGuideWhatIsTitle": "Un assistant intelligent",
+  "aiGuideWhatIsDesc": "L'assistant IA comprend vos demandes en langage naturel et peut consulter vos données ou effectuer des actions pour vous. Posez-lui des questions ou demandez-lui d'agir !",
+  "aiGuideConfirmTitle": "Confirmation obligatoire",
+  "aiGuideConfirmDesc": "Avant chaque action (réservation, annulation, modification...), l'assistant vous résumera ce qu'il va faire et attendra votre confirmation. Vous gardez le contrôle total.",
+
+  "aiGuideReadTitle": "Ce que l'IA peut consulter",
+  "aiGuideActionsTitle": "Actions possibles",
+  "aiGuideExamplesTitle": "Exemples de demandes",
+
+  "aiGuideSessionsTitle": "Vos sessions",
+  "aiGuideArtistSessionsDesc": "Consultez vos réservations passées, en cours ou à venir. Filtrez par date ou statut.",
+  "aiGuideEngineerSessionsDesc": "Voyez les sessions qui vous sont assignées, les propositions en attente et votre planning.",
+  "aiGuideStudioSessionsDesc": "Accédez à toutes les sessions de votre studio, filtrez par statut, date ou artiste.",
+
+  "aiGuideAvailabilityTitle": "Disponibilités",
+  "aiGuideAvailabilityDesc": "Vérifiez les créneaux disponibles d'un studio pour une date donnée.",
+  "aiGuideConversationsTitle": "Conversations",
+  "aiGuideConversationsDesc": "Consultez vos conversations récentes et les messages non lus.",
+
+  "aiGuideTimeOffTitle": "Vos indisponibilités",
+  "aiGuideTimeOffDesc": "Consultez vos périodes d'indisponibilité planifiées (vacances, congés...).",
+
+  "aiGuidePendingTitle": "Demandes en attente",
+  "aiGuidePendingDesc": "Voyez toutes les demandes de réservation qui attendent votre réponse.",
+  "aiGuideStatsTitle": "Statistiques",
+  "aiGuideStatsDesc": "Obtenez un aperçu de vos sessions (complétées, en attente, annulées) sur une période.",
+  "aiGuideRevenueTitle": "Rapport de revenus",
+  "aiGuideRevenueDesc": "Générez un rapport de revenus détaillé, groupé par service, ingénieur ou jour.",
+  "aiGuideTeamTitle": "Votre équipe",
+  "aiGuideTeamDesc": "Listez les ingénieurs de votre équipe et leurs disponibilités.",
+
+  "aiGuideBookingTitle": "Réserver une session",
+  "aiGuideBookingDesc": "Demandez à l'IA de créer une demande de réservation. Elle vous guidera dans le choix du studio, service, date et créneau.",
+  "aiGuideFavoritesTitle": "Gérer les favoris",
+  "aiGuideFavoritesDesc": "Ajoutez ou retirez des studios de vos favoris, ou consultez votre liste de favoris.",
+  "aiGuideSearchStudiosTitle": "Rechercher des studios",
+  "aiGuideSearchStudiosDesc": "Trouvez des studios par nom, ville ou type de service proposé.",
+  "aiGuideSendMessageTitle": "Envoyer un message",
+  "aiGuideSendMessageDesc": "Envoyez un message à un studio ou un artiste directement via l'assistant.",
+
+  "aiGuideStartSessionTitle": "Démarrer une session",
+  "aiGuideStartSessionDesc": "Pointez votre arrivée en démarrant une session confirmée le jour J.",
+  "aiGuideCompleteSessionTitle": "Terminer une session",
+  "aiGuideCompleteSessionDesc": "Marquez une session comme terminée et ajoutez des notes si nécessaire.",
+  "aiGuideRespondProposalTitle": "Répondre à une proposition",
+  "aiGuideRespondProposalDesc": "Acceptez ou refusez les sessions que le studio vous propose.",
+  "aiGuideManageTimeOffTitle": "Gérer les indisponibilités",
+  "aiGuideManageTimeOffDesc": "Ajoutez ou supprimez des périodes d'indisponibilité (vacances, rendez-vous...).",
+
+  "aiGuideAcceptDeclineTitle": "Accepter/Refuser demandes",
+  "aiGuideAcceptDeclineDesc": "Gérez les demandes de réservation en les acceptant ou refusant via l'assistant.",
+  "aiGuideRescheduleTitle": "Reprogrammer une session",
+  "aiGuideRescheduleDesc": "Changez la date ou l'heure d'une session existante. L'artiste sera notifié.",
+  "aiGuideAssignEngineerTitle": "Assigner un ingénieur",
+  "aiGuideAssignEngineerDesc": "Assignez un ingénieur disponible à une session confirmée.",
+  "aiGuideCreateSessionTitle": "Créer une session",
+  "aiGuideCreateSessionDesc": "Créez une session manuellement pour un artiste, même sans demande préalable.",
+  "aiGuideBlockSlotsTitle": "Bloquer des créneaux",
+  "aiGuideBlockSlotsDesc": "Marquez des périodes d'indisponibilité pour fermeture exceptionnelle du studio.",
+  "aiGuideManageServicesTitle": "Gérer les services",
+  "aiGuideManageServicesDesc": "Créez ou modifiez vos services (nom, prix, durée, description).",
+
+  "aiGuideExample1ArtistTitle": "Mes prochaines sessions",
+  "aiGuideExample1ArtistDesc": "\"Quelles sont mes sessions cette semaine ?\" - L'IA vous montrera toutes vos réservations à venir.",
+  "aiGuideExample2ArtistTitle": "Trouver un studio",
+  "aiGuideExample2ArtistDesc": "\"Je cherche un studio à Paris pour du mix\" - L'IA recherchera les studios correspondants.",
+  "aiGuideExample3ArtistTitle": "Réserver un créneau",
+  "aiGuideExample3ArtistDesc": "\"Je veux réserver demain à 14h au Studio X\" - L'IA vérifiera la disponibilité et vous guidera.",
+
+  "aiGuideExample1EngineerTitle": "Sessions du jour",
+  "aiGuideExample1EngineerDesc": "\"Qu'est-ce que j'ai aujourd'hui ?\" - L'IA vous montrera les sessions assignées pour aujourd'hui.",
+  "aiGuideExample2EngineerTitle": "Poser des congés",
+  "aiGuideExample2EngineerDesc": "\"Je serai absent du 15 au 20 janvier\" - L'IA créera l'indisponibilité après confirmation.",
+  "aiGuideExample3EngineerTitle": "Répondre à une proposition",
+  "aiGuideExample3EngineerDesc": "\"Accepte la session de demain\" - L'IA confirmera la proposition en attente.",
+
+  "aiGuideExample1StudioTitle": "Demandes en attente",
+  "aiGuideExample1StudioDesc": "\"Montre-moi les demandes en attente\" - L'IA affichera toutes les réservations à traiter.",
+  "aiGuideExample2StudioTitle": "Rapport de revenus",
+  "aiGuideExample2StudioDesc": "\"Quel est mon chiffre d'affaires ce mois-ci ?\" - L'IA générera un rapport détaillé.",
+  "aiGuideExample3StudioTitle": "Reprogrammer une session",
+  "aiGuideExample3StudioDesc": "\"Décale la session de Lundi à Mardi 10h\" - L'IA reprogrammera après votre confirmation.",
+
+  "aiGuideSettingsLink": "Guide de l'assistant IA",
+
+  "importFromGoogleCalendar": "Importer depuis Google Calendar",
+  "importAsSession": "Session",
+  "importAsUnavailability": "Indispo",
+  "skipImport": "Ignorer",
+  "selectArtistForSession": "Sélectionner un artiste",
+  "createExternalArtist": "Artiste externe",
+  "externalArtistName": "Nom de l'artiste",
+  "externalArtistHint": "Nom de l'artiste externe...",
+  "importSummary": "{sessions} sessions, {unavailabilities} indispos",
+  "@importSummary": {
+    "placeholders": {
+      "sessions": {
+        "type": "int"
+      },
+      "unavailabilities": {
+        "type": "int"
+      }
+    }
+  },
+  "importButton": "Importer",
+  "noEventsToImport": "Aucun événement à importer",
+  "eventsToReview": "{count} événements à traiter",
+  "@eventsToReview": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importSuccessMessage": "Import réussi ! {sessions} sessions et {unavailabilities} indisponibilités créées.",
+  "@importSuccessMessage": {
+    "placeholders": {
+      "sessions": {
+        "type": "int"
+      },
+      "unavailabilities": {
+        "type": "int"
+      }
+    }
+  },
+  "allDay": "Toute la journée",
+  "selectAnArtist": "Choisir un artiste",
+  "orCreateExternal": "ou créer un artiste externe",
+  "reviewAndImport": "Vérifier et importer",
+
+  "tipsSectionCalendar": "Calendrier",
+  "tipConnectCalendarTitle": "Connectez votre calendrier",
+  "tipConnectCalendarDesc": "Liez votre Google Calendar pour synchroniser vos événements. Allez dans Réglages > Calendrier pour connecter votre compte Google.",
+  "tipImportEventsTitle": "Importez vos événements",
+  "tipImportEventsDesc": "Utilisez \"Vérifier et importer\" pour récupérer vos événements Google Calendar et les catégoriser comme sessions ou indisponibilités.",
+  "tipCategorizeEventsTitle": "Catégorisez vos événements",
+  "tipCategorizeEventsDesc": "Pour chaque événement importé, choisissez : Session (avec artiste), Indispo (bloquer le créneau), ou Ignorer. Les sessions sont créées en statut \"En attente\"."
 }

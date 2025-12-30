@@ -768,6 +768,9 @@
   "openingHoursSubtitle": "Define when your studio is open",
   "noOpeningHoursConfigured": "No opening hours configured",
   "openingHoursSaved": "Opening hours saved",
+  "allowNoEngineer": "Booking without engineer",
+  "allowNoEngineerSubtitle": "Allow artists to book even if no engineer is available",
+  "settingsSaved": "Setting saved",
   "restDay": "Closed",
 
   "selectStudio": "Select a studio",
@@ -782,5 +785,150 @@
   "useCamera": "Use camera",
   "chooseFromGallery": "Choose from gallery",
   "selectExistingPhoto": "Select existing photo",
-  "photoUpdated": "Photo updated"
+  "photoUpdated": "Photo updated",
+
+  "aiGuideTitle": "AI Assistant Guide",
+  "aiGuideHeaderTitle": "Your personal assistant",
+  "aiGuideHeaderSubtitle": "Discover everything AI can do for you",
+  "aiGuideSecurityTitle": "Always in your control",
+  "aiGuideSecurityDesc": "The assistant will ALWAYS ask for confirmation before performing an action. Nothing will be done without your explicit approval.",
+
+  "aiGuideIntroTitle": "How does it work?",
+  "aiGuideWhatIsTitle": "An intelligent assistant",
+  "aiGuideWhatIsDesc": "The AI assistant understands your requests in natural language and can access your data or perform actions for you. Ask questions or request actions!",
+  "aiGuideConfirmTitle": "Confirmation required",
+  "aiGuideConfirmDesc": "Before any action (booking, cancellation, modification...), the assistant will summarize what it's about to do and wait for your confirmation. You stay in full control.",
+
+  "aiGuideReadTitle": "What AI can access",
+  "aiGuideActionsTitle": "Available actions",
+  "aiGuideExamplesTitle": "Example requests",
+
+  "aiGuideSessionsTitle": "Your sessions",
+  "aiGuideArtistSessionsDesc": "View your past, current, or upcoming bookings. Filter by date or status.",
+  "aiGuideEngineerSessionsDesc": "See sessions assigned to you, pending proposals, and your schedule.",
+  "aiGuideStudioSessionsDesc": "Access all your studio sessions, filter by status, date, or artist.",
+
+  "aiGuideAvailabilityTitle": "Availability",
+  "aiGuideAvailabilityDesc": "Check available time slots for a studio on a given date.",
+  "aiGuideConversationsTitle": "Conversations",
+  "aiGuideConversationsDesc": "View your recent conversations and unread messages.",
+
+  "aiGuideTimeOffTitle": "Your time off",
+  "aiGuideTimeOffDesc": "View your scheduled unavailability periods (vacation, time off...).",
+
+  "aiGuidePendingTitle": "Pending requests",
+  "aiGuidePendingDesc": "See all booking requests waiting for your response.",
+  "aiGuideStatsTitle": "Statistics",
+  "aiGuideStatsDesc": "Get an overview of your sessions (completed, pending, cancelled) over a period.",
+  "aiGuideRevenueTitle": "Revenue report",
+  "aiGuideRevenueDesc": "Generate a detailed revenue report, grouped by service, engineer, or day.",
+  "aiGuideTeamTitle": "Your team",
+  "aiGuideTeamDesc": "List your team engineers and their availabilities.",
+
+  "aiGuideBookingTitle": "Book a session",
+  "aiGuideBookingDesc": "Ask the AI to create a booking request. It will guide you through studio, service, date, and time slot selection.",
+  "aiGuideFavoritesTitle": "Manage favorites",
+  "aiGuideFavoritesDesc": "Add or remove studios from favorites, or view your favorites list.",
+  "aiGuideSearchStudiosTitle": "Search studios",
+  "aiGuideSearchStudiosDesc": "Find studios by name, city, or service type.",
+  "aiGuideSendMessageTitle": "Send a message",
+  "aiGuideSendMessageDesc": "Send a message to a studio or artist directly through the assistant.",
+
+  "aiGuideStartSessionTitle": "Start a session",
+  "aiGuideStartSessionDesc": "Check in by starting a confirmed session on the day.",
+  "aiGuideCompleteSessionTitle": "Complete a session",
+  "aiGuideCompleteSessionDesc": "Mark a session as completed and add notes if needed.",
+  "aiGuideRespondProposalTitle": "Respond to proposal",
+  "aiGuideRespondProposalDesc": "Accept or decline sessions proposed by the studio.",
+  "aiGuideManageTimeOffTitle": "Manage time off",
+  "aiGuideManageTimeOffDesc": "Add or remove unavailability periods (vacation, appointments...).",
+
+  "aiGuideAcceptDeclineTitle": "Accept/Decline requests",
+  "aiGuideAcceptDeclineDesc": "Manage booking requests by accepting or declining them via the assistant.",
+  "aiGuideRescheduleTitle": "Reschedule a session",
+  "aiGuideRescheduleDesc": "Change the date or time of an existing session. The artist will be notified.",
+  "aiGuideAssignEngineerTitle": "Assign an engineer",
+  "aiGuideAssignEngineerDesc": "Assign an available engineer to a confirmed session.",
+  "aiGuideCreateSessionTitle": "Create a session",
+  "aiGuideCreateSessionDesc": "Create a session manually for an artist, even without a prior request.",
+  "aiGuideBlockSlotsTitle": "Block time slots",
+  "aiGuideBlockSlotsDesc": "Mark unavailability periods for exceptional studio closures.",
+  "aiGuideManageServicesTitle": "Manage services",
+  "aiGuideManageServicesDesc": "Create or update your services (name, price, duration, description).",
+
+  "aiGuideExample1ArtistTitle": "My upcoming sessions",
+  "aiGuideExample1ArtistDesc": "\"What sessions do I have this week?\" - The AI will show all your upcoming bookings.",
+  "aiGuideExample2ArtistTitle": "Find a studio",
+  "aiGuideExample2ArtistDesc": "\"I'm looking for a studio in Paris for mixing\" - The AI will search for matching studios.",
+  "aiGuideExample3ArtistTitle": "Book a slot",
+  "aiGuideExample3ArtistDesc": "\"I want to book tomorrow at 2pm at Studio X\" - The AI will check availability and guide you.",
+
+  "aiGuideExample1EngineerTitle": "Today's sessions",
+  "aiGuideExample1EngineerDesc": "\"What do I have today?\" - The AI will show sessions assigned to you for today.",
+  "aiGuideExample2EngineerTitle": "Request time off",
+  "aiGuideExample2EngineerDesc": "\"I'll be away from January 15 to 20\" - The AI will create the unavailability after confirmation.",
+  "aiGuideExample3EngineerTitle": "Respond to a proposal",
+  "aiGuideExample3EngineerDesc": "\"Accept tomorrow's session\" - The AI will confirm the pending proposal.",
+
+  "aiGuideExample1StudioTitle": "Pending requests",
+  "aiGuideExample1StudioDesc": "\"Show me pending requests\" - The AI will display all booking requests to process.",
+  "aiGuideExample2StudioTitle": "Revenue report",
+  "aiGuideExample2StudioDesc": "\"What's my revenue this month?\" - The AI will generate a detailed report.",
+  "aiGuideExample3StudioTitle": "Reschedule a session",
+  "aiGuideExample3StudioDesc": "\"Move Monday's session to Tuesday 10am\" - The AI will reschedule after your confirmation.",
+
+  "aiGuideSettingsLink": "AI Assistant Guide",
+
+  "importFromGoogleCalendar": "Import from Google Calendar",
+  "importAsSession": "Session",
+  "importAsUnavailability": "Unavail.",
+  "skipImport": "Skip",
+  "selectArtistForSession": "Select an artist",
+  "createExternalArtist": "External artist",
+  "externalArtistName": "Artist name",
+  "externalArtistHint": "External artist name...",
+  "importSummary": "{sessions} sessions, {unavailabilities} unavail.",
+  "@importSummary": {
+    "placeholders": {
+      "sessions": {
+        "type": "int"
+      },
+      "unavailabilities": {
+        "type": "int"
+      }
+    }
+  },
+  "importButton": "Import",
+  "noEventsToImport": "No events to import",
+  "eventsToReview": "{count} events to review",
+  "@eventsToReview": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importSuccessMessage": "Import successful! {sessions} sessions and {unavailabilities} unavailabilities created.",
+  "@importSuccessMessage": {
+    "placeholders": {
+      "sessions": {
+        "type": "int"
+      },
+      "unavailabilities": {
+        "type": "int"
+      }
+    }
+  },
+  "allDay": "All day",
+  "selectAnArtist": "Select an artist",
+  "orCreateExternal": "or create external artist",
+  "reviewAndImport": "Review and import",
+
+  "tipsSectionCalendar": "Calendar",
+  "tipConnectCalendarTitle": "Connect your calendar",
+  "tipConnectCalendarDesc": "Link your Google Calendar to sync your events. Go to Settings > Calendar to connect your Google account.",
+  "tipImportEventsTitle": "Import your events",
+  "tipImportEventsDesc": "Use \"Review and import\" to fetch your Google Calendar events and categorize them as sessions or unavailabilities.",
+  "tipCategorizeEventsTitle": "Categorize your events",
+  "tipCategorizeEventsDesc": "For each imported event, choose: Session (with artist), Unavailable (block the slot), or Skip. Sessions are created with \"Pending\" status."
 }

@@ -88,4 +88,14 @@ class AppRoutes {
 
   // Favorites
   static const String favorites = '/favorites';
+
+  // AI Assistant
+  static const String aiAssistant = '/ai-assistant';
+  static const String aiSettings = '/studio/ai-settings';
+
+  // Calendar Import
+  static const String calendarImportReview = '/studio/calendar-import';
+
+  // Upgrade
+  static const String upgrade = '/upgrade';
 }

@@ -4340,6 +4340,24 @@ abstract class AppLocalizations {
   /// **'Horaires enregistrés'**
   String get openingHoursSaved;
 
+  /// No description provided for @allowNoEngineer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réservation sans ingénieur'**
+  String get allowNoEngineer;
+
+  /// No description provided for @allowNoEngineerSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Permet aux artistes de réserver même si aucun ingénieur n\'est disponible'**
+  String get allowNoEngineerSubtitle;
+
+  /// No description provided for @settingsSaved.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paramètre enregistré'**
+  String get settingsSaved;
+
   /// No description provided for @selectStudio.
   ///
   /// In fr, this message translates to:
@@ -4411,6 +4429,618 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Photo mise à jour'**
   String get photoUpdated;
+
+  /// No description provided for @aiGuideTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Guide de l\'assistant IA'**
+  String get aiGuideTitle;
+
+  /// No description provided for @aiGuideHeaderTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre assistant personnel'**
+  String get aiGuideHeaderTitle;
+
+  /// No description provided for @aiGuideHeaderSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Découvrez tout ce que l\'IA peut faire pour vous'**
+  String get aiGuideHeaderSubtitle;
+
+  /// No description provided for @aiGuideSecurityTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Toujours sous votre contrôle'**
+  String get aiGuideSecurityTitle;
+
+  /// No description provided for @aiGuideSecurityDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'assistant vous demandera TOUJOURS confirmation avant d\'effectuer une action. Rien ne sera fait sans votre accord explicite.'**
+  String get aiGuideSecurityDesc;
+
+  /// No description provided for @aiGuideIntroTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Comment ça marche ?'**
+  String get aiGuideIntroTitle;
+
+  /// No description provided for @aiGuideWhatIsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un assistant intelligent'**
+  String get aiGuideWhatIsTitle;
+
+  /// No description provided for @aiGuideWhatIsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'assistant IA comprend vos demandes en langage naturel et peut consulter vos données ou effectuer des actions pour vous. Posez-lui des questions ou demandez-lui d\'agir !'**
+  String get aiGuideWhatIsDesc;
+
+  /// No description provided for @aiGuideConfirmTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmation obligatoire'**
+  String get aiGuideConfirmTitle;
+
+  /// No description provided for @aiGuideConfirmDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Avant chaque action (réservation, annulation, modification...), l\'assistant vous résumera ce qu\'il va faire et attendra votre confirmation. Vous gardez le contrôle total.'**
+  String get aiGuideConfirmDesc;
+
+  /// No description provided for @aiGuideReadTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce que l\'IA peut consulter'**
+  String get aiGuideReadTitle;
+
+  /// No description provided for @aiGuideActionsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actions possibles'**
+  String get aiGuideActionsTitle;
+
+  /// No description provided for @aiGuideExamplesTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Exemples de demandes'**
+  String get aiGuideExamplesTitle;
+
+  /// No description provided for @aiGuideSessionsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vos sessions'**
+  String get aiGuideSessionsTitle;
+
+  /// No description provided for @aiGuideArtistSessionsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Consultez vos réservations passées, en cours ou à venir. Filtrez par date ou statut.'**
+  String get aiGuideArtistSessionsDesc;
+
+  /// No description provided for @aiGuideEngineerSessionsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voyez les sessions qui vous sont assignées, les propositions en attente et votre planning.'**
+  String get aiGuideEngineerSessionsDesc;
+
+  /// No description provided for @aiGuideStudioSessionsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accédez à toutes les sessions de votre studio, filtrez par statut, date ou artiste.'**
+  String get aiGuideStudioSessionsDesc;
+
+  /// No description provided for @aiGuideAvailabilityTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Disponibilités'**
+  String get aiGuideAvailabilityTitle;
+
+  /// No description provided for @aiGuideAvailabilityDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vérifiez les créneaux disponibles d\'un studio pour une date donnée.'**
+  String get aiGuideAvailabilityDesc;
+
+  /// No description provided for @aiGuideConversationsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Conversations'**
+  String get aiGuideConversationsTitle;
+
+  /// No description provided for @aiGuideConversationsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Consultez vos conversations récentes et les messages non lus.'**
+  String get aiGuideConversationsDesc;
+
+  /// No description provided for @aiGuideTimeOffTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vos indisponibilités'**
+  String get aiGuideTimeOffTitle;
+
+  /// No description provided for @aiGuideTimeOffDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Consultez vos périodes d\'indisponibilité planifiées (vacances, congés...).'**
+  String get aiGuideTimeOffDesc;
+
+  /// No description provided for @aiGuidePendingTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demandes en attente'**
+  String get aiGuidePendingTitle;
+
+  /// No description provided for @aiGuidePendingDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voyez toutes les demandes de réservation qui attendent votre réponse.'**
+  String get aiGuidePendingDesc;
+
+  /// No description provided for @aiGuideStatsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Statistiques'**
+  String get aiGuideStatsTitle;
+
+  /// No description provided for @aiGuideStatsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Obtenez un aperçu de vos sessions (complétées, en attente, annulées) sur une période.'**
+  String get aiGuideStatsDesc;
+
+  /// No description provided for @aiGuideRevenueTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rapport de revenus'**
+  String get aiGuideRevenueTitle;
+
+  /// No description provided for @aiGuideRevenueDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Générez un rapport de revenus détaillé, groupé par service, ingénieur ou jour.'**
+  String get aiGuideRevenueDesc;
+
+  /// No description provided for @aiGuideTeamTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre équipe'**
+  String get aiGuideTeamTitle;
+
+  /// No description provided for @aiGuideTeamDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Listez les ingénieurs de votre équipe et leurs disponibilités.'**
+  String get aiGuideTeamDesc;
+
+  /// No description provided for @aiGuideBookingTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réserver une session'**
+  String get aiGuideBookingTitle;
+
+  /// No description provided for @aiGuideBookingDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demandez à l\'IA de créer une demande de réservation. Elle vous guidera dans le choix du studio, service, date et créneau.'**
+  String get aiGuideBookingDesc;
+
+  /// No description provided for @aiGuideFavoritesTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérer les favoris'**
+  String get aiGuideFavoritesTitle;
+
+  /// No description provided for @aiGuideFavoritesDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajoutez ou retirez des studios de vos favoris, ou consultez votre liste de favoris.'**
+  String get aiGuideFavoritesDesc;
+
+  /// No description provided for @aiGuideSearchStudiosTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rechercher des studios'**
+  String get aiGuideSearchStudiosTitle;
+
+  /// No description provided for @aiGuideSearchStudiosDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trouvez des studios par nom, ville ou type de service proposé.'**
+  String get aiGuideSearchStudiosDesc;
+
+  /// No description provided for @aiGuideSendMessageTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer un message'**
+  String get aiGuideSendMessageTitle;
+
+  /// No description provided for @aiGuideSendMessageDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyez un message à un studio ou un artiste directement via l\'assistant.'**
+  String get aiGuideSendMessageDesc;
+
+  /// No description provided for @aiGuideStartSessionTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Démarrer une session'**
+  String get aiGuideStartSessionTitle;
+
+  /// No description provided for @aiGuideStartSessionDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pointez votre arrivée en démarrant une session confirmée le jour J.'**
+  String get aiGuideStartSessionDesc;
+
+  /// No description provided for @aiGuideCompleteSessionTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Terminer une session'**
+  String get aiGuideCompleteSessionTitle;
+
+  /// No description provided for @aiGuideCompleteSessionDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Marquez une session comme terminée et ajoutez des notes si nécessaire.'**
+  String get aiGuideCompleteSessionDesc;
+
+  /// No description provided for @aiGuideRespondProposalTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Répondre à une proposition'**
+  String get aiGuideRespondProposalTitle;
+
+  /// No description provided for @aiGuideRespondProposalDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Acceptez ou refusez les sessions que le studio vous propose.'**
+  String get aiGuideRespondProposalDesc;
+
+  /// No description provided for @aiGuideManageTimeOffTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérer les indisponibilités'**
+  String get aiGuideManageTimeOffTitle;
+
+  /// No description provided for @aiGuideManageTimeOffDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajoutez ou supprimez des périodes d\'indisponibilité (vacances, rendez-vous...).'**
+  String get aiGuideManageTimeOffDesc;
+
+  /// No description provided for @aiGuideAcceptDeclineTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accepter/Refuser demandes'**
+  String get aiGuideAcceptDeclineTitle;
+
+  /// No description provided for @aiGuideAcceptDeclineDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérez les demandes de réservation en les acceptant ou refusant via l\'assistant.'**
+  String get aiGuideAcceptDeclineDesc;
+
+  /// No description provided for @aiGuideRescheduleTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Reprogrammer une session'**
+  String get aiGuideRescheduleTitle;
+
+  /// No description provided for @aiGuideRescheduleDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Changez la date ou l\'heure d\'une session existante. L\'artiste sera notifié.'**
+  String get aiGuideRescheduleDesc;
+
+  /// No description provided for @aiGuideAssignEngineerTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Assigner un ingénieur'**
+  String get aiGuideAssignEngineerTitle;
+
+  /// No description provided for @aiGuideAssignEngineerDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Assignez un ingénieur disponible à une session confirmée.'**
+  String get aiGuideAssignEngineerDesc;
+
+  /// No description provided for @aiGuideCreateSessionTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créer une session'**
+  String get aiGuideCreateSessionTitle;
+
+  /// No description provided for @aiGuideCreateSessionDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créez une session manuellement pour un artiste, même sans demande préalable.'**
+  String get aiGuideCreateSessionDesc;
+
+  /// No description provided for @aiGuideBlockSlotsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bloquer des créneaux'**
+  String get aiGuideBlockSlotsTitle;
+
+  /// No description provided for @aiGuideBlockSlotsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Marquez des périodes d\'indisponibilité pour fermeture exceptionnelle du studio.'**
+  String get aiGuideBlockSlotsDesc;
+
+  /// No description provided for @aiGuideManageServicesTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérer les services'**
+  String get aiGuideManageServicesTitle;
+
+  /// No description provided for @aiGuideManageServicesDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créez ou modifiez vos services (nom, prix, durée, description).'**
+  String get aiGuideManageServicesDesc;
+
+  /// No description provided for @aiGuideExample1ArtistTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mes prochaines sessions'**
+  String get aiGuideExample1ArtistTitle;
+
+  /// No description provided for @aiGuideExample1ArtistDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'\"Quelles sont mes sessions cette semaine ?\" - L\'IA vous montrera toutes vos réservations à venir.'**
+  String get aiGuideExample1ArtistDesc;
+
+  /// No description provided for @aiGuideExample2ArtistTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trouver un studio'**
+  String get aiGuideExample2ArtistTitle;
+
+  /// No description provided for @aiGuideExample2ArtistDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'\"Je cherche un studio à Paris pour du mix\" - L\'IA recherchera les studios correspondants.'**
+  String get aiGuideExample2ArtistDesc;
+
+  /// No description provided for @aiGuideExample3ArtistTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réserver un créneau'**
+  String get aiGuideExample3ArtistTitle;
+
+  /// No description provided for @aiGuideExample3ArtistDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'\"Je veux réserver demain à 14h au Studio X\" - L\'IA vérifiera la disponibilité et vous guidera.'**
+  String get aiGuideExample3ArtistDesc;
+
+  /// No description provided for @aiGuideExample1EngineerTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sessions du jour'**
+  String get aiGuideExample1EngineerTitle;
+
+  /// No description provided for @aiGuideExample1EngineerDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'\"Qu\'est-ce que j\'ai aujourd\'hui ?\" - L\'IA vous montrera les sessions assignées pour aujourd\'hui.'**
+  String get aiGuideExample1EngineerDesc;
+
+  /// No description provided for @aiGuideExample2EngineerTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Poser des congés'**
+  String get aiGuideExample2EngineerTitle;
+
+  /// No description provided for @aiGuideExample2EngineerDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'\"Je serai absent du 15 au 20 janvier\" - L\'IA créera l\'indisponibilité après confirmation.'**
+  String get aiGuideExample2EngineerDesc;
+
+  /// No description provided for @aiGuideExample3EngineerTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Répondre à une proposition'**
+  String get aiGuideExample3EngineerTitle;
+
+  /// No description provided for @aiGuideExample3EngineerDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'\"Accepte la session de demain\" - L\'IA confirmera la proposition en attente.'**
+  String get aiGuideExample3EngineerDesc;
+
+  /// No description provided for @aiGuideExample1StudioTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demandes en attente'**
+  String get aiGuideExample1StudioTitle;
+
+  /// No description provided for @aiGuideExample1StudioDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'\"Montre-moi les demandes en attente\" - L\'IA affichera toutes les réservations à traiter.'**
+  String get aiGuideExample1StudioDesc;
+
+  /// No description provided for @aiGuideExample2StudioTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rapport de revenus'**
+  String get aiGuideExample2StudioTitle;
+
+  /// No description provided for @aiGuideExample2StudioDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'\"Quel est mon chiffre d\'affaires ce mois-ci ?\" - L\'IA générera un rapport détaillé.'**
+  String get aiGuideExample2StudioDesc;
+
+  /// No description provided for @aiGuideExample3StudioTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Reprogrammer une session'**
+  String get aiGuideExample3StudioTitle;
+
+  /// No description provided for @aiGuideExample3StudioDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'\"Décale la session de Lundi à Mardi 10h\" - L\'IA reprogrammera après votre confirmation.'**
+  String get aiGuideExample3StudioDesc;
+
+  /// No description provided for @aiGuideSettingsLink.
+  ///
+  /// In fr, this message translates to:
+  /// **'Guide de l\'assistant IA'**
+  String get aiGuideSettingsLink;
+
+  /// No description provided for @importFromGoogleCalendar.
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer depuis Google Calendar'**
+  String get importFromGoogleCalendar;
+
+  /// No description provided for @importAsSession.
+  ///
+  /// In fr, this message translates to:
+  /// **'Session'**
+  String get importAsSession;
+
+  /// No description provided for @importAsUnavailability.
+  ///
+  /// In fr, this message translates to:
+  /// **'Indispo'**
+  String get importAsUnavailability;
+
+  /// No description provided for @skipImport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ignorer'**
+  String get skipImport;
+
+  /// No description provided for @selectArtistForSession.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sélectionner un artiste'**
+  String get selectArtistForSession;
+
+  /// No description provided for @createExternalArtist.
+  ///
+  /// In fr, this message translates to:
+  /// **'Artiste externe'**
+  String get createExternalArtist;
+
+  /// No description provided for @externalArtistName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom de l\'artiste'**
+  String get externalArtistName;
+
+  /// No description provided for @externalArtistHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom de l\'artiste externe...'**
+  String get externalArtistHint;
+
+  /// No description provided for @importSummary.
+  ///
+  /// In fr, this message translates to:
+  /// **'{sessions} sessions, {unavailabilities} indispos'**
+  String importSummary(int sessions, int unavailabilities);
+
+  /// No description provided for @importButton.
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer'**
+  String get importButton;
+
+  /// No description provided for @noEventsToImport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun événement à importer'**
+  String get noEventsToImport;
+
+  /// No description provided for @eventsToReview.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} événements à traiter'**
+  String eventsToReview(int count);
+
+  /// No description provided for @importSuccessMessage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Import réussi ! {sessions} sessions et {unavailabilities} indisponibilités créées.'**
+  String importSuccessMessage(int sessions, int unavailabilities);
+
+  /// No description provided for @allDay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Toute la journée'**
+  String get allDay;
+
+  /// No description provided for @selectAnArtist.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisir un artiste'**
+  String get selectAnArtist;
+
+  /// No description provided for @orCreateExternal.
+  ///
+  /// In fr, this message translates to:
+  /// **'ou créer un artiste externe'**
+  String get orCreateExternal;
+
+  /// No description provided for @reviewAndImport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vérifier et importer'**
+  String get reviewAndImport;
+
+  /// No description provided for @tipsSectionCalendar.
+  ///
+  /// In fr, this message translates to:
+  /// **'Calendrier'**
+  String get tipsSectionCalendar;
+
+  /// No description provided for @tipConnectCalendarTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connectez votre calendrier'**
+  String get tipConnectCalendarTitle;
+
+  /// No description provided for @tipConnectCalendarDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Liez votre Google Calendar pour synchroniser vos événements. Allez dans Réglages > Calendrier pour connecter votre compte Google.'**
+  String get tipConnectCalendarDesc;
+
+  /// No description provided for @tipImportEventsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Importez vos événements'**
+  String get tipImportEventsTitle;
+
+  /// No description provided for @tipImportEventsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Utilisez \"Vérifier et importer\" pour récupérer vos événements Google Calendar et les catégoriser comme sessions ou indisponibilités.'**
+  String get tipImportEventsDesc;
+
+  /// No description provided for @tipCategorizeEventsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Catégorisez vos événements'**
+  String get tipCategorizeEventsTitle;
+
+  /// No description provided for @tipCategorizeEventsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour chaque événement importé, choisissez : Session (avec artiste), Indispo (bloquer le créneau), ou Ignorer. Les sessions sont créées en statut \"En attente\".'**
+  String get tipCategorizeEventsDesc;
 }
 
 class _AppLocalizationsDelegate

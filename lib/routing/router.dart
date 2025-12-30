@@ -39,6 +39,9 @@ import 'package:useme/screens/admin/studio_claims_screen.dart';
 import 'package:useme/screens/admin/subscription_tiers_screen.dart';
 import 'package:useme/screens/admin/stripe_config_screen.dart';
 import 'package:useme/screens/shared/upgrade_screen.dart';
+import 'package:useme/screens/shared/ai_assistant_screen.dart';
+import 'package:useme/screens/studio/ai_settings_screen.dart';
+import 'package:useme/screens/studio/calendar_import_review_screen.dart';
 import 'package:useme/screens/dev/store_screenshots_page.dart';
 import 'app_routes.dart';
 
@@ -312,6 +315,34 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.favorites,
           builder: (context, state) => const FavoritesScreen(),
+        ),
+
+        // AI Assistant
+        GoRoute(
+          path: AppRoutes.aiAssistant,
+          builder: (context, state) => const AIAssistantScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.aiSettings,
+          builder: (context, state) {
+            final studioId = state.uri.queryParameters['studioId'] ?? '';
+            return AISettingsScreen(studioId: studioId);
+          },
+        ),
+
+        // Calendar Import Review
+        GoRoute(
+          path: AppRoutes.calendarImportReview,
+          builder: (context, state) {
+            final userId = state.uri.queryParameters['userId'] ?? '';
+            return CalendarImportReviewScreen(userId: userId);
+          },
+        ),
+
+        // Upgrade
+        GoRoute(
+          path: AppRoutes.upgrade,
+          builder: (context, state) => const UpgradeScreen(),
         ),
 
         // Dev tools (debug only)

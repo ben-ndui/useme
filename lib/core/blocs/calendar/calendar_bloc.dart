@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/calendar_connection.dart';
+import '../../models/google_calendar_event.dart';
 import '../../models/unavailability.dart';
 import '../../services/unavailability_service.dart';
 import 'calendar_event.dart';
@@ -26,9 +28,13 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     on<DisconnectCalendarEvent>(_onDisconnect);
     on<SyncCalendarEvent>(_onSync);
     on<LoadUnavailabilitiesEvent>(_onLoadUnavailabilities);
+    on<UnavailabilitiesUpdatedEvent>(_onUnavailabilitiesUpdated);
     on<AddUnavailabilityEvent>(_onAddUnavailability);
     on<DeleteUnavailabilityEvent>(_onDeleteUnavailability);
     on<CalendarConnectedEvent>(_onCalendarConnected);
+    // Import preview handlers
+    on<FetchCalendarPreviewEvent>(_onFetchPreview);
+    on<ImportCategorizedEventsEvent>(_onImportCategorized);
   }
 
   /// Charge le statut de connexion du calendrier
@@ -37,15 +43,20 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     Emitter<CalendarState> emit,
   ) async {
     emit(const CalendarLoadingState());
+    debugPrint('📅 [CalendarBloc] LoadCalendarStatus pour userId: ${event.userId}');
 
     try {
-      final response = await http.get(
-        Uri.parse('$_baseUrl/calendar/status/${event.userId}'),
-      );
+      final url = '$_baseUrl/calendar/status/${event.userId}';
+      debugPrint('📅 [CalendarBloc] GET $url');
+
+      final response = await http.get(Uri.parse(url));
+      debugPrint('📅 [CalendarBloc] Response status: ${response.statusCode}');
+      debugPrint('📅 [CalendarBloc] Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body)['data'];
         final connected = data['connected'] as bool? ?? false;
+        debugPrint('📅 [CalendarBloc] Connected: $connected');
 
         if (connected) {
           final connection = CalendarConnection(
@@ -56,6 +67,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
                 ? DateTime.tryParse(data['lastSync'].toString())
                 : null,
           );
+          debugPrint('📅 [CalendarBloc] Connection: email=${connection.email}, lastSync=${connection.lastSync}');
 
           emit(CalendarConnectedState(connection: connection));
 
@@ -65,9 +77,11 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
           emit(const CalendarDisconnectedState());
         }
       } else {
+        debugPrint('📅 [CalendarBloc] Non-200 response, émit DisconnectedState');
         emit(const CalendarDisconnectedState());
       }
     } catch (e) {
+      debugPrint('📅 [CalendarBloc] Erreur: $e');
       emit(CalendarErrorState(message: e.toString()));
     }
   }
@@ -135,26 +149,39 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     SyncCalendarEvent event,
     Emitter<CalendarState> emit,
   ) async {
+    debugPrint('📅 [CalendarBloc] SyncCalendar pour userId: ${event.userId}');
     final currentState = state;
     if (currentState is CalendarConnectedState) {
       emit(currentState.copyWith(isSyncing: true));
 
       try {
+        final url = '$_baseUrl/calendar/sync';
+        debugPrint('📅 [CalendarBloc] POST $url');
+
         final response = await http.post(
-          Uri.parse('$_baseUrl/calendar/sync'),
+          Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({'userId': event.userId}),
         );
 
+        debugPrint('📅 [CalendarBloc] Sync response status: ${response.statusCode}');
+        debugPrint('📅 [CalendarBloc] Sync response body: ${response.body}');
+
         if (response.statusCode == 200) {
+          final data = json.decode(response.body)['data'];
+          debugPrint('📅 [CalendarBloc] Sync data: deleted=${data['deleted']}, created=${data['created']}');
           // Recharger les indisponibilités
           add(LoadUnavailabilitiesEvent(studioId: event.userId));
         } else {
+          debugPrint('📅 [CalendarBloc] Sync failed avec status ${response.statusCode}');
           emit(currentState.copyWith(isSyncing: false));
         }
       } catch (e) {
+        debugPrint('📅 [CalendarBloc] Sync erreur: $e');
         emit(currentState.copyWith(isSyncing: false));
       }
+    } else {
+      debugPrint('📅 [CalendarBloc] Sync ignoré - state n\'est pas CalendarConnectedState');
     }
   }
 
@@ -163,29 +190,43 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     LoadUnavailabilitiesEvent event,
     Emitter<CalendarState> emit,
   ) async {
+    debugPrint('📅 [CalendarBloc] LoadUnavailabilities pour studioId: ${event.studioId}');
     // Annuler l'ancien stream
     await _unavailabilitiesSubscription?.cancel();
 
-    // Écouter les nouvelles indisponibilités
+    // Écouter les nouvelles indisponibilités et dispatcher un event
     _unavailabilitiesSubscription = _unavailabilityService
         .streamByStudioId(event.studioId)
         .listen((unavailabilities) {
-      final currentState = state;
-      if (currentState is CalendarConnectedState) {
-        // ignore: invalid_use_of_visible_for_testing_member
-        emit(currentState.copyWith(
-          unavailabilities: unavailabilities,
-          isSyncing: false,
-        ));
-      } else if (currentState is CalendarDisconnectedState) {
-        // ignore: invalid_use_of_visible_for_testing_member
-        emit(CalendarDisconnectedState(
-          manualUnavailabilities: unavailabilities
-              .where((u) => u.source == UnavailabilitySource.manual)
-              .toList(),
-        ));
-      }
+      debugPrint('📅 [CalendarBloc] Stream reçu: ${unavailabilities.length} indisponibilités');
+      // Dispatch internal event instead of emitting directly
+      add(UnavailabilitiesUpdatedEvent(unavailabilities: unavailabilities));
     });
+  }
+
+  /// Handler for stream updates
+  void _onUnavailabilitiesUpdated(
+    UnavailabilitiesUpdatedEvent event,
+    Emitter<CalendarState> emit,
+  ) {
+    debugPrint('📅 [CalendarBloc] UnavailabilitiesUpdated: ${event.unavailabilities.length} items');
+    for (final u in event.unavailabilities) {
+      debugPrint('📅   - ${u.title ?? 'Sans titre'} | source: ${u.source} | ${u.start} -> ${u.end}');
+    }
+
+    final currentState = state;
+    if (currentState is CalendarConnectedState) {
+      emit(currentState.copyWith(
+        unavailabilities: event.unavailabilities,
+        isSyncing: false,
+      ));
+    } else if (currentState is CalendarDisconnectedState) {
+      emit(CalendarDisconnectedState(
+        manualUnavailabilities: event.unavailabilities
+            .where((u) => u.source == UnavailabilitySource.manual)
+            .toList(),
+      ));
+    }
   }
 
   /// Ajoute une indisponibilité manuelle
@@ -224,6 +265,100 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
       add(LoadCalendarStatusEvent(userId: event.userId));
     } else {
       emit(CalendarErrorState(message: event.error ?? 'Connexion échouée'));
+    }
+  }
+
+  // ===========================================================================
+  // IMPORT PREVIEW HANDLERS
+  // ===========================================================================
+
+  /// Récupère les événements Google Calendar pour preview
+  Future<void> _onFetchPreview(
+    FetchCalendarPreviewEvent event,
+    Emitter<CalendarState> emit,
+  ) async {
+    emit(const CalendarPreviewLoadingState());
+    debugPrint('📅 [CalendarBloc] FetchPreview pour userId: ${event.userId}');
+
+    try {
+      final url = '$_baseUrl/calendar/events/preview/${event.userId}';
+      debugPrint('📅 [CalendarBloc] GET $url');
+
+      final response = await http.get(Uri.parse(url));
+      debugPrint('📅 [CalendarBloc] Preview response: ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body)['data'];
+        final eventsList = data['events'] as List<dynamic>;
+
+        final events = eventsList
+            .map((e) => GoogleCalendarEvent.fromJson(e as Map<String, dynamic>))
+            .toList();
+
+        debugPrint('📅 [CalendarBloc] ${events.length} events chargés');
+        emit(CalendarPreviewLoadedState(events: events));
+      } else {
+        final error = json.decode(response.body)['message'] ?? 'Erreur';
+        debugPrint('📅 [CalendarBloc] Preview error: $error');
+        emit(CalendarErrorState(message: error));
+      }
+    } catch (e) {
+      debugPrint('📅 [CalendarBloc] Preview exception: $e');
+      emit(CalendarErrorState(message: e.toString()));
+    }
+  }
+
+  /// Importe les événements catégorisés
+  Future<void> _onImportCategorized(
+    ImportCategorizedEventsEvent event,
+    Emitter<CalendarState> emit,
+  ) async {
+    emit(const CalendarImportingState());
+    debugPrint('📅 [CalendarBloc] Import ${event.events.length} events');
+
+    try {
+      // Filtrer les events à importer (exclure les skip)
+      final eventsToImport = event.events
+          .where((e) => e.importType != ImportType.skip)
+          .map((e) => e.toImportJson())
+          .toList();
+
+      if (eventsToImport.isEmpty) {
+        debugPrint('📅 [CalendarBloc] Aucun event à importer');
+        emit(const CalendarImportSuccessState(
+          sessionsCreated: 0,
+          unavailabilitiesCreated: 0,
+        ));
+        return;
+      }
+
+      debugPrint('📅 [CalendarBloc] ${eventsToImport.length} events à envoyer');
+
+      final response = await http.post(
+        Uri.parse('$_baseUrl/calendar/import'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'userId': event.userId,
+          'events': eventsToImport,
+        }),
+      );
+
+      debugPrint('📅 [CalendarBloc] Import response: ${response.statusCode}');
+      debugPrint('📅 [CalendarBloc] Import body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body)['data'];
+        emit(CalendarImportSuccessState(
+          sessionsCreated: data['sessionsCreated'] as int? ?? 0,
+          unavailabilitiesCreated: data['unavailabilitiesCreated'] as int? ?? 0,
+        ));
+      } else {
+        final error = json.decode(response.body)['message'] ?? 'Erreur';
+        emit(CalendarErrorState(message: error));
+      }
+    } catch (e) {
+      debugPrint('📅 [CalendarBloc] Import exception: $e');
+      emit(CalendarErrorState(message: e.toString()));
     }
   }
 

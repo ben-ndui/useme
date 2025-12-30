@@ -2266,6 +2266,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openingHoursSaved => 'Opening hours saved';
 
   @override
+  String get allowNoEngineer => 'Booking without engineer';
+
+  @override
+  String get allowNoEngineerSubtitle =>
+      'Allow artists to book even if no engineer is available';
+
+  @override
+  String get settingsSaved => 'Setting saved';
+
+  @override
   String get selectStudio => 'Select a studio';
 
   @override
@@ -2301,4 +2311,355 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get photoUpdated => 'Photo updated';
+
+  @override
+  String get aiGuideTitle => 'AI Assistant Guide';
+
+  @override
+  String get aiGuideHeaderTitle => 'Your personal assistant';
+
+  @override
+  String get aiGuideHeaderSubtitle => 'Discover everything AI can do for you';
+
+  @override
+  String get aiGuideSecurityTitle => 'Always in your control';
+
+  @override
+  String get aiGuideSecurityDesc =>
+      'The assistant will ALWAYS ask for confirmation before performing an action. Nothing will be done without your explicit approval.';
+
+  @override
+  String get aiGuideIntroTitle => 'How does it work?';
+
+  @override
+  String get aiGuideWhatIsTitle => 'An intelligent assistant';
+
+  @override
+  String get aiGuideWhatIsDesc =>
+      'The AI assistant understands your requests in natural language and can access your data or perform actions for you. Ask questions or request actions!';
+
+  @override
+  String get aiGuideConfirmTitle => 'Confirmation required';
+
+  @override
+  String get aiGuideConfirmDesc =>
+      'Before any action (booking, cancellation, modification...), the assistant will summarize what it\'s about to do and wait for your confirmation. You stay in full control.';
+
+  @override
+  String get aiGuideReadTitle => 'What AI can access';
+
+  @override
+  String get aiGuideActionsTitle => 'Available actions';
+
+  @override
+  String get aiGuideExamplesTitle => 'Example requests';
+
+  @override
+  String get aiGuideSessionsTitle => 'Your sessions';
+
+  @override
+  String get aiGuideArtistSessionsDesc =>
+      'View your past, current, or upcoming bookings. Filter by date or status.';
+
+  @override
+  String get aiGuideEngineerSessionsDesc =>
+      'See sessions assigned to you, pending proposals, and your schedule.';
+
+  @override
+  String get aiGuideStudioSessionsDesc =>
+      'Access all your studio sessions, filter by status, date, or artist.';
+
+  @override
+  String get aiGuideAvailabilityTitle => 'Availability';
+
+  @override
+  String get aiGuideAvailabilityDesc =>
+      'Check available time slots for a studio on a given date.';
+
+  @override
+  String get aiGuideConversationsTitle => 'Conversations';
+
+  @override
+  String get aiGuideConversationsDesc =>
+      'View your recent conversations and unread messages.';
+
+  @override
+  String get aiGuideTimeOffTitle => 'Your time off';
+
+  @override
+  String get aiGuideTimeOffDesc =>
+      'View your scheduled unavailability periods (vacation, time off...).';
+
+  @override
+  String get aiGuidePendingTitle => 'Pending requests';
+
+  @override
+  String get aiGuidePendingDesc =>
+      'See all booking requests waiting for your response.';
+
+  @override
+  String get aiGuideStatsTitle => 'Statistics';
+
+  @override
+  String get aiGuideStatsDesc =>
+      'Get an overview of your sessions (completed, pending, cancelled) over a period.';
+
+  @override
+  String get aiGuideRevenueTitle => 'Revenue report';
+
+  @override
+  String get aiGuideRevenueDesc =>
+      'Generate a detailed revenue report, grouped by service, engineer, or day.';
+
+  @override
+  String get aiGuideTeamTitle => 'Your team';
+
+  @override
+  String get aiGuideTeamDesc =>
+      'List your team engineers and their availabilities.';
+
+  @override
+  String get aiGuideBookingTitle => 'Book a session';
+
+  @override
+  String get aiGuideBookingDesc =>
+      'Ask the AI to create a booking request. It will guide you through studio, service, date, and time slot selection.';
+
+  @override
+  String get aiGuideFavoritesTitle => 'Manage favorites';
+
+  @override
+  String get aiGuideFavoritesDesc =>
+      'Add or remove studios from favorites, or view your favorites list.';
+
+  @override
+  String get aiGuideSearchStudiosTitle => 'Search studios';
+
+  @override
+  String get aiGuideSearchStudiosDesc =>
+      'Find studios by name, city, or service type.';
+
+  @override
+  String get aiGuideSendMessageTitle => 'Send a message';
+
+  @override
+  String get aiGuideSendMessageDesc =>
+      'Send a message to a studio or artist directly through the assistant.';
+
+  @override
+  String get aiGuideStartSessionTitle => 'Start a session';
+
+  @override
+  String get aiGuideStartSessionDesc =>
+      'Check in by starting a confirmed session on the day.';
+
+  @override
+  String get aiGuideCompleteSessionTitle => 'Complete a session';
+
+  @override
+  String get aiGuideCompleteSessionDesc =>
+      'Mark a session as completed and add notes if needed.';
+
+  @override
+  String get aiGuideRespondProposalTitle => 'Respond to proposal';
+
+  @override
+  String get aiGuideRespondProposalDesc =>
+      'Accept or decline sessions proposed by the studio.';
+
+  @override
+  String get aiGuideManageTimeOffTitle => 'Manage time off';
+
+  @override
+  String get aiGuideManageTimeOffDesc =>
+      'Add or remove unavailability periods (vacation, appointments...).';
+
+  @override
+  String get aiGuideAcceptDeclineTitle => 'Accept/Decline requests';
+
+  @override
+  String get aiGuideAcceptDeclineDesc =>
+      'Manage booking requests by accepting or declining them via the assistant.';
+
+  @override
+  String get aiGuideRescheduleTitle => 'Reschedule a session';
+
+  @override
+  String get aiGuideRescheduleDesc =>
+      'Change the date or time of an existing session. The artist will be notified.';
+
+  @override
+  String get aiGuideAssignEngineerTitle => 'Assign an engineer';
+
+  @override
+  String get aiGuideAssignEngineerDesc =>
+      'Assign an available engineer to a confirmed session.';
+
+  @override
+  String get aiGuideCreateSessionTitle => 'Create a session';
+
+  @override
+  String get aiGuideCreateSessionDesc =>
+      'Create a session manually for an artist, even without a prior request.';
+
+  @override
+  String get aiGuideBlockSlotsTitle => 'Block time slots';
+
+  @override
+  String get aiGuideBlockSlotsDesc =>
+      'Mark unavailability periods for exceptional studio closures.';
+
+  @override
+  String get aiGuideManageServicesTitle => 'Manage services';
+
+  @override
+  String get aiGuideManageServicesDesc =>
+      'Create or update your services (name, price, duration, description).';
+
+  @override
+  String get aiGuideExample1ArtistTitle => 'My upcoming sessions';
+
+  @override
+  String get aiGuideExample1ArtistDesc =>
+      '\"What sessions do I have this week?\" - The AI will show all your upcoming bookings.';
+
+  @override
+  String get aiGuideExample2ArtistTitle => 'Find a studio';
+
+  @override
+  String get aiGuideExample2ArtistDesc =>
+      '\"I\'m looking for a studio in Paris for mixing\" - The AI will search for matching studios.';
+
+  @override
+  String get aiGuideExample3ArtistTitle => 'Book a slot';
+
+  @override
+  String get aiGuideExample3ArtistDesc =>
+      '\"I want to book tomorrow at 2pm at Studio X\" - The AI will check availability and guide you.';
+
+  @override
+  String get aiGuideExample1EngineerTitle => 'Today\'s sessions';
+
+  @override
+  String get aiGuideExample1EngineerDesc =>
+      '\"What do I have today?\" - The AI will show sessions assigned to you for today.';
+
+  @override
+  String get aiGuideExample2EngineerTitle => 'Request time off';
+
+  @override
+  String get aiGuideExample2EngineerDesc =>
+      '\"I\'ll be away from January 15 to 20\" - The AI will create the unavailability after confirmation.';
+
+  @override
+  String get aiGuideExample3EngineerTitle => 'Respond to a proposal';
+
+  @override
+  String get aiGuideExample3EngineerDesc =>
+      '\"Accept tomorrow\'s session\" - The AI will confirm the pending proposal.';
+
+  @override
+  String get aiGuideExample1StudioTitle => 'Pending requests';
+
+  @override
+  String get aiGuideExample1StudioDesc =>
+      '\"Show me pending requests\" - The AI will display all booking requests to process.';
+
+  @override
+  String get aiGuideExample2StudioTitle => 'Revenue report';
+
+  @override
+  String get aiGuideExample2StudioDesc =>
+      '\"What\'s my revenue this month?\" - The AI will generate a detailed report.';
+
+  @override
+  String get aiGuideExample3StudioTitle => 'Reschedule a session';
+
+  @override
+  String get aiGuideExample3StudioDesc =>
+      '\"Move Monday\'s session to Tuesday 10am\" - The AI will reschedule after your confirmation.';
+
+  @override
+  String get aiGuideSettingsLink => 'AI Assistant Guide';
+
+  @override
+  String get importFromGoogleCalendar => 'Import from Google Calendar';
+
+  @override
+  String get importAsSession => 'Session';
+
+  @override
+  String get importAsUnavailability => 'Unavail.';
+
+  @override
+  String get skipImport => 'Skip';
+
+  @override
+  String get selectArtistForSession => 'Select an artist';
+
+  @override
+  String get createExternalArtist => 'External artist';
+
+  @override
+  String get externalArtistName => 'Artist name';
+
+  @override
+  String get externalArtistHint => 'External artist name...';
+
+  @override
+  String importSummary(int sessions, int unavailabilities) {
+    return '$sessions sessions, $unavailabilities unavail.';
+  }
+
+  @override
+  String get importButton => 'Import';
+
+  @override
+  String get noEventsToImport => 'No events to import';
+
+  @override
+  String eventsToReview(int count) {
+    return '$count events to review';
+  }
+
+  @override
+  String importSuccessMessage(int sessions, int unavailabilities) {
+    return 'Import successful! $sessions sessions and $unavailabilities unavailabilities created.';
+  }
+
+  @override
+  String get allDay => 'All day';
+
+  @override
+  String get selectAnArtist => 'Select an artist';
+
+  @override
+  String get orCreateExternal => 'or create external artist';
+
+  @override
+  String get reviewAndImport => 'Review and import';
+
+  @override
+  String get tipsSectionCalendar => 'Calendar';
+
+  @override
+  String get tipConnectCalendarTitle => 'Connect your calendar';
+
+  @override
+  String get tipConnectCalendarDesc =>
+      'Link your Google Calendar to sync your events. Go to Settings > Calendar to connect your Google account.';
+
+  @override
+  String get tipImportEventsTitle => 'Import your events';
+
+  @override
+  String get tipImportEventsDesc =>
+      'Use \"Review and import\" to fetch your Google Calendar events and categorize them as sessions or unavailabilities.';
+
+  @override
+  String get tipCategorizeEventsTitle => 'Categorize your events';
+
+  @override
+  String get tipCategorizeEventsDesc =>
+      'For each imported event, choose: Session (with artist), Unavailable (block the slot), or Skip. Sessions are created with \"Pending\" status.';
 }
