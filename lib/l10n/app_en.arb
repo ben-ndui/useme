@@ -930,5 +930,7 @@
   "tipImportEventsTitle": "Import your events",
   "tipImportEventsDesc": "Use \"Review and import\" to fetch your Google Calendar events and categorize them as sessions or unavailabilities.",
   "tipCategorizeEventsTitle": "Categorize your events",
-  "tipCategorizeEventsDesc": "For each imported event, choose: Session (with artist), Unavailable (block the slot), or Skip. Sessions are created with \"Pending\" status."
+  "tipCategorizeEventsDesc": "For each imported event, choose: Session (with artist), Unavailable (block the slot), or Skip. Sessions are created with \"Pending\" status.",
+
+  "allNotificationsMarkedAsRead": "All notifications marked as read"
 }

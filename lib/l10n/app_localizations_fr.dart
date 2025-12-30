@@ -2679,4 +2679,8 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get tipCategorizeEventsDesc =>
       'Pour chaque événement importé, choisissez : Session (avec artiste), Indispo (bloquer le créneau), ou Ignorer. Les sessions sont créées en statut \"En attente\".';
+
+  @override
+  String get allNotificationsMarkedAsRead =>
+      'Toutes les notifications ont été marquées comme lues';
 }

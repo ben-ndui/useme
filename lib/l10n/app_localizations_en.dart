@@ -2662,4 +2662,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get tipCategorizeEventsDesc =>
       'For each imported event, choose: Session (with artist), Unavailable (block the slot), or Skip. Sessions are created with \"Pending\" status.';
+
+  @override
+  String get allNotificationsMarkedAsRead => 'All notifications marked as read';
 }

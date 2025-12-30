@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,10 +9,18 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Notifications screen - loads from Firestore user_notifications collection
-class NotificationsScreen extends StatelessWidget {
+class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
+
+  @override
+  State<NotificationsScreen> createState() => _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends State<NotificationsScreen> {
+  bool _isMarkingAllRead = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +37,19 @@ class NotificationsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(l10n.notifications),
         actions: [
-          TextButton(
-            onPressed: () => _markAllAsRead(userId),
-            child: Text(l10n.markAllAsRead),
-          ),
+          _isMarkingAllRead
+              ? const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                )
+              : TextButton(
+                  onPressed: () => _handleMarkAllAsRead(context, userId, l10n),
+                  child: Text(l10n.markAllAsRead),
+                ),
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -271,7 +289,13 @@ class NotificationsScreen extends StatelessWidget {
     }
   }
 
-  Future<void> _markAllAsRead(String userId) async {
+  Future<void> _handleMarkAllAsRead(
+    BuildContext context,
+    String userId,
+    AppLocalizations l10n,
+  ) async {
+    setState(() => _isMarkingAllRead = true);
+
     try {
       final batch = SmoothFirebase.firestore.batch();
       final unreadDocs = await SmoothFirebase.collection('user_notifications')
@@ -279,13 +303,44 @@ class NotificationsScreen extends StatelessWidget {
           .where('isRead', isEqualTo: false)
           .get();
 
+      if (unreadDocs.docs.isEmpty) {
+        if (mounted) {
+          AppSnackBar.info(context, l10n.noNotifications);
+        }
+        return;
+      }
+
       for (final doc in unreadDocs.docs) {
         batch.update(doc.reference, {'isRead': true});
       }
 
       await batch.commit();
+
+      // Reset iOS app badge
+      await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: false,
+        sound: true,
+      );
+      // Re-enable badge for future notifications
+      await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+
+      if (mounted) {
+        AppSnackBar.success(context, l10n.allNotificationsMarkedAsRead);
+      }
     } catch (e) {
       debugPrint('Error marking all notifications as read: $e');
+      if (mounted) {
+        AppSnackBar.error(context, e.toString());
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isMarkingAllRead = false);
+      }
     }
   }
 

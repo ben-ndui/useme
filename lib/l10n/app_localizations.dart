@@ -5041,6 +5041,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Pour chaque événement importé, choisissez : Session (avec artiste), Indispo (bloquer le créneau), ou Ignorer. Les sessions sont créées en statut \"En attente\".'**
   String get tipCategorizeEventsDesc;
+
+  /// No description provided for @allNotificationsMarkedAsRead.
+  ///
+  /// In fr, this message translates to:
+  /// **'Toutes les notifications ont été marquées comme lues'**
+  String get allNotificationsMarkedAsRead;
 }
 
 class _AppLocalizationsDelegate
