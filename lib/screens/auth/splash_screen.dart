@@ -98,18 +98,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         _navigateBasedOnAuth();
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                UseMeTheme.primaryColor,
-                UseMeTheme.primaryColor.withValues(alpha: 0.8),
-                UseMeTheme.secondaryColor.withValues(alpha: 0.6),
-              ],
-            ),
-          ),
+          color: Colors.white,
           child: Center(
             child: AnimatedBuilder(
               animation: _controller,
@@ -129,7 +120,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                             borderRadius: BorderRadius.circular(30),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.2),
+                                color: UseMeTheme.primaryColor.withValues(alpha: 0.2),
                                 blurRadius: 30,
                                 offset: const Offset(0, 10),
                               ),
@@ -148,12 +139,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         const SizedBox(height: 32),
 
                         // Title
-                        const Text(
+                        Text(
                           'Use Me',
                           style: TextStyle(
                             fontSize: 42,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: UseMeTheme.primaryColor,
                             letterSpacing: 2,
                           ),
                         ),
@@ -162,7 +153,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                           'Studio Sessions',
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.white.withValues(alpha: 0.9),
+                            color: UseMeTheme.primaryColor.withValues(alpha: 0.7),
                             letterSpacing: 4,
                           ),
                         ),

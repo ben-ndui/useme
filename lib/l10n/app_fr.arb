@@ -1124,5 +1124,7 @@
   "tipCategorizeEventsTitle": "Catégorisez vos événements",
   "tipCategorizeEventsDesc": "Pour chaque événement importé, choisissez : Session (avec artiste), Indispo (bloquer le créneau), ou Ignorer. Les sessions sont créées en statut \"En attente\".",
 
-  "allNotificationsMarkedAsRead": "Toutes les notifications ont été marquées comme lues"
+  "allNotificationsMarkedAsRead": "Toutes les notifications ont été marquées comme lues",
+
+  "comingSoon": "Prochainement"
 }

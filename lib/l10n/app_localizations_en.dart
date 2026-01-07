@@ -2665,4 +2665,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allNotificationsMarkedAsRead => 'All notifications marked as read';
+
+  @override
+  String get comingSoon => 'Coming Soon';
 }

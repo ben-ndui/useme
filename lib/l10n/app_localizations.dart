@@ -5047,6 +5047,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Toutes les notifications ont été marquées comme lues'**
   String get allNotificationsMarkedAsRead;
+
+  /// No description provided for @comingSoon.
+  ///
+  /// In fr, this message translates to:
+  /// **'Prochainement'**
+  String get comingSoon;
 }
 
 class _AppLocalizationsDelegate

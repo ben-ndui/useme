@@ -1,16 +1,24 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/subscription_tier_config.dart';
 import 'package:useme/core/services/subscription_config_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Section affichant les informations d'abonnement dans les settings
 /// Récupère les configs depuis Firestore
 class SubscriptionSection extends StatefulWidget {
   final AppUser? user;
+  final bool showComingSoonOverlay;
 
-  const SubscriptionSection({super.key, this.user});
+  const SubscriptionSection({
+    super.key,
+    this.user,
+    this.showComingSoonOverlay = true,
+  });
 
   @override
   State<SubscriptionSection> createState() => _SubscriptionSectionState();
@@ -45,13 +53,14 @@ class _SubscriptionSectionState extends State<SubscriptionSection> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final tierId = widget.user?.subscriptionTierId ?? 'free';
     final tierStyle = _getTierStyle(tierId);
 
     // Utiliser la config Firestore ou les valeurs par défaut
     final config = _tierConfig ?? _getDefaultConfig(tierId);
 
-    return Container(
+    final content = Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -147,6 +156,49 @@ class _SubscriptionSectionState extends State<SubscriptionSection> {
           ],
         ],
       ),
+    );
+
+    if (!widget.showComingSoonOverlay) return content;
+
+    return Stack(
+      children: [
+        content,
+        Positioned.fill(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surface.withValues(alpha: 0.7),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.clockRotateLeft,
+                        size: 32,
+                        color: theme.colorScheme.primary,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        l10n.comingSoon,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

@@ -7,7 +7,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
-import 'package:useme/widgets/common/dashboard/dashboard_exports.dart';
+import 'package:useme/widgets/common/notification_bell.dart';
 
 /// Studio dashboard app bar with logo and studio info
 class StudioAppBar extends StatelessWidget {
@@ -89,10 +89,11 @@ class StudioAppBar extends StatelessWidget {
                         ],
                       ),
                     ),
-                    DashboardIconButton(
-                      icon: FontAwesomeIcons.bell,
+                    NotificationBell(
+                      userId: authState is AuthAuthenticatedState
+                          ? authState.user.uid
+                          : '',
                       onTap: () => context.push(AppRoutes.notifications),
-                      showBadge: true,
                     ),
                   ],
                 );
