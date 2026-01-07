@@ -4,10 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/artist/home/notification_button.dart';
+import 'package:useme/widgets/common/notification_bell.dart';
 
 /// Welcome header with user info and notification button
 class WelcomeHeader extends StatefulWidget {
@@ -125,17 +124,12 @@ class _WelcomeHeaderState extends State<WelcomeHeader>
                   ],
                 ),
               ),
-              BlocBuilder<MessagingBloc, MessagingState>(
-                builder: (context, msgState) {
-                  int unreadCount = 0;
-                  if (msgState is ConversationsLoadedState) {
-                    unreadCount = msgState.totalUnreadCount;
-                  }
-                  return NotificationButton(
-                    unreadCount: unreadCount,
-                    onTap: () => context.push('/notifications'),
-                  );
-                },
+              NotificationBell(
+                userId: authState is AuthAuthenticatedState
+                    ? authState.user.uid
+                    : '',
+                onTap: () => context.push('/notifications'),
+                useGlassStyle: true,
               ),
             ],
           ),

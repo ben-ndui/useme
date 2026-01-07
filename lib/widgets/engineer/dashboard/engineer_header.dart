@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/notification_bell.dart';
 
 /// Engineer dashboard header with greeting and avatar
 class EngineerHeader extends StatelessWidget {
@@ -27,15 +28,16 @@ class EngineerHeader extends StatelessWidget {
       surfaceTintColor: Colors.transparent,
       elevation: 0,
       actions: [
-        Container(
-          margin: const EdgeInsets.only(right: 16),
-          decoration: BoxDecoration(
-            color: colorScheme.surfaceContainerHighest,
-            shape: BoxShape.circle,
-          ),
-          child: IconButton(
-            icon: FaIcon(FontAwesomeIcons.bell, size: 18, color: colorScheme.onSurfaceVariant),
-            onPressed: () => context.push('/notifications'),
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) {
+              final userId = state is AuthAuthenticatedState ? state.user.uid : '';
+              return NotificationBell(
+                userId: userId,
+                onTap: () => context.push('/notifications'),
+              );
+            },
           ),
         ),
       ],
