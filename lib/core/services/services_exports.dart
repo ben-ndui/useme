@@ -21,3 +21,4 @@ export 'subscription_config_service.dart';
 export 'stripe_config_service.dart';
 export 'stripe_service.dart';
 export 'iap_service.dart';
+export 'chat_assistant_service.dart';

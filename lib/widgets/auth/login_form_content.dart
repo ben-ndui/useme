@@ -81,51 +81,15 @@ class _LoginFormContentState extends State<LoginFormContent> {
     return Column(
       children: [
         // Logo with glassmorphism
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              width: 72,
-              height: 72,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white.withValues(alpha: 0.3),
-                    Colors.white.withValues(alpha: 0.1),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.3),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    blurRadius: 20,
-                    spreadRadius: 2,
-                  ),
-                ],
-              ),
-              child: const Center(
-                child: FaIcon(FontAwesomeIcons.music, color: Colors.white, size: 28),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-        const Text(
-          'Use Me',
+         Text(
+          'Use Me'.toUpperCase(),
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.w700,
             color: Colors.white,
-            letterSpacing: -0.5,
+            letterSpacing: 25,
           ),
         ),
-        const SizedBox(height: 8),
         Text(
           l10n.bookNextSessionSubtitle,
           style: TextStyle(

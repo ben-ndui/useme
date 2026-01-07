@@ -254,6 +254,12 @@ class _TierCard extends StatelessWidget {
                         ? 'Engineers ∞'
                         : '${tier.maxEngineers} engineers',
                   ),
+                  _LimitChip(
+                    icon: FontAwesomeIcons.robot,
+                    label: tier.isUnlimited(tier.aiMessagesPerMonth)
+                        ? 'IA ∞'
+                        : '${tier.aiMessagesPerMonth} msg IA',
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -263,6 +269,12 @@ class _TierCard extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
+                  if (tier.hasAIAssistant)
+                    _FeatureChip(
+                        icon: FontAwesomeIcons.robot, label: 'Assistant IA'),
+                  if (tier.hasAdvancedAI)
+                    _FeatureChip(
+                        icon: FontAwesomeIcons.wandMagicSparkles, label: 'IA avancée'),
                   if (tier.hasDiscoveryVisibility)
                     _FeatureChip(
                         icon: FontAwesomeIcons.eye, label: 'Discovery'),
@@ -365,7 +377,10 @@ class _TierEditSheetState extends State<_TierEditSheet> {
   late TextEditingController _maxRoomsController;
   late TextEditingController _maxServicesController;
   late TextEditingController _maxEngineersController;
+  late TextEditingController _aiMessagesPerMonthController;
 
+  late bool _hasAIAssistant;
+  late bool _hasAdvancedAI;
   late bool _hasDiscoveryVisibility;
   late bool _hasAnalytics;
   late bool _hasAdvancedAnalytics;
@@ -393,7 +408,11 @@ class _TierEditSheetState extends State<_TierEditSheet> {
         TextEditingController(text: widget.tier.maxServices.toString());
     _maxEngineersController =
         TextEditingController(text: widget.tier.maxEngineers.toString());
+    _aiMessagesPerMonthController =
+        TextEditingController(text: widget.tier.aiMessagesPerMonth.toString());
 
+    _hasAIAssistant = widget.tier.hasAIAssistant;
+    _hasAdvancedAI = widget.tier.hasAdvancedAI;
     _hasDiscoveryVisibility = widget.tier.hasDiscoveryVisibility;
     _hasAnalytics = widget.tier.hasAnalytics;
     _hasAdvancedAnalytics = widget.tier.hasAdvancedAnalytics;
@@ -414,6 +433,7 @@ class _TierEditSheetState extends State<_TierEditSheet> {
     _maxRoomsController.dispose();
     _maxServicesController.dispose();
     _maxEngineersController.dispose();
+    _aiMessagesPerMonthController.dispose();
     super.dispose();
   }
 
@@ -544,6 +564,30 @@ class _TierEditSheetState extends State<_TierEditSheet> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _aiMessagesPerMonthController,
+                    decoration:
+                        const InputDecoration(labelText: 'Messages IA/mois'),
+                    keyboardType: TextInputType.number,
+                  ),
+                ]),
+                const SizedBox(height: 24),
+
+                // Features IA
+                _buildSection('Fonctionnalités IA', [
+                  SwitchListTile(
+                    title: const Text('Assistant IA'),
+                    subtitle: const Text('Accès à l\'assistant conversationnel'),
+                    value: _hasAIAssistant,
+                    onChanged: (v) => setState(() => _hasAIAssistant = v),
+                  ),
+                  SwitchListTile(
+                    title: const Text('IA avancée'),
+                    subtitle: const Text('Outils d\'action, rapports, etc.'),
+                    value: _hasAdvancedAI,
+                    onChanged: (v) => setState(() => _hasAdvancedAI = v),
+                  ),
                 ]),
                 const SizedBox(height: 24),
 
@@ -634,6 +678,9 @@ class _TierEditSheetState extends State<_TierEditSheet> {
       maxRooms: int.tryParse(_maxRoomsController.text) ?? -1,
       maxServices: int.tryParse(_maxServicesController.text) ?? -1,
       maxEngineers: int.tryParse(_maxEngineersController.text) ?? -1,
+      aiMessagesPerMonth: int.tryParse(_aiMessagesPerMonthController.text) ?? 50,
+      hasAIAssistant: _hasAIAssistant,
+      hasAdvancedAI: _hasAdvancedAI,
       hasDiscoveryVisibility: _hasDiscoveryVisibility,
       hasAnalytics: _hasAnalytics,
       hasAdvancedAnalytics: _hasAdvancedAnalytics,

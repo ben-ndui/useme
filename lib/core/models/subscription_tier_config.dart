@@ -25,6 +25,11 @@ class SubscriptionTierConfig extends Equatable {
   final bool hasPrioritySupport;
   final bool hasVerifiedBadge;
 
+  // Fonctionnalités IA
+  final bool hasAIAssistant; // Accès à l'assistant IA
+  final bool hasAdvancedAI; // IA avancée (tous les outils, rapports)
+  final int aiMessagesPerMonth; // Limite de messages IA (-1 = illimité)
+
   // Métadonnées
   final bool isActive;
   final int sortOrder;
@@ -47,6 +52,9 @@ class SubscriptionTierConfig extends Equatable {
     this.hasApiAccess = false,
     this.hasPrioritySupport = false,
     this.hasVerifiedBadge = false,
+    this.hasAIAssistant = true,
+    this.hasAdvancedAI = false,
+    this.aiMessagesPerMonth = 50,
     this.isActive = true,
     this.sortOrder = 0,
     this.updatedAt,
@@ -89,6 +97,9 @@ class SubscriptionTierConfig extends Equatable {
         hasApiAccess: false,
         hasPrioritySupport: false,
         hasVerifiedBadge: false,
+        hasAIAssistant: true,
+        hasAdvancedAI: false,
+        aiMessagesPerMonth: 50,
         isActive: true,
         sortOrder: 0,
       );
@@ -110,6 +121,9 @@ class SubscriptionTierConfig extends Equatable {
         hasApiAccess: false,
         hasPrioritySupport: false,
         hasVerifiedBadge: true,
+        hasAIAssistant: true,
+        hasAdvancedAI: true,
+        aiMessagesPerMonth: 500,
         isActive: true,
         sortOrder: 1,
       );
@@ -132,6 +146,9 @@ class SubscriptionTierConfig extends Equatable {
         hasApiAccess: true,
         hasPrioritySupport: true,
         hasVerifiedBadge: true,
+        hasAIAssistant: true,
+        hasAdvancedAI: true,
+        aiMessagesPerMonth: -1,
         isActive: true,
         sortOrder: 2,
       );
@@ -161,6 +178,9 @@ class SubscriptionTierConfig extends Equatable {
       hasApiAccess: map['hasApiAccess'] ?? false,
       hasPrioritySupport: map['hasPrioritySupport'] ?? false,
       hasVerifiedBadge: map['hasVerifiedBadge'] ?? false,
+      hasAIAssistant: map['hasAIAssistant'] ?? true,
+      hasAdvancedAI: map['hasAdvancedAI'] ?? false,
+      aiMessagesPerMonth: map['aiMessagesPerMonth'] ?? 50,
       isActive: map['isActive'] ?? true,
       sortOrder: map['sortOrder'] ?? 0,
       updatedAt: map['updatedAt'] != null
@@ -186,6 +206,9 @@ class SubscriptionTierConfig extends Equatable {
         'hasApiAccess': hasApiAccess,
         'hasPrioritySupport': hasPrioritySupport,
         'hasVerifiedBadge': hasVerifiedBadge,
+        'hasAIAssistant': hasAIAssistant,
+        'hasAdvancedAI': hasAdvancedAI,
+        'aiMessagesPerMonth': aiMessagesPerMonth,
         'isActive': isActive,
         'sortOrder': sortOrder,
         'updatedAt': FieldValue.serverTimestamp(),
@@ -208,6 +231,9 @@ class SubscriptionTierConfig extends Equatable {
     bool? hasApiAccess,
     bool? hasPrioritySupport,
     bool? hasVerifiedBadge,
+    bool? hasAIAssistant,
+    bool? hasAdvancedAI,
+    int? aiMessagesPerMonth,
     bool? isActive,
     int? sortOrder,
     DateTime? updatedAt,
@@ -230,6 +256,9 @@ class SubscriptionTierConfig extends Equatable {
       hasApiAccess: hasApiAccess ?? this.hasApiAccess,
       hasPrioritySupport: hasPrioritySupport ?? this.hasPrioritySupport,
       hasVerifiedBadge: hasVerifiedBadge ?? this.hasVerifiedBadge,
+      hasAIAssistant: hasAIAssistant ?? this.hasAIAssistant,
+      hasAdvancedAI: hasAdvancedAI ?? this.hasAdvancedAI,
+      aiMessagesPerMonth: aiMessagesPerMonth ?? this.aiMessagesPerMonth,
       isActive: isActive ?? this.isActive,
       sortOrder: sortOrder ?? this.sortOrder,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -254,6 +283,9 @@ class SubscriptionTierConfig extends Equatable {
         hasApiAccess,
         hasPrioritySupport,
         hasVerifiedBadge,
+        hasAIAssistant,
+        hasAdvancedAI,
+        aiMessagesPerMonth,
         isActive,
         sortOrder,
         updatedAt,

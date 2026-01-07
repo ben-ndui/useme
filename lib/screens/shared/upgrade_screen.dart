@@ -683,6 +683,14 @@ class _TierPricingCard extends StatelessWidget {
             : '${tier.maxServices} services',
         true
       ),
+      (
+        FontAwesomeIcons.robot,
+        tier.isUnlimited(tier.aiMessagesPerMonth)
+            ? 'Assistant IA illimité'
+            : '${tier.aiMessagesPerMonth} messages IA/mois',
+        tier.hasAIAssistant
+      ),
+      (FontAwesomeIcons.wandMagicSparkles, 'IA avancée (rapports, actions)', tier.hasAdvancedAI),
       (FontAwesomeIcons.eye, 'Visibilité Discovery', tier.hasDiscoveryVisibility),
       (FontAwesomeIcons.chartLine, 'Analytics', tier.hasAnalytics),
       (FontAwesomeIcons.circleCheck, 'Badge vérifié', tier.hasVerifiedBadge),

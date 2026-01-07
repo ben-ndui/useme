@@ -32,6 +32,16 @@
 				<string>com.googleusercontent.apps.1053737369070-7a61ov70fhavca4i6ftu16uaqjejl92l</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>calendar-callback</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>useme</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>

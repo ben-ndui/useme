@@ -485,6 +485,8 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
           if (mounted) {
             Navigator.pop(context);
             final l10n = AppLocalizations.of(context)!;
+            // Force reload du BLoC pour mettre à jour l'état
+            context.read<AuthBloc>().add(const ReloadUserEvent());
             AppSnackBar.success(context, l10n.studioClaimedSuccess(studio.name));
             context.pop(true);
           }
@@ -506,7 +508,7 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
 
           await _approvalService.createClaimRequest(
             userId: user.uid,
-            userEmail: user.email ?? '',
+            userEmail: user.email,
             userName: user.fullName,
             studioProfile: studioProfile,
           );

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/messaging/new_conversation_bottom_sheet.dart';
 
@@ -74,7 +75,13 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
 
           if (state is ConversationsLoadedState) {
             if (state.conversations.isEmpty) {
-              return _buildEmptyState(theme, l10n);
+              // Show AI Assistant even when no conversations
+              return Column(
+                children: [
+                  _buildAIAssistantTile(),
+                  Expanded(child: _buildEmptyState(theme, l10n)),
+                ],
+              );
             }
 
             return _buildConversationsList(state);
@@ -127,22 +134,106 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
         ? authState.user.id
         : '';
 
-    return ListView.separated(
-      itemCount: state.conversations.length,
-      separatorBuilder: (_, __) => const Divider(height: 1),
+    return ListView.builder(
+      itemCount: state.conversations.length + 1, // +1 for AI Assistant
       itemBuilder: (context, index) {
-        final conversation = state.conversations[index];
-        return ConversationTile(
-          conversation: conversation,
-          currentUserId: currentUserId,
-          onTap: () {
-            context.push('/conversations/${conversation.id}');
-          },
-          onLongPress: () {
-            _showConversationOptions(conversation);
-          },
+        // AI Assistant tile at the top
+        if (index == 0) {
+          return _buildAIAssistantTile();
+        }
+
+        final conversationIndex = index - 1;
+        final conversation = state.conversations[conversationIndex];
+
+        return Column(
+          children: [
+            ConversationTile(
+              conversation: conversation,
+              currentUserId: currentUserId,
+              onTap: () {
+                context.push('/conversations/${conversation.id}');
+              },
+              onLongPress: () {
+                _showConversationOptions(conversation);
+              },
+            ),
+            if (conversationIndex < state.conversations.length - 1)
+              const Divider(height: 1),
+          ],
         );
       },
+    );
+  }
+
+  Widget _buildAIAssistantTile() {
+    final theme = Theme.of(context);
+
+    return Column(
+      children: [
+        ListTile(
+          onTap: () => context.push(AppRoutes.aiAssistant),
+          leading: Container(
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.purple.shade400, Colors.blue.shade400],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.auto_awesome,
+              color: Colors.white,
+              size: 26,
+            ),
+          ),
+          title: const Text(
+            'Assistant Use Me',
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+          subtitle: Row(
+            children: [
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: Colors.green.shade400,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                'Pose tes questions !',
+                style: TextStyle(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+          trailing: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.purple.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Text(
+              'IA',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: Colors.purple,
+              ),
+            ),
+          ),
+        ),
+        Divider(
+          height: 1,
+          thickness: 2,
+          color: Colors.purple.withOpacity(0.1),
+        ),
+      ],
     );
   }
 

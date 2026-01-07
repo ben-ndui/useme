@@ -70,6 +70,10 @@ class StudioProfile extends Equatable {
   /// Date de revendication du studio
   final DateTime? claimedAt;
 
+  /// Autorise les réservations sans ingénieur assigné
+  /// (ex: le gérant gère lui-même ou studio en libre-service)
+  final bool allowNoEngineer;
+
   const StudioProfile({
     required this.name,
     this.description,
@@ -93,6 +97,7 @@ class StudioProfile extends Equatable {
     this.phone,
     this.isVerified = false,
     this.claimedAt,
+    this.allowNoEngineer = false,
   });
 
   /// Crée depuis une Map Firestore
@@ -137,6 +142,7 @@ class StudioProfile extends Equatable {
       claimedAt: map['claimedAt'] != null
           ? (map['claimedAt'] as Timestamp).toDate()
           : null,
+      allowNoEngineer: map['allowNoEngineer'] ?? false,
     );
   }
 
@@ -165,6 +171,7 @@ class StudioProfile extends Equatable {
       'phone': phone,
       'isVerified': isVerified,
       'claimedAt': claimedAt != null ? Timestamp.fromDate(claimedAt!) : null,
+      'allowNoEngineer': allowNoEngineer,
     };
   }
 
@@ -192,6 +199,7 @@ class StudioProfile extends Equatable {
     String? phone,
     bool? isVerified,
     DateTime? claimedAt,
+    bool? allowNoEngineer,
   }) {
     return StudioProfile(
       name: name ?? this.name,
@@ -216,6 +224,7 @@ class StudioProfile extends Equatable {
       phone: phone ?? this.phone,
       isVerified: isVerified ?? this.isVerified,
       claimedAt: claimedAt ?? this.claimedAt,
+      allowNoEngineer: allowNoEngineer ?? this.allowNoEngineer,
     );
   }
 
@@ -253,5 +262,6 @@ class StudioProfile extends Equatable {
         googlePlaceId,
         rating,
         isVerified,
+        allowNoEngineer,
       ];
 }

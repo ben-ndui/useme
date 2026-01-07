@@ -31,7 +31,7 @@ class ArtistService {
     try {
       final doc = await _firestore.collection(_collection).doc(artistId).get();
       if (doc.exists && doc.data() != null) {
-        return Artist.fromMap(doc.data()!);
+        return Artist.fromMap({...doc.data()!, 'id': doc.id});
       }
       return null;
     } catch (e) {
@@ -51,7 +51,7 @@ class ArtistService {
             const Duration(seconds: 10),
             onTimeout: () => throw Exception('Timeout: Firestore index may be missing'),
           );
-      return snapshot.docs.map((doc) => Artist.fromMap(doc.data())).toList();
+      return snapshot.docs.map((doc) => Artist.fromMap({...doc.data(), 'id': doc.id})).toList();
     } catch (e) {
       debugPrint('❌ ArtistService.getArtistsByStudioId error: $e');
       return [];
@@ -65,7 +65,7 @@ class ArtistService {
         .where('studioIds', arrayContains: studioId)
         .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((s) => s.docs.map((d) => Artist.fromMap(d.data())).toList());
+        .map((s) => s.docs.map((d) => Artist.fromMap({...d.data(), 'id': d.id})).toList());
   }
 
   /// Stream a single artist by ID
@@ -74,7 +74,7 @@ class ArtistService {
         .collection(_collection)
         .doc(artistId)
         .snapshots()
-        .map((s) => s.exists && s.data() != null ? Artist.fromMap(s.data()!) : null);
+        .map((s) => s.exists && s.data() != null ? Artist.fromMap({...s.data()!, 'id': s.id}) : null);
   }
 
   /// Update artist
@@ -126,7 +126,8 @@ class ArtistService {
           .limit(1)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
-        return Artist.fromMap(querySnapshot.docs.first.data());
+        final doc = querySnapshot.docs.first;
+        return Artist.fromMap({...doc.data(), 'id': doc.id});
       }
       return null;
     } catch (e) {

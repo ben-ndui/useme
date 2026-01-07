@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:useme/core/data/ai_guide_data.dart';
 import 'package:useme/core/data/tips_data.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
+import 'package:useme/screens/common/ai_guide_screen.dart';
 import 'package:useme/screens/common/tips_screen.dart';
 import 'package:useme/widgets/common/settings/settings_exports.dart';
 
@@ -57,6 +59,19 @@ class EngineerSettingsPage extends StatelessWidget {
                 builder: (_) => TipsScreen(
                   title: l10n.engineerGuide,
                   sections: TipsData.engineerTips(l10n),
+                ),
+              ),
+            ),
+          ),
+          SettingsTile(
+            icon: FontAwesomeIcons.robot,
+            title: l10n.aiGuideSettingsLink,
+            subtitle: l10n.aiGuideHeaderSubtitle,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => AIGuideScreen(
+                  sections: AIGuideData.engineerGuide(l10n),
                 ),
               ),
             ),

@@ -39,6 +39,7 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
   int _durationHours = 2;
   bool _isSubmitting = false;
   WorkingHours? _studioWorkingHours;
+  bool _allowNoEngineer = false;
 
   @override
   void initState() {
@@ -55,9 +56,14 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
       if (doc.exists) {
         final data = doc.data();
         final studioProfileData = data?['studioProfile'] as Map<String, dynamic>?;
-        if (studioProfileData != null && studioProfileData['workingHours'] != null) {
+        if (studioProfileData != null) {
           setState(() {
-            _studioWorkingHours = WorkingHours.fromMap(studioProfileData['workingHours'] as Map<String, dynamic>);
+            if (studioProfileData['workingHours'] != null) {
+              _studioWorkingHours = WorkingHours.fromMap(
+                studioProfileData['workingHours'] as Map<String, dynamic>,
+              );
+            }
+            _allowNoEngineer = studioProfileData['allowNoEngineer'] ?? false;
           });
         }
       }
@@ -136,6 +142,7 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
                     studioId: widget.studioId!,
                     durationMinutes: _durationHours * 60,
                     workingHours: _studioWorkingHours,
+                    allowNoEngineer: _allowNoEngineer,
                     onSlotSelected: (date, slot) => setState(() {
                       _selectedDate = date;
                       _selectedSlot = slot;

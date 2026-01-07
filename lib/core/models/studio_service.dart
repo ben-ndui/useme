@@ -27,13 +27,22 @@ class StudioService {
   });
 
   factory StudioService.fromMap(Map<String, dynamic> map) {
+    // Support pour les deux formats (Flutter: hourlyRate, Backend IA: price)
+    final hourlyRate = (map['hourlyRate'] ?? map['price'] ?? 0).toDouble();
+    // Support pour les deux formats (Flutter: minDurationHours, Backend IA: duration en minutes)
+    int minDurationHours = map['minDurationHours'] as int? ?? 1;
+    if (map['duration'] != null && map['minDurationHours'] == null) {
+      // Convertir minutes en heures si c'est le format backend
+      minDurationHours = ((map['duration'] as int) / 60).ceil().clamp(1, 24);
+    }
+
     return StudioService(
       id: map['id']?.toString() ?? '',
       studioId: map['studioId']?.toString() ?? '',
       name: map['name']?.toString() ?? '',
       description: map['description']?.toString(),
-      hourlyRate: (map['hourlyRate'] ?? 0).toDouble(),
-      minDurationHours: map['minDurationHours'] as int? ?? 1,
+      hourlyRate: hourlyRate,
+      minDurationHours: minDurationHours,
       maxDurationHours: map['maxDurationHours'] as int?,
       roomIds: List<String>.from(map['roomIds'] ?? []),
       isActive: map['isActive'] ?? true,

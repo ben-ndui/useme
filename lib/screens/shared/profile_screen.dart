@@ -338,6 +338,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() => _isUploadingPhoto = false);
 
       if (updateResult.code == 200) {
+        // Force reload du BLoC pour mettre à jour l'état
+        context.read<AuthBloc>().add(const ReloadUserEvent());
         AppSnackBar.success(context, AppLocalizations.of(context)!.photoUpdated);
       } else {
         setState(() => _selectedPhoto = null);
@@ -374,6 +376,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       if (mounted) {
         if (response.code == 200) {
+          // Force reload du BLoC pour mettre à jour l'état
+          context.read<AuthBloc>().add(const ReloadUserEvent());
           AppSnackBar.success(context, response.message);
           context.pop();
         } else {

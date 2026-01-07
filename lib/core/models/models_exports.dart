@@ -15,3 +15,5 @@ export 'payment_method.dart';
 export 'subscription_tier_config.dart';
 export 'studio_subscription.dart';
 export 'stripe_config.dart';
+export 'chat_assistant_response.dart';
+export 'studio_ai_settings.dart';

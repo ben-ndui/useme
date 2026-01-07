@@ -28,8 +28,42 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _startTime = const TimeOfDay(hour: 10, minute: 0);
   int _durationHours = 2;
+  bool _isLoaded = false;
+  Session? _existingSession;
 
   bool get isEditing => widget.sessionId != null;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isLoaded && isEditing) {
+      _loadSessionData();
+      _isLoaded = true;
+    }
+  }
+
+  void _loadSessionData() {
+    final sessionState = context.read<SessionBloc>().state;
+    if (sessionState is SessionsLoadedState) {
+      final session = sessionState.sessions.where((s) => s.id == widget.sessionId).firstOrNull;
+      if (session != null) {
+        _existingSession = session;
+        _selectedType = session.type;
+        _selectedDate = session.scheduledStart;
+        _startTime = TimeOfDay(hour: session.scheduledStart.hour, minute: session.scheduledStart.minute);
+        _durationHours = session.durationMinutes ~/ 60;
+        _notesController.text = session.notes ?? '';
+
+        // Charger les artistes sélectionnés
+        final artistState = context.read<ArtistBloc>().state;
+        _selectedArtists = artistState.artists
+            .where((a) => session.artistIds.contains(a.id))
+            .toList();
+
+        setState(() {});
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -389,14 +423,14 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
       id: widget.sessionId ?? '',
       studioId: studioId,
       artistIds: _selectedArtists.map((a) => a.id).toList(),
-      artistNames: _selectedArtists.map((a) => a.displayName).toList(),
+      artistNames: _selectedArtists.map((a) => a.name).toList(),
       type: _selectedType,
-      status: SessionStatus.pending,
+      status: _existingSession?.status ?? SessionStatus.pending,
       scheduledStart: startDateTime,
       scheduledEnd: endDateTime,
       durationMinutes: _durationHours * 60,
       notes: _notesController.text.isEmpty ? null : _notesController.text,
-      createdAt: DateTime.now(),
+      createdAt: _existingSession?.createdAt ?? DateTime.now(),
     );
 
     if (isEditing) {

@@ -20,7 +20,7 @@ class SessionService {
             const Duration(seconds: 10),
             onTimeout: () => throw Exception('Timeout: Firestore index may be missing'),
           );
-      return snapshot.docs.map((doc) => Session.fromMap(doc.data())).toList();
+      return snapshot.docs.map((doc) => Session.fromMap({...doc.data(), 'id': doc.id})).toList();
     } catch (e) {
       debugPrint('❌ SessionService.getSessions error: $e');
       return [];
@@ -34,7 +34,7 @@ class SessionService {
         .where('studioId', isEqualTo: studioId)
         .orderBy('scheduledStart', descending: true)
         .snapshots()
-        .map((s) => s.docs.map((d) => Session.fromMap(d.data())).toList());
+        .map((s) => s.docs.map((d) => Session.fromMap({...d.data(), 'id': d.id})).toList());
   }
 
   /// Stream sessions for an engineer (assigned + proposed)
@@ -64,15 +64,15 @@ class SessionService {
           final sessionsMap = <String, Session>{};
 
           for (final doc in mainSnap.docs) {
-            final session = Session.fromMap(doc.data());
+            final session = Session.fromMap({...doc.data(), 'id': doc.id});
             sessionsMap[session.id] = session;
           }
           for (final doc in multiSnap.docs) {
-            final session = Session.fromMap(doc.data());
+            final session = Session.fromMap({...doc.data(), 'id': doc.id});
             sessionsMap[session.id] = session;
           }
           for (final doc in proposedSnap.docs) {
-            final session = Session.fromMap(doc.data());
+            final session = Session.fromMap({...doc.data(), 'id': doc.id});
             sessionsMap[session.id] = session;
           }
 
@@ -91,7 +91,7 @@ class SessionService {
         .where('proposedEngineerIds', arrayContains: engineerId)
         .where('status', isEqualTo: 'confirmed')
         .snapshots()
-        .map((s) => s.docs.map((d) => Session.fromMap(d.data())).toList()
+        .map((s) => s.docs.map((d) => Session.fromMap({...d.data(), 'id': d.id})).toList()
           ..sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart)));
   }
 
@@ -102,7 +102,7 @@ class SessionService {
         .where('artistIds', arrayContains: artistId)
         .orderBy('scheduledStart', descending: true)
         .snapshots()
-        .map((s) => s.docs.map((d) => Session.fromMap(d.data())).toList());
+        .map((s) => s.docs.map((d) => Session.fromMap({...d.data(), 'id': d.id})).toList());
   }
 
   /// Get sessions by date range
@@ -118,7 +118,7 @@ class SessionService {
         .where('scheduledStart', isLessThanOrEqualTo: end.millisecondsSinceEpoch)
         .orderBy('scheduledStart')
         .snapshots()
-        .map((s) => s.docs.map((d) => Session.fromMap(d.data())).toList());
+        .map((s) => s.docs.map((d) => Session.fromMap({...d.data(), 'id': d.id})).toList());
   }
 
   /// Get a single session by ID
@@ -126,7 +126,7 @@ class SessionService {
     try {
       final doc = await _firestore.collection(_collection).doc(sessionId).get();
       if (!doc.exists) return null;
-      return Session.fromMap(doc.data()!);
+      return Session.fromMap({...doc.data()!, 'id': doc.id});
     } catch (e) {
       return null;
     }

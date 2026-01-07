@@ -160,6 +160,7 @@ class AppUser extends BaseUser {
   Map<String, dynamic> toMap() {
     return {
       ...super.toMap(),
+      'photoUrl': photoURL,
       'studioId': studioId,
       'studioIds': studioIds,
       'stageName': stageName,

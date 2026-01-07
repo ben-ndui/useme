@@ -28,8 +28,36 @@ class _ArtistFormScreenState extends State<ArtistFormScreen> {
   final List<String> _availableGenres = [
     'Hip-Hop', 'R&B', 'Pop', 'Rock', 'Jazz', 'Soul', 'Électro', 'Reggae', 'Afro', 'Classique', 'Folk', 'Autre'
   ];
+  bool _isLoaded = false;
+  Artist? _existingArtist;
 
   bool get isEditing => widget.artistId != null;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isLoaded && isEditing) {
+      _loadArtistData();
+      _isLoaded = true;
+    }
+  }
+
+  void _loadArtistData() {
+    final artistState = context.read<ArtistBloc>().state;
+    final artist = artistState.artists.where((a) => a.id == widget.artistId).firstOrNull;
+    if (artist != null) {
+      _existingArtist = artist;
+      _nameController.text = artist.name;
+      _stageNameController.text = artist.stageName ?? '';
+      _emailController.text = artist.email ?? '';
+      _phoneController.text = artist.phone ?? '';
+      _cityController.text = artist.city ?? '';
+      _bioController.text = artist.bio ?? '';
+      _selectedGenres.clear();
+      _selectedGenres.addAll(artist.genres);
+      setState(() {});
+    }
+  }
 
   @override
   void dispose() {
@@ -182,7 +210,7 @@ class _ArtistFormScreenState extends State<ArtistFormScreen> {
 
     final artist = Artist(
       id: widget.artistId ?? '',
-      studioIds: [], // TODO: Get from auth
+      studioIds: _existingArtist?.studioIds ?? [],
       name: _nameController.text.trim(),
       stageName: _stageNameController.text.trim().isEmpty ? null : _stageNameController.text.trim(),
       email: _emailController.text.trim().isEmpty ? null : _emailController.text.trim(),
@@ -190,7 +218,8 @@ class _ArtistFormScreenState extends State<ArtistFormScreen> {
       city: _cityController.text.trim().isEmpty ? null : _cityController.text.trim(),
       genres: _selectedGenres,
       bio: _bioController.text.trim().isEmpty ? null : _bioController.text.trim(),
-      createdAt: DateTime.now(),
+      createdAt: _existingArtist?.createdAt ?? DateTime.now(),
+      photoUrl: _existingArtist?.photoUrl,
     );
 
     if (isEditing) {

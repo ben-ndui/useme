@@ -40,7 +40,7 @@ class ServiceCatalogService {
             const Duration(seconds: 10),
             onTimeout: () => throw Exception('Timeout: Firestore index may be missing'),
           );
-      return snapshot.docs.map((doc) => StudioService.fromMap(doc.data())).toList();
+      return snapshot.docs.map((doc) => StudioService.fromMap({...doc.data(), 'id': doc.id})).toList();
     } catch (e) {
       debugPrint('❌ ServiceCatalogService.getServicesByStudioId error: $e');
       return [];
@@ -60,7 +60,7 @@ class ServiceCatalogService {
             const Duration(seconds: 10),
             onTimeout: () => throw Exception('Timeout: Firestore index may be missing'),
           );
-      return snapshot.docs.map((doc) => StudioService.fromMap(doc.data())).toList();
+      return snapshot.docs.map((doc) => StudioService.fromMap({...doc.data(), 'id': doc.id})).toList();
     } catch (e) {
       debugPrint('❌ ServiceCatalogService.getActiveServicesByStudioId error: $e');
       return [];
@@ -74,7 +74,7 @@ class ServiceCatalogService {
         .where('studioId', isEqualTo: studioId)
         .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((s) => s.docs.map((d) => StudioService.fromMap(d.data())).toList());
+        .map((s) => s.docs.map((d) => StudioService.fromMap({...d.data(), 'id': d.id})).toList());
   }
 
   /// Get single service by ID
@@ -82,7 +82,7 @@ class ServiceCatalogService {
     try {
       final doc = await _firestore.collection(_collection).doc(serviceId).get();
       if (!doc.exists) return null;
-      return StudioService.fromMap(doc.data()!);
+      return StudioService.fromMap({...doc.data()!, 'id': doc.id});
     } catch (e) {
       return null;
     }

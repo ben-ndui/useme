@@ -92,7 +92,7 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
       controller: controller,
       builder: (context, scrollController) {
         return ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(40)),
           child: _SmoothBackground(
             color1: defaultColor1,
             color2: defaultColor2,

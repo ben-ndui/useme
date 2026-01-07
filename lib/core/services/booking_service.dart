@@ -27,7 +27,7 @@ class BookingService {
     try {
       final doc = await _firestore.collection(_collection).doc(bookingId).get();
       if (doc.exists && doc.data() != null) {
-        return Booking.fromMap(doc.data()!);
+        return Booking.fromMap({...doc.data()!, 'id': doc.id});
       }
       return null;
     } catch (e) {
@@ -43,7 +43,7 @@ class BookingService {
           .where('studioId', isEqualTo: studioId)
           .orderBy('createdAt', descending: true)
           .get();
-      return snapshot.docs.map((doc) => Booking.fromMap(doc.data())).toList();
+      return snapshot.docs.map((doc) => Booking.fromMap({...doc.data(), 'id': doc.id})).toList();
     } catch (e) {
       return [];
     }
@@ -56,7 +56,7 @@ class BookingService {
         .where('studioId', isEqualTo: studioId)
         .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((s) => s.docs.map((d) => Booking.fromMap(d.data())).toList());
+        .map((s) => s.docs.map((d) => Booking.fromMap({...d.data(), 'id': d.id})).toList());
   }
 
   /// Stream bookings for an artist
@@ -66,7 +66,7 @@ class BookingService {
         .where('artistId', isEqualTo: artistId)
         .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((s) => s.docs.map((d) => Booking.fromMap(d.data())).toList());
+        .map((s) => s.docs.map((d) => Booking.fromMap({...d.data(), 'id': d.id})).toList());
   }
 
   /// Update booking

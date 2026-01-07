@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:useme/core/models/studio_room.dart';
 
 /// Service for managing studio rooms
@@ -21,7 +22,7 @@ class StudioRoomService {
           .get();
       return snapshot.docs.map((doc) => StudioRoom.fromFirestore(doc)).toList();
     } catch (e) {
-      print('Error getRoomsByStudio: $e');
+      debugPrint('❌ StudioRoomService.getRoomsByStudio error: $e');
       return [];
     }
   }
@@ -36,7 +37,7 @@ class StudioRoomService {
           .get();
       return snapshot.docs.map((doc) => StudioRoom.fromFirestore(doc)).toList();
     } catch (e) {
-      print('Error getActiveRoomsByStudio: $e');
+      debugPrint('❌ StudioRoomService.getActiveRoomsByStudio error: $e');
       return [];
     }
   }
@@ -48,7 +49,7 @@ class StudioRoomService {
       if (!doc.exists) return null;
       return StudioRoom.fromFirestore(doc);
     } catch (e) {
-      print('Error getRoomById: $e');
+      debugPrint('❌ StudioRoomService.getRoomById error: $e');
       return null;
     }
   }
@@ -59,7 +60,7 @@ class StudioRoomService {
       final docRef = await _roomsRef.add(room.toFirestore());
       return room.copyWith(id: docRef.id);
     } catch (e) {
-      print('Error createRoom: $e');
+      debugPrint('❌ StudioRoomService.createRoom error: $e');
       return null;
     }
   }
@@ -73,7 +74,7 @@ class StudioRoomService {
       });
       return true;
     } catch (e) {
-      print('Error updateRoom: $e');
+      debugPrint('❌ StudioRoomService.updateRoom error: $e');
       return false;
     }
   }
@@ -84,7 +85,7 @@ class StudioRoomService {
       await _roomsRef.doc(roomId).delete();
       return true;
     } catch (e) {
-      print('Error deleteRoom: $e');
+      debugPrint('❌ StudioRoomService.deleteRoom error: $e');
       return false;
     }
   }
@@ -98,7 +99,7 @@ class StudioRoomService {
       });
       return true;
     } catch (e) {
-      print('Error toggleRoomStatus: $e');
+      debugPrint('❌ StudioRoomService.toggleRoomStatus error: $e');
       return false;
     }
   }

@@ -730,13 +730,18 @@ Qu'est-ce qui t'intéresse le plus ?''';
                       ],
                     ),
                   ),
-                Text(
-                  message.content,
-                  style: TextStyle(
-                    color: isAI ? null : Colors.white,
-                    height: 1.4,
+                if (isAI)
+                  AIMessageContent(
+                    content: message.content,
+                  )
+                else
+                  Text(
+                    message.content,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      height: 1.4,
+                    ),
                   ),
-                ),
               ],
             ),
           ),
@@ -803,6 +808,10 @@ Qu'est-ce qui t'intéresse le plus ?''';
           Expanded(
             child: TextField(
               controller: _messageController,
+              minLines: 1,
+              maxLines: 5,
+              keyboardType: TextInputType.multiline,
+              textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
                 hintText: 'Pose ta question...',
                 filled: true,
@@ -816,8 +825,6 @@ Qu'est-ce qui t'intéresse le plus ?''';
                   vertical: 12,
                 ),
               ),
-              textInputAction: TextInputAction.send,
-              onSubmitted: _sendMessage,
             ),
           ),
           const SizedBox(width: 12),

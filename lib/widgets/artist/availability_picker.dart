@@ -17,6 +17,10 @@ class AvailabilityPicker extends StatefulWidget {
   /// Horaires d'ouverture du studio (si null, utilise les heures par défaut 9h-22h)
   final WorkingHours? workingHours;
 
+  /// Autorise la sélection de créneaux sans ingénieur disponible
+  /// (ex: le gérant gère lui-même ou studio en libre-service)
+  final bool allowNoEngineer;
+
   const AvailabilityPicker({
     super.key,
     required this.studioId,
@@ -25,6 +29,7 @@ class AvailabilityPicker extends StatefulWidget {
     this.initialSlot,
     this.onSlotSelected,
     this.workingHours,
+    this.allowNoEngineer = false,
   });
 
   @override
@@ -65,7 +70,9 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
         _isLoading = false;
         if (_selectedSlot != null) {
           final stillAvailable = slots.any(
-            (s) => s.start == _selectedSlot!.start && s.isAvailable && s.hasAvailableEngineer,
+            (s) => s.start == _selectedSlot!.start &&
+                   s.isAvailable &&
+                   (s.hasAvailableEngineer || widget.allowNoEngineer),
           );
           if (!stillAvailable) _selectedSlot = null;
         }
@@ -219,8 +226,13 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
     final fullyAvailable = _slots.where((s) => s.availabilityLevel == AvailabilityLevel.full).toList();
     final partiallyAvailable = _slots.where((s) =>
         s.availabilityLevel == AvailabilityLevel.partial ||
-        s.availabilityLevel == AvailabilityLevel.limited).toList();
-    final noEngineer = _slots.where((s) => s.availabilityLevel == AvailabilityLevel.noEngineer).toList();
+        s.availabilityLevel == AvailabilityLevel.limited ||
+        // Si allowNoEngineer, les créneaux sans ingé sont partiellement dispo
+        (widget.allowNoEngineer && s.availabilityLevel == AvailabilityLevel.noEngineer)).toList();
+    // Les créneaux sans ingé ne sont bloquants que si allowNoEngineer est false
+    final noEngineer = widget.allowNoEngineer
+        ? <EnhancedTimeSlot>[]
+        : _slots.where((s) => s.availabilityLevel == AvailabilityLevel.noEngineer).toList();
     final unavailable = _slots.where((s) => s.availabilityLevel == AvailabilityLevel.unavailable).toList();
 
     return Column(
@@ -281,7 +293,8 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
   Widget _buildEnhancedSlotChip(ThemeData theme, EnhancedTimeSlot slot) {
     final isSelected = _selectedSlot?.start == slot.start;
     final timeFormat = DateFormat('HH:mm', _locale);
-    final isSelectable = slot.isAvailable && slot.hasAvailableEngineer;
+    final isSelectable = slot.isAvailable &&
+        (slot.hasAvailableEngineer || widget.allowNoEngineer);
 
     // Couleur selon le niveau
     Color chipColor;
@@ -294,7 +307,8 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
         chipColor = Colors.orange;
         break;
       case AvailabilityLevel.noEngineer:
-        chipColor = Colors.red;
+        // Orange si réservable sans ingénieur, sinon rouge
+        chipColor = widget.allowNoEngineer ? Colors.orange : Colors.red;
         break;
       case AvailabilityLevel.unavailable:
         chipColor = theme.colorScheme.outline;

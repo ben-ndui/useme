@@ -29,8 +29,32 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
   int _minDuration = 2;
   bool _isActive = true;
   List<String> _selectedRoomIds = [];
+  bool _isLoaded = false;
 
   bool get isEditing => widget.serviceId != null;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isLoaded && isEditing) {
+      _loadServiceData();
+      _isLoaded = true;
+    }
+  }
+
+  void _loadServiceData() {
+    final serviceState = context.read<ServiceBloc>().state;
+    final service = serviceState.services.where((s) => s.id == widget.serviceId).firstOrNull;
+    if (service != null) {
+      _nameController.text = service.name;
+      _descriptionController.text = service.description ?? '';
+      _hourlyRateController.text = service.hourlyRate.toStringAsFixed(0);
+      _minDuration = service.minDurationHours;
+      _isActive = service.isActive;
+      _selectedRoomIds = List.from(service.roomIds);
+      setState(() {});
+    }
+  }
 
   @override
   void dispose() {

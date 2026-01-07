@@ -118,6 +118,8 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
 
       if (mounted) {
         final l10n = AppLocalizations.of(context)!;
+        // Force reload du BLoC pour mettre à jour l'état avec le nouveau studio
+        context.read<AuthBloc>().add(const ReloadUserEvent());
         AppSnackBar.success(context, l10n.studioCreatedSuccess);
         context.go(AppRoutes.home);
       }
