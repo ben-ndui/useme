@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/dashboard/dashboard_exports.dart';
@@ -13,33 +14,50 @@ class StudioQuickAccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pills = [
+      DashboardQuickPill(
+        icon: FontAwesomeIcons.plus,
+        label: l10n.session,
+        isPrimary: true,
+        onTap: () => context.push(AppRoutes.sessionAdd),
+      ),
+      DashboardQuickPill(
+        icon: FontAwesomeIcons.userPlus,
+        label: l10n.artist,
+        onTap: () => context.push(AppRoutes.artistAdd),
+      ),
+      DashboardQuickPill(
+        icon: FontAwesomeIcons.calendarDays,
+        label: l10n.planning,
+        onTap: () => context.push(AppRoutes.sessions),
+      ),
+      DashboardQuickPill(
+        icon: FontAwesomeIcons.chartLine,
+        label: l10n.stats,
+        onTap: () {},
+      ),
+    ];
+
+    // Sur tablet+, afficher en Row avec espacement uniforme
+    if (context.isTabletOrLarger) {
+      return Row(
+        children: pills
+            .map((pill) => Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: pill,
+                  ),
+                ))
+            .toList(),
+      );
+    }
+
+    // Sur mobile, ListView horizontal scrollable
     return SizedBox(
       height: 40,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        children: [
-          DashboardQuickPill(
-            icon: FontAwesomeIcons.plus,
-            label: l10n.session,
-            isPrimary: true,
-            onTap: () => context.push(AppRoutes.sessionAdd),
-          ),
-          DashboardQuickPill(
-            icon: FontAwesomeIcons.userPlus,
-            label: l10n.artist,
-            onTap: () => context.push(AppRoutes.artistAdd),
-          ),
-          DashboardQuickPill(
-            icon: FontAwesomeIcons.calendarDays,
-            label: l10n.planning,
-            onTap: () => context.push(AppRoutes.sessions),
-          ),
-          DashboardQuickPill(
-            icon: FontAwesomeIcons.chartLine,
-            label: l10n.stats,
-            onTap: () {},
-          ),
-        ],
+        children: pills,
       ),
     );
   }
