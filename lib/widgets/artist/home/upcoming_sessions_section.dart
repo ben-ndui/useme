@@ -11,14 +11,17 @@ import 'package:useme/widgets/common/session/session_exports.dart';
 
 /// Section displaying upcoming sessions
 class UpcomingSessionsSection extends StatelessWidget {
-  const UpcomingSessionsSection({super.key});
+  final bool isWideLayout;
+
+  const UpcomingSessionsSection({super.key, this.isWideLayout = false});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final padding = isWideLayout ? 24.0 : 16.0;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: padding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

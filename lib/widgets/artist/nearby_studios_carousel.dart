@@ -13,8 +13,13 @@ import 'package:useme/widgets/favorite/favorite_button.dart';
 /// Modern carousel showing nearby recording studios
 class NearbyStudiosCarousel extends StatelessWidget {
   final Function(DiscoveredStudio)? onStudioTap;
+  final bool isWideLayout;
 
-  const NearbyStudiosCarousel({super.key, this.onStudioTap});
+  const NearbyStudiosCarousel({
+    super.key,
+    this.onStudioTap,
+    this.isWideLayout = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +35,18 @@ class NearbyStudiosCarousel extends StatelessWidget {
           return _buildEmptyState(l10n);
         }
 
+        final padding = isWideLayout ? 24.0 : 16.0;
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeader(state.nearbyStudios.length, l10n),
+            _buildHeader(state.nearbyStudios.length, l10n, padding),
             const SizedBox(height: 16),
             SizedBox(
               height: 200,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: padding),
                 itemCount: state.nearbyStudios.take(10).length,
                 itemBuilder: (context, index) {
                   final studio = state.nearbyStudios[index];
@@ -61,9 +68,9 @@ class NearbyStudiosCarousel extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(int count, AppLocalizations l10n) {
+  Widget _buildHeader(int count, AppLocalizations l10n, double padding) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: padding),
       child: Row(
         children: [
           Container(
@@ -120,16 +127,17 @@ class NearbyStudiosCarousel extends StatelessWidget {
   }
 
   Widget _buildLoadingState(AppLocalizations l10n) {
+    final padding = isWideLayout ? 24.0 : 16.0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildHeader(0, l10n),
+        _buildHeader(0, l10n, padding),
         const SizedBox(height: 16),
         SizedBox(
           height: 200,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: padding),
             itemCount: 3,
             itemBuilder: (context, index) => Padding(
               padding: const EdgeInsets.only(right: 16),
@@ -142,8 +150,9 @@ class NearbyStudiosCarousel extends StatelessWidget {
   }
 
   Widget _buildEmptyState(AppLocalizations l10n) {
+    final padding = isWideLayout ? 24.0 : 16.0;
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: EdgeInsets.symmetric(horizontal: padding),
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
         gradient: LinearGradient(

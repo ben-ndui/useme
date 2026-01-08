@@ -6,17 +6,20 @@ import 'package:useme/widgets/artist/studio_selector_bottom_sheet.dart';
 
 /// Quick actions horizontal scrollable section
 class QuickActionsSection extends StatelessWidget {
-  const QuickActionsSection({super.key});
+  final bool isWideLayout;
+
+  const QuickActionsSection({super.key, this.isWideLayout = false});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final padding = isWideLayout ? 24.0 : 16.0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: padding),
           child: Text(
             l10n.quickAccess,
             style: TextStyle(
@@ -32,7 +35,7 @@ class QuickActionsSection extends StatelessWidget {
           height: 44,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: padding),
             children: [
               QuickActionPill(
                 icon: FontAwesomeIcons.plus,

@@ -10,7 +10,9 @@ import 'package:useme/widgets/common/notification_bell.dart';
 
 /// Welcome header with user info and notification button
 class WelcomeHeader extends StatefulWidget {
-  const WelcomeHeader({super.key});
+  final bool isWideLayout;
+
+  const WelcomeHeader({super.key, this.isWideLayout = false});
 
   @override
   State<WelcomeHeader> createState() => _WelcomeHeaderState();
@@ -54,8 +56,10 @@ class _WelcomeHeaderState extends State<WelcomeHeader>
           city = user.city;
         }
 
+        final padding = widget.isWideLayout ? 24.0 : 16.0;
+
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: padding),
           child: Row(
             children: [
               GestureDetector(
