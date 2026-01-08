@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
@@ -15,6 +16,8 @@ class EngineerDashboardPage extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context).languageCode;
+    final padding = context.horizontalPadding;
+    final spacing = context.itemSpacing;
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
@@ -27,20 +30,27 @@ class EngineerDashboardPage extends StatelessWidget {
             );
           }
         },
-        child: CustomScrollView(
-          slivers: [
-            EngineerHeader(l10n: l10n, locale: locale),
-            SliverToBoxAdapter(child: EngineerStatsRow(l10n: l10n)),
-            EngineerProposedSection(l10n: l10n, locale: locale),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
-                child: _buildSectionTitle(context, l10n),
-              ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: Responsive.maxContentWidth,
             ),
-            EngineerSessionsList(l10n: l10n, locale: locale),
-            const SliverToBoxAdapter(child: SizedBox(height: 100)),
-          ],
+            child: CustomScrollView(
+              slivers: [
+                EngineerHeader(l10n: l10n, locale: locale),
+                SliverToBoxAdapter(child: EngineerStatsRow(l10n: l10n)),
+                EngineerProposedSection(l10n: l10n, locale: locale),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(padding, spacing, padding, 12),
+                    child: _buildSectionTitle(context, l10n),
+                  ),
+                ),
+                EngineerSessionsList(l10n: l10n, locale: locale),
+                const SliverToBoxAdapter(child: SizedBox(height: 100)),
+              ],
+            ),
+          ),
         ),
       ),
     );

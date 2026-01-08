@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
@@ -14,6 +15,9 @@ class EngineerStatsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final padding = context.horizontalPadding;
+    final gap = context.isTabletOrLarger ? 16.0 : 10.0;
+
     return BlocBuilder<SessionBloc, SessionState>(
       builder: (context, state) {
         final todayCount = _getTodaySessions(state.sessions).length;
@@ -23,7 +27,7 @@ class EngineerStatsRow extends StatelessWidget {
             .length;
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: padding),
           child: Row(
             children: [
               Expanded(
@@ -35,7 +39,7 @@ class EngineerStatsRow extends StatelessWidget {
                   compact: true,
                 ),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: gap),
               Expanded(
                 child: DashboardStatCard(
                   label: l10n.upcomingStatus,
@@ -45,7 +49,7 @@ class EngineerStatsRow extends StatelessWidget {
                   compact: true,
                 ),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: gap),
               Expanded(
                 child: DashboardStatCard(
                   label: l10n.inProgressStatus,
