@@ -36,8 +36,12 @@ late CalendarBloc globalCalendarBloc;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Load environment variables
-  await dotenv.load(fileName: '.env');
+  // Load environment variables (optional - for dev only)
+  try {
+    await dotenv.load(fileName: '.env');
+  } catch (_) {
+    // .env file not found in production - this is expected
+  }
 
   // Initialize Firebase
   await Firebase.initializeApp();

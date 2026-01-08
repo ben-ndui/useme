@@ -67,9 +67,9 @@ class _LoginFormContentState extends State<LoginFormContent> {
               _buildSocialButtons(isGoogleLoading, isAppleLoading),
               const SizedBox(height: 28),
               _buildSignUpLink(l10n),
-              const SizedBox(height: 16),
-              _buildDemoButton(l10n),
               const SizedBox(height: 24),
+              // Demo mode disabled for V1 App Store release
+              // _buildDemoButton(l10n),
             ],
           ),
         );
