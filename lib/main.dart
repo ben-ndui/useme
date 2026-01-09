@@ -52,10 +52,12 @@ void main() async {
   // Initialize French locale for date formatting
   await initializeDateFormatting('fr_FR', null);
 
-  // Set preferred orientations
+  // Allow all orientations for tablet/desktop support
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
   ]);
 
   // Initialize CalendarBloc globally

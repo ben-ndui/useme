@@ -253,8 +253,10 @@ class AppUser extends BaseUser {
       studioProfile?.name ?? displayName ?? name ?? 'Studio';
 
   /// ID du DevMaster principal (depuis .env pour la sécurité)
-  static String get _devMasterUserId =>
-      dotenv.env['DEV_MASTER_USER_ID'] ?? '';
+  static String get _devMasterUserId {
+    if (!dotenv.isInitialized) return '';
+    return dotenv.env['DEV_MASTER_USER_ID'] ?? '';
+  }
 
   /// Vérifie si l'utilisateur a accès aux configurations système (DevMaster)
   /// Retourne true si:

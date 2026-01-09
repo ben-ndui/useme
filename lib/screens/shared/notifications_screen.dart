@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -316,17 +315,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
       await batch.commit();
 
-      // Reset iOS/Android app badge
-      if (await FlutterAppBadger.isAppBadgeSupported()) {
-        await FlutterAppBadger.removeBadge();
-      }
-
       if (mounted) {
         AppSnackBar.success(context, l10n.allNotificationsMarkedAsRead);
       }
     } catch (e) {
       debugPrint('Error marking all notifications as read: $e');
-      if (mounted) {
+      if (context.mounted) {
         AppSnackBar.error(context, e.toString());
       }
     } finally {

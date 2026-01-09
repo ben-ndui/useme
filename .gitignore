@@ -49,3 +49,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 .fvm/
+
+# Keystore (NEVER commit)
+*.keystore
+*.jks
+android/key.properties
