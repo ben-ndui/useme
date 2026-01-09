@@ -38,7 +38,7 @@ void main() async {
 
   // Load environment variables (optional - for dev only)
   try {
-    await dotenv.load(fileName: '.env');
+    await dotenv.load(fileName: 'assets/.env');
   } catch (_) {
     // .env file not found in production - this is expected
   }
