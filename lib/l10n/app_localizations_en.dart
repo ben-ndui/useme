@@ -2640,6 +2640,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewAndImport => 'Review and import';
 
   @override
+  String get dateRange => 'Date range';
+
+  @override
+  String get tryChangingDateRange => 'Try changing the date range';
+
+  @override
+  String get changeDateRange => 'Change dates';
+
+  @override
   String get tipsSectionCalendar => 'Calendar';
 
   @override

@@ -113,11 +113,17 @@ class UnavailabilitiesUpdatedEvent extends CalendarEvent {
 /// Fetch calendar events for preview/review
 class FetchCalendarPreviewEvent extends CalendarEvent {
   final String userId;
+  final DateTime? startDate;
+  final DateTime? endDate;
 
-  const FetchCalendarPreviewEvent({required this.userId});
+  const FetchCalendarPreviewEvent({
+    required this.userId,
+    this.startDate,
+    this.endDate,
+  });
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [userId, startDate, endDate];
 }
 
 /// Import categorized events (sessions or unavailabilities)

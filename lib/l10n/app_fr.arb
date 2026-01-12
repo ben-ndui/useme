@@ -1115,6 +1115,9 @@
   "selectAnArtist": "Choisir un artiste",
   "orCreateExternal": "ou créer un artiste externe",
   "reviewAndImport": "Vérifier et importer",
+  "dateRange": "Plage de dates",
+  "tryChangingDateRange": "Essayez de modifier la plage de dates",
+  "changeDateRange": "Modifier les dates",
 
   "tipsSectionCalendar": "Calendrier",
   "tipConnectCalendarTitle": "Connectez votre calendrier",

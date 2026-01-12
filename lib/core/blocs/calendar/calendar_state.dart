@@ -123,11 +123,17 @@ class CalendarPreviewLoadingState extends CalendarState {
 /// Preview events loaded state
 class CalendarPreviewLoadedState extends CalendarState {
   final List<GoogleCalendarEvent> events;
+  final DateTime? startDate;
+  final DateTime? endDate;
 
-  const CalendarPreviewLoadedState({required this.events});
+  const CalendarPreviewLoadedState({
+    required this.events,
+    this.startDate,
+    this.endDate,
+  });
 
   @override
-  List<Object?> get props => [events];
+  List<Object?> get props => [events, startDate, endDate];
 }
 
 /// Importing events state

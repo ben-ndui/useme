@@ -281,22 +281,40 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     debugPrint('📅 [CalendarBloc] FetchPreview pour userId: ${event.userId}');
 
     try {
-      final url = '$_baseUrl/calendar/events/preview/${event.userId}';
-      debugPrint('📅 [CalendarBloc] GET $url');
+      // Construire l'URL avec les paramètres de date optionnels
+      final queryParams = <String, String>{};
+      if (event.startDate != null) {
+        queryParams['startDate'] = event.startDate!.toIso8601String();
+      }
+      if (event.endDate != null) {
+        queryParams['endDate'] = event.endDate!.toIso8601String();
+      }
 
-      final response = await http.get(Uri.parse(url));
+      final uri = Uri.parse('$_baseUrl/calendar/events/preview/${event.userId}')
+          .replace(queryParameters: queryParams.isEmpty ? null : queryParams);
+
+      debugPrint('📅 [CalendarBloc] GET $uri');
+
+      final response = await http.get(uri);
       debugPrint('📅 [CalendarBloc] Preview response: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body)['data'];
         final eventsList = data['events'] as List<dynamic>;
+        final dateRange = data['dateRange'] as Map<String, dynamic>?;
 
         final events = eventsList
             .map((e) => GoogleCalendarEvent.fromJson(e as Map<String, dynamic>))
             .toList();
 
         debugPrint('📅 [CalendarBloc] ${events.length} events chargés');
-        emit(CalendarPreviewLoadedState(events: events));
+        debugPrint('📅 [CalendarBloc] Date range: ${dateRange?['start']} -> ${dateRange?['end']}');
+
+        emit(CalendarPreviewLoadedState(
+          events: events,
+          startDate: dateRange != null ? DateTime.tryParse(dateRange['start']) : null,
+          endDate: dateRange != null ? DateTime.tryParse(dateRange['end']) : null,
+        ));
       } else {
         final error = json.decode(response.body)['message'] ?? 'Erreur';
         debugPrint('📅 [CalendarBloc] Preview error: $error');

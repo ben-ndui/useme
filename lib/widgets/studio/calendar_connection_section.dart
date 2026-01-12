@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../core/blocs/calendar/calendar_exports.dart';
+import '../../core/models/unavailability.dart';
 import '../../l10n/app_localizations.dart';
 import '../../routing/app_routes.dart';
 import '../../widgets/common/snackbar/app_snackbar.dart';
@@ -202,6 +203,12 @@ class CalendarConnectionSection extends StatelessWidget {
               ],
             ),
 
+            // Unavailabilities list (show up to 5 upcoming)
+            if (state.unavailabilities.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              _UnavailabilitiesList(unavailabilities: state.unavailabilities),
+            ],
+
             const SizedBox(height: 16),
 
             // Actions
@@ -317,6 +324,100 @@ class _StatItem extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+/// Liste des indisponibilités (affiche les 5 prochaines)
+class _UnavailabilitiesList extends StatelessWidget {
+  final List<Unavailability> unavailabilities;
+
+  const _UnavailabilitiesList({required this.unavailabilities});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final now = DateTime.now();
+
+    // Trier par date et prendre les 5 prochaines
+    final upcoming = unavailabilities
+        .where((u) => u.end.isAfter(now))
+        .toList()
+      ..sort((a, b) => a.start.compareTo(b.start));
+
+    final displayList = upcoming.take(5).toList();
+
+    if (displayList.isEmpty) return const SizedBox.shrink();
+
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ...displayList.map((u) => _UnavailabilityTile(unavailability: u)),
+          if (upcoming.length > 5)
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                '+${upcoming.length - 5} autres',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.outline,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _UnavailabilityTile extends StatelessWidget {
+  final Unavailability unavailability;
+
+  const _UnavailabilityTile({required this.unavailability});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final dateFormat = DateFormat('dd/MM HH:mm', 'fr_FR');
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.outline,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              unavailability.title ?? 'Indisponible',
+              style: theme.textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Text(
+            dateFormat.format(unavailability.start),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.outline,
+              fontSize: 10,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

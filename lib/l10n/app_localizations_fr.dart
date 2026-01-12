@@ -2657,6 +2657,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get reviewAndImport => 'Vérifier et importer';
 
   @override
+  String get dateRange => 'Plage de dates';
+
+  @override
+  String get tryChangingDateRange => 'Essayez de modifier la plage de dates';
+
+  @override
+  String get changeDateRange => 'Modifier les dates';
+
+  @override
   String get tipsSectionCalendar => 'Calendrier';
 
   @override

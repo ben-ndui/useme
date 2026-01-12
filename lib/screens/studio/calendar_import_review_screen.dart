@@ -28,19 +28,58 @@ class _CalendarImportReviewScreenState
   List<GoogleCalendarEvent> _events = [];
   bool _isLoading = true;
 
+  // Plage de dates pour l'import
+  late DateTime _startDate;
+  late DateTime _endDate;
+
   @override
   void initState() {
     super.initState();
+    // Par défaut: 30 jours avant → 90 jours après
+    _startDate = DateTime.now().subtract(const Duration(days: 30));
+    _endDate = DateTime.now().add(const Duration(days: 90));
     _loadData();
   }
 
   Future<void> _loadData() async {
     final artists = await _artistService.getArtistsByStudioId(widget.userId);
     if (!mounted) return;
-    setState(() => _artists = artists);
+    setState(() {
+      _artists = artists;
+      _isLoading = true;
+    });
     context.read<CalendarBloc>().add(
-          FetchCalendarPreviewEvent(userId: widget.userId),
+          FetchCalendarPreviewEvent(
+            userId: widget.userId,
+            startDate: _startDate,
+            endDate: _endDate,
+          ),
         );
+  }
+
+  Future<void> _selectDateRange(BuildContext context) async {
+    final picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+      initialDateRange: DateTimeRange(start: _startDate, end: _endDate),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: Theme.of(context).colorScheme,
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      setState(() {
+        _startDate = picked.start;
+        _endDate = picked.end;
+      });
+      _loadData();
+    }
   }
 
   @override
@@ -96,7 +135,7 @@ class _CalendarImportReviewScreenState
           }
 
           if (_events.isEmpty) {
-            return _buildEmptyState(context, l10n);
+            return _buildEmptyState(context, l10n, theme);
           }
 
           return _buildEventsList(context, l10n, theme);
@@ -108,16 +147,106 @@ class _CalendarImportReviewScreenState
     );
   }
 
-  Widget _buildEmptyState(BuildContext context, AppLocalizations l10n) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const FaIcon(FontAwesomeIcons.calendarXmark, size: 64),
-          const SizedBox(height: 16),
-          Text(l10n.noEventsToImport),
-        ],
+  Widget _buildDateRangeSelector(ThemeData theme, AppLocalizations l10n) {
+    final dateFormat = DateFormat('d MMM yyyy', 'fr_FR');
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+        border: Border(
+          bottom: BorderSide(color: theme.colorScheme.outlineVariant),
+        ),
       ),
+      child: InkWell(
+        onTap: () => _selectDateRange(context),
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            border: Border.all(color: theme.colorScheme.outline),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: [
+              FaIcon(
+                FontAwesomeIcons.calendarDays,
+                size: 20,
+                color: theme.colorScheme.primary,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.dateRange,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: theme.colorScheme.outline,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${dateFormat.format(_startDate)} → ${dateFormat.format(_endDate)}',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.edit_calendar,
+                color: theme.colorScheme.primary,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyState(
+    BuildContext context,
+    AppLocalizations l10n,
+    ThemeData theme,
+  ) {
+    return Column(
+      children: [
+        _buildDateRangeSelector(theme, l10n),
+        Expanded(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FaIcon(
+                  FontAwesomeIcons.calendarXmark,
+                  size: 64,
+                  color: theme.colorScheme.outline,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  l10n.noEventsToImport,
+                  style: theme.textTheme.titleMedium,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  l10n.tryChangingDateRange,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.outline,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                OutlinedButton.icon(
+                  onPressed: () => _selectDateRange(context),
+                  icon: const Icon(Icons.date_range),
+                  label: Text(l10n.changeDateRange),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -126,19 +255,26 @@ class _CalendarImportReviewScreenState
     AppLocalizations l10n,
     ThemeData theme,
   ) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: _events.length,
-      itemBuilder: (context, index) {
-        return _EventCard(
-          event: _events[index],
-          artists: _artists,
-          l10n: l10n,
-          onChanged: (updated) {
-            setState(() => _events[index] = updated);
-          },
-        );
-      },
+    return Column(
+      children: [
+        _buildDateRangeSelector(theme, l10n),
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: _events.length,
+            itemBuilder: (context, index) {
+              return _EventCard(
+                event: _events[index],
+                artists: _artists,
+                l10n: l10n,
+                onChanged: (updated) {
+                  setState(() => _events[index] = updated);
+                },
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 

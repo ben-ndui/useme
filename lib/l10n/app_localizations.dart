@@ -5000,6 +5000,24 @@ abstract class AppLocalizations {
   /// **'Vérifier et importer'**
   String get reviewAndImport;
 
+  /// No description provided for @dateRange.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plage de dates'**
+  String get dateRange;
+
+  /// No description provided for @tryChangingDateRange.
+  ///
+  /// In fr, this message translates to:
+  /// **'Essayez de modifier la plage de dates'**
+  String get tryChangingDateRange;
+
+  /// No description provided for @changeDateRange.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier les dates'**
+  String get changeDateRange;
+
   /// No description provided for @tipsSectionCalendar.
   ///
   /// In fr, this message translates to:

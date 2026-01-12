@@ -103,102 +103,88 @@ class _SessionsPageState extends State<SessionsPage>
     final theme = Theme.of(context);
 
     return BlocBuilder<SessionBloc, SessionState>(
-      builder: (context, state) {
-        return TableCalendar<Session>(
-          firstDay: DateTime.now().subtract(const Duration(days: 365)),
-          lastDay: DateTime.now().add(const Duration(days: 365)),
-          focusedDay: _focusedDay,
-          calendarFormat: _calendarFormat,
-          locale: locale,
-          startingDayOfWeek: StartingDayOfWeek.monday,
-          selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-          eventLoader: (day) => _getSessionsForDay(state.sessions, day),
-          onDaySelected: (selectedDay, focusedDay) => setState(() {
-            _selectedDay = selectedDay;
-            _focusedDay = focusedDay;
-          }),
-          onFormatChanged: (format) => setState(() => _calendarFormat = format),
-          onPageChanged: (focusedDay) => _focusedDay = focusedDay,
-          calendarStyle: CalendarStyle(
-            todayDecoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.2),
-              shape: BoxShape.circle,
-            ),
-            todayTextStyle: TextStyle(color: theme.colorScheme.primary, fontWeight: FontWeight.bold),
-            selectedDecoration: BoxDecoration(color: theme.colorScheme.primary, shape: BoxShape.circle),
-            selectedTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            markerDecoration: BoxDecoration(color: theme.colorScheme.tertiary, shape: BoxShape.circle),
-            markersMaxCount: 3,
-            markerSize: 6,
-            markerMargin: const EdgeInsets.symmetric(horizontal: 1),
-            weekendTextStyle: TextStyle(color: theme.colorScheme.error),
-            outsideDaysVisible: false,
-          ),
-          headerStyle: HeaderStyle(
-            formatButtonVisible: true,
-            titleCentered: true,
-            formatButtonShowsNext: false,
-            formatButtonDecoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            formatButtonTextStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 12),
-            titleTextStyle: theme.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
-            leftChevronIcon: FaIcon(FontAwesomeIcons.chevronLeft, size: 14, color: theme.colorScheme.onSurfaceVariant),
-            rightChevronIcon: FaIcon(FontAwesomeIcons.chevronRight, size: 14, color: theme.colorScheme.onSurfaceVariant),
-          ),
-          daysOfWeekStyle: DaysOfWeekStyle(
-            weekdayStyle: theme.textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w600, color: theme.colorScheme.outline),
-            weekendStyle: theme.textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w600, color: theme.colorScheme.error.withValues(alpha: 0.7)),
-          ),
-          calendarBuilders: CalendarBuilders(
-            markerBuilder: (context, date, events) {
-              if (events.isEmpty) return null;
-              return Positioned(
-                bottom: 4,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: events.take(3).map((session) {
-                    return Container(
-                      width: 6,
-                      height: 6,
-                      margin: const EdgeInsets.symmetric(horizontal: 1),
-                      decoration: BoxDecoration(
-                        color: getSessionStatusColor(session.displayStatus),
-                        shape: BoxShape.circle,
-                      ),
-                    );
-                  }).toList(),
+      builder: (context, sessionState) {
+        return BlocBuilder<CalendarBloc, CalendarState>(
+          builder: (context, calendarState) {
+            final unavailabilities = calendarState is CalendarConnectedState
+                ? calendarState.unavailabilities
+                : <Unavailability>[];
+
+            return TableCalendar<dynamic>(
+              firstDay: DateTime.now().subtract(const Duration(days: 365)),
+              lastDay: DateTime.now().add(const Duration(days: 365)),
+              focusedDay: _focusedDay,
+              calendarFormat: _calendarFormat,
+              locale: locale,
+              startingDayOfWeek: StartingDayOfWeek.monday,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              eventLoader: (day) => [
+                ..._getSessionsForDay(sessionState.sessions, day),
+                ..._getUnavailabilitiesForDay(unavailabilities, day),
+              ],
+              onDaySelected: (selectedDay, focusedDay) => setState(() {
+                _selectedDay = selectedDay;
+                _focusedDay = focusedDay;
+              }),
+              onFormatChanged: (format) => setState(() => _calendarFormat = format),
+              onPageChanged: (focusedDay) => _focusedDay = focusedDay,
+              calendarStyle: CalendarStyle(
+                todayDecoration: BoxDecoration(
+                  color: theme.colorScheme.primary.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
                 ),
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildSessionsList(BuildContext context, AppLocalizations l10n, String locale) {
-    return BlocBuilder<SessionBloc, SessionState>(
-      builder: (context, state) {
-        if (state.isLoading) return const AppLoader.compact();
-
-        var sessions = _getSessionsForDay(state.sessions, _selectedDay);
-        if (_selectedStatus != null) {
-          sessions = sessions.where((s) => s.status == _selectedStatus).toList();
-        }
-        sessions.sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart));
-
-        if (sessions.isEmpty) return _buildEmptyDayState(context, l10n);
-
-        return ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: sessions.length + 1,
-          itemBuilder: (context, index) {
-            if (index == 0) return _buildDayHeader(context, sessions.length, l10n, locale);
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: SessionCard(session: sessions[index - 1], locale: locale),
+                todayTextStyle: TextStyle(color: theme.colorScheme.primary, fontWeight: FontWeight.bold),
+                selectedDecoration: BoxDecoration(color: theme.colorScheme.primary, shape: BoxShape.circle),
+                selectedTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                markerDecoration: BoxDecoration(color: theme.colorScheme.tertiary, shape: BoxShape.circle),
+                markersMaxCount: 4,
+                markerSize: 6,
+                markerMargin: const EdgeInsets.symmetric(horizontal: 1),
+                weekendTextStyle: TextStyle(color: theme.colorScheme.error),
+                outsideDaysVisible: false,
+              ),
+              headerStyle: HeaderStyle(
+                formatButtonVisible: true,
+                titleCentered: true,
+                formatButtonShowsNext: false,
+                formatButtonDecoration: BoxDecoration(
+                  color: theme.colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                formatButtonTextStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 12),
+                titleTextStyle: theme.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
+                leftChevronIcon: FaIcon(FontAwesomeIcons.chevronLeft, size: 14, color: theme.colorScheme.onSurfaceVariant),
+                rightChevronIcon: FaIcon(FontAwesomeIcons.chevronRight, size: 14, color: theme.colorScheme.onSurfaceVariant),
+              ),
+              daysOfWeekStyle: DaysOfWeekStyle(
+                weekdayStyle: theme.textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w600, color: theme.colorScheme.outline),
+                weekendStyle: theme.textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w600, color: theme.colorScheme.error.withValues(alpha: 0.7)),
+              ),
+              calendarBuilders: CalendarBuilders(
+                markerBuilder: (context, date, events) {
+                  if (events.isEmpty) return null;
+                  return Positioned(
+                    bottom: 4,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: events.take(4).map((event) {
+                        final color = event is Session
+                            ? getSessionStatusColor(event.displayStatus)
+                            : theme.colorScheme.outline; // Gris pour indispos
+                        return Container(
+                          width: 6,
+                          height: 6,
+                          margin: const EdgeInsets.symmetric(horizontal: 1),
+                          decoration: BoxDecoration(
+                            color: color,
+                            shape: BoxShape.circle,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
+              ),
             );
           },
         );
@@ -206,7 +192,88 @@ class _SessionsPageState extends State<SessionsPage>
     );
   }
 
-  Widget _buildDayHeader(BuildContext context, int count, AppLocalizations l10n, String locale) {
+  List<Unavailability> _getUnavailabilitiesForDay(
+    List<Unavailability> unavailabilities,
+    DateTime day,
+  ) {
+    return unavailabilities.where((u) {
+      // Check if the unavailability spans this day
+      final dayStart = DateTime(day.year, day.month, day.day);
+      final dayEnd = dayStart.add(const Duration(days: 1));
+      return u.overlapsWith(dayStart, dayEnd);
+    }).toList();
+  }
+
+  Widget _buildSessionsList(BuildContext context, AppLocalizations l10n, String locale) {
+    return BlocBuilder<SessionBloc, SessionState>(
+      builder: (context, sessionState) {
+        return BlocBuilder<CalendarBloc, CalendarState>(
+          builder: (context, calendarState) {
+            if (sessionState.isLoading) return const AppLoader.compact();
+
+            var sessions = _getSessionsForDay(sessionState.sessions, _selectedDay);
+            if (_selectedStatus != null) {
+              sessions = sessions.where((s) => s.status == _selectedStatus).toList();
+            }
+            sessions.sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart));
+
+            final unavailabilities = calendarState is CalendarConnectedState
+                ? _getUnavailabilitiesForDay(calendarState.unavailabilities, _selectedDay)
+                : <Unavailability>[];
+            unavailabilities.sort((a, b) => a.start.compareTo(b.start));
+
+            if (sessions.isEmpty && unavailabilities.isEmpty) {
+              return _buildEmptyDayState(context, l10n);
+            }
+
+            final totalCount = sessions.length + unavailabilities.length;
+
+            return ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: totalCount + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return _buildDayHeader(
+                    context,
+                    sessions.length,
+                    l10n,
+                    locale,
+                    unavailCount: unavailabilities.length,
+                  );
+                }
+
+                // Show unavailabilities first, then sessions
+                final unavailIndex = index - 1;
+                if (unavailIndex < unavailabilities.length) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: _UnavailabilityCard(
+                      unavailability: unavailabilities[unavailIndex],
+                      locale: locale,
+                    ),
+                  );
+                }
+
+                final sessionIndex = unavailIndex - unavailabilities.length;
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: SessionCard(session: sessions[sessionIndex], locale: locale),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildDayHeader(
+    BuildContext context,
+    int count,
+    AppLocalizations l10n,
+    String locale, {
+    int unavailCount = 0,
+  }) {
     final theme = Theme.of(context);
     final isToday = isSameDay(_selectedDay, DateTime.now());
     final dateLabel = isToday ? l10n.today : DateFormat('EEEE d MMMM', locale).format(_selectedDay);
@@ -224,6 +291,34 @@ class _SessionsPageState extends State<SessionsPage>
               ),
             ),
           ),
+          if (unavailCount > 0) ...[
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.ban,
+                    size: 10,
+                    color: theme.colorScheme.outline,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    '$unavailCount',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: theme.colorScheme.outline,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+          ],
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(color: theme.colorScheme.primaryContainer, borderRadius: BorderRadius.circular(12)),
@@ -436,6 +531,109 @@ class _SessionsPageState extends State<SessionsPage>
           ],
         );
       },
+    );
+  }
+}
+
+/// Card to display an unavailability in the sessions list
+class _UnavailabilityCard extends StatelessWidget {
+  final Unavailability unavailability;
+  final String locale;
+
+  const _UnavailabilityCard({
+    required this.unavailability,
+    required this.locale,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final timeFormat = DateFormat('HH:mm', locale);
+
+    return Card(
+      elevation: 0,
+      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          color: theme.colorScheme.outline.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            // Icon
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.outline.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: FaIcon(
+                  FontAwesomeIcons.ban,
+                  size: 16,
+                  color: theme.colorScheme.outline,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            // Content
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    unavailability.title ?? AppLocalizations.of(context)!.unavailable,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Row(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.clock,
+                        size: 10,
+                        color: theme.colorScheme.outline,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${timeFormat.format(unavailability.start)} - ${timeFormat.format(unavailability.end)}',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.outline,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.outline.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          unavailability.source.label,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: theme.colorScheme.outline,
+                            fontSize: 9,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

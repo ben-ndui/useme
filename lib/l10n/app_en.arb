@@ -923,6 +923,9 @@
   "selectAnArtist": "Select an artist",
   "orCreateExternal": "or create external artist",
   "reviewAndImport": "Review and import",
+  "dateRange": "Date range",
+  "tryChangingDateRange": "Try changing the date range",
+  "changeDateRange": "Change dates",
 
   "tipsSectionCalendar": "Calendar",
   "tipConnectCalendarTitle": "Connect your calendar",
