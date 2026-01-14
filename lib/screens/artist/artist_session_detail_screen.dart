@@ -1,3 +1,4 @@
+import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,6 +8,7 @@ import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Session detail screen for artists to view their booked sessions
 class ArtistSessionDetailScreen extends StatefulWidget {
@@ -122,7 +124,9 @@ class _ArtistSessionDetailContent extends StatelessWidget {
               value: session.notes!,
               theme: theme,
             ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 24),
+          _AddToCalendarButton(session: session, l10n: l10n),
+          const SizedBox(height: 12),
           if (session.canBeCancelled)
             _CancelButton(session: session, l10n: l10n),
         ],
@@ -293,6 +297,44 @@ class _InfoCard extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _AddToCalendarButton extends StatelessWidget {
+  final Session session;
+  final AppLocalizations l10n;
+
+  const _AddToCalendarButton({required this.session, required this.l10n});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: FilledButton.icon(
+        onPressed: () => _addToCalendar(context),
+        icon: const FaIcon(FontAwesomeIcons.calendarPlus, size: 16),
+        label: Text(l10n.addToCalendar),
+        style: FilledButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      ),
+    );
+  }
+
+  void _addToCalendar(BuildContext context) {
+    final event = Event(
+      title: l10n.sessionCalendarTitle(session.typeLabel),
+      description: session.notes ?? '',
+      startDate: session.scheduledStart,
+      endDate: session.scheduledEnd,
+    );
+
+    Add2Calendar.addEvent2Cal(event).then((success) {
+      if (success && context.mounted) {
+        AppSnackBar.success(context, l10n.addedToCalendar);
+      }
+    });
   }
 }
 

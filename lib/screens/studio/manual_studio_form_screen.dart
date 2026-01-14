@@ -34,6 +34,7 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
 
   bool _isSubmitting = false;
   GeoPoint? _location;
+  StudioType _selectedStudioType = StudioType.independent;
 
   final List<String> _availableServices = [
     'Enregistrement',
@@ -108,6 +109,7 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
             ? null
             : _websiteController.text.trim(),
         services: _selectedServices,
+        studioType: _selectedStudioType,
         claimedAt: DateTime.now(),
       );
 
@@ -177,6 +179,28 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
               ),
               maxLines: 3,
               textCapitalization: TextCapitalization.sentences,
+            ),
+            const SizedBox(height: 16),
+
+            // Type de studio
+            DropdownButtonFormField<StudioType>(
+              initialValue: _selectedStudioType,
+              decoration: InputDecoration(
+                labelText: l10n.studioTypeLabel,
+                prefixIcon: const Icon(FontAwesomeIcons.building, size: 16),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              items: StudioType.values.map((type) {
+                final label = switch (type) {
+                  StudioType.pro => l10n.studioTypePro,
+                  StudioType.independent => l10n.studioTypeIndependent,
+                  StudioType.amateur => l10n.studioTypeAmateur,
+                };
+                return DropdownMenuItem(value: type, child: Text(label));
+              }).toList(),
+              onChanged: (value) {
+                if (value != null) setState(() => _selectedStudioType = value);
+              },
             ),
             const SizedBox(height: 24),
 

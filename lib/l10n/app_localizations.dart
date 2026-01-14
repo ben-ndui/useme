@@ -5401,6 +5401,48 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Studio'**
   String get studioLabel;
+
+  /// No description provided for @addToCalendar.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter au calendrier'**
+  String get addToCalendar;
+
+  /// No description provided for @addedToCalendar.
+  ///
+  /// In fr, this message translates to:
+  /// **'Session ajoutée au calendrier'**
+  String get addedToCalendar;
+
+  /// No description provided for @sessionCalendarTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Session {type} - Use Me'**
+  String sessionCalendarTitle(Object type);
+
+  /// No description provided for @studioTypePro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Studio Pro'**
+  String get studioTypePro;
+
+  /// No description provided for @studioTypeIndependent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Indépendant'**
+  String get studioTypeIndependent;
+
+  /// No description provided for @studioTypeAmateur.
+  ///
+  /// In fr, this message translates to:
+  /// **'Home Studio'**
+  String get studioTypeAmateur;
+
+  /// No description provided for @studioTypeLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Type de studio'**
+  String get studioTypeLabel;
 }
 
 class _AppLocalizationsDelegate

@@ -1,4 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:useme/core/models/studio_profile.dart';
 
 /// Studio discovered via location-based search (Google Places or internal DB)
 class DiscoveredStudio {
@@ -14,6 +15,7 @@ class DiscoveredStudio {
   final bool isPartner; // Studio registered on Use Me
   final List<String> services;
   final double? distanceMeters;
+  final StudioType studioType;
 
   const DiscoveredStudio({
     required this.id,
@@ -28,6 +30,7 @@ class DiscoveredStudio {
     this.isPartner = false,
     this.services = const [],
     this.distanceMeters,
+    this.studioType = StudioType.independent,
   });
 
   /// Create from Google Places API response
@@ -72,6 +75,7 @@ class DiscoveredStudio {
       website: json['website'],
       isPartner: true,
       services: List<String>.from(json['services'] ?? []),
+      studioType: StudioType.fromString(json['studioType'] as String?),
     );
   }
 
@@ -90,6 +94,7 @@ class DiscoveredStudio {
       isPartner: isPartner,
       services: services,
       distanceMeters: distance,
+      studioType: studioType,
     );
   }
 

@@ -243,6 +243,7 @@ class AppUser extends BaseUser {
   bool get isArtist => role.isArtist;
 
   /// Vérifie si c'est un super admin.
+  @override
   bool get isSuperAdmin => role.isSuperAdmin;
 
   /// Vérifie si le studio est partenaire et a un profil

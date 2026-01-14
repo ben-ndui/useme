@@ -2854,4 +2854,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get studioLabel => 'Studio';
+
+  @override
+  String get addToCalendar => 'Add to calendar';
+
+  @override
+  String get addedToCalendar => 'Session added to calendar';
+
+  @override
+  String sessionCalendarTitle(Object type) {
+    return 'Session $type - Use Me';
+  }
+
+  @override
+  String get studioTypePro => 'Pro Studio';
+
+  @override
+  String get studioTypeIndependent => 'Independent';
+
+  @override
+  String get studioTypeAmateur => 'Home Studio';
+
+  @override
+  String get studioTypeLabel => 'Studio type';
 }

@@ -11,7 +11,11 @@ import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/artist/sessions/artist_sessions_exports.dart';
 import 'package:useme/widgets/artist/sessions/artist_session_filter_sheet.dart';
+import 'package:useme/widgets/artist/sessions/artist_month_calendar.dart';
 import 'package:useme/widgets/artist/studio_selector_bottom_sheet.dart';
+
+/// View mode for artist sessions page
+enum _ViewMode { week, month, list }
 
 /// Artist sessions page - Calendar view with week selector
 class ArtistSessionsPage extends StatefulWidget {
@@ -24,13 +28,15 @@ class ArtistSessionsPage extends StatefulWidget {
 class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
   DateTime _selectedDate = DateTime.now();
   late DateTime _weekStart;
-  bool _isListView = false;
+  late DateTime _displayedMonth;
+  _ViewMode _viewMode = _ViewMode.week;
   ArtistSessionFilters _filters = ArtistSessionFilters.empty;
 
   @override
   void initState() {
     super.initState();
     _weekStart = _getWeekStart(_selectedDate);
+    _displayedMonth = DateTime(_selectedDate.year, _selectedDate.month);
   }
 
   DateTime _getWeekStart(DateTime date) => date.subtract(Duration(days: date.weekday - 1));
@@ -44,14 +50,16 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
     return Scaffold(
       backgroundColor: colorScheme.surface,
       appBar: _buildAppBar(context, l10n, colorScheme),
-      body: _isListView
-          ? _buildAllSessionsList(colorScheme, l10n)
-          : Column(
-              children: [
-                _buildWeekCalendar(colorScheme),
-                Expanded(child: _buildSessionsList(colorScheme, l10n)),
-              ],
-            ),
+      body: switch (_viewMode) {
+        _ViewMode.list => _buildAllSessionsList(colorScheme, l10n),
+        _ViewMode.month => _buildMonthView(colorScheme, l10n),
+        _ViewMode.week => Column(
+            children: [
+              _buildWeekCalendar(colorScheme),
+              Expanded(child: _buildSessionsList(colorScheme, l10n)),
+            ],
+          ),
+      },
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: 100 + MediaQuery.of(context).viewPadding.bottom),
         child: FloatingActionButton.extended(
@@ -126,8 +134,9 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildToggleButton(colorScheme, FontAwesomeIcons.calendar, !_isListView, () => setState(() => _isListView = false)),
-          _buildToggleButton(colorScheme, FontAwesomeIcons.list, _isListView, () => setState(() => _isListView = true)),
+          _buildToggleButton(colorScheme, FontAwesomeIcons.calendarWeek, _viewMode == _ViewMode.week, () => setState(() => _viewMode = _ViewMode.week)),
+          _buildToggleButton(colorScheme, FontAwesomeIcons.calendarDays, _viewMode == _ViewMode.month, () => setState(() => _viewMode = _ViewMode.month)),
+          _buildToggleButton(colorScheme, FontAwesomeIcons.list, _viewMode == _ViewMode.list, () => setState(() => _viewMode = _ViewMode.list)),
         ],
       ),
     );
@@ -186,6 +195,38 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
           Row(children: days.map((day) => Expanded(child: _buildDayCell(colorScheme, day))).toList()),
         ],
       ),
+    );
+  }
+
+  Widget _buildMonthView(ColorScheme colorScheme, AppLocalizations l10n) {
+    return BlocBuilder<SessionBloc, SessionState>(
+      builder: (context, state) {
+        final sessions = _applyFilters(state.sessions);
+
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
+              child: ArtistMonthCalendar(
+                selectedDate: _selectedDate,
+                displayedMonth: _displayedMonth,
+                sessions: sessions,
+                onDateSelected: (date) => setState(() {
+                  _selectedDate = date;
+                  _displayedMonth = DateTime(date.year, date.month);
+                }),
+                onPreviousMonth: () => setState(() {
+                  _displayedMonth = DateTime(_displayedMonth.year, _displayedMonth.month - 1);
+                }),
+                onNextMonth: () => setState(() {
+                  _displayedMonth = DateTime(_displayedMonth.year, _displayedMonth.month + 1);
+                }),
+              ),
+            ),
+            Expanded(child: _buildSessionsList(colorScheme, l10n)),
+          ],
+        );
+      },
     );
   }
 

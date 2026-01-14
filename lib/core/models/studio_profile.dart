@@ -2,6 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:useme/core/models/working_hours.dart';
 
+/// Type de studio (professionnel, indépendant, amateur)
+enum StudioType {
+  pro,
+  independent,
+  amateur;
+
+  /// Crée depuis une chaîne Firestore
+  static StudioType fromString(String? value) {
+    return StudioType.values.firstWhere(
+      (e) => e.name == value,
+      orElse: () => StudioType.independent,
+    );
+  }
+}
+
 /// Profil studio pour les admins partenaires
 class StudioProfile extends Equatable {
   /// Nom du studio (affiché aux artistes)
@@ -74,6 +89,9 @@ class StudioProfile extends Equatable {
   /// (ex: le gérant gère lui-même ou studio en libre-service)
   final bool allowNoEngineer;
 
+  /// Type de studio (pro, indépendant, amateur)
+  final StudioType studioType;
+
   const StudioProfile({
     required this.name,
     this.description,
@@ -98,6 +116,7 @@ class StudioProfile extends Equatable {
     this.isVerified = false,
     this.claimedAt,
     this.allowNoEngineer = false,
+    this.studioType = StudioType.independent,
   });
 
   /// Crée depuis une Map Firestore
@@ -143,6 +162,7 @@ class StudioProfile extends Equatable {
           ? (map['claimedAt'] as Timestamp).toDate()
           : null,
       allowNoEngineer: map['allowNoEngineer'] ?? false,
+      studioType: StudioType.fromString(map['studioType'] as String?),
     );
   }
 
@@ -172,6 +192,7 @@ class StudioProfile extends Equatable {
       'isVerified': isVerified,
       'claimedAt': claimedAt != null ? Timestamp.fromDate(claimedAt!) : null,
       'allowNoEngineer': allowNoEngineer,
+      'studioType': studioType.name,
     };
   }
 
@@ -200,6 +221,7 @@ class StudioProfile extends Equatable {
     bool? isVerified,
     DateTime? claimedAt,
     bool? allowNoEngineer,
+    StudioType? studioType,
   }) {
     return StudioProfile(
       name: name ?? this.name,
@@ -225,6 +247,7 @@ class StudioProfile extends Equatable {
       isVerified: isVerified ?? this.isVerified,
       claimedAt: claimedAt ?? this.claimedAt,
       allowNoEngineer: allowNoEngineer ?? this.allowNoEngineer,
+      studioType: studioType ?? this.studioType,
     );
   }
 
@@ -263,5 +286,6 @@ class StudioProfile extends Equatable {
         rating,
         isVerified,
         allowNoEngineer,
+        studioType,
       ];
 }

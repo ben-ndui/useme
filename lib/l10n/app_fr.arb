@@ -1203,5 +1203,19 @@
   "filterSessions": "Filtrer les sessions",
   "filterSessionsDescription": "Affinez votre planning",
   "statusLabel": "Statut",
-  "studioLabel": "Studio"
+  "studioLabel": "Studio",
+
+  "addToCalendar": "Ajouter au calendrier",
+  "addedToCalendar": "Session ajoutée au calendrier",
+  "sessionCalendarTitle": "Session {type} - Use Me",
+  "@sessionCalendarTitle": {
+    "placeholders": {
+      "type": {"type": "Object"}
+    }
+  },
+
+  "studioTypePro": "Studio Pro",
+  "studioTypeIndependent": "Indépendant",
+  "studioTypeAmateur": "Home Studio",
+  "studioTypeLabel": "Type de studio"
 }

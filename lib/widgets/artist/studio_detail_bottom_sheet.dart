@@ -6,6 +6,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/discovered_studio.dart';
 import 'package:useme/core/models/favorite.dart';
+import 'package:useme/core/models/studio_profile.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/favorite/favorite_button.dart';
 
@@ -110,8 +111,15 @@ class StudioDetailBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
-                if (studio.isPartner) _buildPartnerBadge(theme, l10n),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    if (studio.isPartner) _buildPartnerBadge(theme, l10n),
+                    _buildStudioTypeBadge(theme, l10n),
+                  ],
+                ),
               ],
             ),
           ),
@@ -162,6 +170,36 @@ class StudioDetailBottomSheet extends StatelessWidget {
             l10n.partner,
             style: theme.textTheme.labelMedium?.copyWith(
               color: Colors.green,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStudioTypeBadge(ThemeData theme, AppLocalizations l10n) {
+    final (icon, label, color) = switch (studio.studioType) {
+      StudioType.pro => (FontAwesomeIcons.building, l10n.studioTypePro, Colors.purple),
+      StudioType.independent => (FontAwesomeIcons.houseUser, l10n.studioTypeIndependent, Colors.blue),
+      StudioType.amateur => (FontAwesomeIcons.house, l10n.studioTypeAmateur, Colors.orange),
+    };
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FaIcon(icon, size: 12, color: color),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: color,
               fontWeight: FontWeight.w600,
             ),
           ),

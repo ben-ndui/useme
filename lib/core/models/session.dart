@@ -1,3 +1,6 @@
+// ignore_for_file: deprecated_member_use_from_same_package
+// The deprecated 'type' field is intentionally used for backward compatibility with Firestore
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Session type enum (types de sessions studio)
