@@ -2842,4 +2842,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get applyFilters => 'Apply';
+
+  @override
+  String get filterSessions => 'Filter sessions';
+
+  @override
+  String get filterSessionsDescription => 'Refine your planning';
+
+  @override
+  String get statusLabel => 'Status';
+
+  @override
+  String get studioLabel => 'Studio';
 }

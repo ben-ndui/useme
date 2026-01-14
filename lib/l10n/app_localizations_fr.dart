@@ -2867,4 +2867,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get applyFilters => 'Appliquer';
+
+  @override
+  String get filterSessions => 'Filtrer les sessions';
+
+  @override
+  String get filterSessionsDescription => 'Affinez votre planning';
+
+  @override
+  String get statusLabel => 'Statut';
+
+  @override
+  String get studioLabel => 'Studio';
 }

@@ -1198,5 +1198,10 @@
   "partnerStudiosDescription": "Afficher uniquement les studios vérifiés",
   "serviceTypes": "Types de services",
   "clearFilters": "Effacer",
-  "applyFilters": "Appliquer"
+  "applyFilters": "Appliquer",
+
+  "filterSessions": "Filtrer les sessions",
+  "filterSessionsDescription": "Affinez votre planning",
+  "statusLabel": "Statut",
+  "studioLabel": "Studio"
 }

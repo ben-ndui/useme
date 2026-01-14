@@ -80,7 +80,7 @@ class ArtistSessionTile extends StatelessWidget {
         const SizedBox(height: 4),
         Row(
           children: [
-            FaIcon(_getTypeIcon(session.type), size: 10, color: colorScheme.onSurfaceVariant),
+            FaIcon(_getTypeIcon(session.types.firstOrNull), size: 10, color: colorScheme.onSurfaceVariant),
             const SizedBox(width: 6),
             Expanded(
               child: Text(
@@ -116,7 +116,7 @@ class ArtistSessionTile extends StatelessWidget {
     };
   }
 
-  IconData _getTypeIcon(SessionType type) {
+  IconData _getTypeIcon(SessionType? type) {
     return switch (type) {
       SessionType.recording => FontAwesomeIcons.microphone,
       SessionType.mix || SessionType.mixing => FontAwesomeIcons.sliders,

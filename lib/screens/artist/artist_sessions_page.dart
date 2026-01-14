@@ -4,11 +4,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/artist/sessions/artist_sessions_exports.dart';
+import 'package:useme/widgets/artist/sessions/artist_session_filter_sheet.dart';
 import 'package:useme/widgets/artist/studio_selector_bottom_sheet.dart';
 
 /// Artist sessions page - Calendar view with week selector
@@ -23,6 +25,7 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
   DateTime _selectedDate = DateTime.now();
   late DateTime _weekStart;
   bool _isListView = false;
+  ArtistSessionFilters _filters = ArtistSessionFilters.empty;
 
   @override
   void initState() {
@@ -69,6 +72,8 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
       title: Text(l10n.mySessions, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
       centerTitle: true,
       actions: [
+        _buildFilterButton(context, colorScheme),
+        const SizedBox(width: 4),
         IconButton(
           icon: FaIcon(FontAwesomeIcons.bell, size: 18, color: colorScheme.onSurfaceVariant),
           onPressed: () => context.push('/notifications'),
@@ -76,6 +81,40 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
         const SizedBox(width: 4),
         _buildViewToggle(colorScheme),
         const SizedBox(width: 12),
+      ],
+    );
+  }
+
+  Widget _buildFilterButton(BuildContext context, ColorScheme colorScheme) {
+    final hasFilters = _filters.hasFilters;
+
+    return Stack(
+      children: [
+        IconButton(
+          icon: FaIcon(
+            FontAwesomeIcons.filter,
+            size: 18,
+            color: hasFilters ? UseMeTheme.primaryColor : colorScheme.onSurfaceVariant,
+          ),
+          onPressed: () => ArtistSessionFilterSheet.show(
+            context,
+            currentFilters: _filters,
+            onApply: (filters) => setState(() => _filters = filters),
+          ),
+        ),
+        if (hasFilters)
+          Positioned(
+            right: 8,
+            top: 8,
+            child: Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(
+                color: UseMeTheme.primaryColor,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
       ],
     );
   }
@@ -225,8 +264,17 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
     );
   }
 
+  List<Session> _applyFilters(List<Session> sessions) {
+    if (!_filters.hasFilters) return sessions;
+    return sessions.where((s) {
+      if (_filters.statuses.isNotEmpty && !_filters.statuses.contains(s.displayStatus)) return false;
+      return true;
+    }).toList();
+  }
+
   List<Session> _getSessionsForDay(List<Session> sessions, DateTime day) {
-    return sessions.where((s) => _isSameDay(s.scheduledStart, day)).toList()
+    final filtered = _applyFilters(sessions);
+    return filtered.where((s) => _isSameDay(s.scheduledStart, day)).toList()
       ..sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart));
   }
 
@@ -254,7 +302,8 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
       builder: (context, state) {
         if (state.isLoading) return const AppLoader.compact();
 
-        final sessions = state.sessions.where((s) => s.status != SessionStatus.cancelled).toList();
+        final allSessions = state.sessions.where((s) => s.status != SessionStatus.cancelled).toList();
+        final sessions = _applyFilters(allSessions);
         final now = DateTime.now();
         final today = DateTime(now.year, now.month, now.day);
 

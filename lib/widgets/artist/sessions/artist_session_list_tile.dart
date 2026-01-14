@@ -56,7 +56,7 @@ class ArtistSessionListTile extends StatelessWidget {
         color: _getStatusColor().withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: FaIcon(_getTypeIcon(session.type), size: 16, color: _getStatusColor()),
+      child: FaIcon(_getTypeIcon(session.types.firstOrNull), size: 16, color: _getStatusColor()),
     );
   }
 
@@ -118,7 +118,7 @@ class ArtistSessionListTile extends StatelessWidget {
     };
   }
 
-  IconData _getTypeIcon(SessionType type) {
+  IconData _getTypeIcon(SessionType? type) {
     return switch (type) {
       SessionType.recording => FontAwesomeIcons.microphone,
       SessionType.mix || SessionType.mixing => FontAwesomeIcons.sliders,

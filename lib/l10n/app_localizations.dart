@@ -5377,6 +5377,30 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Appliquer'**
   String get applyFilters;
+
+  /// No description provided for @filterSessions.
+  ///
+  /// In fr, this message translates to:
+  /// **'Filtrer les sessions'**
+  String get filterSessions;
+
+  /// No description provided for @filterSessionsDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Affinez votre planning'**
+  String get filterSessionsDescription;
+
+  /// No description provided for @statusLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Statut'**
+  String get statusLabel;
+
+  /// No description provided for @studioLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Studio'**
+  String get studioLabel;
 }
 
 class _AppLocalizationsDelegate

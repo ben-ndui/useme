@@ -105,6 +105,8 @@ lib/
 
 6. **FVM prefix required** - Always use `fvm flutter` not `flutter` directly.
 
+7. **Zero technical debt** - Fix ALL warnings and deprecations immediately. Never leave `info`, `warning`, or `deprecated` issues in the codebase. Run `fvm flutter analyze` after changes and fix any issues before considering the task complete.
+
 ## Key Patterns
 
 ### Session Status Display
@@ -131,6 +133,7 @@ if (session.canBeCancelled)
 ### Multi-Type Sessions
 - Sessions support multiple types: `types: List<SessionType>`
 - Use `session.typeLabel` for display (not deprecated `session.type.label`)
+- Use `session.types.firstOrNull` for icons (not deprecated `session.type`)
 
 ### Studio Working Hours
 - `StudioProfile.workingHours: WorkingHours?`

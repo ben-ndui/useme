@@ -1006,5 +1006,10 @@
   "partnerStudiosDescription": "Show only verified studios",
   "serviceTypes": "Service types",
   "clearFilters": "Clear",
-  "applyFilters": "Apply"
+  "applyFilters": "Apply",
+
+  "filterSessions": "Filter sessions",
+  "filterSessionsDescription": "Refine your planning",
+  "statusLabel": "Status",
+  "studioLabel": "Studio"
 }
