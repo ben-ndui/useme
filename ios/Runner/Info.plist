@@ -51,8 +51,12 @@
 	<string>1053737369070-7a61ov70fhavca4i6ftu16uaqjejl92l.apps.googleusercontent.com</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Use Me a besoin d'accéder à votre calendrier pour importer vos événements et éviter les conflits de réservation.</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>Afin que tu puisses importer des events dans l'app !</string>
+	<string>Use Me a besoin d'accéder à votre calendrier pour importer vos événements et éviter les conflits de réservation.</string>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>Use Me peut ajouter vos sessions de studio à votre calendrier.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Pour trouver les studios d'enregistrement proches de vous</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
