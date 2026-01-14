@@ -23,6 +23,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   CalendarBloc({UnavailabilityService? unavailabilityService})
       : _unavailabilityService = unavailabilityService ?? UnavailabilityService(),
         super(const CalendarInitialState()) {
+    on<ResetCalendarEvent>(_onReset);
     on<LoadCalendarStatusEvent>(_onLoadStatus);
     on<ConnectGoogleCalendarEvent>(_onConnectGoogle);
     on<DisconnectCalendarEvent>(_onDisconnect);
@@ -35,6 +36,17 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     // Import preview handlers
     on<FetchCalendarPreviewEvent>(_onFetchPreview);
     on<ImportCategorizedEventsEvent>(_onImportCategorized);
+  }
+
+  /// Reset calendar state (called on logout)
+  Future<void> _onReset(
+    ResetCalendarEvent event,
+    Emitter<CalendarState> emit,
+  ) async {
+    debugPrint('📅 [CalendarBloc] Reset calendar state');
+    await _unavailabilitiesSubscription?.cancel();
+    _unavailabilitiesSubscription = null;
+    emit(const CalendarInitialState());
   }
 
   /// Charge le statut de connexion du calendrier

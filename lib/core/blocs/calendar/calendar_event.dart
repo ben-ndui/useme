@@ -10,6 +10,11 @@ abstract class CalendarEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+/// Reset calendar state (on logout)
+class ResetCalendarEvent extends CalendarEvent {
+  const ResetCalendarEvent();
+}
+
 /// Load calendar connection status
 class LoadCalendarStatusEvent extends CalendarEvent {
   final String userId;

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import '../../core/blocs/calendar/calendar_exports.dart';
+import '../../core/blocs/blocs_exports.dart';
 import '../../core/models/artist.dart';
 import '../../core/models/google_calendar_event.dart';
 import '../../core/services/artist_service.dart';
@@ -103,6 +103,18 @@ class _CalendarImportReviewScreenState
               _isLoading = false;
             });
           } else if (state is CalendarImportSuccessState) {
+            // Reload sessions to show imported data
+            if (state.sessionsCreated > 0) {
+              context.read<SessionBloc>().add(
+                    LoadSessionsEvent(studioId: widget.userId),
+                  );
+            }
+
+            // Reload calendar status to update lastSync
+            context.read<CalendarBloc>().add(
+                  LoadCalendarStatusEvent(userId: widget.userId),
+                );
+
             AppSnackBar.success(
               context,
               l10n.importSuccessMessage(
