@@ -2884,4 +2884,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get studioTypeLabel => 'Studio type';
+
+  @override
+  String get connectedDevices => 'Connected devices';
+
+  @override
+  String get thisDevice => 'This device';
+
+  @override
+  String get disconnectDevice => 'Disconnect';
+
+  @override
+  String get disconnectAllOthers => 'Disconnect all other devices';
+
+  @override
+  String get disconnectDeviceTitle => 'Disconnect device';
+
+  @override
+  String get disconnectDeviceConfirm =>
+      'Are you sure you want to disconnect this device?';
+
+  @override
+  String get disconnectAllConfirm =>
+      'Are you sure you want to disconnect all other devices?';
+
+  @override
+  String get deviceDisconnected => 'Device disconnected';
+
+  @override
+  String get allDevicesDisconnected => 'All other devices disconnected';
+
+  @override
+  String get activeNow => 'Active now';
+
+  @override
+  String activeAgo(String time) {
+    return 'Active $time ago';
+  }
+
+  @override
+  String get noConnectedDevices => 'No connected devices';
+
+  @override
+  String get securitySection => 'Security';
+
+  @override
+  String get manageDevices => 'Manage devices';
+
+  @override
+  String get sessionExpired => 'Your session has expired';
+
+  @override
+  String get disconnectedRemotely =>
+      'You have been disconnected from another device';
 }

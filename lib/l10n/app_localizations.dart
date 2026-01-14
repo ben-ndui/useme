@@ -5455,6 +5455,102 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Type de studio'**
   String get studioTypeLabel;
+
+  /// No description provided for @connectedDevices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Appareils connectés'**
+  String get connectedDevices;
+
+  /// No description provided for @thisDevice.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cet appareil'**
+  String get thisDevice;
+
+  /// No description provided for @disconnectDevice.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déconnecter'**
+  String get disconnectDevice;
+
+  /// No description provided for @disconnectAllOthers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déconnecter tous les autres appareils'**
+  String get disconnectAllOthers;
+
+  /// No description provided for @disconnectDeviceTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déconnecter l\'appareil'**
+  String get disconnectDeviceTitle;
+
+  /// No description provided for @disconnectDeviceConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voulez-vous déconnecter cet appareil ?'**
+  String get disconnectDeviceConfirm;
+
+  /// No description provided for @disconnectAllConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voulez-vous déconnecter tous les autres appareils ?'**
+  String get disconnectAllConfirm;
+
+  /// No description provided for @deviceDisconnected.
+  ///
+  /// In fr, this message translates to:
+  /// **'Appareil déconnecté'**
+  String get deviceDisconnected;
+
+  /// No description provided for @allDevicesDisconnected.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tous les autres appareils ont été déconnectés'**
+  String get allDevicesDisconnected;
+
+  /// No description provided for @activeNow.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actif maintenant'**
+  String get activeNow;
+
+  /// No description provided for @activeAgo.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actif il y a {time}'**
+  String activeAgo(String time);
+
+  /// No description provided for @noConnectedDevices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun appareil connecté'**
+  String get noConnectedDevices;
+
+  /// No description provided for @securitySection.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sécurité'**
+  String get securitySection;
+
+  /// No description provided for @manageDevices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérer les appareils'**
+  String get manageDevices;
+
+  /// No description provided for @sessionExpired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre session a expiré'**
+  String get sessionExpired;
+
+  /// No description provided for @disconnectedRemotely.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous avez été déconnecté depuis un autre appareil'**
+  String get disconnectedRemotely;
 }
 
 class _AppLocalizationsDelegate
