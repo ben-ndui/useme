@@ -378,6 +378,7 @@
 
   "newConversation": "New conversation",
   "searchContact": "Search a contact...",
+  "searchNewContact": "Start a new conversation to find this contact",
   "errorLoadingContacts": "Error loading contacts",
   "user": "User",
   "contact": "Contact",
@@ -935,6 +936,7 @@
   "orCreateExternal": "or create external artist",
   "reviewAndImport": "Review and import",
   "dateRange": "Date range",
+  "selectDateRange": "Select date range",
   "tryChangingDateRange": "Try changing the date range",
   "changeDateRange": "Change dates",
 

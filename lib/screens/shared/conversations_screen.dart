@@ -17,7 +17,14 @@ class ConversationsScreen extends StatefulWidget {
 }
 
 class _ConversationsScreenState extends State<ConversationsScreen> {
-  // Le chargement est déjà fait par le scaffold parent
+  final _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   void _retryLoad() {
     final authState = context.read<AuthBloc>().state;
@@ -28,6 +35,36 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
             LoadConversationsEvent(userId: authState.user.id),
           );
     }
+  }
+
+  Widget _buildSearchBar(ThemeData theme, AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+      child: TextField(
+        controller: _searchController,
+        onChanged: (value) => setState(() => _searchQuery = value.toLowerCase()),
+        decoration: InputDecoration(
+          hintText: l10n.searchContact,
+          prefixIcon: const Icon(FontAwesomeIcons.magnifyingGlass, size: 16),
+          suffixIcon: _searchQuery.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(FontAwesomeIcons.xmark, size: 16),
+                  onPressed: () {
+                    _searchController.clear();
+                    setState(() => _searchQuery = '');
+                  },
+                )
+              : null,
+          filled: true,
+          fillColor: theme.colorScheme.surfaceContainerHighest,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        ),
+      ),
+    );
   }
 
   @override
@@ -45,50 +82,56 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
           ),
         ],
       ),
-      body: BlocBuilder<MessagingBloc, MessagingState>(
-        builder: (context, state) {
-          if (state is MessagingLoadingState) {
-            return const AppLoader();
-          }
+      body: Column(
+        children: [
+          _buildSearchBar(theme, l10n),
+          Expanded(
+            child: BlocBuilder<MessagingBloc, MessagingState>(
+              builder: (context, state) {
+                if (state is MessagingLoadingState) {
+                  return const AppLoader();
+                }
 
-          if (state is MessagingErrorState) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FaIcon(
-                    FontAwesomeIcons.circleExclamation,
-                    size: 48,
-                    color: theme.colorScheme.error,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(state.message),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _retryLoad,
-                    child: Text(l10n.retry),
-                  ),
-                ],
-              ),
-            );
-          }
+                if (state is MessagingErrorState) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.circleExclamation,
+                          size: 48,
+                          color: theme.colorScheme.error,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(state.message),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: _retryLoad,
+                          child: Text(l10n.retry),
+                        ),
+                      ],
+                    ),
+                  );
+                }
 
-          if (state is ConversationsLoadedState) {
-            if (state.conversations.isEmpty) {
-              // Show AI Assistant even when no conversations
-              return Column(
-                children: [
-                  _buildAIAssistantTile(),
-                  Expanded(child: _buildEmptyState(theme, l10n)),
-                ],
-              );
-            }
+                if (state is ConversationsLoadedState) {
+                  if (state.conversations.isEmpty && _searchQuery.isEmpty) {
+                    return Column(
+                      children: [
+                        _buildAIAssistantTile(),
+                        Expanded(child: _buildEmptyState(theme, l10n)),
+                      ],
+                    );
+                  }
 
-            return _buildConversationsList(state);
-          }
+                  return _buildConversationsList(state);
+                }
 
-          return const SizedBox.shrink();
-        },
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -130,38 +173,80 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
 
   Widget _buildConversationsList(ConversationsLoadedState state) {
     final authState = context.read<AuthBloc>().state;
-    final currentUserId = authState is AuthAuthenticatedState
-        ? authState.user.id
-        : '';
+    final currentUserId = authState is AuthAuthenticatedState ? authState.user.id : '';
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+
+    // Filter conversations by search query
+    final filteredConversations = _searchQuery.isEmpty
+        ? state.conversations
+        : state.conversations.where((conv) {
+            final displayName = conv.getDisplayName(currentUserId).toLowerCase();
+            return displayName.contains(_searchQuery);
+          }).toList();
+
+    // If search active but no results, show search suggestion
+    if (_searchQuery.isNotEmpty && filteredConversations.isEmpty) {
+      return _buildNoSearchResults(theme, l10n);
+    }
 
     return ListView.builder(
-      itemCount: state.conversations.length + 1, // +1 for AI Assistant
+      itemCount: filteredConversations.length + (_searchQuery.isEmpty ? 1 : 0),
       itemBuilder: (context, index) {
-        // AI Assistant tile at the top
-        if (index == 0) {
+        // AI Assistant tile at the top (only when not searching)
+        if (_searchQuery.isEmpty && index == 0) {
           return _buildAIAssistantTile();
         }
 
-        final conversationIndex = index - 1;
-        final conversation = state.conversations[conversationIndex];
+        final conversationIndex = _searchQuery.isEmpty ? index - 1 : index;
+        final conversation = filteredConversations[conversationIndex];
 
         return Column(
           children: [
             ConversationTile(
               conversation: conversation,
               currentUserId: currentUserId,
-              onTap: () {
-                context.push('/conversations/${conversation.id}');
-              },
-              onLongPress: () {
-                _showConversationOptions(conversation);
-              },
+              onTap: () => context.push('/conversations/${conversation.id}'),
+              onLongPress: () => _showConversationOptions(conversation),
             ),
-            if (conversationIndex < state.conversations.length - 1)
-              const Divider(height: 1),
+            if (conversationIndex < filteredConversations.length - 1) const Divider(height: 1),
           ],
         );
       },
+    );
+  }
+
+  Widget _buildNoSearchResults(ThemeData theme, AppLocalizations l10n) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FaIcon(
+            FontAwesomeIcons.magnifyingGlass,
+            size: 48,
+            color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            l10n.noResult,
+            style: theme.textTheme.titleMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.searchNewContact,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          FilledButton.icon(
+            onPressed: () => NewConversationBottomSheet.show(context),
+            icon: const FaIcon(FontAwesomeIcons.userPlus, size: 16),
+            label: Text(l10n.searchContact),
+          ),
+        ],
+      ),
     );
   }
 
@@ -215,7 +300,7 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
           trailing: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: Colors.purple.withOpacity(0.1),
+              color: Colors.purple.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Text(
@@ -231,7 +316,7 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
         Divider(
           height: 1,
           thickness: 2,
-          color: Colors.purple.withOpacity(0.1),
+          color: Colors.purple.withValues(alpha: 0.1),
         ),
       ],
     );

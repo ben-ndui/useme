@@ -2168,6 +2168,12 @@ abstract class AppLocalizations {
   /// **'Rechercher un contact...'**
   String get searchContact;
 
+  /// No description provided for @searchNewContact.
+  ///
+  /// In fr, this message translates to:
+  /// **'Démarrez une nouvelle conversation pour trouver ce contact'**
+  String get searchNewContact;
+
   /// No description provided for @errorLoadingContacts.
   ///
   /// In fr, this message translates to:
@@ -5029,6 +5035,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Plage de dates'**
   String get dateRange;
+
+  /// No description provided for @selectDateRange.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sélectionner une plage de dates'**
+  String get selectDateRange;
 
   /// No description provided for @tryChangingDateRange.
   ///

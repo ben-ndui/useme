@@ -309,6 +309,8 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
     if (!_filters.hasFilters) return sessions;
     return sessions.where((s) {
       if (_filters.statuses.isNotEmpty && !_filters.statuses.contains(s.displayStatus)) return false;
+      if (_filters.startDate != null && s.scheduledStart.isBefore(_filters.startDate!)) return false;
+      if (_filters.endDate != null && s.scheduledStart.isAfter(_filters.endDate!.add(const Duration(days: 1)))) return false;
       return true;
     }).toList();
   }

@@ -514,6 +514,7 @@
 
   "newConversation": "Nouvelle conversation",
   "searchContact": "Rechercher un contact...",
+  "searchNewContact": "Démarrez une nouvelle conversation pour trouver ce contact",
   "errorLoadingContacts": "Erreur lors du chargement des contacts",
   "user": "Utilisateur",
   "contact": "Contact",
@@ -1127,6 +1128,7 @@
   "orCreateExternal": "ou créer un artiste externe",
   "reviewAndImport": "Vérifier et importer",
   "dateRange": "Plage de dates",
+  "selectDateRange": "Sélectionner une plage de dates",
   "tryChangingDateRange": "Essayez de modifier la plage de dates",
   "changeDateRange": "Modifier les dates",
 

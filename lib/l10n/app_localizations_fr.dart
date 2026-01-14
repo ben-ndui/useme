@@ -1104,6 +1104,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get searchContact => 'Rechercher un contact...';
 
   @override
+  String get searchNewContact =>
+      'Démarrez une nouvelle conversation pour trouver ce contact';
+
+  @override
   String get errorLoadingContacts => 'Erreur lors du chargement des contacts';
 
   @override
@@ -2673,6 +2677,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get dateRange => 'Plage de dates';
+
+  @override
+  String get selectDateRange => 'Sélectionner une plage de dates';
 
   @override
   String get tryChangingDateRange => 'Essayez de modifier la plage de dates';

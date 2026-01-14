@@ -240,45 +240,11 @@ class _StudioSelectorBottomSheetState extends State<StudioSelectorBottomSheet> {
           FilledButton.icon(
             onPressed: () {
               Navigator.pop(context);
-              // Show a dialog explaining how to find studios
-              _showExploreDialog(context, l10n);
+              // Navigate to artist portal (map view) to explore studios
+              context.go('/artist');
             },
-            icon: const FaIcon(FontAwesomeIcons.magnifyingGlass, size: 14),
+            icon: const FaIcon(FontAwesomeIcons.mapLocationDot, size: 14),
             label: Text(l10n.discoverStudios),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showExploreDialog(BuildContext context, AppLocalizations l10n) {
-    final theme = Theme.of(context);
-
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        icon: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primaryContainer,
-            shape: BoxShape.circle,
-          ),
-          child: FaIcon(
-            FontAwesomeIcons.mapLocationDot,
-            size: 32,
-            color: theme.colorScheme.primary,
-          ),
-        ),
-        title: Text(l10n.exploreStudiosTitle),
-        content: Text(
-          l10n.exploreStudiosDescription,
-          textAlign: TextAlign.center,
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: [
-          FilledButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text(l10n.understood),
           ),
         ],
       ),

@@ -9,6 +9,7 @@ import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/engineer/sessions/engineer_sessions_exports.dart';
+import 'package:useme/widgets/studio/sessions/sessions_filter_sheet.dart';
 
 /// Engineer sessions page - Calendar view with week selector
 class EngineerSessionsPage extends StatefulWidget {
@@ -22,6 +23,7 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
   DateTime _selectedDate = DateTime.now();
   late DateTime _weekStart;
   bool _isListView = false;
+  SessionFilters _filters = SessionFilters.empty;
 
   @override
   void initState() {
@@ -60,6 +62,20 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
       title: Text(l10n.mySessions, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
       centerTitle: true,
       actions: [
+        Stack(
+          children: [
+            IconButton(
+              icon: FaIcon(FontAwesomeIcons.filter, size: 16, color: _filters.hasFilters ? colorScheme.primary : colorScheme.onSurfaceVariant),
+              onPressed: () => _showFilterSheet(context),
+            ),
+            if (_filters.hasFilters)
+              Positioned(
+                right: 8,
+                top: 8,
+                child: Container(width: 8, height: 8, decoration: BoxDecoration(color: colorScheme.primary, shape: BoxShape.circle)),
+              ),
+          ],
+        ),
         IconButton(
           icon: FaIcon(FontAwesomeIcons.bell, size: 18, color: colorScheme.onSurfaceVariant),
           onPressed: () => context.push('/notifications'),
@@ -68,6 +84,14 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
         _buildViewToggle(colorScheme),
         const SizedBox(width: 12),
       ],
+    );
+  }
+
+  void _showFilterSheet(BuildContext context) {
+    SessionsFilterSheet.show(
+      context,
+      currentFilters: _filters,
+      onFiltersChanged: (filters) => setState(() => _filters = filters),
     );
   }
 
@@ -220,6 +244,16 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
       ..sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart));
   }
 
+  List<Session> _applyFilters(List<Session> sessions) {
+    if (!_filters.hasFilters) return sessions;
+    return sessions.where((s) {
+      if (_filters.status != null && s.displayStatus != _filters.status) return false;
+      if (_filters.startDate != null && s.scheduledStart.isBefore(_filters.startDate!)) return false;
+      if (_filters.endDate != null && s.scheduledStart.isAfter(_filters.endDate!.add(const Duration(days: 1)))) return false;
+      return true;
+    }).toList();
+  }
+
   Widget _buildEmptyDay(ColorScheme colorScheme, AppLocalizations l10n) {
     return Center(
       child: Column(
@@ -244,7 +278,8 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
       builder: (context, state) {
         if (state.isLoading) return const AppLoader.compact();
 
-        final sessions = state.sessions.where((s) => s.status != SessionStatus.cancelled).toList();
+        final allSessions = state.sessions.where((s) => s.status != SessionStatus.cancelled).toList();
+        final sessions = _applyFilters(allSessions);
         final now = DateTime.now();
         final today = DateTime(now.year, now.month, now.day);
 

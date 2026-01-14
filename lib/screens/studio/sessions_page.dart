@@ -24,7 +24,7 @@ class _SessionsPageState extends State<SessionsPage>
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
-  SessionStatus? _selectedStatus;
+  SessionFilters _filters = SessionFilters.empty;
   bool _isListView = false;
   late TabController _tabController;
 
@@ -60,11 +60,20 @@ class _SessionsPageState extends State<SessionsPage>
             onPressed: () => setState(() => _isListView = !_isListView),
             tooltip: _isListView ? l10n.calendarView : l10n.listView,
           ),
-          if (!_isListView)
-            IconButton(
-              icon: const FaIcon(FontAwesomeIcons.filter, size: 16),
-              onPressed: () => _showFilterSheet(context),
-            ),
+          Stack(
+            children: [
+              IconButton(
+                icon: FaIcon(FontAwesomeIcons.filter, size: 16, color: _filters.hasFilters ? theme.colorScheme.primary : null),
+                onPressed: () => _showFilterSheet(context),
+              ),
+              if (_filters.hasFilters)
+                Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Container(width: 8, height: 8, decoration: BoxDecoration(color: theme.colorScheme.primary, shape: BoxShape.circle)),
+                ),
+            ],
+          ),
         ],
         bottom: _isListView
             ? TabBar(
@@ -212,8 +221,8 @@ class _SessionsPageState extends State<SessionsPage>
             if (sessionState.isLoading) return const AppLoader.compact();
 
             var sessions = _getSessionsForDay(sessionState.sessions, _selectedDay);
-            if (_selectedStatus != null) {
-              sessions = sessions.where((s) => s.status == _selectedStatus).toList();
+            if (_filters.status != null) {
+              sessions = sessions.where((s) => s.status == _filters.status).toList();
             }
             sessions.sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart));
 
@@ -360,20 +369,25 @@ class _SessionsPageState extends State<SessionsPage>
   }
 
   void _showFilterSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (ctx) => SessionsFilterSheet(
-        selectedStatus: _selectedStatus,
-        onStatusSelected: (status) {
-          setState(() => _selectedStatus = status);
-          Navigator.pop(ctx);
-        },
-      ),
+    SessionsFilterSheet.show(
+      context,
+      currentFilters: _filters,
+      onFiltersChanged: (filters) => setState(() => _filters = filters),
     );
   }
 
   List<Session> _getSessionsForDay(List<Session> sessions, DateTime day) {
     return sessions.where((s) => isSameDay(s.scheduledStart, day)).toList();
+  }
+
+  List<Session> _applyFilters(List<Session> sessions) {
+    if (!_filters.hasFilters) return sessions;
+    return sessions.where((s) {
+      if (_filters.status != null && s.displayStatus != _filters.status) return false;
+      if (_filters.startDate != null && s.scheduledStart.isBefore(_filters.startDate!)) return false;
+      if (_filters.endDate != null && s.scheduledStart.isAfter(_filters.endDate!.add(const Duration(days: 1)))) return false;
+      return true;
+    }).toList();
   }
 
   Widget _buildListView(
@@ -386,7 +400,7 @@ class _SessionsPageState extends State<SessionsPage>
         if (state.isLoading) return const AppLoader.compact();
 
         final now = DateTime.now();
-        final sessions = state.sessions;
+        final sessions = _applyFilters(state.sessions);
 
         // Séparer par catégorie
         final upcoming = sessions

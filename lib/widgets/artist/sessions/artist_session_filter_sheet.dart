@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:useme/core/models/session.dart';
 import 'package:useme/l10n/app_localizations.dart';
 
 /// Filter options for artist sessions
 class ArtistSessionFilters {
   final Set<SessionStatus> statuses;
+  final DateTime? startDate;
+  final DateTime? endDate;
 
-  const ArtistSessionFilters({this.statuses = const {}});
+  const ArtistSessionFilters({this.statuses = const {}, this.startDate, this.endDate});
 
-  bool get hasFilters => statuses.isNotEmpty;
+  bool get hasFilters => statuses.isNotEmpty || startDate != null || endDate != null;
+  bool get hasDateRange => startDate != null || endDate != null;
 
-  ArtistSessionFilters copyWith({Set<SessionStatus>? statuses}) {
-    return ArtistSessionFilters(statuses: statuses ?? this.statuses);
+  ArtistSessionFilters copyWith({Set<SessionStatus>? statuses, DateTime? startDate, DateTime? endDate, bool clearDates = false}) {
+    return ArtistSessionFilters(
+      statuses: statuses ?? this.statuses,
+      startDate: clearDates ? null : (startDate ?? this.startDate),
+      endDate: clearDates ? null : (endDate ?? this.endDate),
+    );
   }
 
   static const empty = ArtistSessionFilters();
@@ -51,21 +59,45 @@ class ArtistSessionFilterSheet extends StatefulWidget {
 
 class _ArtistSessionFilterSheetState extends State<ArtistSessionFilterSheet> {
   late Set<SessionStatus> _selectedStatuses;
+  DateTime? _startDate;
+  DateTime? _endDate;
 
   @override
   void initState() {
     super.initState();
     _selectedStatuses = Set.from(widget.currentFilters.statuses);
+    _startDate = widget.currentFilters.startDate;
+    _endDate = widget.currentFilters.endDate;
   }
 
   void _applyFilters() {
-    widget.onApply(ArtistSessionFilters(statuses: _selectedStatuses));
+    widget.onApply(ArtistSessionFilters(statuses: _selectedStatuses, startDate: _startDate, endDate: _endDate));
     Navigator.pop(context);
   }
 
   void _clearFilters() {
     widget.onApply(ArtistSessionFilters.empty);
     Navigator.pop(context);
+  }
+
+  Future<void> _selectDateRange(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+    final now = DateTime.now();
+    final result = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(now.year - 2),
+      lastDate: DateTime(now.year + 2),
+      initialDateRange: _startDate != null && _endDate != null ? DateTimeRange(start: _startDate!, end: _endDate!) : null,
+      helpText: l10n.selectDateRange,
+      saveText: l10n.confirm,
+      cancelText: l10n.cancel,
+    );
+    if (result != null) {
+      setState(() {
+        _startDate = result.start;
+        _endDate = result.end;
+      });
+    }
   }
 
   @override
@@ -85,6 +117,8 @@ class _ArtistSessionFilterSheetState extends State<ArtistSessionFilterSheet> {
           _buildHandle(theme),
           _buildHeader(theme, l10n),
           const Divider(),
+          _buildDateRangeSection(theme, l10n),
+          const SizedBox(height: 8),
           _buildStatusSection(theme, l10n),
           _buildActions(theme, l10n),
           SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
@@ -144,6 +178,66 @@ class _ArtistSessionFilterSheetState extends State<ArtistSessionFilterSheet> {
     );
   }
 
+  Widget _buildDateRangeSection(ThemeData theme, AppLocalizations l10n) {
+    final locale = Localizations.localeOf(context).languageCode;
+    final dateFormat = DateFormat('d MMM yyyy', locale);
+    final hasRange = _startDate != null && _endDate != null;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l10n.dateRange, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 12),
+          InkWell(
+            onTap: () => _selectDateRange(context),
+            borderRadius: BorderRadius.circular(12),
+            child: Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: hasRange ? theme.colorScheme.primaryContainer.withValues(alpha: 0.3) : theme.colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(12),
+                border: hasRange ? Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.5)) : null,
+              ),
+              child: Row(
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.calendarDays,
+                    size: 16,
+                    color: hasRange ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      hasRange ? '${dateFormat.format(_startDate!)} - ${dateFormat.format(_endDate!)}' : l10n.selectDateRange,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: hasRange ? FontWeight.w500 : FontWeight.w400,
+                        color: hasRange ? theme.colorScheme.onSurface : theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                  if (hasRange)
+                    GestureDetector(
+                      onTap: () => setState(() {
+                        _startDate = null;
+                        _endDate = null;
+                      }),
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        child: FaIcon(FontAwesomeIcons.xmark, size: 14, color: theme.colorScheme.onSurfaceVariant),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildStatusSection(ThemeData theme, AppLocalizations l10n) {
     final statusOptions = [
       (SessionStatus.pending, l10n.pendingStatus, Colors.orange),
@@ -192,7 +286,7 @@ class _ArtistSessionFilterSheetState extends State<ArtistSessionFilterSheet> {
   }
 
   Widget _buildActions(ThemeData theme, AppLocalizations l10n) {
-    final hasFilters = _selectedStatuses.isNotEmpty;
+    final hasFilters = _selectedStatuses.isNotEmpty || _startDate != null;
 
     return Padding(
       padding: const EdgeInsets.all(16),

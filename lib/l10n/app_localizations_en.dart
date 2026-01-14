@@ -1099,6 +1099,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchContact => 'Search a contact...';
 
   @override
+  String get searchNewContact =>
+      'Start a new conversation to find this contact';
+
+  @override
   String get errorLoadingContacts => 'Error loading contacts';
 
   @override
@@ -2656,6 +2660,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dateRange => 'Date range';
+
+  @override
+  String get selectDateRange => 'Select date range';
 
   @override
   String get tryChangingDateRange => 'Try changing the date range';
