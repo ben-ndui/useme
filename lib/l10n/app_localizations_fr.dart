@@ -230,6 +230,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get changePassword => 'Changer le mot de passe';
 
   @override
+  String oauthNoPasswordReset(String provider) {
+    return 'Vous êtes connecté via $provider. Gérez votre mot de passe depuis les paramètres $provider.';
+  }
+
+  @override
   String get sendResetEmail => 'Recevoir un email de réinitialisation';
 
   @override
@@ -2311,6 +2316,16 @@ class AppLocalizationsFr extends AppLocalizations {
       'Explorez la carte pour trouver des studios à proximité';
 
   @override
+  String get exploreStudiosTitle => 'Explorez la carte';
+
+  @override
+  String get exploreStudiosDescription =>
+      'Faites glisser la liste vers le bas pour voir la carte et découvrir les studios autour de vous. Cliquez sur un studio pour voir ses détails et le contacter.';
+
+  @override
+  String get understood => 'Compris';
+
+  @override
   String get changePhoto => 'Changer la photo';
 
   @override
@@ -2695,4 +2710,161 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get comingSoon => 'Prochainement';
+
+  @override
+  String get onboardingWelcomeTitle => 'Bienvenue sur Use Me';
+
+  @override
+  String get onboardingWelcomeDesc =>
+      'Votre plateforme de réservation de studios d\'enregistrement';
+
+  @override
+  String get onboardingStudioSessionsTitle => 'Gérez vos réservations';
+
+  @override
+  String get onboardingStudioSessionsDesc =>
+      'Planifiez vos sessions, gérez votre calendrier et suivez votre activité en temps réel';
+
+  @override
+  String get onboardingStudioTeamTitle => 'Constituez votre équipe';
+
+  @override
+  String get onboardingStudioTeamDesc =>
+      'Invitez des ingénieurs du son et gérez les artistes de votre studio';
+
+  @override
+  String get onboardingEngineerSessionsTitle =>
+      'Vos sessions d\'un coup d\'œil';
+
+  @override
+  String get onboardingEngineerSessionsDesc =>
+      'Consultez votre planning et suivez vos sessions en cours';
+
+  @override
+  String get onboardingEngineerAvailabilityTitle => 'Gérez vos disponibilités';
+
+  @override
+  String get onboardingEngineerAvailabilityDesc =>
+      'Définissez vos horaires et congés pour une meilleure organisation';
+
+  @override
+  String get onboardingArtistSearchTitle => 'Trouvez le studio parfait';
+
+  @override
+  String get onboardingArtistSearchDesc =>
+      'Explorez les studios près de chez vous et comparez leurs services';
+
+  @override
+  String get onboardingArtistBookingTitle => 'Réservez facilement';
+
+  @override
+  String get onboardingArtistBookingDesc =>
+      'Demandez des sessions en quelques clics et gérez vos réservations';
+
+  @override
+  String get onboardingAITitle => 'Votre assistant IA';
+
+  @override
+  String get onboardingAIDesc =>
+      'Posez vos questions et obtenez de l\'aide instantanément';
+
+  @override
+  String get onboardingReadyTitle => 'Vous êtes prêt !';
+
+  @override
+  String get onboardingReadyDesc =>
+      'Commencez à utiliser Use Me dès maintenant';
+
+  @override
+  String get onboardingSkip => 'Passer';
+
+  @override
+  String get onboardingNext => 'Suivant';
+
+  @override
+  String get onboardingGetStarted => 'Commencer';
+
+  @override
+  String get onboardingLocationTitle => 'Activez la localisation';
+
+  @override
+  String get onboardingLocationDescArtist =>
+      'Pour trouver les studios près de chez vous';
+
+  @override
+  String get onboardingLocationDescStudio =>
+      'Pour que les artistes puissent vous trouver';
+
+  @override
+  String get onboardingEnableLocation => 'Activer';
+
+  @override
+  String get onboardingLater => 'Plus tard';
+
+  @override
+  String get onboardingLocationGranted => 'Localisation activée';
+
+  @override
+  String get onboardingNotificationTitle => 'Restez informé';
+
+  @override
+  String get onboardingNotificationDesc =>
+      'Recevez des alertes pour vos sessions et messages';
+
+  @override
+  String get onboardingEnableNotifications => 'Activer';
+
+  @override
+  String get onboardingNotificationGranted => 'Notifications activées';
+
+  @override
+  String get onboardingTermsTitle => 'Conditions d\'utilisation';
+
+  @override
+  String get onboardingTermsDesc =>
+      'Pour utiliser Use Me, vous devez accepter nos conditions d\'utilisation et notre politique de confidentialité.';
+
+  @override
+  String get onboardingTermsAccept =>
+      'J\'accepte les CGU et la Politique de confidentialité';
+
+  @override
+  String get onboardingTermsLink => 'Lire les conditions';
+
+  @override
+  String get onboardingPrivacyLink => 'Politique de confidentialité';
+
+  @override
+  String get onboardingLetsGo => 'C\'est parti !';
+
+  @override
+  String get searchAddressHint => 'Rechercher une ville, une adresse...';
+
+  @override
+  String get searchInThisZone => 'Rechercher dans cette zone';
+
+  @override
+  String get filterStudios => 'Filtrer les studios';
+
+  @override
+  String get filterDescription => 'Affinez votre recherche';
+
+  @override
+  String get filterActive => 'Actif';
+
+  @override
+  String get partnerStudiosOnly => 'Studios partenaires uniquement';
+
+  @override
+  String get partnerStudiosDescription =>
+      'Afficher uniquement les studios vérifiés';
+
+  @override
+  String get serviceTypes => 'Types de services';
+
+  @override
+  String get clearFilters => 'Effacer';
+
+  @override
+  String get applyFilters => 'Appliquer';
 }

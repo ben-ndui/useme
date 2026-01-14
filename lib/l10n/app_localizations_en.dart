@@ -230,6 +230,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get changePassword => 'Change password';
 
   @override
+  String oauthNoPasswordReset(String provider) {
+    return 'You signed in with $provider. Manage your password from $provider settings.';
+  }
+
+  @override
   String get sendResetEmail => 'Receive a reset email';
 
   @override
@@ -2295,6 +2300,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exploreMapHint => 'Explore the map to find nearby studios';
 
   @override
+  String get exploreStudiosTitle => 'Explore the map';
+
+  @override
+  String get exploreStudiosDescription =>
+      'Swipe down the list to see the map and discover studios near you. Tap on a studio to view details and contact them.';
+
+  @override
+  String get understood => 'Got it';
+
+  @override
   String get changePhoto => 'Change photo';
 
   @override
@@ -2677,4 +2692,154 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get comingSoon => 'Coming Soon';
+
+  @override
+  String get onboardingWelcomeTitle => 'Welcome to Use Me';
+
+  @override
+  String get onboardingWelcomeDesc => 'Your recording studio booking platform';
+
+  @override
+  String get onboardingStudioSessionsTitle => 'Manage your bookings';
+
+  @override
+  String get onboardingStudioSessionsDesc =>
+      'Schedule sessions, manage your calendar and track your activity in real time';
+
+  @override
+  String get onboardingStudioTeamTitle => 'Build your team';
+
+  @override
+  String get onboardingStudioTeamDesc =>
+      'Invite sound engineers and manage your studio\'s artists';
+
+  @override
+  String get onboardingEngineerSessionsTitle => 'Your sessions at a glance';
+
+  @override
+  String get onboardingEngineerSessionsDesc =>
+      'View your schedule and track your ongoing sessions';
+
+  @override
+  String get onboardingEngineerAvailabilityTitle => 'Manage your availability';
+
+  @override
+  String get onboardingEngineerAvailabilityDesc =>
+      'Set your hours and time off for better organization';
+
+  @override
+  String get onboardingArtistSearchTitle => 'Find the perfect studio';
+
+  @override
+  String get onboardingArtistSearchDesc =>
+      'Explore studios near you and compare their services';
+
+  @override
+  String get onboardingArtistBookingTitle => 'Book easily';
+
+  @override
+  String get onboardingArtistBookingDesc =>
+      'Request sessions in a few clicks and manage your bookings';
+
+  @override
+  String get onboardingAITitle => 'Your AI assistant';
+
+  @override
+  String get onboardingAIDesc => 'Ask your questions and get instant help';
+
+  @override
+  String get onboardingReadyTitle => 'You\'re ready!';
+
+  @override
+  String get onboardingReadyDesc => 'Start using Use Me now';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingGetStarted => 'Get Started';
+
+  @override
+  String get onboardingLocationTitle => 'Enable location';
+
+  @override
+  String get onboardingLocationDescArtist => 'To find studios near you';
+
+  @override
+  String get onboardingLocationDescStudio => 'So artists can find you';
+
+  @override
+  String get onboardingEnableLocation => 'Enable';
+
+  @override
+  String get onboardingLater => 'Later';
+
+  @override
+  String get onboardingLocationGranted => 'Location enabled';
+
+  @override
+  String get onboardingNotificationTitle => 'Stay informed';
+
+  @override
+  String get onboardingNotificationDesc =>
+      'Receive alerts for your sessions and messages';
+
+  @override
+  String get onboardingEnableNotifications => 'Enable';
+
+  @override
+  String get onboardingNotificationGranted => 'Notifications enabled';
+
+  @override
+  String get onboardingTermsTitle => 'Terms of Service';
+
+  @override
+  String get onboardingTermsDesc =>
+      'To use Use Me, you must accept our terms of service and privacy policy.';
+
+  @override
+  String get onboardingTermsAccept =>
+      'I accept the Terms of Service and Privacy Policy';
+
+  @override
+  String get onboardingTermsLink => 'Read terms';
+
+  @override
+  String get onboardingPrivacyLink => 'Privacy policy';
+
+  @override
+  String get onboardingLetsGo => 'Let\'s go!';
+
+  @override
+  String get searchAddressHint => 'Search a city, an address...';
+
+  @override
+  String get searchInThisZone => 'Search in this zone';
+
+  @override
+  String get filterStudios => 'Filter studios';
+
+  @override
+  String get filterDescription => 'Refine your search';
+
+  @override
+  String get filterActive => 'Active';
+
+  @override
+  String get partnerStudiosOnly => 'Partner studios only';
+
+  @override
+  String get partnerStudiosDescription => 'Show only verified studios';
+
+  @override
+  String get serviceTypes => 'Service types';
+
+  @override
+  String get clearFilters => 'Clear';
+
+  @override
+  String get applyFilters => 'Apply';
 }

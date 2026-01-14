@@ -87,15 +87,23 @@ class _EngineerMainScaffoldState extends State<EngineerMainScaffold> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      extendBody: true,
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: _onPageChanged,
-        physics: const NeverScrollableScrollPhysics(),
-        children: _pages,
-      ),
-      bottomNavigationBar: BlocBuilder<MessagingBloc, MessagingState>(
+    return PopScope(
+      canPop: _currentIndex == 0,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop && _currentIndex != 0) {
+          // Navigate to home page instead of exiting
+          _onNavTapped(0);
+        }
+      },
+      child: Scaffold(
+        extendBody: true,
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: _onPageChanged,
+          physics: const NeverScrollableScrollPhysics(),
+          children: _pages,
+        ),
+        bottomNavigationBar: BlocBuilder<MessagingBloc, MessagingState>(
         buildWhen: (previous, current) {
           final prevCount = previous is ConversationsLoadedState ? previous.totalUnreadCount : 0;
           final currCount = current is ConversationsLoadedState ? current.totalUnreadCount : 0;
@@ -139,6 +147,7 @@ class _EngineerMainScaffoldState extends State<EngineerMainScaffold> {
             ],
           );
         },
+      ),
       ),
     );
   }

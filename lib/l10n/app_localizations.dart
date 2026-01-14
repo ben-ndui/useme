@@ -524,6 +524,12 @@ abstract class AppLocalizations {
   /// **'Changer le mot de passe'**
   String get changePassword;
 
+  /// No description provided for @oauthNoPasswordReset.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous êtes connecté via {provider}. Gérez votre mot de passe depuis les paramètres {provider}.'**
+  String oauthNoPasswordReset(String provider);
+
   /// No description provided for @sendResetEmail.
   ///
   /// In fr, this message translates to:
@@ -4394,6 +4400,24 @@ abstract class AppLocalizations {
   /// **'Explorez la carte pour trouver des studios à proximité'**
   String get exploreMapHint;
 
+  /// No description provided for @exploreStudiosTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Explorez la carte'**
+  String get exploreStudiosTitle;
+
+  /// No description provided for @exploreStudiosDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Faites glisser la liste vers le bas pour voir la carte et découvrir les studios autour de vous. Cliquez sur un studio pour voir ses détails et le contacter.'**
+  String get exploreStudiosDescription;
+
+  /// No description provided for @understood.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compris'**
+  String get understood;
+
   /// No description provided for @changePhoto.
   ///
   /// In fr, this message translates to:
@@ -5071,6 +5095,288 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Prochainement'**
   String get comingSoon;
+
+  /// No description provided for @onboardingWelcomeTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bienvenue sur Use Me'**
+  String get onboardingWelcomeTitle;
+
+  /// No description provided for @onboardingWelcomeDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre plateforme de réservation de studios d\'enregistrement'**
+  String get onboardingWelcomeDesc;
+
+  /// No description provided for @onboardingStudioSessionsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérez vos réservations'**
+  String get onboardingStudioSessionsTitle;
+
+  /// No description provided for @onboardingStudioSessionsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Planifiez vos sessions, gérez votre calendrier et suivez votre activité en temps réel'**
+  String get onboardingStudioSessionsDesc;
+
+  /// No description provided for @onboardingStudioTeamTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Constituez votre équipe'**
+  String get onboardingStudioTeamTitle;
+
+  /// No description provided for @onboardingStudioTeamDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Invitez des ingénieurs du son et gérez les artistes de votre studio'**
+  String get onboardingStudioTeamDesc;
+
+  /// No description provided for @onboardingEngineerSessionsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vos sessions d\'un coup d\'œil'**
+  String get onboardingEngineerSessionsTitle;
+
+  /// No description provided for @onboardingEngineerSessionsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Consultez votre planning et suivez vos sessions en cours'**
+  String get onboardingEngineerSessionsDesc;
+
+  /// No description provided for @onboardingEngineerAvailabilityTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérez vos disponibilités'**
+  String get onboardingEngineerAvailabilityTitle;
+
+  /// No description provided for @onboardingEngineerAvailabilityDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Définissez vos horaires et congés pour une meilleure organisation'**
+  String get onboardingEngineerAvailabilityDesc;
+
+  /// No description provided for @onboardingArtistSearchTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trouvez le studio parfait'**
+  String get onboardingArtistSearchTitle;
+
+  /// No description provided for @onboardingArtistSearchDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Explorez les studios près de chez vous et comparez leurs services'**
+  String get onboardingArtistSearchDesc;
+
+  /// No description provided for @onboardingArtistBookingTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réservez facilement'**
+  String get onboardingArtistBookingTitle;
+
+  /// No description provided for @onboardingArtistBookingDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demandez des sessions en quelques clics et gérez vos réservations'**
+  String get onboardingArtistBookingDesc;
+
+  /// No description provided for @onboardingAITitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre assistant IA'**
+  String get onboardingAITitle;
+
+  /// No description provided for @onboardingAIDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Posez vos questions et obtenez de l\'aide instantanément'**
+  String get onboardingAIDesc;
+
+  /// No description provided for @onboardingReadyTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous êtes prêt !'**
+  String get onboardingReadyTitle;
+
+  /// No description provided for @onboardingReadyDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commencez à utiliser Use Me dès maintenant'**
+  String get onboardingReadyDesc;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In fr, this message translates to:
+  /// **'Passer'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In fr, this message translates to:
+  /// **'Suivant'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingGetStarted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Commencer'**
+  String get onboardingGetStarted;
+
+  /// No description provided for @onboardingLocationTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activez la localisation'**
+  String get onboardingLocationTitle;
+
+  /// No description provided for @onboardingLocationDescArtist.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour trouver les studios près de chez vous'**
+  String get onboardingLocationDescArtist;
+
+  /// No description provided for @onboardingLocationDescStudio.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour que les artistes puissent vous trouver'**
+  String get onboardingLocationDescStudio;
+
+  /// No description provided for @onboardingEnableLocation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer'**
+  String get onboardingEnableLocation;
+
+  /// No description provided for @onboardingLater.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus tard'**
+  String get onboardingLater;
+
+  /// No description provided for @onboardingLocationGranted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Localisation activée'**
+  String get onboardingLocationGranted;
+
+  /// No description provided for @onboardingNotificationTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Restez informé'**
+  String get onboardingNotificationTitle;
+
+  /// No description provided for @onboardingNotificationDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Recevez des alertes pour vos sessions et messages'**
+  String get onboardingNotificationDesc;
+
+  /// No description provided for @onboardingEnableNotifications.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer'**
+  String get onboardingEnableNotifications;
+
+  /// No description provided for @onboardingNotificationGranted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Notifications activées'**
+  String get onboardingNotificationGranted;
+
+  /// No description provided for @onboardingTermsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Conditions d\'utilisation'**
+  String get onboardingTermsTitle;
+
+  /// No description provided for @onboardingTermsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour utiliser Use Me, vous devez accepter nos conditions d\'utilisation et notre politique de confidentialité.'**
+  String get onboardingTermsDesc;
+
+  /// No description provided for @onboardingTermsAccept.
+  ///
+  /// In fr, this message translates to:
+  /// **'J\'accepte les CGU et la Politique de confidentialité'**
+  String get onboardingTermsAccept;
+
+  /// No description provided for @onboardingTermsLink.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lire les conditions'**
+  String get onboardingTermsLink;
+
+  /// No description provided for @onboardingPrivacyLink.
+  ///
+  /// In fr, this message translates to:
+  /// **'Politique de confidentialité'**
+  String get onboardingPrivacyLink;
+
+  /// No description provided for @onboardingLetsGo.
+  ///
+  /// In fr, this message translates to:
+  /// **'C\'est parti !'**
+  String get onboardingLetsGo;
+
+  /// No description provided for @searchAddressHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rechercher une ville, une adresse...'**
+  String get searchAddressHint;
+
+  /// No description provided for @searchInThisZone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rechercher dans cette zone'**
+  String get searchInThisZone;
+
+  /// No description provided for @filterStudios.
+  ///
+  /// In fr, this message translates to:
+  /// **'Filtrer les studios'**
+  String get filterStudios;
+
+  /// No description provided for @filterDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Affinez votre recherche'**
+  String get filterDescription;
+
+  /// No description provided for @filterActive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actif'**
+  String get filterActive;
+
+  /// No description provided for @partnerStudiosOnly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Studios partenaires uniquement'**
+  String get partnerStudiosOnly;
+
+  /// No description provided for @partnerStudiosDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Afficher uniquement les studios vérifiés'**
+  String get partnerStudiosDescription;
+
+  /// No description provided for @serviceTypes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Types de services'**
+  String get serviceTypes;
+
+  /// No description provided for @clearFilters.
+  ///
+  /// In fr, this message translates to:
+  /// **'Effacer'**
+  String get clearFilters;
+
+  /// No description provided for @applyFilters.
+  ///
+  /// In fr, this message translates to:
+  /// **'Appliquer'**
+  String get applyFilters;
 }
 
 class _AppLocalizationsDelegate

@@ -17,6 +17,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<SelectStudioEvent>(_onSelectStudio);
     on<DeselectStudioEvent>(_onDeselectStudio);
     on<RefreshStudiosEvent>(_onRefreshStudios);
+    on<SearchByAddressEvent>(_onSearchByAddress);
+    on<UpdateSearchCenterEvent>(_onUpdateSearchCenter);
+    on<SearchInAreaEvent>(_onSearchInArea);
+    on<UpdateFiltersEvent>(_onUpdateFilters);
+    on<ClearFiltersEvent>(_onClearFilters);
   }
 
   Future<void> _onInitMap(InitMapEvent event, Emitter<MapState> emit) async {
@@ -31,6 +36,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
       emit(state.copyWith(
         userLocation: position,
+        searchCenter: position,
         hasLocationPermission: hasPermission,
       ));
 
@@ -59,7 +65,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       emit(state.copyWith(
         isLoading: false,
         nearbyStudios: studios,
-        userLocation: event.position,
+        searchCenter: event.position,
       ));
     } catch (e) {
       emit(state.copyWith(
@@ -90,5 +96,97 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   ) async {
     _studioService.clearCache();
     add(LoadNearbyStudiosEvent(position: state.userLocation));
+  }
+
+  Future<void> _onSearchByAddress(
+    SearchByAddressEvent event,
+    Emitter<MapState> emit,
+  ) async {
+    emit(state.copyWith(
+      isSearchingAddress: true,
+      clearError: true,
+      searchQuery: event.address,
+    ));
+
+    try {
+      final position = await _studioService.geocodeAddress(event.address);
+
+      if (position == null) {
+        emit(state.copyWith(
+          isSearchingAddress: false,
+          error: 'Adresse non trouvée',
+        ));
+        return;
+      }
+
+      emit(state.copyWith(
+        isSearchingAddress: false,
+        searchCenter: position,
+        hasCameraMoved: false,
+      ));
+
+      // Load studios at the new location
+      add(SearchInAreaEvent(center: position, radius: event.radius));
+    } catch (e) {
+      emit(state.copyWith(
+        isSearchingAddress: false,
+        error: 'Erreur lors de la recherche',
+      ));
+    }
+  }
+
+  void _onUpdateSearchCenter(
+    UpdateSearchCenterEvent event,
+    Emitter<MapState> emit,
+  ) {
+    final hasMoved = event.center != state.searchCenter;
+    emit(state.copyWith(
+      searchCenter: event.center,
+      hasCameraMoved: hasMoved,
+    ));
+  }
+
+  Future<void> _onSearchInArea(
+    SearchInAreaEvent event,
+    Emitter<MapState> emit,
+  ) async {
+    emit(state.copyWith(
+      isLoading: true,
+      clearError: true,
+      hasCameraMoved: false,
+      searchCenter: event.center,
+      searchRadius: event.radius,
+    ));
+
+    try {
+      final studios = await _studioService.findNearbyStudios(
+        event.center,
+        radius: event.radius,
+      );
+
+      emit(state.copyWith(
+        isLoading: false,
+        nearbyStudios: studios,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        error: 'Erreur lors de la recherche',
+      ));
+    }
+  }
+
+  void _onUpdateFilters(UpdateFiltersEvent event, Emitter<MapState> emit) {
+    emit(state.copyWith(
+      serviceFilters: event.serviceFilters,
+      partnerOnly: event.partnerOnly,
+    ));
+  }
+
+  void _onClearFilters(ClearFiltersEvent event, Emitter<MapState> emit) {
+    emit(state.copyWith(
+      serviceFilters: const {},
+      partnerOnly: false,
+    ));
   }
 }

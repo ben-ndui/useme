@@ -21,10 +21,12 @@ class StudioDiscoveryService {
   final LocationService _locationService = LocationService();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Cache studios for 25 minutes
+  // Cache studios for 25 minutes per position
   List<DiscoveredStudio>? _cachedStudios;
   DateTime? _cacheTime;
+  LatLng? _cachedPosition;
   static const Duration _cacheDuration = Duration(minutes: 25);
+  static const double _cacheDistanceThreshold = 2000; // 2km
 
   /// Search for recording studios nearby (Google Places + Firestore partners)
   Future<List<DiscoveredStudio>> findNearbyStudios(
@@ -32,11 +34,16 @@ class StudioDiscoveryService {
     int radius = 5000,
     bool forceRefresh = false,
   }) async {
-    // Check cache
-    if (!forceRefresh && _cachedStudios != null && _cacheTime != null) {
-      if (DateTime.now().difference(_cacheTime!) < _cacheDuration) {
-        return _updateDistances(_cachedStudios!, position);
-      }
+    // Check cache - invalidate if position changed significantly
+    final isCacheValid = !forceRefresh &&
+        _cachedStudios != null &&
+        _cacheTime != null &&
+        _cachedPosition != null &&
+        DateTime.now().difference(_cacheTime!) < _cacheDuration &&
+        _locationService.distanceBetween(_cachedPosition!, position) < _cacheDistanceThreshold;
+
+    if (isCacheValid) {
+      return _updateDistances(_cachedStudios!, position);
     }
 
     try {
@@ -52,6 +59,7 @@ class StudioDiscoveryService {
 
       _cachedStudios = mergedStudios;
       _cacheTime = DateTime.now();
+      _cachedPosition = position;
       return _updateDistances(mergedStudios, position);
     } catch (e) {
       // Return cached if available, otherwise return mock data
@@ -214,6 +222,37 @@ class StudioDiscoveryService {
   void clearCache() {
     _cachedStudios = null;
     _cacheTime = null;
+    _cachedPosition = null;
+  }
+
+  /// Geocode an address to coordinates
+  Future<LatLng?> geocodeAddress(String address) async {
+    final url = Uri.parse(
+      'https://maps.googleapis.com/maps/api/geocode/json'
+      '?address=${Uri.encodeComponent(address)}'
+      '&key=$_apiKey',
+    );
+
+    try {
+      final response = await http.get(url).timeout(const Duration(seconds: 10));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final results = data['results'] as List?;
+
+        if (results != null && results.isNotEmpty) {
+          final location = results[0]['geometry']['location'];
+          return LatLng(
+            location['lat'] as double,
+            location['lng'] as double,
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('⚠️ Geocoding error: $e');
+    }
+
+    return null;
   }
 
   /// Mock studios for testing / demo

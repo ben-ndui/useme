@@ -102,6 +102,14 @@
   "email": "Email",
   "notAvailable": "Non disponible",
   "changePassword": "Changer le mot de passe",
+  "oauthNoPasswordReset": "Vous êtes connecté via {provider}. Gérez votre mot de passe depuis les paramètres {provider}.",
+  "@oauthNoPasswordReset": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
   "sendResetEmail": "Recevoir un email de réinitialisation",
   "emailSentTo": "Email envoyé à {email}",
   "@emailSentTo": {
@@ -971,6 +979,9 @@
   "noLinkedStudiosDescription": "Vous n'êtes lié à aucun studio. Explorez les studios pour commencer.",
   "discoverStudios": "Découvrir les studios",
   "exploreMapHint": "Explorez la carte pour trouver des studios à proximité",
+  "exploreStudiosTitle": "Explorez la carte",
+  "exploreStudiosDescription": "Faites glisser la liste vers le bas pour voir la carte et découvrir les studios autour de vous. Cliquez sur un studio pour voir ses détails et le contacter.",
+  "understood": "Compris",
 
   "changePhoto": "Changer la photo",
   "takePhoto": "Prendre une photo",
@@ -1129,5 +1140,63 @@
 
   "allNotificationsMarkedAsRead": "Toutes les notifications ont été marquées comme lues",
 
-  "comingSoon": "Prochainement"
+  "comingSoon": "Prochainement",
+
+  "onboardingWelcomeTitle": "Bienvenue sur Use Me",
+  "onboardingWelcomeDesc": "Votre plateforme de réservation de studios d'enregistrement",
+
+  "onboardingStudioSessionsTitle": "Gérez vos réservations",
+  "onboardingStudioSessionsDesc": "Planifiez vos sessions, gérez votre calendrier et suivez votre activité en temps réel",
+  "onboardingStudioTeamTitle": "Constituez votre équipe",
+  "onboardingStudioTeamDesc": "Invitez des ingénieurs du son et gérez les artistes de votre studio",
+
+  "onboardingEngineerSessionsTitle": "Vos sessions d'un coup d'œil",
+  "onboardingEngineerSessionsDesc": "Consultez votre planning et suivez vos sessions en cours",
+  "onboardingEngineerAvailabilityTitle": "Gérez vos disponibilités",
+  "onboardingEngineerAvailabilityDesc": "Définissez vos horaires et congés pour une meilleure organisation",
+
+  "onboardingArtistSearchTitle": "Trouvez le studio parfait",
+  "onboardingArtistSearchDesc": "Explorez les studios près de chez vous et comparez leurs services",
+  "onboardingArtistBookingTitle": "Réservez facilement",
+  "onboardingArtistBookingDesc": "Demandez des sessions en quelques clics et gérez vos réservations",
+
+  "onboardingAITitle": "Votre assistant IA",
+  "onboardingAIDesc": "Posez vos questions et obtenez de l'aide instantanément",
+
+  "onboardingReadyTitle": "Vous êtes prêt !",
+  "onboardingReadyDesc": "Commencez à utiliser Use Me dès maintenant",
+
+  "onboardingSkip": "Passer",
+  "onboardingNext": "Suivant",
+  "onboardingGetStarted": "Commencer",
+
+  "onboardingLocationTitle": "Activez la localisation",
+  "onboardingLocationDescArtist": "Pour trouver les studios près de chez vous",
+  "onboardingLocationDescStudio": "Pour que les artistes puissent vous trouver",
+  "onboardingEnableLocation": "Activer",
+  "onboardingLater": "Plus tard",
+  "onboardingLocationGranted": "Localisation activée",
+
+  "onboardingNotificationTitle": "Restez informé",
+  "onboardingNotificationDesc": "Recevez des alertes pour vos sessions et messages",
+  "onboardingEnableNotifications": "Activer",
+  "onboardingNotificationGranted": "Notifications activées",
+
+  "onboardingTermsTitle": "Conditions d'utilisation",
+  "onboardingTermsDesc": "Pour utiliser Use Me, vous devez accepter nos conditions d'utilisation et notre politique de confidentialité.",
+  "onboardingTermsAccept": "J'accepte les CGU et la Politique de confidentialité",
+  "onboardingTermsLink": "Lire les conditions",
+  "onboardingPrivacyLink": "Politique de confidentialité",
+  "onboardingLetsGo": "C'est parti !",
+
+  "searchAddressHint": "Rechercher une ville, une adresse...",
+  "searchInThisZone": "Rechercher dans cette zone",
+  "filterStudios": "Filtrer les studios",
+  "filterDescription": "Affinez votre recherche",
+  "filterActive": "Actif",
+  "partnerStudiosOnly": "Studios partenaires uniquement",
+  "partnerStudiosDescription": "Afficher uniquement les studios vérifiés",
+  "serviceTypes": "Types de services",
+  "clearFilters": "Effacer",
+  "applyFilters": "Appliquer"
 }

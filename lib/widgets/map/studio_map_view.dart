@@ -8,6 +8,7 @@ import 'package:useme/core/blocs/map/map_state.dart';
 import 'package:useme/core/models/discovered_studio.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/map/custom_studio_pin.dart';
+import 'package:useme/widgets/map/search_in_zone_button.dart';
 
 /// Google Maps view showing nearby studios with custom pins
 class StudioMapView extends StatefulWidget {
@@ -23,6 +24,7 @@ class StudioMapView extends StatefulWidget {
 class _StudioMapViewState extends State<StudioMapView> {
   GoogleMapController? _mapController;
   bool _isControllerDisposed = false;
+  LatLng? _currentCameraPosition;
 
   // Cached custom pins
   BitmapDescriptor? _partnerPin;
@@ -67,13 +69,23 @@ class _StudioMapViewState extends State<StudioMapView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MapBloc, MapState>(
-      listenWhen: (previous, current) => mounted && !_isControllerDisposed,
+      listenWhen: (previous, current) {
+        if (!mounted || _isControllerDisposed) return false;
+        // Listen when search completes (searchCenter changed and not searching)
+        final searchCompleted = previous.isSearchingAddress && !current.isSearchingAddress;
+        // Or when studios loaded
+        final studiosLoaded = previous.isLoading && !current.isLoading;
+        // Or when new studios are available
+        final newStudios = previous.nearbyStudios.length != current.nearbyStudios.length;
+        return searchCompleted || studiosLoaded || newStudios;
+      },
       listener: (context, state) {
         // Avoid using controller after widget is disposed
         if (!mounted || _isControllerDisposed) return;
 
-        if (_mapController != null && !state.isLoading) {
-          _safeAnimateCamera(state.userLocation, 14);
+        // Animate to search center when a search completes
+        if (_mapController != null && !state.isSearchingAddress) {
+          _safeAnimateCamera(state.searchCenter, 13);
         }
         // Load custom pins for new studios
         if (mounted) _loadStudioPins(state.nearbyStudios);
@@ -100,13 +112,34 @@ class _StudioMapViewState extends State<StudioMapView> {
                 _mapController = controller;
                 widget.onMapCreated?.call(controller);
               },
+              onCameraMove: (position) {
+                _currentCameraPosition = position.target;
+              },
+              onCameraIdle: () {
+                if (_currentCameraPosition != null) {
+                  context.read<MapBloc>().add(
+                        UpdateSearchCenterEvent(center: _currentCameraPosition!),
+                      );
+                }
+              },
               onTap: (_) {
                 context.read<MapBloc>().add(const DeselectStudioEvent());
               },
             ),
+            // Search in zone button (centered below app bar)
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 60,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: SearchInZoneButton(
+                  center: _currentCameraPosition ?? state.searchCenter,
+                ),
+              ),
+            ),
             // Refresh button
             Positioned(
-              top: MediaQuery.of(context).padding.top + 16,
+              top: MediaQuery.of(context).padding.top + 60,
               right: 16,
               child: _buildRefreshButton(context, state),
             ),
@@ -191,7 +224,7 @@ class _StudioMapViewState extends State<StudioMapView> {
   Set<Marker> _buildMarkers(MapState state) {
     final markers = <Marker>{};
 
-    for (final studio in state.nearbyStudios) {
+    for (final studio in state.filteredStudios) {
       // Get custom pin or fallback to cached default
       BitmapDescriptor icon;
       if (_studioPins.containsKey(studio.id)) {

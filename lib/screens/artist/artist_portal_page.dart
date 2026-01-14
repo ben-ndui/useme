@@ -8,6 +8,9 @@ import 'package:useme/config/responsive_config.dart';
 import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/blocs/map/map_bloc.dart';
+import 'package:useme/core/blocs/map/map_event.dart';
+import 'package:useme/core/blocs/map/map_state.dart';
+import 'package:useme/widgets/map/map_filter_sheet.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/artist/artist_home_feed.dart';
 import 'package:useme/widgets/artist/studio_detail_bottom_sheet.dart';
@@ -24,10 +27,27 @@ class ArtistPortalPage extends StatefulWidget {
 }
 
 class _ArtistPortalPageState extends State<ArtistPortalPage> {
+  bool _isSearching = false;
+  final _searchController = TextEditingController();
+  final _searchFocusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
     _loadArtistData();
+    _searchController.addListener(_onSearchTextChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchTextChanged);
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
+
+  void _onSearchTextChanged() {
+    if (mounted) setState(() {});
   }
 
   void _loadArtistData() {
@@ -73,7 +93,7 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
             minSize: 0.20,
             maxSize: 1.0,
             bottomPadding: 100,
-            floatingBottomPadding: MediaQuery.of(context).size.height * 0.14,
+            floatingBottomPadding: 100, // Above floating navbar (~80px + margin)
             floatButtons: [
               FloatingActionButton.extended(
                 heroTag: 'book',
@@ -154,9 +174,31 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
     AppLocalizations l10n,
     BuildContext context,
   ) {
+    if (_isSearching) {
+      return _buildSearchAppBar(theme, l10n, context);
+    }
+    return _buildDefaultAppBar(theme, l10n, context);
+  }
+
+  AppBar _buildDefaultAppBar(
+    ThemeData theme,
+    AppLocalizations l10n,
+    BuildContext context,
+  ) {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 8),
+        child: _buildCircleButton(
+          theme: theme,
+          icon: FontAwesomeIcons.magnifyingGlass,
+          onPressed: () {
+            setState(() => _isSearching = true);
+            _searchFocusNode.requestFocus();
+          },
+        ),
+      ),
       title: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
@@ -172,39 +214,169 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            FaIcon(
-              FontAwesomeIcons.music,
-              size: 16,
-              color: theme.colorScheme.primary,
-            ),
+            FaIcon(FontAwesomeIcons.music, size: 16, color: theme.colorScheme.primary),
             const SizedBox(width: 8),
-            Text(
-              l10n.appName,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
+            Text(l10n.appName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           ],
         ),
       ),
       centerTitle: true,
       actions: [
-        Container(
-          margin: const EdgeInsets.only(right: 8),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface.withValues(alpha: 0.9),
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 10,
-              ),
-            ],
-          ),
-          child: IconButton(
-            icon: const FaIcon(FontAwesomeIcons.bell, size: 18),
-            onPressed: () => context.push('/notifications'),
-          ),
+        BlocBuilder<MapBloc, MapState>(
+          buildWhen: (prev, curr) => prev.hasActiveFilters != curr.hasActiveFilters,
+          builder: (context, state) {
+            return _buildCircleButton(
+              theme: theme,
+              icon: FontAwesomeIcons.sliders,
+              badge: state.hasActiveFilters,
+              onPressed: () => MapFilterSheet.show(context),
+            );
+          },
         ),
+        _buildCircleButton(
+          theme: theme,
+          icon: FontAwesomeIcons.bell,
+          onPressed: () => context.push('/notifications'),
+        ),
+        const SizedBox(width: 8),
       ],
+    );
+  }
+
+  AppBar _buildSearchAppBar(
+    ThemeData theme,
+    AppLocalizations l10n,
+    BuildContext context,
+  ) {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 8),
+        child: _buildCircleButton(
+          theme: theme,
+          icon: FontAwesomeIcons.arrowLeft,
+          onPressed: () {
+            setState(() => _isSearching = false);
+            _searchController.clear();
+            _searchFocusNode.unfocus();
+          },
+        ),
+      ),
+      title: Container(
+        height: 44,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface.withValues(alpha: 0.95),
+          borderRadius: BorderRadius.circular(22),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 10,
+            ),
+          ],
+        ),
+        child: BlocConsumer<MapBloc, MapState>(
+          listenWhen: (prev, curr) => prev.isSearchingAddress && !curr.isSearchingAddress,
+          listener: (context, state) {
+            // Close search mode when search completes
+            if (state.searchQuery != null) {
+              setState(() => _isSearching = false);
+            }
+          },
+          buildWhen: (prev, curr) => prev.isSearchingAddress != curr.isSearchingAddress,
+          builder: (context, state) {
+            return Row(
+              children: [
+                if (state.isSearchingAddress)
+                  const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                else
+                  Icon(Icons.search, size: 20, color: Colors.grey.shade600),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    focusNode: _searchFocusNode,
+                    style: const TextStyle(fontSize: 15),
+                    decoration: InputDecoration(
+                      hintText: l10n.searchAddressHint,
+                      hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 15),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                      isDense: true,
+                    ),
+                    textInputAction: TextInputAction.search,
+                    onSubmitted: (query) {
+                      if (query.trim().isNotEmpty) {
+                        context.read<MapBloc>().add(SearchByAddressEvent(address: query.trim()));
+                      }
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+      actions: [
+        // Only show X button when there's text to clear
+        if (_searchController.text.isNotEmpty)
+          _buildCircleButton(
+            theme: theme,
+            icon: FontAwesomeIcons.xmark,
+            onPressed: () {
+              _searchController.clear();
+              setState(() {}); // Rebuild to hide X button
+            },
+          ),
+        const SizedBox(width: 8),
+      ],
+    );
+  }
+
+  Widget _buildCircleButton({
+    required ThemeData theme,
+    required IconData icon,
+    required VoidCallback onPressed,
+    bool badge = false,
+  }) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface.withValues(alpha: 0.9),
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 10,
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          IconButton(
+            icon: FaIcon(icon, size: 18),
+            onPressed: onPressed,
+          ),
+          if (badge)
+            Positioned(
+              right: 8,
+              top: 8,
+              child: Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: UseMeTheme.primaryColor,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

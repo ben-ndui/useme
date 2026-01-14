@@ -154,12 +154,15 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
   }
 
   Widget _buildFloatButtons() {
+    // Account for bottom safe area (nav bar, gesture bar, etc.)
+    final bottomSafeArea = MediaQuery.of(context).viewPadding.bottom;
+
     return ValueListenableBuilder<bool>(
       valueListenable: showButtons,
       builder: (context, isVisible, child) {
         return Positioned(
           right: 20,
-          bottom: widget.floatingBottomPadding,
+          bottom: widget.floatingBottomPadding + bottomSafeArea,
           child: AnimatedOpacity(
             opacity: isVisible ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 300),

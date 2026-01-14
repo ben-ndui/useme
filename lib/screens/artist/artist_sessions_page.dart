@@ -50,7 +50,7 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
               ],
             ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 100),
+        padding: EdgeInsets.only(bottom: 100 + MediaQuery.of(context).viewPadding.bottom),
         child: FloatingActionButton.extended(
           onPressed: () => StudioSelectorBottomSheet.showAndNavigate(context),
           icon: const FaIcon(FontAwesomeIcons.calendarPlus, size: 18),

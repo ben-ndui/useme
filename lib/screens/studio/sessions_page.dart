@@ -90,7 +90,7 @@ class _SessionsPageState extends State<SessionsPage>
               ],
             ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 88),
+        padding: EdgeInsets.only(bottom: 88 + MediaQuery.of(context).viewPadding.bottom),
         child: FloatingActionButton(
           onPressed: () => context.push(AppRoutes.sessionAdd),
           child: const FaIcon(FontAwesomeIcons.plus, size: 18),

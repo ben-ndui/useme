@@ -81,18 +81,27 @@ class _StudioMainScaffoldState extends State<StudioMainScaffold> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) => setState(() => _currentIndex = index),
-        physics: const NeverScrollableScrollPhysics(),
-        children: _pages,
-      ),
-      extendBody: true,
-      bottomNavigationBar: _ModernBottomNav(
-        currentIndex: _currentIndex,
-        onTap: _onNavTap,
-        l10n: l10n,
+    return PopScope(
+      canPop: _currentIndex == 0,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop && _currentIndex != 0) {
+          // Navigate to home page instead of exiting
+          _onNavTap(0);
+        }
+      },
+      child: Scaffold(
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index) => setState(() => _currentIndex = index),
+          physics: const NeverScrollableScrollPhysics(),
+          children: _pages,
+        ),
+        extendBody: true,
+        bottomNavigationBar: _ModernBottomNav(
+          currentIndex: _currentIndex,
+          onTap: _onNavTap,
+          l10n: l10n,
+        ),
       ),
     );
   }

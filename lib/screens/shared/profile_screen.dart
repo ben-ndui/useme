@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -387,8 +388,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  /// Check if user signed up with email/password (not OAuth)
+  bool _hasPasswordProvider() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return false;
+    return user.providerData.any((info) => info.providerId == 'password');
+  }
+
+  /// Get OAuth provider name if user is OAuth-only
+  String? _getOAuthProviderName() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return null;
+    for (final info in user.providerData) {
+      if (info.providerId == 'google.com') return 'Google';
+      if (info.providerId == 'apple.com') return 'Apple';
+    }
+    return null;
+  }
+
   void _changePassword() async {
     final l10n = AppLocalizations.of(context)!;
+
+    // Check if user has password provider
+    if (!_hasPasswordProvider()) {
+      final provider = _getOAuthProviderName();
+      AppSnackBar.warning(
+        context,
+        l10n.oauthNoPasswordReset(provider ?? 'OAuth'),
+      );
+      return;
+    }
+
     final authState = context.read<AuthBloc>().state;
     if (authState is AuthAuthenticatedState) {
       context.read<AuthBloc>().add(ResetPasswordEvent(email: authState.user.email));

@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Simple studio info for selection
 class StudioInfo {
@@ -241,12 +240,45 @@ class _StudioSelectorBottomSheetState extends State<StudioSelectorBottomSheet> {
           FilledButton.icon(
             onPressed: () {
               Navigator.pop(context);
-              // Navigate to portal (index 0) which has the map for discovering studios
-              context.go('/artist');
-              AppSnackBar.info(context, l10n.exploreMapHint);
+              // Show a dialog explaining how to find studios
+              _showExploreDialog(context, l10n);
             },
             icon: const FaIcon(FontAwesomeIcons.magnifyingGlass, size: 14),
             label: Text(l10n.discoverStudios),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showExploreDialog(BuildContext context, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        icon: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primaryContainer,
+            shape: BoxShape.circle,
+          ),
+          child: FaIcon(
+            FontAwesomeIcons.mapLocationDot,
+            size: 32,
+            color: theme.colorScheme.primary,
+          ),
+        ),
+        title: Text(l10n.exploreStudiosTitle),
+        content: Text(
+          l10n.exploreStudiosDescription,
+          textAlign: TextAlign.center,
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(l10n.understood),
           ),
         ],
       ),

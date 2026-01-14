@@ -92,7 +92,7 @@ class _ArtistsPageState extends State<ArtistsPage> {
         ],
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 88),
+        padding: EdgeInsets.only(bottom: 88 + MediaQuery.of(context).viewPadding.bottom),
         child: FloatingActionButton.extended(
           onPressed: () => context.push(AppRoutes.artistAdd),
           icon: const FaIcon(FontAwesomeIcons.userPlus, size: 18),

@@ -81,6 +81,14 @@
   "email": "Email",
   "notAvailable": "Not available",
   "changePassword": "Change password",
+  "oauthNoPasswordReset": "You signed in with {provider}. Manage your password from {provider} settings.",
+  "@oauthNoPasswordReset": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
   "sendResetEmail": "Receive a reset email",
   "emailSentTo": "Email sent to {email}",
   "sendError": "Error sending email",
@@ -779,6 +787,9 @@
   "noLinkedStudiosDescription": "You are not linked to any studio. Explore studios to get started.",
   "discoverStudios": "Discover studios",
   "exploreMapHint": "Explore the map to find nearby studios",
+  "exploreStudiosTitle": "Explore the map",
+  "exploreStudiosDescription": "Swipe down the list to see the map and discover studios near you. Tap on a studio to view details and contact them.",
+  "understood": "Got it",
 
   "changePhoto": "Change photo",
   "takePhoto": "Take a photo",
@@ -937,5 +948,63 @@
 
   "allNotificationsMarkedAsRead": "All notifications marked as read",
 
-  "comingSoon": "Coming Soon"
+  "comingSoon": "Coming Soon",
+
+  "onboardingWelcomeTitle": "Welcome to Use Me",
+  "onboardingWelcomeDesc": "Your recording studio booking platform",
+
+  "onboardingStudioSessionsTitle": "Manage your bookings",
+  "onboardingStudioSessionsDesc": "Schedule sessions, manage your calendar and track your activity in real time",
+  "onboardingStudioTeamTitle": "Build your team",
+  "onboardingStudioTeamDesc": "Invite sound engineers and manage your studio's artists",
+
+  "onboardingEngineerSessionsTitle": "Your sessions at a glance",
+  "onboardingEngineerSessionsDesc": "View your schedule and track your ongoing sessions",
+  "onboardingEngineerAvailabilityTitle": "Manage your availability",
+  "onboardingEngineerAvailabilityDesc": "Set your hours and time off for better organization",
+
+  "onboardingArtistSearchTitle": "Find the perfect studio",
+  "onboardingArtistSearchDesc": "Explore studios near you and compare their services",
+  "onboardingArtistBookingTitle": "Book easily",
+  "onboardingArtistBookingDesc": "Request sessions in a few clicks and manage your bookings",
+
+  "onboardingAITitle": "Your AI assistant",
+  "onboardingAIDesc": "Ask your questions and get instant help",
+
+  "onboardingReadyTitle": "You're ready!",
+  "onboardingReadyDesc": "Start using Use Me now",
+
+  "onboardingSkip": "Skip",
+  "onboardingNext": "Next",
+  "onboardingGetStarted": "Get Started",
+
+  "onboardingLocationTitle": "Enable location",
+  "onboardingLocationDescArtist": "To find studios near you",
+  "onboardingLocationDescStudio": "So artists can find you",
+  "onboardingEnableLocation": "Enable",
+  "onboardingLater": "Later",
+  "onboardingLocationGranted": "Location enabled",
+
+  "onboardingNotificationTitle": "Stay informed",
+  "onboardingNotificationDesc": "Receive alerts for your sessions and messages",
+  "onboardingEnableNotifications": "Enable",
+  "onboardingNotificationGranted": "Notifications enabled",
+
+  "onboardingTermsTitle": "Terms of Service",
+  "onboardingTermsDesc": "To use Use Me, you must accept our terms of service and privacy policy.",
+  "onboardingTermsAccept": "I accept the Terms of Service and Privacy Policy",
+  "onboardingTermsLink": "Read terms",
+  "onboardingPrivacyLink": "Privacy policy",
+  "onboardingLetsGo": "Let's go!",
+
+  "searchAddressHint": "Search a city, an address...",
+  "searchInThisZone": "Search in this zone",
+  "filterStudios": "Filter studios",
+  "filterDescription": "Refine your search",
+  "filterActive": "Active",
+  "partnerStudiosOnly": "Partner studios only",
+  "partnerStudiosDescription": "Show only verified studios",
+  "serviceTypes": "Service types",
+  "clearFilters": "Clear",
+  "applyFilters": "Apply"
 }
