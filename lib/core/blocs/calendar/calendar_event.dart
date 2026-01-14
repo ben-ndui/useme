@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../models/google_calendar_event.dart';
-import '../../models/unavailability.dart';
+import 'package:smoothandesign_package/core/models/unavailability.dart';
 
 /// Base calendar event
 abstract class CalendarEvent extends Equatable {

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:useme/core/models/working_hours.dart';
+import 'package:smoothandesign_package/core/models/working_hours.dart';
 
 /// Type de studio (professionnel, indépendant, amateur)
 enum StudioType {

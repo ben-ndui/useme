@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import '../../models/calendar_connection.dart';
+import 'package:smoothandesign_package/core/models/calendar_connection.dart';
 import '../../models/google_calendar_event.dart';
-import '../../models/unavailability.dart';
+import 'package:smoothandesign_package/core/models/unavailability.dart';
 
 /// Base calendar state
 abstract class CalendarState extends Equatable {

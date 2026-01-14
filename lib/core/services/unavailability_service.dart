@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/unavailability.dart';
+import 'package:smoothandesign_package/core/models/unavailability.dart';
 
 /// Service pour gérer les indisponibilités studio
 class UnavailabilityService {

@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../core/blocs/calendar/calendar_exports.dart';
-import '../../core/models/unavailability.dart';
+import 'package:smoothandesign_package/core/models/unavailability.dart';
 import '../../l10n/app_localizations.dart';
 import '../../routing/app_routes.dart';
 import '../../widgets/common/snackbar/app_snackbar.dart';

@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import '../../models/calendar_connection.dart';
+import 'package:smoothandesign_package/core/models/calendar_connection.dart';
 import '../../models/google_calendar_event.dart';
-import '../../models/unavailability.dart';
+import 'package:smoothandesign_package/core/models/unavailability.dart';
 import '../../services/unavailability_service.dart';
 import 'calendar_event.dart';
 import 'calendar_state.dart';
@@ -72,7 +72,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
 
         if (connected) {
           final connection = CalendarConnection(
-            provider: CalendarProviderExtension.fromString(data['provider'] as String?),
+            provider: CalendarProvider.fromString(data['provider'] as String?),
             connected: true,
             email: data['email'] as String?,
             lastSync: data['lastSync'] != null

@@ -1,6 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'calendar_connection.dart';
+import 'package:smoothandesign_package/core/models/calendar_connection.dart';
 import 'studio_profile.dart';
 import 'studio_subscription.dart';
 

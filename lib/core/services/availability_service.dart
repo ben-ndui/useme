@@ -1,6 +1,6 @@
 import '../models/session.dart';
-import '../models/unavailability.dart';
-import '../models/working_hours.dart';
+import 'package:smoothandesign_package/core/models/unavailability.dart';
+import 'package:smoothandesign_package/core/models/working_hours.dart';
 import 'engineer_availability_service.dart';
 import 'session_service.dart';
 import 'team_service.dart';

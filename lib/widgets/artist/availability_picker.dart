@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../core/models/working_hours.dart';
+import 'package:smoothandesign_package/core/models/working_hours.dart';
 import '../../core/services/availability_service.dart';
 import '../../l10n/app_localizations.dart';
 
