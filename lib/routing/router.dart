@@ -44,6 +44,7 @@ import 'package:useme/screens/studio/ai_settings_screen.dart';
 import 'package:useme/screens/studio/calendar_import_review_screen.dart';
 import 'package:useme/screens/dev/store_screenshots_page.dart';
 import 'package:useme/screens/onboarding/onboarding_screen.dart';
+import 'package:useme/screens/shared/device_sessions_screen.dart';
 import 'app_routes.dart';
 
 /// GoRouter configuration for Use Me
@@ -353,6 +354,12 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.upgrade,
           builder: (context, state) => const UpgradeScreen(),
+        ),
+
+        // Device Sessions / Security
+        GoRoute(
+          path: AppRoutes.connectedDevices,
+          builder: (context, state) => const LocalDeviceSessionsScreen(),
         ),
 
         // Dev tools (debug only)

@@ -8,6 +8,7 @@ import 'package:useme/routing/app_routes.dart';
 import 'package:useme/screens/common/ai_guide_screen.dart';
 import 'package:useme/screens/common/tips_screen.dart';
 import 'package:useme/widgets/common/settings/settings_exports.dart';
+import 'package:useme/widgets/studio/settings/security_settings_section.dart';
 
 /// Engineer settings page
 class EngineerSettingsPage extends StatelessWidget {
@@ -77,6 +78,9 @@ class EngineerSettingsPage extends StatelessWidget {
             ),
           ),
 
+          const Divider(height: 32),
+
+          const SecuritySettingsSection(),
           const Divider(height: 32),
 
           SettingsSectionHeader(title: l10n.account),

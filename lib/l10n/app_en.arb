@@ -1027,5 +1027,29 @@
   "studioTypePro": "Pro Studio",
   "studioTypeIndependent": "Independent",
   "studioTypeAmateur": "Home Studio",
-  "studioTypeLabel": "Studio type"
+  "studioTypeLabel": "Studio type",
+
+  "connectedDevices": "Connected devices",
+  "thisDevice": "This device",
+  "disconnectDevice": "Disconnect",
+  "disconnectAllOthers": "Disconnect all other devices",
+  "disconnectDeviceTitle": "Disconnect device",
+  "disconnectDeviceConfirm": "Are you sure you want to disconnect this device?",
+  "disconnectAllConfirm": "Are you sure you want to disconnect all other devices?",
+  "deviceDisconnected": "Device disconnected",
+  "allDevicesDisconnected": "All other devices disconnected",
+  "activeNow": "Active now",
+  "activeAgo": "Active {time} ago",
+  "@activeAgo": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "noConnectedDevices": "No connected devices",
+  "securitySection": "Security",
+  "manageDevices": "Manage devices",
+  "sessionExpired": "Your session has expired",
+  "disconnectedRemotely": "You have been disconnected from another device"
 }

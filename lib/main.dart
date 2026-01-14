@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +31,9 @@ final notificationService = UseMeNotificationService.instance;
 
 /// Service de deep links global.
 final deepLinkService = DeepLinkService();
+
+/// Service de sessions d'appareils global.
+final deviceSessionService = BaseDeviceSessionService();
 
 /// CalendarBloc global (needed for deep link callbacks).
 late CalendarBloc globalCalendarBloc;
@@ -71,6 +75,64 @@ void main() async {
 
   // Initialize deep link service
   _initializeDeepLinks();
+}
+
+/// Create device session for the authenticated user.
+Future<void> _createDeviceSession(String userId) async {
+  try {
+    // Get FCM token for push notifications
+    final fcmToken = notificationService.fcmToken;
+
+    // Create or update the device session
+    final session = await deviceSessionService.createSession(
+      userId: userId,
+      fcmToken: fcmToken,
+      appVersion: '1.0.0',
+    );
+    debugPrint('Device session created for user: $userId');
+
+    // Start listening for session revocation
+    _startSessionRevocationListener(session.id);
+  } catch (e) {
+    debugPrint('Failed to create device session: $e');
+  }
+}
+
+/// Subscription for session revocation listener.
+StreamSubscription<bool>? _sessionRevocationSubscription;
+
+/// Start listening for session revocation (remote logout).
+void _startSessionRevocationListener(String sessionId) {
+  _sessionRevocationSubscription?.cancel();
+  _sessionRevocationSubscription = deviceSessionService.watchSessionRevoked(sessionId).listen(
+    (isRevoked) {
+      if (isRevoked) {
+        debugPrint('Session revoked remotely, forcing logout...');
+        _handleRemoteLogout();
+      }
+    },
+    onError: (e) => debugPrint('Session revocation listener error: $e'),
+  );
+}
+
+/// Handle remote logout when session is revoked.
+void _handleRemoteLogout() {
+  _sessionRevocationSubscription?.cancel();
+  _sessionRevocationSubscription = null;
+
+  final context = rootNavigatorKey.currentContext;
+  if (context != null) {
+    // Show message to user
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Vous avez été déconnecté depuis un autre appareil'),
+        duration: Duration(seconds: 4),
+      ),
+    );
+
+    // Trigger logout
+    context.read<AuthBloc>().add(const SignOutEvent());
+  }
 }
 
 /// Initialize deep link handling
@@ -185,10 +247,13 @@ class _UseMeAppState extends State<UseMeApp> {
                   final isAuth = curr is AuthAuthenticatedState;
                   return wasAuth != isAuth;
                 },
-                listener: (context, state) {
+                listener: (context, state) async {
                   if (state is AuthAuthenticatedState) {
                     // User logged in: set userId for notification token
                     notificationService.setUserId(state.user.uid);
+
+                    // Create device session
+                    _createDeviceSession(state.user.uid);
 
                     // Load calendar status for studios
                     final user = state.user;
@@ -201,6 +266,11 @@ class _UseMeAppState extends State<UseMeApp> {
                     // User logged out: remove token and reset calendar
                     notificationService.removeToken();
                     globalCalendarBloc.add(const ResetCalendarEvent());
+
+                    // Cancel session revocation listener and clear local session
+                    _sessionRevocationSubscription?.cancel();
+                    _sessionRevocationSubscription = null;
+                    deviceSessionService.clearLocalSession();
                   }
                 },
                 child: MaterialApp.router(

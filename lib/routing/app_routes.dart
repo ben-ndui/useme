@@ -98,4 +98,7 @@ class AppRoutes {
 
   // Upgrade
   static const String upgrade = '/upgrade';
+
+  // Device Sessions / Security
+  static const String connectedDevices = '/settings/devices';
 }

@@ -84,6 +84,10 @@ class _StudioSettingsPageState extends State<StudioSettingsPage> {
           ),
           const Divider(height: 32),
 
+          // Security
+          const SecuritySettingsSection(),
+          const Divider(height: 32),
+
           // Account
           const AccountSettingsSection(),
 
