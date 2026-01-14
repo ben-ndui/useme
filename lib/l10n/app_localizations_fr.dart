@@ -2963,4 +2963,14 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get disconnectedRemotely =>
       'Vous avez été déconnecté depuis un autre appareil';
+
+  @override
+  String oauthAccountResetError(String provider) {
+    return 'Ce compte utilise $provider. Connectez-vous avec $provider.';
+  }
+
+  @override
+  String passwordResetSent(String email) {
+    return 'Email de réinitialisation envoyé à $email';
+  }
 }

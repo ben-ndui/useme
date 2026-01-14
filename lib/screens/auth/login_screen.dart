@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/map/map_bloc.dart';
 import 'package:useme/core/models/app_user.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/auth/auth_map_background.dart';
 import 'package:useme/widgets/auth/login_form_content.dart';
@@ -32,14 +33,23 @@ class _LoginScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
+        final l10n = AppLocalizations.of(context)!;
         if (state is AuthErrorState) {
-          AppSnackBar.error(context, state.message);
+          // Code 403 = compte OAuth uniquement (message contient le provider)
+          if (state.code == 403) {
+            AppSnackBar.warning(
+              context,
+              l10n.oauthAccountResetError(state.message),
+            );
+          } else {
+            AppSnackBar.error(context, state.message);
+          }
         } else if (state is AuthAuthenticatedState) {
           _navigateBasedOnRole(context, state.user);
         } else if (state is AuthNeedsRoleSelectionState) {
           RoleSelectorSheet.show(context, isNewUser: true);
         } else if (state is AuthPasswordResetSentState) {
-          AppSnackBar.success(context, 'Email envoyé à ${state.email}');
+          AppSnackBar.success(context, l10n.passwordResetSent(state.email));
         }
       },
       child: Scaffold(

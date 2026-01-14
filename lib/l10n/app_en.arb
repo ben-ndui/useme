@@ -1051,5 +1051,21 @@
   "securitySection": "Security",
   "manageDevices": "Manage devices",
   "sessionExpired": "Your session has expired",
-  "disconnectedRemotely": "You have been disconnected from another device"
+  "disconnectedRemotely": "You have been disconnected from another device",
+  "oauthAccountResetError": "This account uses {provider}. Sign in with {provider} instead.",
+  "@oauthAccountResetError": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "passwordResetSent": "Password reset email sent to {email}",
+  "@passwordResetSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  }
 }

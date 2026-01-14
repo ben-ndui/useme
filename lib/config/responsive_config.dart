@@ -89,6 +89,14 @@ class Responsive {
 
   /// Largeur max des cartes
   static const double maxCardWidth = 400;
+
+  /// Hauteur de la barre de navigation flottante (incluant padding)
+  /// Utilisé pour positionner les FAB au-dessus de la navbar
+  static const double floatingNavHeight = 72;
+
+  /// Padding pour les FAB au-dessus de la navbar flottante
+  /// = floatingNavHeight + 8px de marge de securite
+  static const double fabBottomOffset = 80;
 }
 
 /// Widget builder responsive

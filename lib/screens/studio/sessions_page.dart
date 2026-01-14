@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
@@ -99,7 +100,7 @@ class _SessionsPageState extends State<SessionsPage>
               ],
             ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 88 + MediaQuery.of(context).viewPadding.bottom),
+        padding: EdgeInsets.only(bottom: Responsive.fabBottomOffset + MediaQuery.of(context).viewPadding.bottom),
         child: FloatingActionButton(
           onPressed: () => context.push(AppRoutes.sessionAdd),
           child: const FaIcon(FontAwesomeIcons.plus, size: 18),

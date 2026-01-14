@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
@@ -61,7 +62,7 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
           ),
       },
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 100 + MediaQuery.of(context).viewPadding.bottom),
+        padding: EdgeInsets.only(bottom: Responsive.fabBottomOffset + MediaQuery.of(context).viewPadding.bottom),
         child: FloatingActionButton.extended(
           onPressed: () => StudioSelectorBottomSheet.showAndNavigate(context),
           icon: const FaIcon(FontAwesomeIcons.calendarPlus, size: 18),

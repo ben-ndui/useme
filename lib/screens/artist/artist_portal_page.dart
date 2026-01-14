@@ -92,8 +92,8 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
             initial: 0.20,
             minSize: 0.20,
             maxSize: 1.0,
-            bottomPadding: 100,
-            floatingBottomPadding: 100, // Above floating navbar (~80px + margin)
+            bottomPadding: Responsive.fabBottomOffset,
+            floatingBottomPadding: Responsive.fabBottomOffset,
             floatButtons: [
               FloatingActionButton.extended(
                 heroTag: 'book',

@@ -5551,6 +5551,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Vous avez été déconnecté depuis un autre appareil'**
   String get disconnectedRemotely;
+
+  /// No description provided for @oauthAccountResetError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce compte utilise {provider}. Connectez-vous avec {provider}.'**
+  String oauthAccountResetError(String provider);
+
+  /// No description provided for @passwordResetSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Email de réinitialisation envoyé à {email}'**
+  String passwordResetSent(String email);
 }
 
 class _AppLocalizationsDelegate

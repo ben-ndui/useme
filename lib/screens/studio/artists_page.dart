@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/routing/app_routes.dart';
@@ -92,7 +93,7 @@ class _ArtistsPageState extends State<ArtistsPage> {
         ],
       ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 88 + MediaQuery.of(context).viewPadding.bottom),
+        padding: EdgeInsets.only(bottom: Responsive.fabBottomOffset + MediaQuery.of(context).viewPadding.bottom),
         child: FloatingActionButton.extended(
           onPressed: () => context.push(AppRoutes.artistAdd),
           icon: const FaIcon(FontAwesomeIcons.userPlus, size: 18),

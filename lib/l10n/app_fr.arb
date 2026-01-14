@@ -1243,5 +1243,21 @@
   "securitySection": "Sécurité",
   "manageDevices": "Gérer les appareils",
   "sessionExpired": "Votre session a expiré",
-  "disconnectedRemotely": "Vous avez été déconnecté depuis un autre appareil"
+  "disconnectedRemotely": "Vous avez été déconnecté depuis un autre appareil",
+  "oauthAccountResetError": "Ce compte utilise {provider}. Connectez-vous avec {provider}.",
+  "@oauthAccountResetError": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "passwordResetSent": "Email de réinitialisation envoyé à {email}",
+  "@passwordResetSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  }
 }
