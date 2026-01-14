@@ -8,6 +8,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/services/auth_service.dart';
 import 'package:useme/core/services/notification_service.dart';
 import 'package:useme/core/services/notification_navigation_service.dart';
@@ -188,9 +189,18 @@ class _UseMeAppState extends State<UseMeApp> {
                   if (state is AuthAuthenticatedState) {
                     // User logged in: set userId for notification token
                     notificationService.setUserId(state.user.uid);
+
+                    // Load calendar status for studios
+                    final user = state.user;
+                    if (user.role.isStudio || user.role.isSuperAdmin) {
+                      globalCalendarBloc.add(
+                        LoadCalendarStatusEvent(userId: user.uid),
+                      );
+                    }
                   } else {
-                    // User logged out: remove token
+                    // User logged out: remove token and reset calendar
                     notificationService.removeToken();
+                    globalCalendarBloc.add(const ResetCalendarEvent());
                   }
                 },
                 child: MaterialApp.router(

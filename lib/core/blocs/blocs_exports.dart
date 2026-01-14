@@ -7,3 +7,4 @@ export 'favorite/favorite_exports.dart';
 export 'engineer_availability/engineer_availability_exports.dart';
 export 'locale/locale_exports.dart';
 export 'studio_room/studio_room_exports.dart';
+export 'onboarding/onboarding_exports.dart';

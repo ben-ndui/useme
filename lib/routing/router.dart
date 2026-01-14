@@ -43,6 +43,7 @@ import 'package:useme/screens/shared/ai_assistant_screen.dart';
 import 'package:useme/screens/studio/ai_settings_screen.dart';
 import 'package:useme/screens/studio/calendar_import_review_screen.dart';
 import 'package:useme/screens/dev/store_screenshots_page.dart';
+import 'package:useme/screens/onboarding/onboarding_screen.dart';
 import 'app_routes.dart';
 
 /// GoRouter configuration for Use Me
@@ -68,6 +69,15 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.signup,
           builder: (context, state) => const RegisterScreen(),
+        ),
+
+        // Onboarding
+        GoRoute(
+          path: AppRoutes.onboarding,
+          builder: (context, state) {
+            final role = state.uri.queryParameters['role'] ?? 'client';
+            return OnboardingScreen(role: role);
+          },
         ),
 
         // Studio (Admin) dashboard - Main scaffold with pages

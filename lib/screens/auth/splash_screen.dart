@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/useme_theme.dart';
+import 'package:useme/core/models/app_user.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/routing/router.dart';
 
@@ -77,11 +78,34 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _hasNavigated = true;
 
     if (state is AuthAuthenticatedState) {
-      // Notifications are handled in main.dart via BlocListener
-      final route = AppRouter.getHomeRouteForUser(state.user);
-      context.go(route);
+      final user = state.user as AppUser;
+
+      debugPrint('🚀 Splash: user.isFirstTime = ${user.isFirstTime}');
+      debugPrint('🚀 Splash: user.role = ${user.role}');
+
+      // Check if first time user needs onboarding
+      if (user.isFirstTime) {
+        final roleParam = _getRoleParam(user);
+        debugPrint('🚀 Splash: Navigating to onboarding with role=$roleParam');
+        context.go('${AppRoutes.onboarding}?role=$roleParam');
+      } else {
+        // Notifications are handled in main.dart via BlocListener
+        final route = AppRouter.getHomeRouteForUser(state.user);
+        debugPrint('🚀 Splash: Navigating to home: $route');
+        context.go(route);
+      }
     } else {
       context.go(AppRoutes.login);
+    }
+  }
+
+  String _getRoleParam(AppUser user) {
+    if (user.isSuperAdmin || user.isStudio) {
+      return 'admin';
+    } else if (user.isEngineer) {
+      return 'worker';
+    } else {
+      return 'client';
     }
   }
   @override
