@@ -116,6 +116,7 @@ class StudioDetailBottomSheet extends StatelessWidget {
                   spacing: 8,
                   runSpacing: 8,
                   children: [
+                    if (studio.isVerified) _buildVerifiedBadge(theme, l10n),
                     if (studio.isPartner) _buildPartnerBadge(theme, l10n),
                     _buildStudioTypeBadge(theme, l10n),
                   ],
@@ -151,6 +152,30 @@ class StudioDetailBottomSheet extends StatelessWidget {
               ),
             )
           : null,
+    );
+  }
+
+  Widget _buildVerifiedBadge(ThemeData theme, AppLocalizations l10n) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: Colors.blue.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const FaIcon(FontAwesomeIcons.shieldHalved, size: 12, color: Colors.blue),
+          const SizedBox(width: 6),
+          Text(
+            l10n.verified,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: Colors.blue,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

@@ -131,6 +131,22 @@
   "password": "Mot de passe",
   "confirm": "Confirmer",
   "deletionError": "Erreur lors de la suppression",
+  "oauthReauthRequired": "Pour supprimer votre compte, vous devez vous reconnecter avec {provider}.",
+  "@oauthReauthRequired": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "continueWithProvider": "Continuer avec {provider}",
+  "@continueWithProvider": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
 
   "studio": "Studio",
   "studioProfile": "Profil studio",
@@ -493,6 +509,7 @@
   "noStudioFound": "Aucun studio trouvé",
   "enableLocationToDiscover": "Active ta localisation pour découvrir les studios près de toi",
   "partner": "Partner",
+  "verified": "Vérifié",
 
   "missingStudio": "Studio manquant ?",
   "tellUsWhichStudio": "Dis-nous quel studio tu cherches",

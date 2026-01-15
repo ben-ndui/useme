@@ -614,6 +614,18 @@ abstract class AppLocalizations {
   /// **'Erreur lors de la suppression'**
   String get deletionError;
 
+  /// No description provided for @oauthReauthRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour supprimer votre compte, vous devez vous reconnecter avec {provider}.'**
+  String oauthReauthRequired(String provider);
+
+  /// No description provided for @continueWithProvider.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer avec {provider}'**
+  String continueWithProvider(String provider);
+
   /// No description provided for @studio.
   ///
   /// In fr, this message translates to:
@@ -2059,6 +2071,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Partner'**
   String get partner;
+
+  /// No description provided for @verified.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vérifié'**
+  String get verified;
 
   /// No description provided for @missingStudio.
   ///

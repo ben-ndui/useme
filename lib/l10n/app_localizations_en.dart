@@ -280,6 +280,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deletionError => 'Error deleting account';
 
   @override
+  String oauthReauthRequired(String provider) {
+    return 'To delete your account, you must sign in again with $provider.';
+  }
+
+  @override
+  String continueWithProvider(String provider) {
+    return 'Continue with $provider';
+  }
+
+  @override
   String get studio => 'Studio';
 
   @override
@@ -1042,6 +1052,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partner => 'Partner';
+
+  @override
+  String get verified => 'Verified';
 
   @override
   String get missingStudio => 'Missing studio?';

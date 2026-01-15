@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/discovered_studio.dart';
+import 'package:useme/core/services/env_service.dart';
 import 'package:useme/core/services/location_service.dart';
 
 /// Service for discovering studios nearby using Google Places API + Firestore partners
@@ -14,7 +15,8 @@ class StudioDiscoveryService {
   factory StudioDiscoveryService() => _instance;
   StudioDiscoveryService._internal();
 
-  static const String _apiKey = 'AIzaSyBQFkJ6oG4RTRRb6RbJ3Tk0MfrA1seHTqM';
+  /// Google Maps API Key from environment
+  String get _apiKey => EnvService.googleMapsApiKey;
   static const String _baseUrl =
       'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
 

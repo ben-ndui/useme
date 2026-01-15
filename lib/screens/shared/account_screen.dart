@@ -7,6 +7,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/services/notification_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/main.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
@@ -21,62 +22,75 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   bool _isLoading = false;
   String? _userEmail;
+  String? _authProvider;
 
   @override
   void initState() {
     super.initState();
-    _loadUserEmail();
+    _loadUserInfo();
   }
 
-  void _loadUserEmail() {
+  void _loadUserInfo() {
     final user = FirebaseAuth.instance.currentUser;
     setState(() {
       _userEmail = user?.email;
+      _authProvider = useMeAuthService.getAuthProvider();
     });
   }
 
+  bool get _isOAuthUser => _authProvider == 'google.com' || _authProvider == 'apple.com';
+  bool get _isAppleUser => _authProvider == 'apple.com';
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.account)),
-      body: ListView(
+      body: Stack(
         children: [
-          const SizedBox(height: 16),
+          ListView(
+            children: [
+              const SizedBox(height: 16),
 
-          // Email section
-          _buildSectionHeader(context, l10n.credentials),
-          _buildTile(
-            context,
-            icon: FontAwesomeIcons.envelope,
-            title: l10n.email,
-            subtitle: _userEmail ?? l10n.notAvailable,
-            showChevron: false,
+              // Email section
+              _buildSectionHeader(context, l10n.credentials),
+              _buildTile(
+                context,
+                icon: FontAwesomeIcons.envelope,
+                title: l10n.email,
+                subtitle: _userEmail ?? l10n.notAvailable,
+                showChevron: false,
+              ),
+              _buildTile(
+                context,
+                icon: FontAwesomeIcons.key,
+                title: l10n.changePassword,
+                subtitle: l10n.sendResetEmail,
+                onTap: _isLoading ? null : () => _sendPasswordResetEmail(l10n),
+              ),
+
+              const Divider(height: 32),
+
+              // Danger zone
+              _buildSectionHeader(context, l10n.dangerZone),
+              _buildTile(
+                context,
+                icon: FontAwesomeIcons.trash,
+                title: l10n.deleteAccount,
+                subtitle: l10n.deleteAccountWarning,
+                isDestructive: true,
+                onTap: _isLoading ? null : () => _showDeleteAccountDialog(l10n),
+              ),
+
+              const SizedBox(height: 32),
+            ],
           ),
-          _buildTile(
-            context,
-            icon: FontAwesomeIcons.key,
-            title: l10n.changePassword,
-            subtitle: l10n.sendResetEmail,
-            onTap: () => _sendPasswordResetEmail(l10n),
-          ),
-
-          const Divider(height: 32),
-
-          // Danger zone
-          _buildSectionHeader(context, l10n.dangerZone),
-          _buildTile(
-            context,
-            icon: FontAwesomeIcons.trash,
-            title: l10n.deleteAccount,
-            subtitle: l10n.deleteAccountWarning,
-            isDestructive: true,
-            onTap: () => _showDeleteAccountDialog(l10n),
-          ),
-
-          const SizedBox(height: 32),
+          if (_isLoading)
+            Container(
+              color: Colors.black26,
+              child: const Center(child: CircularProgressIndicator()),
+            ),
         ],
       ),
     );
@@ -176,10 +190,52 @@ class _AccountScreenState extends State<AccountScreen> {
           FilledButton(
             onPressed: () {
               Navigator.pop(dialogContext);
-              _showPasswordConfirmDialog(l10n);
+              if (_isOAuthUser) {
+                _showOAuthConfirmDialog(l10n);
+              } else {
+                _showPasswordConfirmDialog(l10n);
+              }
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
             child: Text(l10n.delete),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Dialog for OAuth users (Apple/Google) - no password needed
+  void _showOAuthConfirmDialog(AppLocalizations l10n) {
+    final providerName = _isAppleUser ? 'Apple' : 'Google';
+    final icon = _isAppleUser ? FontAwesomeIcons.apple : FontAwesomeIcons.google;
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.confirmDeletion),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FaIcon(icon, size: 48, color: Colors.grey),
+            const SizedBox(height: 16),
+            Text(
+              l10n.oauthReauthRequired(providerName),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(dialogContext);
+              _deleteAccountOAuth(l10n);
+            },
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: Text(l10n.continueWithProvider(providerName)),
           ),
         ],
       ),
@@ -216,7 +272,7 @@ class _AccountScreenState extends State<AccountScreen> {
           FilledButton(
             onPressed: () {
               Navigator.pop(dialogContext);
-              _deleteAccount(passwordController.text, l10n);
+              _deleteAccountWithPassword(passwordController.text, l10n);
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
             child: Text(l10n.confirm),
@@ -226,38 +282,57 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  Future<void> _deleteAccount(String password, AppLocalizations l10n) async {
+  /// Delete account for OAuth users (Apple/Google)
+  Future<void> _deleteAccountOAuth(AppLocalizations l10n) async {
+    setState(() => _isLoading = true);
+
+    try {
+      // Reauthenticate with OAuth provider
+      SmoothResponse<bool> reauthResult;
+
+      if (_isAppleUser) {
+        reauthResult = await useMeAuthService.reauthenticateWithApple();
+      } else {
+        reauthResult = await useMeAuthService.reauthenticateWithGoogle();
+      }
+
+      if (!reauthResult.isSuccess) {
+        if (mounted) {
+          AppSnackBar.error(context, reauthResult.message);
+        }
+        return;
+      }
+
+      // Now delete the account
+      await _performAccountDeletion(l10n);
+    } catch (e) {
+      if (mounted) {
+        AppSnackBar.error(context, l10n.deletionError);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  /// Delete account with email/password
+  Future<void> _deleteAccountWithPassword(String password, AppLocalizations l10n) async {
     setState(() => _isLoading = true);
 
     try {
       final user = FirebaseAuth.instance.currentUser;
       if (user == null || _userEmail == null) return;
 
-      // Re-authenticate
+      // Re-authenticate with password
       final credential = EmailAuthProvider.credential(
         email: _userEmail!,
         password: password,
       );
       await user.reauthenticateWithCredential(credential);
 
-      // Remove FCM token
-      await UseMeNotificationService.instance.removeToken();
-
-      // Clear blocs
-      if (mounted) {
-        context.read<SessionBloc>().add(const ClearSessionsEvent());
-        context.read<MessagingBloc>().add(const ClearMessagingEvent());
-        context.read<FavoriteBloc>().add(const ClearFavoritesEvent());
-      }
-
-      // Delete user
-      await user.delete();
-
-      // Sign out and redirect
-      if (mounted) {
-        context.read<AuthBloc>().add(const SignOutEvent());
-        context.go(AppRoutes.login);
-      }
+      // Now delete the account
+      await _performAccountDeletion(l10n);
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         AppSnackBar.error(context, e.message ?? l10n.deletionError);
@@ -266,6 +341,32 @@ class _AccountScreenState extends State<AccountScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
       }
+    }
+  }
+
+  /// Common account deletion logic
+  Future<void> _performAccountDeletion(AppLocalizations l10n) async {
+    // Remove FCM token
+    await UseMeNotificationService.instance.removeToken();
+
+    // Clear blocs
+    if (mounted) {
+      context.read<SessionBloc>().add(const ClearSessionsEvent());
+      context.read<MessagingBloc>().add(const ClearMessagingEvent());
+      context.read<FavoriteBloc>().add(const ClearFavoritesEvent());
+    }
+
+    // Delete account (handles Apple token revocation internally)
+    final result = await useMeAuthService.deleteAccount();
+
+    if (!mounted) return;
+
+    if (result.isSuccess) {
+      // Sign out and redirect
+      context.read<AuthBloc>().add(const SignOutEvent());
+      context.go(AppRoutes.login);
+    } else {
+      AppSnackBar.error(context, result.message);
     }
   }
 }

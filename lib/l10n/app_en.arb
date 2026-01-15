@@ -103,6 +103,22 @@
   "password": "Password",
   "confirm": "Confirm",
   "deletionError": "Error deleting account",
+  "oauthReauthRequired": "To delete your account, you must sign in again with {provider}.",
+  "@oauthReauthRequired": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "continueWithProvider": "Continue with {provider}",
+  "@continueWithProvider": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
 
   "studio": "Studio",
   "studioProfile": "Studio profile",
@@ -357,6 +373,7 @@
   "noStudioFound": "No studio found",
   "enableLocationToDiscover": "Enable location to discover studios near you",
   "partner": "Partner",
+  "verified": "Verified",
 
   "missingStudio": "Missing studio?",
   "tellUsWhichStudio": "Tell us which studio you're looking for",

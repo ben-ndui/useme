@@ -1,5 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:useme/core/models/studio_profile.dart';
+import 'package:useme/core/services/env_service.dart';
 
 /// Studio discovered via location-based search (Google Places or internal DB)
 class DiscoveredStudio {
@@ -13,6 +14,7 @@ class DiscoveredStudio {
   final String? phoneNumber;
   final String? website;
   final bool isPartner; // Studio registered on Use Me
+  final bool isVerified; // Studio verified by Use Me team
   final List<String> services;
   final double? distanceMeters;
   final StudioType studioType;
@@ -28,6 +30,7 @@ class DiscoveredStudio {
     this.phoneNumber,
     this.website,
     this.isPartner = false,
+    this.isVerified = false,
     this.services = const [],
     this.distanceMeters,
     this.studioType = StudioType.independent,
@@ -52,6 +55,7 @@ class DiscoveredStudio {
           ? _buildPhotoUrl(photos[0]['photo_reference'])
           : null,
       isPartner: false,
+      isVerified: false,
     );
   }
 
@@ -74,6 +78,7 @@ class DiscoveredStudio {
       phoneNumber: json['phoneNumber'],
       website: json['website'],
       isPartner: true,
+      isVerified: json['isVerified'] ?? false,
       services: List<String>.from(json['services'] ?? []),
       studioType: StudioType.fromString(json['studioType'] as String?),
     );
@@ -92,6 +97,7 @@ class DiscoveredStudio {
       phoneNumber: phoneNumber,
       website: website,
       isPartner: isPartner,
+      isVerified: isVerified,
       services: services,
       distanceMeters: distance,
       studioType: studioType,
@@ -108,7 +114,7 @@ class DiscoveredStudio {
   }
 
   static String _buildPhotoUrl(String photoReference) {
-    const apiKey = 'AIzaSyBQFkJ6oG4RTRRb6RbJ3Tk0MfrA1seHTqM';
+    final apiKey = EnvService.googleMapsApiKey;
     return 'https://maps.googleapis.com/maps/api/place/photo'
         '?maxwidth=400&photo_reference=$photoReference&key=$apiKey';
   }
