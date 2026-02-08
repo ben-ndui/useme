@@ -275,7 +275,7 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
             ),
           ),
           title: const Text(
-            'Assistant Use Me',
+            'Assistant UZME',
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
           subtitle: Row(

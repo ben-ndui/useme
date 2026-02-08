@@ -49,7 +49,7 @@ class UseMeNotificationService {
 
     await _baseService.initialize(
       androidChannelId: 'useme_channel',
-      androidChannelName: 'Use Me Notifications',
+      androidChannelName: 'UZME Notifications',
       onMessage: (message) {
         // Foreground: afficher banner in-app
         this.onForegroundMessage?.call(message);
@@ -144,7 +144,7 @@ class UseMeNotificationService {
         body: body,
         payload: payload,
         channelId: 'useme_channel',
-        channelName: 'Use Me Notifications',
+        channelName: 'UZME Notifications',
       );
 
   /// Récupère le message initial (app lancée via notification).

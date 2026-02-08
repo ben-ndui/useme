@@ -107,13 +107,13 @@ class ArtistCreationSuccess extends StatelessWidget {
     final code = invitation.code;
     final studio = studioName ?? 'notre studio';
     final message = '''
-Rejoins $studio sur Use Me !
+Rejoins $studio sur UZME !
 
 Utilise ce code d'invitation : $code
 
-Télécharge l'app Use Me et entre ce code pour te connecter au studio.
+Télécharge l'app UZME et entre ce code pour te connecter au studio.
 ''';
 
-    SharePlus.instance.share(ShareParams(text: message, subject: 'Invitation Use Me - $studio'));
+    SharePlus.instance.share(ShareParams(text: message, subject: 'Invitation UZME - $studio'));
   }
 }

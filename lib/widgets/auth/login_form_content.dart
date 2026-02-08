@@ -81,7 +81,7 @@ class _LoginFormContentState extends State<LoginFormContent> {
       children: [
         // Logo with glassmorphism
          Text(
-          'Use Me'.toUpperCase(),
+          'UZME',
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.w700,

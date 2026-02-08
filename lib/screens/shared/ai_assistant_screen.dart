@@ -75,7 +75,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
 
   String _getWelcomeMessage() {
     if (_isStudio) {
-      return '''Salut ! 👋 Je suis ton assistant Use Me.
+      return '''Salut ! 👋 Je suis ton assistant UZME.
 
 Je peux t'aider à :
 • 📊 Gérer tes réservations et demandes
@@ -86,7 +86,7 @@ Je peux t'aider à :
 
 Comment puis-je t'aider aujourd'hui ?''';
     } else if (_isEngineer) {
-      return '''Salut ! 👋 Je suis ton assistant Use Me.
+      return '''Salut ! 👋 Je suis ton assistant UZME.
 
 Je peux t'aider à :
 • 📅 Gérer tes disponibilités
@@ -99,7 +99,7 @@ Qu'est-ce que je peux faire pour toi ?''';
     }
 
     // Artiste (par défaut)
-    return '''Salut ! 👋 Je suis ton assistant Use Me.
+    return '''Salut ! 👋 Je suis ton assistant UZME.
 
 Je peux t'aider à :
 • 🎵 Trouver le studio parfait pour ton projet
@@ -358,7 +358,7 @@ Tu veux des conseils pour optimiser tes prix ?''';
 🎚️ **Mix** : 40-80€/h
 🎧 **Mastering** : 50-100€/titre
 
-Les studios Pro sur Use Me offrent souvent des packs avantageux pour les projets complets (EP, Album).
+Les studios Pro sur UZME offrent souvent des packs avantageux pour les projets complets (EP, Album).
 
 Tu veux que je te montre les studios dans ton budget ?''';
   }
@@ -431,7 +431,7 @@ Un profil bien rempli attire plus d'artistes !
 Tu veux que je t'aide à optimiser ton profil ?''';
     }
 
-    return '''Chaque studio a son propre équipement. Sur Use Me, tu peux voir :
+    return '''Chaque studio a son propre équipement. Sur UZME, tu peux voir :
 
 🎤 **Micros** : Neumann, Shure, AKG...
 🎚️ **Consoles** : SSL, Neve, API...
@@ -645,7 +645,7 @@ Qu'est-ce qui t'intéresse le plus ?''';
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Assistant Use Me',
+                'Assistant UZME',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               Text(

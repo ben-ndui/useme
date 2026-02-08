@@ -164,7 +164,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
                         // Title
                         Text(
-                          'Use Me',
+                          'UZME',
                           style: TextStyle(
                             fontSize: 42,
                             fontWeight: FontWeight.bold,

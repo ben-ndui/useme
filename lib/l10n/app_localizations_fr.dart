@@ -9,7 +9,7 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
-  String get appName => 'UZME.APP';
+  String get appName => 'UZME';
 
   @override
   String get settings => 'Réglages';
@@ -368,7 +368,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String version(String version) {
-    return 'UZME.APP v$version';
+    return 'UZME v$version';
   }
 
   @override
@@ -405,7 +405,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String copyright(String year) {
-    return '© $year UZME.APP. Tous droits réservés.';
+    return '© $year UZME. Tous droits réservés.';
   }
 
   @override
@@ -1040,7 +1040,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get discoverAppFeatures =>
-      'Découvrez comment tirer le meilleur de UZME.APP';
+      'Découvrez comment tirer le meilleur de UZME';
 
   @override
   String get nearbyStudios => 'Studios à proximité';
@@ -1296,11 +1296,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get claimStudioExplanation =>
-      'En revendiquant ce studio, vous le rendez visible aux artistes sur UZME.APP. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.';
+      'En revendiquant ce studio, vous le rendez visible aux artistes sur UZME. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.';
 
   @override
   String get claimStudioInfo =>
-      'En revendiquant ce studio, vous le rendez visible aux artistes sur UZME.APP. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.';
+      'En revendiquant ce studio, vous le rendez visible aux artistes sur UZME. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.';
 
   @override
   String get claim => 'Revendiquer';
@@ -1629,7 +1629,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get searchAmongRegistered =>
-      'Recherchez parmi les artistes déjà inscrits sur UZME.APP pour le lier à votre studio.';
+      'Recherchez parmi les artistes déjà inscrits sur UZME pour le lier à votre studio.';
 
   @override
   String artistAddedToStudio(String name) {
@@ -2732,7 +2732,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get comingSoon => 'Prochainement';
 
   @override
-  String get onboardingWelcomeTitle => 'Bienvenue sur UZME.APP';
+  String get onboardingWelcomeTitle => 'Bienvenue sur UZME';
 
   @override
   String get onboardingWelcomeDesc =>
@@ -2792,8 +2792,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get onboardingReadyTitle => 'Vous êtes prêt !';
 
   @override
-  String get onboardingReadyDesc =>
-      'Commencez à utiliser UZME.APP dès maintenant';
+  String get onboardingReadyDesc => 'Commencez à utiliser UZME dès maintenant';
 
   @override
   String get onboardingSkip => 'Passer';
@@ -2842,7 +2841,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get onboardingTermsDesc =>
-      'Pour utiliser UZME.APP, vous devez accepter nos conditions d\'utilisation et notre politique de confidentialité.';
+      'Pour utiliser UZME, vous devez accepter nos conditions d\'utilisation et notre politique de confidentialité.';
 
   @override
   String get onboardingTermsAccept =>
@@ -2908,7 +2907,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String sessionCalendarTitle(Object type) {
-    return 'Session $type - UZME.APP';
+    return 'Session $type - UZME';
   }
 
   @override

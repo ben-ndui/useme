@@ -85,7 +85,7 @@ class _AddArtistScreenState extends State<AddArtistScreen> with SingleTickerProv
           const ArtistInfoCard(
             icon: FontAwesomeIcons.magnifyingGlass,
             title: 'Trouvez un artiste existant',
-            description: 'Recherchez parmi les artistes déjà inscrits sur Use Me pour le lier à votre studio.',
+            description: 'Recherchez parmi les artistes déjà inscrits sur UZME pour le lier à votre studio.',
           ),
           const SizedBox(height: 24),
           if (_isLinking)

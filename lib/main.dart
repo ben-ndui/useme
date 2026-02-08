@@ -274,7 +274,7 @@ class _UseMeAppState extends State<UseMeApp> {
                   }
                 },
                 child: MaterialApp.router(
-                  title: 'UZME.APP',
+                  title: 'UZME',
                   debugShowCheckedModeBanner: false,
                   theme: UseMeTheme.lightTheme,
                   darkTheme: UseMeTheme.darkTheme,
