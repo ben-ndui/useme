@@ -1,7 +1,7 @@
 {
   "@@locale": "fr",
 
-  "appName": "Use Me",
+  "appName": "UZME.APP",
 
   "settings": "Réglages",
   "profile": "Profil",
@@ -182,7 +182,7 @@
   "copy": "Copier",
   "deleteMessage": "Supprimer",
 
-  "version": "Use Me v{version}",
+  "version": "UZME.APP v{version}",
   "@version": {
     "placeholders": {
       "version": {
@@ -211,7 +211,7 @@
   "helpCenter": "Centre d'aide",
   "contactUs": "Nous contacter",
   "followUs": "Suivez-nous",
-  "copyright": "© {year} Use Me. Tous droits réservés.",
+  "copyright": "© {year} UZME.APP. Tous droits réservés.",
   "@copyright": {
     "placeholders": {
       "year": {
@@ -502,7 +502,7 @@
   },
   "acceptAndSendInfo": "Accepter et envoyer les infos",
   "welcome": "Bienvenue !",
-  "discoverAppFeatures": "Découvrez comment tirer le meilleur de Use Me",
+  "discoverAppFeatures": "Découvrez comment tirer le meilleur de UZME.APP",
 
   "nearbyStudios": "Studios à proximité",
   "discoverWhereToRecord": "Découvre où enregistrer",
@@ -589,8 +589,8 @@
   "createStudioProfileManually": "Créer manuellement mon profil studio",
   "createManualProfile": "Créer manuellement mon profil studio",
   "claimThisStudio": "Revendiquer ce studio ?",
-  "claimStudioExplanation": "En revendiquant ce studio, vous le rendez visible aux artistes sur Use Me. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.",
-  "claimStudioInfo": "En revendiquant ce studio, vous le rendez visible aux artistes sur Use Me. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.",
+  "claimStudioExplanation": "En revendiquant ce studio, vous le rendez visible aux artistes sur UZME.APP. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.",
+  "claimStudioInfo": "En revendiquant ce studio, vous le rendez visible aux artistes sur UZME.APP. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.",
   "claim": "Revendiquer",
   "studioClaimedSuccess": "{name} revendiqué avec succès !",
   "@studioClaimedSuccess": {
@@ -722,7 +722,7 @@
   "search": "Rechercher",
   "create": "Créer",
   "findExistingArtist": "Trouvez un artiste existant",
-  "searchAmongRegistered": "Recherchez parmi les artistes déjà inscrits sur Use Me pour le lier à votre studio.",
+  "searchAmongRegistered": "Recherchez parmi les artistes déjà inscrits sur UZME.APP pour le lier à votre studio.",
   "artistAddedToStudio": "{name} ajouté à votre studio !",
   "@artistAddedToStudio": {
     "placeholders": {
@@ -1161,7 +1161,7 @@
 
   "comingSoon": "Prochainement",
 
-  "onboardingWelcomeTitle": "Bienvenue sur Use Me",
+  "onboardingWelcomeTitle": "Bienvenue sur UZME.APP",
   "onboardingWelcomeDesc": "Votre plateforme de réservation de studios d'enregistrement",
 
   "onboardingStudioSessionsTitle": "Gérez vos réservations",
@@ -1183,7 +1183,7 @@
   "onboardingAIDesc": "Posez vos questions et obtenez de l'aide instantanément",
 
   "onboardingReadyTitle": "Vous êtes prêt !",
-  "onboardingReadyDesc": "Commencez à utiliser Use Me dès maintenant",
+  "onboardingReadyDesc": "Commencez à utiliser UZME.APP dès maintenant",
 
   "onboardingSkip": "Passer",
   "onboardingNext": "Suivant",
@@ -1202,7 +1202,7 @@
   "onboardingNotificationGranted": "Notifications activées",
 
   "onboardingTermsTitle": "Conditions d'utilisation",
-  "onboardingTermsDesc": "Pour utiliser Use Me, vous devez accepter nos conditions d'utilisation et notre politique de confidentialité.",
+  "onboardingTermsDesc": "Pour utiliser UZME.APP, vous devez accepter nos conditions d'utilisation et notre politique de confidentialité.",
   "onboardingTermsAccept": "J'accepte les CGU et la Politique de confidentialité",
   "onboardingTermsLink": "Lire les conditions",
   "onboardingPrivacyLink": "Politique de confidentialité",
@@ -1226,7 +1226,7 @@
 
   "addToCalendar": "Ajouter au calendrier",
   "addedToCalendar": "Session ajoutée au calendrier",
-  "sessionCalendarTitle": "Session {type} - Use Me",
+  "sessionCalendarTitle": "Session {type} - UZME.APP",
   "@sessionCalendarTitle": {
     "placeholders": {
       "type": {"type": "Object"}

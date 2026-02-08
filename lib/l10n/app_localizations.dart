@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @appName.
   ///
   /// In fr, this message translates to:
-  /// **'Use Me'**
+  /// **'UZME.APP'**
   String get appName;
 
   /// No description provided for @settings.
@@ -773,7 +773,7 @@ abstract class AppLocalizations {
   /// No description provided for @version.
   ///
   /// In fr, this message translates to:
-  /// **'Use Me v{version}'**
+  /// **'UZME.APP v{version}'**
   String version(String version);
 
   /// No description provided for @studiosPlatform.
@@ -839,7 +839,7 @@ abstract class AppLocalizations {
   /// No description provided for @copyright.
   ///
   /// In fr, this message translates to:
-  /// **'© {year} Use Me. Tous droits réservés.'**
+  /// **'© {year} UZME.APP. Tous droits réservés.'**
   String copyright(String year);
 
   /// No description provided for @archive.
@@ -2039,7 +2039,7 @@ abstract class AppLocalizations {
   /// No description provided for @discoverAppFeatures.
   ///
   /// In fr, this message translates to:
-  /// **'Découvrez comment tirer le meilleur de Use Me'**
+  /// **'Découvrez comment tirer le meilleur de UZME.APP'**
   String get discoverAppFeatures;
 
   /// No description provided for @nearbyStudios.
@@ -2513,13 +2513,13 @@ abstract class AppLocalizations {
   /// No description provided for @claimStudioExplanation.
   ///
   /// In fr, this message translates to:
-  /// **'En revendiquant ce studio, vous le rendez visible aux artistes sur Use Me. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.'**
+  /// **'En revendiquant ce studio, vous le rendez visible aux artistes sur UZME.APP. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.'**
   String get claimStudioExplanation;
 
   /// No description provided for @claimStudioInfo.
   ///
   /// In fr, this message translates to:
-  /// **'En revendiquant ce studio, vous le rendez visible aux artistes sur Use Me. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.'**
+  /// **'En revendiquant ce studio, vous le rendez visible aux artistes sur UZME.APP. Ils pourront voir vos disponibilités et vous envoyer des demandes de session.'**
   String get claimStudioInfo;
 
   /// No description provided for @claim.
@@ -3149,7 +3149,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchAmongRegistered.
   ///
   /// In fr, this message translates to:
-  /// **'Recherchez parmi les artistes déjà inscrits sur Use Me pour le lier à votre studio.'**
+  /// **'Recherchez parmi les artistes déjà inscrits sur UZME.APP pour le lier à votre studio.'**
   String get searchAmongRegistered;
 
   /// No description provided for @artistAddedToStudio.
@@ -5129,7 +5129,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingWelcomeTitle.
   ///
   /// In fr, this message translates to:
-  /// **'Bienvenue sur Use Me'**
+  /// **'Bienvenue sur UZME.APP'**
   String get onboardingWelcomeTitle;
 
   /// No description provided for @onboardingWelcomeDesc.
@@ -5231,7 +5231,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingReadyDesc.
   ///
   /// In fr, this message translates to:
-  /// **'Commencez à utiliser Use Me dès maintenant'**
+  /// **'Commencez à utiliser UZME.APP dès maintenant'**
   String get onboardingReadyDesc;
 
   /// No description provided for @onboardingSkip.
@@ -5321,7 +5321,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingTermsDesc.
   ///
   /// In fr, this message translates to:
-  /// **'Pour utiliser Use Me, vous devez accepter nos conditions d\'utilisation et notre politique de confidentialité.'**
+  /// **'Pour utiliser UZME.APP, vous devez accepter nos conditions d\'utilisation et notre politique de confidentialité.'**
   String get onboardingTermsDesc;
 
   /// No description provided for @onboardingTermsAccept.
@@ -5447,7 +5447,7 @@ abstract class AppLocalizations {
   /// No description provided for @sessionCalendarTitle.
   ///
   /// In fr, this message translates to:
-  /// **'Session {type} - Use Me'**
+  /// **'Session {type} - UZME.APP'**
   String sessionCalendarTitle(Object type);
 
   /// No description provided for @studioTypePro.

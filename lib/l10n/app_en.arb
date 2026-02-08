@@ -1,7 +1,7 @@
 {
   "@@locale": "en",
 
-  "appName": "Use Me",
+  "appName": "UZME.APP",
 
   "settings": "Settings",
   "profile": "Profile",
@@ -147,7 +147,7 @@
   "copy": "Copy",
   "deleteMessage": "Delete",
 
-  "version": "Use Me v{version}",
+  "version": "UZME.APP v{version}",
 
   "studiosPlatform": "The studios platform",
   "versionBuild": "Version {version} ({build})",
@@ -159,7 +159,7 @@
   "helpCenter": "Help center",
   "contactUs": "Contact us",
   "followUs": "Follow us",
-  "copyright": "© {year} Use Me. All rights reserved.",
+  "copyright": "© {year} UZME.APP. All rights reserved.",
   "archive": "Archive",
   "unarchive": "Unarchive",
 
@@ -366,7 +366,7 @@
   "ofTotalAmount": "{percent}% of total amount",
   "acceptAndSendInfo": "Accept and send info",
   "welcome": "Welcome!",
-  "discoverAppFeatures": "Discover how to get the most out of Use Me",
+  "discoverAppFeatures": "Discover how to get the most out of UZME.APP",
 
   "nearbyStudios": "Nearby studios",
   "discoverWhereToRecord": "Discover where to record",
@@ -453,8 +453,8 @@
   "createStudioProfileManually": "Manually create my studio profile",
   "createManualProfile": "Manually create my studio profile",
   "claimThisStudio": "Claim this studio?",
-  "claimStudioExplanation": "By claiming this studio, you make it visible to artists on Use Me. They will be able to see your availability and send you session requests.",
-  "claimStudioInfo": "By claiming this studio, you make it visible to artists on Use Me. They will be able to see your availability and send you session requests.",
+  "claimStudioExplanation": "By claiming this studio, you make it visible to artists on UZME.APP. They will be able to see your availability and send you session requests.",
+  "claimStudioInfo": "By claiming this studio, you make it visible to artists on UZME.APP. They will be able to see your availability and send you session requests.",
   "claim": "Claim",
   "studioClaimedSuccess": "{name} claimed successfully!",
   "studioClaims": "Studio claims",
@@ -572,7 +572,7 @@
   "search": "Search",
   "create": "Create",
   "findExistingArtist": "Find an existing artist",
-  "searchAmongRegistered": "Search among artists already registered on Use Me to link them to your studio.",
+  "searchAmongRegistered": "Search among artists already registered on UZME.APP to link them to your studio.",
   "artistAddedToStudio": "{name} added to your studio!",
   "artistName": "Artist name",
   "stageNameHint": "The stage name...",
@@ -969,7 +969,7 @@
 
   "comingSoon": "Coming Soon",
 
-  "onboardingWelcomeTitle": "Welcome to Use Me",
+  "onboardingWelcomeTitle": "Welcome to UZME.APP",
   "onboardingWelcomeDesc": "Your recording studio booking platform",
 
   "onboardingStudioSessionsTitle": "Manage your bookings",
@@ -991,7 +991,7 @@
   "onboardingAIDesc": "Ask your questions and get instant help",
 
   "onboardingReadyTitle": "You're ready!",
-  "onboardingReadyDesc": "Start using Use Me now",
+  "onboardingReadyDesc": "Start using UZME.APP now",
 
   "onboardingSkip": "Skip",
   "onboardingNext": "Next",
@@ -1010,7 +1010,7 @@
   "onboardingNotificationGranted": "Notifications enabled",
 
   "onboardingTermsTitle": "Terms of Service",
-  "onboardingTermsDesc": "To use Use Me, you must accept our terms of service and privacy policy.",
+  "onboardingTermsDesc": "To use UZME.APP, you must accept our terms of service and privacy policy.",
   "onboardingTermsAccept": "I accept the Terms of Service and Privacy Policy",
   "onboardingTermsLink": "Read terms",
   "onboardingPrivacyLink": "Privacy policy",
@@ -1034,7 +1034,7 @@
 
   "addToCalendar": "Add to calendar",
   "addedToCalendar": "Session added to calendar",
-  "sessionCalendarTitle": "Session {type} - Use Me",
+  "sessionCalendarTitle": "Session {type} - UZME.APP",
   "@sessionCalendarTitle": {
     "placeholders": {
       "type": {"type": "Object"}

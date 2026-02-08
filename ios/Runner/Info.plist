@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Use Me</string>
+	<string>UZME.APP</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>useme</string>
+	<string>UZME.APP</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -52,21 +52,21 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Use Me a besoin d'accéder à votre calendrier pour importer vos événements et éviter les conflits de réservation.</string>
+	<string>UZME.APP a besoin d'accéder à votre calendrier pour importer vos événements et éviter les conflits de réservation.</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>Use Me a besoin d'accéder à votre calendrier pour importer vos événements et éviter les conflits de réservation.</string>
+	<string>UZME.APP a besoin d'accéder à votre calendrier pour importer vos événements et éviter les conflits de réservation.</string>
 	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
-	<string>Use Me peut ajouter vos sessions de studio à votre calendrier.</string>
+	<string>UZME.APP peut ajouter vos sessions de studio à votre calendrier.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Pour trouver les studios d'enregistrement proches de vous</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Pour trouver les studios d'enregistrement proches de vous</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Use Me a besoin d'accéder à votre microphone pour enregistrer des messages vocaux.</string>
+	<string>UZME.APP a besoin d'accéder à votre microphone pour enregistrer des messages vocaux.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Use Me a besoin d'accéder à votre caméra pour prendre des photos.</string>
+	<string>UZME.APP utilise votre caméra pour prendre des photos de profil, des photos de studio, ou envoyer des images dans vos conversations avec les artistes et studios.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Use Me a besoin d'accéder à vos photos pour les partager dans les conversations.</string>
+	<string>UZME.APP a besoin d'accéder à vos photos pour les partager dans les conversations.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
