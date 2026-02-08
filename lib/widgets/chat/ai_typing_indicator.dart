@@ -59,15 +59,15 @@ class _AITypingIndicatorState extends State<AITypingIndicator>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.purple.withOpacity(isDark ? 0.2 : 0.1),
-            Colors.blue.withOpacity(isDark ? 0.2 : 0.1),
+            Colors.purple.withValues(alpha:isDark ? 0.2 : 0.1),
+            Colors.blue.withValues(alpha:isDark ? 0.2 : 0.1),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Colors.purple.withOpacity(0.3),
+          color: Colors.purple.withValues(alpha:0.3),
           width: 1,
         ),
       ),
@@ -77,7 +77,7 @@ class _AITypingIndicatorState extends State<AITypingIndicator>
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: Colors.purple.withOpacity(0.2),
+              color: Colors.purple.withValues(alpha:0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: const Icon(
@@ -101,7 +101,7 @@ class _AITypingIndicatorState extends State<AITypingIndicator>
                         width: 8,
                         height: 8,
                         decoration: BoxDecoration(
-                          color: Colors.purple.withOpacity(
+                          color: Colors.purple.withValues(alpha:
                             0.5 + 0.5 * _animations[index].value,
                           ),
                           shape: BoxShape.circle,

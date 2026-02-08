@@ -163,7 +163,7 @@ class SessionService {
         'data': {
           'sessionId': session.id,
           'artistName': session.artistName,
-          'sessionType': session.type.name,
+          'sessionType': session.types.firstOrNull?.name ?? 'other',
         },
         'isRead': false,
         'createdAt': FieldValue.serverTimestamp(),
@@ -253,7 +253,7 @@ class SessionService {
           'data': {
             'sessionId': session.id,
             'studioId': session.studioId,
-            'sessionType': session.type.name,
+            'sessionType': session.types.firstOrNull?.name ?? 'other',
           },
           'isRead': false,
           'createdAt': FieldValue.serverTimestamp(),
@@ -279,12 +279,12 @@ class SessionService {
         'userId': session.engineerId,
         'type': 'session_assigned',
         'title': 'Nouvelle session assignée',
-        'body': 'Session ${session.type.label} avec ${session.artistName}',
+        'body': 'Session ${session.typeLabel} avec ${session.artistName}',
         'data': {
           'sessionId': session.id,
           'studioId': session.studioId,
           'artistName': session.artistName,
-          'sessionType': session.type.name,
+          'sessionType': session.types.firstOrNull?.name ?? 'other',
         },
         'isRead': false,
         'createdAt': FieldValue.serverTimestamp(),

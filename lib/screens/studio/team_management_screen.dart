@@ -184,14 +184,14 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
   void _confirmRemoveMember(AppUser member) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: const Text('Retirer ce membre ?'),
         content: Text('${member.fullName} ne pourra plus accéder aux sessions du studio.'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Annuler')),
+          TextButton(onPressed: () => Navigator.pop(dialogContext), child: const Text('Annuler')),
           FilledButton(
             onPressed: () async {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               await _teamService.removeFromTeam(member.uid);
               if (mounted) {
                 AppSnackBar.success(context, 'Membre retiré');

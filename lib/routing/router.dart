@@ -390,32 +390,6 @@ class AppRouter {
   }
 }
 
-/// Temporary placeholder screen for routes not yet implemented
-class _PlaceholderScreen extends StatelessWidget {
-  final String title;
-
-  const _PlaceholderScreen({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const FaIcon(FontAwesomeIcons.hammer, size: 64, color: Colors.grey),
-            const SizedBox(height: 16),
-            Text(title, style: Theme.of(context).textTheme.headlineMedium),
-            const SizedBox(height: 8),
-            const Text('En construction...'),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 /// Not found screen with role-aware redirect
 class _NotFoundScreen extends StatelessWidget {
   final String uri;

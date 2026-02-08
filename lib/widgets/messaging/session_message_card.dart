@@ -170,7 +170,7 @@ extension SessionToAttachment on Session {
     return BusinessObjectAttachment(
       objectType: 'session',
       objectId: id,
-      title: '${type.label} - ${DateFormat('dd/MM HH:mm').format(scheduledStart)}',
+      title: '$typeLabel - ${DateFormat('dd/MM HH:mm').format(scheduledStart)}',
       status: status.name,
       clientName: artistName,
     );

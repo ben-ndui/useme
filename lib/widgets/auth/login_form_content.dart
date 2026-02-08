@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -256,21 +255,6 @@ class _LoginFormContentState extends State<LoginFormContent> {
     );
   }
 
-  Widget _buildDemoButton(AppLocalizations l10n) {
-    return TextButton.icon(
-      onPressed: () => _showDemoSelector(l10n),
-      style: TextButton.styleFrom(
-        foregroundColor: Colors.white.withValues(alpha: 0.6),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      ),
-      icon: const FaIcon(FontAwesomeIcons.wandMagicSparkles, size: 14),
-      label: Text(
-        l10n.demoAccess,
-        style: const TextStyle(fontSize: 14),
-      ),
-    );
-  }
-
   void _login() {
     if (!_formKey.currentState!.validate()) return;
 
@@ -300,86 +284,4 @@ class _LoginFormContentState extends State<LoginFormContent> {
     context.read<AuthBloc>().add(ResetPasswordEvent(email: email));
   }
 
-  void _showDemoSelector(AppLocalizations l10n) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => _DemoSelectorSheet(l10n: l10n),
-    );
-  }
-}
-
-class _DemoSelectorSheet extends StatelessWidget {
-  final AppLocalizations l10n;
-
-  const _DemoSelectorSheet({required this.l10n});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      child: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 12),
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.outline.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              l10n.demoMode,
-              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              l10n.browseWithoutLogin,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.outline,
-              ),
-            ),
-            const SizedBox(height: 16),
-            ListTile(
-              leading: const FaIcon(FontAwesomeIcons.buildingUser),
-              title: Text(l10n.studioAdmin),
-              subtitle: Text(l10n.manageSessionsArtistsServices),
-              onTap: () {
-                Navigator.pop(context);
-                context.go(AppRoutes.home);
-              },
-            ),
-            ListTile(
-              leading: const FaIcon(FontAwesomeIcons.headphones),
-              title: Text(l10n.soundEngineer),
-              subtitle: Text(l10n.viewAndTrackSessions),
-              onTap: () {
-                Navigator.pop(context);
-                context.go(AppRoutes.engineerDashboard);
-              },
-            ),
-            ListTile(
-              leading: const FaIcon(FontAwesomeIcons.music),
-              title: Text(l10n.artist),
-              subtitle: Text(l10n.bookSessions),
-              onTap: () {
-                Navigator.pop(context);
-                context.go(AppRoutes.artistPortal);
-              },
-            ),
-            const SizedBox(height: 24),
-          ],
-        ),
-      ),
-    );
-  }
 }

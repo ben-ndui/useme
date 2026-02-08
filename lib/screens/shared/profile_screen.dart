@@ -336,6 +336,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final updatedUser = user.copyWith(photoURL: uploadResult.data);
       final updateResult = await useMeAuthService.updateUserProfile(updatedUser);
 
+      if (!mounted) return;
       setState(() => _isUploadingPhoto = false);
 
       if (updateResult.code == 200) {

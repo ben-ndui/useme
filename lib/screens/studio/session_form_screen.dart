@@ -48,7 +48,7 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
       final session = sessionState.sessions.where((s) => s.id == widget.sessionId).firstOrNull;
       if (session != null) {
         _existingSession = session;
-        _selectedType = session.type;
+        _selectedType = session.types.firstOrNull ?? SessionType.recording;
         _selectedDate = session.scheduledStart;
         _startTime = TimeOfDay(hour: session.scheduledStart.hour, minute: session.scheduledStart.minute);
         _durationHours = session.durationMinutes ~/ 60;
@@ -257,7 +257,7 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
             // Dropdown pour ajouter un artiste
             if (availableArtists.isNotEmpty)
               DropdownButtonFormField<Artist>(
-                value: null,
+                initialValue: null,
                 decoration: InputDecoration(
                   hintText: _selectedArtists.isEmpty
                       ? 'Sélectionner un artiste'
@@ -424,7 +424,7 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
       studioId: studioId,
       artistIds: _selectedArtists.map((a) => a.id).toList(),
       artistNames: _selectedArtists.map((a) => a.name).toList(),
-      type: _selectedType,
+      types: [_selectedType],
       status: _existingSession?.status ?? SessionStatus.pending,
       scheduledStart: startDateTime,
       scheduledEnd: endDateTime,

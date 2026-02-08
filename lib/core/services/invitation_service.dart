@@ -55,8 +55,8 @@ class InvitationService {
           return AppUser.fromMap(data);
         })
         .where((user) {
-          final name = (user.displayName ?? user.email ?? '').toLowerCase();
-          final email = user.email?.toLowerCase() ?? '';
+          final name = (user.displayName ?? user.email).toLowerCase();
+          final email = user.email.toLowerCase();
           return name.contains(lowerName) || email.contains(lowerName);
         })
         .take(10)

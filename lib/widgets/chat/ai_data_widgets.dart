@@ -20,10 +20,10 @@ class AISessionsCard extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.purple.withOpacity(0.2)),
+        side: BorderSide(color: Colors.purple.withValues(alpha:0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +45,7 @@ class AISessionsCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: theme.dividerColor.withOpacity(0.3)),
+          bottom: BorderSide(color: theme.dividerColor.withValues(alpha:0.3)),
         ),
       ),
       child: Row(
@@ -128,7 +128,7 @@ class AISessionsCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.purple.withOpacity(0.1),
+        color: Colors.purple.withValues(alpha:0.1),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
       ),
       child: Row(
@@ -145,7 +145,7 @@ class AISessionsCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: Colors.purple.withOpacity(0.2),
+              color: Colors.purple.withValues(alpha:0.2),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
@@ -164,7 +164,7 @@ class AISessionsCard extends StatelessWidget {
   Widget _buildEmptyCard(ThemeData theme, String message, IconData icon) {
     return Card(
       elevation: 0,
-      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -209,10 +209,10 @@ class AIServicesCard extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.purple.withOpacity(0.2)),
+        side: BorderSide(color: Colors.purple.withValues(alpha:0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,7 +231,7 @@ class AIServicesCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: theme.dividerColor.withOpacity(0.3)),
+          bottom: BorderSide(color: theme.dividerColor.withValues(alpha:0.3)),
         ),
       ),
       child: Row(
@@ -262,11 +262,11 @@ class AIServicesCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.1),
+                color: Colors.green.withValues(alpha:0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
-                '${price}€/h',
+                '$price€/h',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: Colors.green.shade700,
                   fontWeight: FontWeight.bold,
@@ -282,7 +282,7 @@ class AIServicesCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.purple.withOpacity(0.1),
+        color: Colors.purple.withValues(alpha:0.1),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
       ),
       child: Row(
@@ -294,7 +294,7 @@ class AIServicesCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: Colors.purple.withOpacity(0.2),
+              color: Colors.purple.withValues(alpha:0.2),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text('$count', style: theme.textTheme.bodySmall?.copyWith(
@@ -309,7 +309,7 @@ class AIServicesCard extends StatelessWidget {
   Widget _buildEmptyCard(ThemeData theme, String message) {
     return Card(
       elevation: 0,
-      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -341,10 +341,10 @@ class AITeamCard extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.purple.withOpacity(0.2)),
+        side: BorderSide(color: Colors.purple.withValues(alpha:0.2)),
       ),
       child: Column(
         children: [
@@ -368,10 +368,10 @@ class AITeamCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: isAvailable ? Colors.green.withOpacity(0.1) : Colors.grey.withOpacity(0.1),
+        color: isAvailable ? Colors.green.withValues(alpha:0.1) : Colors.grey.withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: isAvailable ? Colors.green.withOpacity(0.3) : Colors.grey.withOpacity(0.3),
+          color: isAvailable ? Colors.green.withValues(alpha:0.3) : Colors.grey.withValues(alpha:0.3),
         ),
       ),
       child: Row(
@@ -379,7 +379,7 @@ class AITeamCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 12,
-            backgroundColor: Colors.purple.withOpacity(0.2),
+            backgroundColor: Colors.purple.withValues(alpha:0.2),
             child: Text(
               (engineer['name'] ?? 'I')[0].toUpperCase(),
               style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
@@ -403,7 +403,7 @@ class AITeamCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.purple.withOpacity(0.1),
+        color: Colors.purple.withValues(alpha:0.1),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
       ),
       child: Row(
@@ -415,7 +415,7 @@ class AITeamCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: Colors.purple.withOpacity(0.2),
+              color: Colors.purple.withValues(alpha:0.2),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text('$count', style: theme.textTheme.bodySmall?.copyWith(
@@ -430,7 +430,7 @@ class AITeamCard extends StatelessWidget {
   Widget _buildEmptyCard(ThemeData theme) {
     return Card(
       elevation: 0,
-      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -457,10 +457,10 @@ class AIStatsCard extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.purple.withOpacity(0.2)),
+        side: BorderSide(color: Colors.purple.withValues(alpha:0.2)),
       ),
       child: Column(
         children: [
@@ -487,7 +487,7 @@ class AIStatsCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha:0.1),
               shape: BoxShape.circle,
             ),
             child: FaIcon(icon, size: 16, color: color),
@@ -510,7 +510,7 @@ class AIStatsCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.purple.withOpacity(0.1),
+        color: Colors.purple.withValues(alpha:0.1),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
       ),
       child: Row(
@@ -538,10 +538,10 @@ class AIAvailabilityCard extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.purple.withOpacity(0.2)),
+        side: BorderSide(color: Colors.purple.withValues(alpha:0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -568,10 +568,10 @@ class AIAvailabilityCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: isAvailable ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
+        color: isAvailable ? Colors.green.withValues(alpha:0.1) : Colors.red.withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isAvailable ? Colors.green.withOpacity(0.3) : Colors.red.withOpacity(0.3),
+          color: isAvailable ? Colors.green.withValues(alpha:0.3) : Colors.red.withValues(alpha:0.3),
         ),
       ),
       child: Text(
@@ -588,7 +588,7 @@ class AIAvailabilityCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.purple.withOpacity(0.1),
+        color: Colors.purple.withValues(alpha:0.1),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
       ),
       child: Row(
@@ -620,7 +620,7 @@ class AIPendingRequestsCard extends StatelessWidget {
     if (requests.isEmpty) {
       return Card(
         elevation: 0,
-        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
@@ -636,10 +636,10 @@ class AIPendingRequestsCard extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.orange.withOpacity(0.3)),
+        side: BorderSide(color: Colors.orange.withValues(alpha:0.3)),
       ),
       child: Column(
         children: [
@@ -654,14 +654,14 @@ class AIPendingRequestsCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: theme.dividerColor.withOpacity(0.3))),
+        border: Border(bottom: BorderSide(color: theme.dividerColor.withValues(alpha:0.3))),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.orange.withOpacity(0.1),
+              color: Colors.orange.withValues(alpha:0.1),
               shape: BoxShape.circle,
             ),
             child: const FaIcon(FontAwesomeIcons.userClock, size: 12, color: Colors.orange),
@@ -695,7 +695,7 @@ class AIPendingRequestsCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.orange.withOpacity(0.1),
+        color: Colors.orange.withValues(alpha:0.1),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
       ),
       child: Row(
@@ -707,7 +707,7 @@ class AIPendingRequestsCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: Colors.orange.withOpacity(0.2),
+              color: Colors.orange.withValues(alpha:0.2),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text('$count', style: theme.textTheme.bodySmall?.copyWith(
@@ -745,10 +745,10 @@ class AIStudiosCard extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.purple.withOpacity(0.2)),
+        side: BorderSide(color: Colors.purple.withValues(alpha:0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -768,7 +768,7 @@ class AIStudiosCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: theme.dividerColor.withOpacity(0.3)),
+          bottom: BorderSide(color: theme.dividerColor.withValues(alpha:0.3)),
         ),
       ),
       child: Row(
@@ -777,7 +777,7 @@ class AIStudiosCard extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: Colors.purple.withOpacity(0.1),
+              color: Colors.purple.withValues(alpha:0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
@@ -810,7 +810,7 @@ class AIStudiosCard extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.amber.withOpacity(0.2),
+                          color: Colors.amber.withValues(alpha:0.2),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -871,7 +871,7 @@ class AIStudiosCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.purple.withOpacity(0.1),
+        color: Colors.purple.withValues(alpha:0.1),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
       ),
       child: Row(
@@ -892,7 +892,7 @@ class AIStudiosCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: Colors.purple.withOpacity(0.2),
+              color: Colors.purple.withValues(alpha:0.2),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
@@ -911,7 +911,7 @@ class AIStudiosCard extends StatelessWidget {
   Widget _buildEmptyCard(ThemeData theme, String message) {
     return Card(
       elevation: 0,
-      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(

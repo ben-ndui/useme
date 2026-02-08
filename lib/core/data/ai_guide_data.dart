@@ -70,7 +70,7 @@ class AIGuideData {
         TipItem(
           title: l10n.aiGuideSearchStudiosTitle,
           description: l10n.aiGuideSearchStudiosDesc,
-          icon: FontAwesomeIcons.searchLocation,
+          icon: FontAwesomeIcons.magnifyingGlassLocation,
           iconColor: Colors.purple,
         ),
         TipItem(

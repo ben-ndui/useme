@@ -303,9 +303,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           .get();
 
       if (unreadDocs.docs.isEmpty) {
-        if (mounted) {
-          AppSnackBar.info(context, l10n.noNotifications);
-        }
+        if (!context.mounted) return;
+        AppSnackBar.info(context, l10n.noNotifications);
         return;
       }
 
@@ -315,9 +314,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
       await batch.commit();
 
-      if (mounted) {
-        AppSnackBar.success(context, l10n.allNotificationsMarkedAsRead);
-      }
+      if (!context.mounted) return;
+      AppSnackBar.success(context, l10n.allNotificationsMarkedAsRead);
     } catch (e) {
       debugPrint('Error marking all notifications as read: $e');
       if (context.mounted) {

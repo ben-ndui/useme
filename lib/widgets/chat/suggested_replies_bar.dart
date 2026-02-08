@@ -25,7 +25,7 @@ class SuggestedRepliesBar extends StatelessWidget {
         color: Theme.of(context).scaffoldBackgroundColor,
         border: Border(
           top: BorderSide(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.grey.withValues(alpha:0.2),
             width: 1,
           ),
         ),
@@ -44,7 +44,7 @@ class SuggestedRepliesBar extends StatelessWidget {
             height: 16,
             child: CircularProgressIndicator(
               strokeWidth: 2,
-              color: Colors.purple.withOpacity(0.5),
+              color: Colors.purple.withValues(alpha:0.5),
             ),
           ),
           const SizedBox(width: 8),
@@ -98,11 +98,11 @@ class _SuggestionChip extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
             color: isDark
-                ? Colors.purple.withOpacity(0.2)
-                : Colors.purple.withOpacity(0.1),
+                ? Colors.purple.withValues(alpha:0.2)
+                : Colors.purple.withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: Colors.purple.withOpacity(0.3),
+              color: Colors.purple.withValues(alpha:0.3),
               width: 1,
             ),
           ),

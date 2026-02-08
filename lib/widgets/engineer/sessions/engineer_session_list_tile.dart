@@ -58,7 +58,7 @@ class EngineerSessionListTile extends StatelessWidget {
         color: _getStatusColor().withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: FaIcon(_getTypeIcon(session.type), size: 16, color: _getStatusColor()),
+      child: FaIcon(_getTypeIcon(session.types.firstOrNull ?? SessionType.other), size: 16, color: _getStatusColor()),
     );
   }
 

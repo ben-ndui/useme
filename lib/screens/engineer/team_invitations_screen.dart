@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/services/team_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
@@ -34,13 +33,8 @@ class _TeamInvitationsScreenState extends State<TeamInvitationsScreen> {
             return const AppLoader();
           }
 
-          final email = authState.user.email;
-          if (email == null) {
-            return Center(child: Text(l10n.noEmailConfigured));
-          }
-
           return StreamBuilder<List<TeamInvitation>>(
-            stream: _teamService.streamMyPendingInvitations(email),
+            stream: _teamService.streamMyPendingInvitations(authState.user.email),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const AppLoader();
@@ -217,7 +211,7 @@ class _InvitationCard extends StatelessWidget {
         if (result.code == 200) {
           AppSnackBar.success(context, l10n.invitationAccepted);
         } else {
-          AppSnackBar.error(context, result.message ?? l10n.errorOccurred);
+          AppSnackBar.error(context, result.message);
         }
       }
     } finally {
@@ -252,7 +246,7 @@ class _InvitationCard extends StatelessWidget {
         if (result.code == 200) {
           AppSnackBar.info(context, l10n.invitationDeclined);
         } else {
-          AppSnackBar.error(context, result.message ?? l10n.errorOccurred);
+          AppSnackBar.error(context, result.message);
         }
       }
     } finally {

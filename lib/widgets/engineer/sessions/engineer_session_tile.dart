@@ -82,7 +82,7 @@ class EngineerSessionTile extends StatelessWidget {
         const SizedBox(height: 4),
         Row(
           children: [
-            FaIcon(_getTypeIcon(session.type), size: 10, color: colorScheme.onSurfaceVariant),
+            FaIcon(_getTypeIcon(session.types.firstOrNull ?? SessionType.other), size: 10, color: colorScheme.onSurfaceVariant),
             const SizedBox(width: 6),
             Expanded(
               child: Text(

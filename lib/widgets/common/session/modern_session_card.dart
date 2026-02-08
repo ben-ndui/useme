@@ -74,14 +74,14 @@ class _ModernSessionCardState extends State<ModernSessionCard> {
                             Container(
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                color: _getTypeColor(widget.session.type)
+                                color: _getTypeColor(widget.session.types.firstOrNull ?? SessionType.other)
                                     .withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: FaIcon(
-                                _getTypeIcon(widget.session.type),
+                                _getTypeIcon(widget.session.types.firstOrNull ?? SessionType.other),
                                 size: 12,
-                                color: _getTypeColor(widget.session.type),
+                                color: _getTypeColor(widget.session.types.firstOrNull ?? SessionType.other),
                               ),
                             ),
                             const SizedBox(width: 10),

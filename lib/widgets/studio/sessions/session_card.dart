@@ -62,7 +62,7 @@ class SessionCard extends StatelessWidget {
       height: 40,
       margin: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: _getTypeColor(session.type),
+        color: _getTypeColor(session.types.firstOrNull ?? SessionType.other),
         borderRadius: BorderRadius.circular(2),
       ),
     );
@@ -80,7 +80,7 @@ class SessionCard extends StatelessWidget {
           const SizedBox(height: 2),
           Row(
             children: [
-              FaIcon(_getTypeIcon(session.type), size: 11, color: theme.colorScheme.outline),
+              FaIcon(_getTypeIcon(session.types.firstOrNull ?? SessionType.other), size: 11, color: theme.colorScheme.outline),
               const SizedBox(width: 6),
               Text(
                 session.typeLabel,

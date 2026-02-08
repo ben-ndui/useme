@@ -121,7 +121,7 @@ class _TimelineSessionCard extends StatelessWidget {
                 height: 40,
                 margin: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
-                  color: _getTypeColor(session.type),
+                  color: _getTypeColor(session.types.firstOrNull ?? SessionType.other),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -139,7 +139,7 @@ class _TimelineSessionCard extends StatelessWidget {
                     Row(
                       children: [
                         FaIcon(
-                          _getTypeIcon(session.type),
+                          _getTypeIcon(session.types.firstOrNull ?? SessionType.other),
                           size: 11,
                           color: theme.colorScheme.outline,
                         ),

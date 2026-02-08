@@ -153,7 +153,7 @@ class AIMessageContent extends StatelessWidget {
           fontSize: 13,
         ),
         blockquote: theme.textTheme.bodyMedium?.copyWith(
-          color: textColor?.withOpacity(0.8),
+          color: textColor?.withValues(alpha:0.8),
           fontStyle: FontStyle.italic,
         ),
         blockquoteDecoration: BoxDecoration(

@@ -28,15 +28,15 @@ class AIResponseBubble extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.purple.withOpacity(isDark ? 0.2 : 0.1),
-            Colors.blue.withOpacity(isDark ? 0.2 : 0.1),
+            Colors.purple.withValues(alpha:isDark ? 0.2 : 0.1),
+            Colors.blue.withValues(alpha:isDark ? 0.2 : 0.1),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Colors.purple.withOpacity(0.3),
+          color: Colors.purple.withValues(alpha:0.3),
           width: 1,
         ),
       ),
@@ -82,7 +82,7 @@ class AIResponseBubble extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: Colors.purple.withOpacity(0.2),
+              color: Colors.purple.withValues(alpha:0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: const Icon(
@@ -105,7 +105,7 @@ class AIResponseBubble extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.2),
+                color: Colors.orange.withValues(alpha:0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Text(
@@ -150,8 +150,8 @@ class AIResponseBubble extends StatelessWidget {
               action.label,
               style: const TextStyle(fontSize: 12),
             ),
-            backgroundColor: Colors.purple.withOpacity(0.1),
-            side: BorderSide(color: Colors.purple.withOpacity(0.3)),
+            backgroundColor: Colors.purple.withValues(alpha:0.1),
+            side: BorderSide(color: Colors.purple.withValues(alpha:0.3)),
             onPressed: () => onActionTap?.call(action),
           );
         }).toList(),

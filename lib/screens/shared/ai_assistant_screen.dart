@@ -22,7 +22,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
   final ChatAssistantService _aiService = ChatAssistantService();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  bool _isLoading = false;
+  final bool _isLoading = false;
   bool _isTyping = false;
   List<AIMessage> _messages = [];
   String? _conversationId;
@@ -698,7 +698,7 @@ Qu'est-ce qui t'intéresse le plus ?''';
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha:0.05),
                   blurRadius: 5,
                   offset: const Offset(0, 2),
                 ),
@@ -762,10 +762,10 @@ Qu'est-ce qui t'intéresse le plus ?''';
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.purple.withOpacity(0.1),
+                        color: Colors.purple.withValues(alpha:0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Colors.purple.withOpacity(0.3),
+                          color: Colors.purple.withValues(alpha:0.3),
                         ),
                       ),
                       child: Text(
@@ -797,7 +797,7 @@ Qu'est-ce qui t'intéresse le plus ?''';
         color: Theme.of(context).scaffoldBackgroundColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha:0.05),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),

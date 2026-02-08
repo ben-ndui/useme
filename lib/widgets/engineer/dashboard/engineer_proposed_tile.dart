@@ -63,7 +63,7 @@ class _EngineerProposedTileState extends State<EngineerProposedTile> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
-                  child: FaIcon(_getTypeIcon(widget.session.type), size: 18, color: Colors.purple),
+                  child: FaIcon(_getTypeIcon(widget.session.types.firstOrNull ?? SessionType.other), size: 18, color: Colors.purple),
                 ),
               ),
               const SizedBox(width: 14),

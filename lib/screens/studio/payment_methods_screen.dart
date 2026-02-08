@@ -205,17 +205,21 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
           ),
         ),
         const SizedBox(height: 16),
-        ...CancellationPolicy.values.map((policy) => RadioListTile<CancellationPolicy>(
-              title: Text(policy.label),
-              subtitle: Text(
-                policy.description,
-                style: theme.textTheme.bodySmall,
-              ),
-              value: policy,
-              groupValue: _config?.cancellationPolicy ?? CancellationPolicy.moderate,
-              onChanged: (value) => _updateCancellationPolicy(value!),
-              contentPadding: EdgeInsets.zero,
-            )),
+        RadioGroup<CancellationPolicy>(
+          groupValue: _config?.cancellationPolicy ?? CancellationPolicy.moderate,
+          onChanged: (value) => _updateCancellationPolicy(value!),
+          child: Column(
+            children: CancellationPolicy.values.map((policy) => RadioListTile<CancellationPolicy>(
+                  title: Text(policy.label),
+                  subtitle: Text(
+                    policy.description,
+                    style: theme.textTheme.bodySmall,
+                  ),
+                  value: policy,
+                  contentPadding: EdgeInsets.zero,
+                )).toList(),
+          ),
+        ),
         if (_config?.cancellationPolicy == CancellationPolicy.custom) ...[
           const SizedBox(height: 16),
           TextFormField(

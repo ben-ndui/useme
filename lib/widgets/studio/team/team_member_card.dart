@@ -24,7 +24,7 @@ class TeamMemberCard extends StatelessWidget {
           backgroundImage: member.photoURL != null ? NetworkImage(member.photoURL!) : null,
           child: member.photoURL == null
               ? Text(
-                  (member.displayName ?? member.email ?? 'U')[0].toUpperCase(),
+                  (member.displayName ?? member.email)[0].toUpperCase(),
                   style: TextStyle(color: theme.colorScheme.primary),
                 )
               : null,
@@ -33,7 +33,7 @@ class TeamMemberCard extends StatelessWidget {
           member.fullName,
           style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
-        subtitle: Text(member.email ?? '', style: theme.textTheme.bodySmall),
+        subtitle: Text(member.email, style: theme.textTheme.bodySmall),
         trailing: IconButton(
           icon: FaIcon(FontAwesomeIcons.ellipsisVertical, size: 16, color: theme.colorScheme.outline),
           onPressed: onOptionsPressed,

@@ -43,7 +43,7 @@ class EngineerSessionTile extends StatelessWidget {
               ),
               child: Center(
                 child: FaIcon(
-                  _getTypeIcon(session.type),
+                  _getTypeIcon(session.types.firstOrNull ?? SessionType.other),
                   size: 18,
                   color: _getStatusColor(session.displayStatus),
                 ),

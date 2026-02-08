@@ -123,7 +123,7 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
             child: _foundUser!.photoURL == null ? Text(_foundUser!.fullName[0].toUpperCase()) : null,
           ),
           title: Text(_foundUser!.fullName),
-          subtitle: Text(_foundUser!.email ?? ''),
+          subtitle: Text(_foundUser!.email),
           trailing: FilledButton(onPressed: _addExistingUser, child: const Text('Ajouter')),
         ),
       ),
