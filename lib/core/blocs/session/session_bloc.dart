@@ -27,7 +27,23 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     on<CheckinSessionEvent>(_onCheckinSession);
     on<CheckoutSessionEvent>(_onCheckoutSession);
     on<LoadSessionByIdEvent>(_onLoadSessionById);
+    on<LoadProSessionsEvent>(_onLoadProSessions);
     on<ClearSessionsEvent>(_onClearSessions);
+  }
+
+  Future<void> _onLoadProSessions(LoadProSessionsEvent event, Emitter<SessionState> emit) async {
+    emit(SessionLoadingState(sessions: state.sessions));
+    try {
+      final sessions = await _sessionService
+          .streamProSessions(event.proId)
+          .first;
+      emit(SessionsLoadedState(sessions: sessions));
+    } catch (e) {
+      emit(SessionErrorState(
+        errorMessage: 'Erreur: $e',
+        sessions: state.sessions,
+      ));
+    }
   }
 
   void _onClearSessions(ClearSessionsEvent event, Emitter<SessionState> emit) {

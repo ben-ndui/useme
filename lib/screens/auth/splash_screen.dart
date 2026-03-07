@@ -136,32 +136,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // Logo
-                        Container(
-                          width: 120,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            boxShadow: [
-                              BoxShadow(
-                                color: UseMeTheme.primaryColor.withValues(alpha: 0.2),
-                                blurRadius: 30,
-                                offset: const Offset(0, 10),
-                              ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Image.asset(
-                              'assets/logo/playstore.png',
-                              width: 120,
-                              height: 120,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 32),
-
                         // Title
                         Text(
                           'UZME',

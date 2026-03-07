@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/widgets/pro/pro_detail_bottom_sheet.dart';
@@ -9,11 +10,21 @@ import 'package:useme/widgets/pro/pro_detail_bottom_sheet.dart';
 import '../../helpers/widget_test_helpers.dart';
 
 void main() {
+  late MockAuthBloc mockAuthBloc;
   late MockMessagingBloc mockMessagingBloc;
+  late MockFavoriteBloc mockFavoriteBloc;
 
   setUp(() {
+    mockAuthBloc = MockAuthBloc();
     mockMessagingBloc = MockMessagingBloc();
+    mockFavoriteBloc = MockFavoriteBloc();
+    when(() => mockAuthBloc.state).thenReturn(
+      AuthAuthenticatedState(user: testAppUser()),
+    );
     when(() => mockMessagingBloc.state).thenReturn(MessagingInitialState());
+    when(() => mockFavoriteBloc.state).thenReturn(
+      const FavoriteState(favorites: []),
+    );
   });
 
   AppUser makeUser({
@@ -57,7 +68,9 @@ void main() {
 
   Widget buildSheet(AppUser user) {
     return buildTestApp(
+      authBloc: mockAuthBloc,
       messagingBloc: mockMessagingBloc,
+      favoriteBloc: mockFavoriteBloc,
       child: Scaffold(body: ProDetailBottomSheet(user: user)),
     );
   }
@@ -127,7 +140,9 @@ void main() {
 
     testWidgets('shows contact button', (tester) async {
       await tester.pumpWidget(buildTestApp(
+        authBloc: mockAuthBloc,
         messagingBloc: mockMessagingBloc,
+        favoriteBloc: mockFavoriteBloc,
         child: Scaffold(
           body: SizedBox(
             height: 800,

@@ -331,6 +331,39 @@ void main() {
     );
   });
 
+  group('LoadProSessionsEvent', () {
+    blocTest<SessionBloc, SessionState>(
+      'emits [loading, loaded] from pro stream',
+      build: () {
+        when(() => mockSessionService.streamProSessions('pro-1'))
+            .thenAnswer((_) => Stream.value(testSessions));
+        return buildBloc();
+      },
+      act: (bloc) =>
+          bloc.add(const LoadProSessionsEvent(proId: 'pro-1')),
+      expect: () => [
+        isA<SessionLoadingState>(),
+        isA<SessionsLoadedState>()
+            .having((s) => s.sessions.length, 'sessions count', 1),
+      ],
+    );
+
+    blocTest<SessionBloc, SessionState>(
+      'emits [loading, error] when pro stream fails',
+      build: () {
+        when(() => mockSessionService.streamProSessions('pro-1'))
+            .thenAnswer((_) => Stream.error(Exception('fail')));
+        return buildBloc();
+      },
+      act: (bloc) =>
+          bloc.add(const LoadProSessionsEvent(proId: 'pro-1')),
+      expect: () => [
+        isA<SessionLoadingState>(),
+        isA<SessionErrorState>(),
+      ],
+    );
+  });
+
   group('ClearSessionsEvent', () {
     blocTest<SessionBloc, SessionState>(
       'resets to initial state',

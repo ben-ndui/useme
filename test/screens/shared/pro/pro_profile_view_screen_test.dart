@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/screens/shared/pro/pro_profile_view_screen.dart';
@@ -11,12 +12,17 @@ import '../../../helpers/widget_test_helpers.dart';
 void main() {
   late MockAuthBloc mockAuthBloc;
   late MockMessagingBloc mockMessagingBloc;
+  late MockFavoriteBloc mockFavoriteBloc;
 
   setUp(() {
     mockAuthBloc = MockAuthBloc();
     mockMessagingBloc = MockMessagingBloc();
+    mockFavoriteBloc = MockFavoriteBloc();
     when(() => mockAuthBloc.state).thenReturn(AuthInitialState());
     when(() => mockMessagingBloc.state).thenReturn(MessagingInitialState());
+    when(() => mockFavoriteBloc.state).thenReturn(
+      const FavoriteState(favorites: []),
+    );
   });
 
   AppUser makeUser({
@@ -62,6 +68,7 @@ void main() {
     return buildTestApp(
       authBloc: mockAuthBloc,
       messagingBloc: mockMessagingBloc,
+      favoriteBloc: mockFavoriteBloc,
       child: ProProfileViewScreen(user: user),
     );
   }

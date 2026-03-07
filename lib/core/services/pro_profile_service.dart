@@ -113,6 +113,21 @@ class ProProfileService {
     }
   }
 
+  /// Récupère un utilisateur pro complet par son ID.
+  Future<AppUser?> getProUser(String userId) async {
+    try {
+      final doc = await _users.doc(userId).get();
+      if (!doc.exists || doc.data() == null) return null;
+
+      final user = AppUser.fromMap(doc.data()!, doc.id);
+      if (!user.hasProProfile) return null;
+      return user;
+    } catch (e) {
+      debugPrint('ProProfileService: erreur getProUser: $e');
+      return null;
+    }
+  }
+
   /// Recherche des pros disponibles par type.
   Future<List<AppUser>> searchPros({
     List<ProType>? types,

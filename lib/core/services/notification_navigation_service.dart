@@ -36,6 +36,9 @@ class NotificationNavigationService {
         }
         return AppRoutes.conversations;
 
+      case 'pro_booking_request':
+        return AppRoutes.proBookingsReceived;
+
       case 'session_assigned':
       case 'session_updated':
         final sessionId = data['sessionId'];

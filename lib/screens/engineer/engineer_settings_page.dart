@@ -31,6 +31,7 @@ class EngineerSettingsPage extends StatelessWidget {
             onTap: () => context.push(AppRoutes.profile),
           ),
           const SettingsProProfileTile(),
+          const SettingsProBookingsTile(),
           SettingsTile(
             icon: FontAwesomeIcons.calendarCheck,
             title: l10n.availability,

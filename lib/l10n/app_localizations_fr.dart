@@ -1234,6 +1234,16 @@ class AppLocalizationsFr extends AppLocalizations {
       'Ajoutez des artistes à vos favoris depuis la liste des artistes';
 
   @override
+  String get prosLabel => 'Pros';
+
+  @override
+  String get noFavoritePros => 'Aucun pro favori';
+
+  @override
+  String get discoverProsToFavorite =>
+      'Découvrez les pros et ajoutez-les à vos favoris';
+
+  @override
   String get unnamed => 'Sans nom';
 
   @override
@@ -3242,4 +3252,42 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get proBookingSelectTime => 'Veuillez selectionner un creneau';
+
+  @override
+  String get proBookingsReceived => 'Demandes reçues';
+
+  @override
+  String get proBookingsReceivedDesc => 'Gérez vos demandes de booking';
+
+  @override
+  String get proBookingsEmpty => 'Aucune demande pour le moment';
+
+  @override
+  String get proBookingsEmptyDesc => 'Vos demandes de booking apparaîtront ici';
+
+  @override
+  String proBookingFrom(String name) {
+    return 'Demande de $name';
+  }
+
+  @override
+  String get proBookingAccept => 'Accepter';
+
+  @override
+  String get proBookingDecline => 'Refuser';
+
+  @override
+  String get proBookingAccepted => 'Demande acceptée';
+
+  @override
+  String get proBookingDeclined => 'Demande refusée';
+
+  @override
+  String get proBookingPending => 'En attente';
+
+  @override
+  String get proBookingConfirmed => 'Confirmée';
+
+  @override
+  String get proBookingStatusCancelled => 'Annulée';
 }

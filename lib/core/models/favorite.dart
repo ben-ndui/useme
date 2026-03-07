@@ -5,7 +5,8 @@ import 'package:equatable/equatable.dart';
 enum FavoriteType {
   studio,
   engineer,
-  artist;
+  artist,
+  pro;
 
   static FavoriteType fromString(String? value) {
     return FavoriteType.values.firstWhere(

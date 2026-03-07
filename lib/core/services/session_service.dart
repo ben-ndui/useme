@@ -165,16 +165,18 @@ class SessionService {
     try {
       final targetUserId = session.isProSession ? session.proId! : session.studioId;
       final notifRef = _firestore.collection('user_notifications').doc();
+      final isProSession = session.isProSession;
       await notifRef.set({
         'id': notifRef.id,
         'userId': targetUserId,
-        'type': 'session_request',
+        'type': isProSession ? 'pro_booking_request' : 'session_request',
         'title': 'Nouvelle demande de session',
         'body': '${session.artistName} souhaite réserver une session ${session.typeLabel}',
         'data': {
           'sessionId': session.id,
           'artistName': session.artistName,
           'sessionType': session.types.firstOrNull?.name ?? 'other',
+          if (isProSession) 'proId': session.proId,
         },
         'isRead': false,
         'createdAt': FieldValue.serverTimestamp(),
@@ -264,6 +266,7 @@ class SessionService {
           'data': {
             'sessionId': session.id,
             'studioId': session.studioId,
+            if (session.isProSession) 'proId': session.proId,
             'sessionType': session.types.firstOrNull?.name ?? 'other',
           },
           'isRead': false,

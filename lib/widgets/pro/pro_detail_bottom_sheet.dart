@@ -3,9 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/app_user.dart';
+import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/favorite/favorite_button.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/screens/shared/pro/pro_booking_screen.dart';
 import 'package:useme/screens/shared/pro/pro_profile_view_screen.dart';
@@ -21,6 +24,7 @@ class ProDetailBottomSheet extends StatelessWidget {
   static void show(BuildContext context, AppUser user) {
     final authBloc = context.read<AuthBloc>();
     final messagingBloc = context.read<MessagingBloc>();
+    final favoriteBloc = context.read<FavoriteBloc>();
 
     showModalBottomSheet(
       context: context,
@@ -30,6 +34,7 @@ class ProDetailBottomSheet extends StatelessWidget {
         providers: [
           BlocProvider.value(value: authBloc),
           BlocProvider.value(value: messagingBloc),
+          BlocProvider.value(value: favoriteBloc),
         ],
         child: ProDetailBottomSheet(user: user),
       ),
@@ -111,13 +116,20 @@ class ProDetailBottomSheet extends StatelessWidget {
                     ),
                     if (_profile.isVerified)
                       const Padding(
-                        padding: EdgeInsets.only(left: 8),
+                        padding: EdgeInsets.only(left: 4),
                         child: FaIcon(
                           FontAwesomeIcons.solidCircleCheck,
                           size: 18,
                           color: Colors.blue,
                         ),
                       ),
+                    FavoriteButtonCompact(
+                      targetId: user.uid,
+                      type: FavoriteType.pro,
+                      targetName: _profile.displayName,
+                      targetPhotoUrl: user.photoURL,
+                      targetAddress: _profile.city,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 6),
@@ -168,22 +180,21 @@ class ProDetailBottomSheet extends StatelessWidget {
             ? DecorationImage(
                 image: NetworkImage(user.photoURL!),
                 fit: BoxFit.cover,
+                onError: (_, __) {},
               )
             : null,
       ),
-      child: user.photoURL == null
-          ? Center(
-              child: Text(
-                _profile.displayName.isNotEmpty
-                    ? _profile.displayName[0].toUpperCase()
-                    : '?',
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  color: theme.colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            )
-          : null,
+      child: Center(
+        child: Text(
+          _profile.displayName.isNotEmpty
+              ? _profile.displayName[0].toUpperCase()
+              : '?',
+          style: theme.textTheme.headlineMedium?.copyWith(
+            color: theme.colorScheme.primary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 

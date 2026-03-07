@@ -1,5 +1,5 @@
 # Environment variables (NEVER commit)
-.env
+.claude/.env
 .env.*
 assets/.env
 !.env.example

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/widgets/pro/pro_card.dart';
@@ -7,6 +10,20 @@ import 'package:useme/widgets/pro/pro_card.dart';
 import '../../helpers/widget_test_helpers.dart';
 
 void main() {
+  late MockAuthBloc mockAuthBloc;
+  late MockFavoriteBloc mockFavoriteBloc;
+
+  setUp(() {
+    mockAuthBloc = MockAuthBloc();
+    mockFavoriteBloc = MockFavoriteBloc();
+    when(() => mockAuthBloc.state).thenReturn(
+      AuthAuthenticatedState(user: testAppUser()),
+    );
+    when(() => mockFavoriteBloc.state).thenReturn(
+      const FavoriteState(favorites: []),
+    );
+  });
+
   AppUser makeUser({
     String displayName = 'DJ Test',
     List<ProType> proTypes = const [ProType.musician],
@@ -39,6 +56,8 @@ void main() {
       final user = makeUser();
 
       await tester.pumpWidget(buildTestApp(
+        authBloc: mockAuthBloc,
+        favoriteBloc: mockFavoriteBloc,
         child: Scaffold(
           body: ProCard(user: user, onTap: () {}),
         ),
@@ -53,6 +72,8 @@ void main() {
       final user = makeUser(city: 'Paris');
 
       await tester.pumpWidget(buildTestApp(
+        authBloc: mockAuthBloc,
+        favoriteBloc: mockFavoriteBloc,
         child: Scaffold(
           body: ProCard(user: user, onTap: () {}),
         ),
@@ -66,6 +87,8 @@ void main() {
       final user = makeUser(remote: true);
 
       await tester.pumpWidget(buildTestApp(
+        authBloc: mockAuthBloc,
+        favoriteBloc: mockFavoriteBloc,
         child: Scaffold(
           body: ProCard(user: user, onTap: () {}),
         ),
@@ -79,6 +102,8 @@ void main() {
       final user = makeUser(rating: 4.5);
 
       await tester.pumpWidget(buildTestApp(
+        authBloc: mockAuthBloc,
+        favoriteBloc: mockFavoriteBloc,
         child: Scaffold(
           body: ProCard(user: user, onTap: () {}),
         ),
@@ -92,6 +117,8 @@ void main() {
       final user = makeUser(hourlyRate: 50.0);
 
       await tester.pumpWidget(buildTestApp(
+        authBloc: mockAuthBloc,
+        favoriteBloc: mockFavoriteBloc,
         child: Scaffold(
           body: ProCard(user: user, onTap: () {}),
         ),
@@ -105,6 +132,8 @@ void main() {
       final user = makeUser();
 
       await tester.pumpWidget(buildTestApp(
+        authBloc: mockAuthBloc,
+        favoriteBloc: mockFavoriteBloc,
         child: Scaffold(
           body: ProCard(user: user, onTap: () {}),
         ),
@@ -119,6 +148,8 @@ void main() {
       bool tapped = false;
 
       await tester.pumpWidget(buildTestApp(
+        authBloc: mockAuthBloc,
+        favoriteBloc: mockFavoriteBloc,
         child: Scaffold(
           body: ProCard(user: user, onTap: () => tapped = true),
         ),
@@ -133,6 +164,8 @@ void main() {
       final user = makeUser(displayName: 'Mix Master');
 
       await tester.pumpWidget(buildTestApp(
+        authBloc: mockAuthBloc,
+        favoriteBloc: mockFavoriteBloc,
         child: Scaffold(
           body: ProCard(user: user, onTap: () {}),
         ),

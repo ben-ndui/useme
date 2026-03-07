@@ -18,6 +18,12 @@ class MockMessagingBloc
     extends MockBloc<MessagingEvent, MessagingState>
     implements MessagingBloc {}
 
+class MockSessionBloc extends MockBloc<SessionEvent, SessionState>
+    implements SessionBloc {}
+
+class MockFavoriteBloc extends MockBloc<FavoriteEvent, FavoriteState>
+    implements FavoriteBloc {}
+
 /// Creates a test [AppUser] with optional [proProfile].
 AppUser testAppUser({
   String uid = 'test-uid',
@@ -49,6 +55,8 @@ Widget buildTestApp({
   AuthBloc? authBloc,
   ProProfileBloc? proProfileBloc,
   MessagingBloc? messagingBloc,
+  SessionBloc? sessionBloc,
+  FavoriteBloc? favoriteBloc,
   Locale locale = const Locale('en'),
   List<BlocProvider>? extraProviders,
 }) {
@@ -58,6 +66,10 @@ Widget buildTestApp({
       BlocProvider<ProProfileBloc>.value(value: proProfileBloc),
     if (messagingBloc != null)
       BlocProvider<MessagingBloc>.value(value: messagingBloc),
+    if (sessionBloc != null)
+      BlocProvider<SessionBloc>.value(value: sessionBloc),
+    if (favoriteBloc != null)
+      BlocProvider<FavoriteBloc>.value(value: favoriteBloc),
     ...?extraProviders,
   ];
 

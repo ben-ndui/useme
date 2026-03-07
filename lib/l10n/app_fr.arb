@@ -570,6 +570,9 @@
   "discoverEngineersToFavorite": "Découvrez les ingénieurs et ajoutez-les à vos favoris",
   "noFavoriteArtists": "Aucun artiste favori",
   "addArtistsToFavorite": "Ajoutez des artistes à vos favoris depuis la liste des artistes",
+  "prosLabel": "Pros",
+  "noFavoritePros": "Aucun pro favori",
+  "discoverProsToFavorite": "Découvrez les pros et ajoutez-les à vos favoris",
   "unnamed": "Sans nom",
 
   "claimStudioTitle": "Mon studio",
@@ -1372,5 +1375,23 @@
   "proBookingSend": "Envoyer la demande",
   "proBookingSent": "Demande envoyee !",
   "proBookingSelectDate": "Veuillez selectionner une date",
-  "proBookingSelectTime": "Veuillez selectionner un creneau"
+  "proBookingSelectTime": "Veuillez selectionner un creneau",
+
+  "proBookingsReceived": "Demandes reçues",
+  "proBookingsReceivedDesc": "Gérez vos demandes de booking",
+  "proBookingsEmpty": "Aucune demande pour le moment",
+  "proBookingsEmptyDesc": "Vos demandes de booking apparaîtront ici",
+  "proBookingFrom": "Demande de {name}",
+  "@proBookingFrom": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "proBookingAccept": "Accepter",
+  "proBookingDecline": "Refuser",
+  "proBookingAccepted": "Demande acceptée",
+  "proBookingDeclined": "Demande refusée",
+  "proBookingPending": "En attente",
+  "proBookingConfirmed": "Confirmée",
+  "proBookingStatusCancelled": "Annulée"
 }

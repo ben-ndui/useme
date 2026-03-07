@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/app_user.dart';
+import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/screens/shared/pro/pro_booking_screen.dart';
+import 'package:useme/widgets/favorite/favorite_button.dart';
 
 /// Full-screen pro profile view for browsing.
 class ProProfileViewScreen extends StatelessWidget {
@@ -26,13 +28,20 @@ class ProProfileViewScreen extends StatelessWidget {
         actions: [
           if (_profile.isVerified)
             Padding(
-              padding: const EdgeInsets.only(right: 16),
+              padding: const EdgeInsets.only(right: 4),
               child: FaIcon(
                 FontAwesomeIcons.solidCircleCheck,
                 size: 18,
                 color: Colors.blue,
               ),
             ),
+          FavoriteButtonCompact(
+            targetId: user.uid,
+            type: FavoriteType.pro,
+            targetName: _profile.displayName,
+            targetPhotoUrl: user.photoURL,
+            targetAddress: _profile.city,
+          ),
         ],
       ),
       body: ListView(
@@ -72,22 +81,21 @@ class ProProfileViewScreen extends StatelessWidget {
                   ? DecorationImage(
                       image: NetworkImage(user.photoURL!),
                       fit: BoxFit.cover,
+                      onError: (_, __) {},
                     )
                   : null,
             ),
-            child: user.photoURL == null
-                ? Center(
-                    child: Text(
-                      _profile.displayName.isNotEmpty
-                          ? _profile.displayName[0].toUpperCase()
-                          : '?',
-                      style: theme.textTheme.headlineLarge?.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )
-                : null,
+            child: Center(
+              child: Text(
+                _profile.displayName.isNotEmpty
+                    ? _profile.displayName[0].toUpperCase()
+                    : '?',
+                style: theme.textTheme.headlineLarge?.copyWith(
+                  color: theme.colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(

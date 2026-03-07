@@ -132,6 +132,16 @@ class LoadSessionByIdEvent extends SessionEvent {
   List<Object?> get props => [sessionId];
 }
 
+/// Load sessions for a pro (freelance bookings received)
+class LoadProSessionsEvent extends SessionEvent {
+  final String proId;
+
+  const LoadProSessionsEvent({required this.proId});
+
+  @override
+  List<Object?> get props => [proId];
+}
+
 /// Clear all sessions (used on logout)
 class ClearSessionsEvent extends SessionEvent {
   const ClearSessionsEvent();

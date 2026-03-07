@@ -5,9 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/favorite.dart';
+import 'package:useme/core/services/pro_profile_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/favorite/favorite_button.dart';
+import 'package:useme/widgets/pro/pro_detail_bottom_sheet.dart';
 
 /// Écran listant les favoris de l'utilisateur (adapté selon le rôle).
 class FavoritesScreen extends StatelessWidget {
@@ -47,6 +49,13 @@ class FavoritesScreen extends StatelessWidget {
               emptyIcon: FontAwesomeIcons.headphones,
               emptyTitle: l10n.noFavoriteEngineers,
               emptySubtitle: l10n.discoverEngineersToFavorite,
+            ),
+            _TabConfig(
+              label: l10n.prosLabel,
+              type: FavoriteType.pro,
+              emptyIcon: FontAwesomeIcons.briefcase,
+              emptyTitle: l10n.noFavoritePros,
+              emptySubtitle: l10n.discoverProsToFavorite,
             ),
           ];
 
@@ -256,9 +265,23 @@ class _FavoriteCard extends StatelessWidget {
 
   Widget _buildAvatar(ThemeData theme) {
     if (favorite.targetPhotoUrl != null && favorite.targetPhotoUrl!.isNotEmpty) {
+      final initial = (favorite.targetName?.isNotEmpty == true)
+          ? favorite.targetName![0].toUpperCase()
+          : '?';
+
       return CircleAvatar(
         radius: 28,
         backgroundImage: NetworkImage(favorite.targetPhotoUrl!),
+        onBackgroundImageError: (_, __) {},
+        backgroundColor: theme.colorScheme.primaryContainer,
+        child: Text(
+          initial,
+          style: TextStyle(
+            color: theme.colorScheme.onPrimaryContainer,
+            fontWeight: FontWeight.w600,
+            fontSize: 20,
+          ),
+        ),
       );
     }
 
@@ -292,6 +315,16 @@ class _FavoriteCard extends StatelessWidget {
       case FavoriteType.artist:
         // TODO: Navigation vers profil artiste
         break;
+      case FavoriteType.pro:
+        _navigateToProProfile(context);
+        break;
+    }
+  }
+
+  Future<void> _navigateToProProfile(BuildContext context) async {
+    final user = await ProProfileService().getProUser(favorite.targetId);
+    if (user != null && context.mounted) {
+      ProDetailBottomSheet.show(context, user);
     }
   }
 }

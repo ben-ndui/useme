@@ -31,6 +31,7 @@ class ArtistSettingsPage extends StatelessWidget {
             onTap: () => context.push(AppRoutes.profile),
           ),
           const SettingsProProfileTile(),
+          const SettingsProBookingsTile(),
 
           const Divider(height: 32),
 

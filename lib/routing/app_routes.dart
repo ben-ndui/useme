@@ -104,6 +104,7 @@ class AppRoutes {
   static const String proDiscovery = '/pro/discover';
   static const String proProfileView = '/pro/view';
   static const String proBooking = '/pro/book';
+  static const String proBookingsReceived = '/pro/bookings';
 
   // Device Sessions / Security
   static const String connectedDevices = '/settings/devices';

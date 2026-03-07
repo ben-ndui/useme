@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:useme/core/models/app_user.dart';
+import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/favorite/favorite_button.dart';
 
 /// Card displaying a pro profile in the discovery list.
 class ProCard extends StatelessWidget {
@@ -31,7 +33,19 @@ class ProCard extends StatelessWidget {
               _buildAvatar(theme),
               const SizedBox(width: 14),
               Expanded(child: _buildInfo(theme, l10n)),
-              _buildRate(theme),
+              Column(
+                children: [
+                  FavoriteButtonCompact(
+                    targetId: user.uid,
+                    type: FavoriteType.pro,
+                    targetName: _profile.displayName,
+                    targetPhotoUrl: user.photoURL,
+                    targetAddress: _profile.city,
+                  ),
+                  const SizedBox(height: 4),
+                  _buildRate(theme),
+                ],
+              ),
             ],
           ),
         ),
@@ -50,22 +64,21 @@ class ProCard extends StatelessWidget {
             ? DecorationImage(
                 image: NetworkImage(user.photoURL!),
                 fit: BoxFit.cover,
+                onError: (_, __) {},
               )
             : null,
       ),
-      child: user.photoURL == null
-          ? Center(
-              child: Text(
-                _profile.displayName.isNotEmpty
-                    ? _profile.displayName[0].toUpperCase()
-                    : '?',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  color: theme.colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            )
-          : null,
+      child: Center(
+        child: Text(
+          _profile.displayName.isNotEmpty
+              ? _profile.displayName[0].toUpperCase()
+              : '?',
+          style: theme.textTheme.titleLarge?.copyWith(
+            color: theme.colorScheme.primary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 

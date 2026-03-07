@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
@@ -246,6 +247,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           context.push('/sessions/$sessionId');
         }
         break;
+      case 'pro_booking_request':
+        // pro_booking_request = pour les pros (demande d'un artiste)
+        context.push(AppRoutes.proBookingsReceived);
+        break;
       case 'session_confirmed':
       case 'session_cancelled':
         // Ces notifs sont pour les artistes (réponse du studio)
@@ -333,6 +338,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       case 'new_message':
         return FontAwesomeIcons.message;
       case 'session_request':
+      case 'pro_booking_request':
         return FontAwesomeIcons.calendarPlus;
       case 'session_confirmed':
         return FontAwesomeIcons.circleCheck;
@@ -360,6 +366,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       case 'new_message':
         return Colors.blue;
       case 'session_request':
+      case 'pro_booking_request':
       case 'booking_created':
         return Colors.orange;
       case 'session_confirmed':

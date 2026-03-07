@@ -260,12 +260,10 @@ class _StudioSelectorBottomSheetState extends State<StudioSelectorBottomSheet> {
           backgroundColor: theme.colorScheme.primaryContainer,
           backgroundImage: studio.photoUrl != null ? NetworkImage(studio.photoUrl!) : null,
           onBackgroundImageError: studio.photoUrl != null ? (_, __) {} : null,
-          child: studio.photoUrl == null
-              ? Text(
-                  studio.name[0].toUpperCase(),
-                  style: TextStyle(color: theme.colorScheme.primary, fontWeight: FontWeight.w600),
-                )
-              : null,
+          child: Text(
+            studio.name[0].toUpperCase(),
+            style: TextStyle(color: theme.colorScheme.primary, fontWeight: FontWeight.w600),
+          ),
         ),
         title: Text(
           studio.name,

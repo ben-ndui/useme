@@ -142,6 +142,8 @@ if (session.canBeCancelled)
 
 ## Firebase Collections
 
+### App Collections (used by Flutter app)
+
 | Collection | Description |
 |------------|-------------|
 | `users` | User accounts with role-based fields, studioProfile |
@@ -149,12 +151,34 @@ if (session.canBeCancelled)
 | `useme_bookings` | Booking requests |
 | `useme_artists` | Artist profiles linked to studios |
 | `useme_studio_services` | Services offered by studios |
+| `useme_studio_rooms` | Studio rooms/spaces |
 | `useme_favorites` | User favorites (studios, engineers, artists) |
+| `conversations` | Messaging between users |
+| `messages` | Messages (subcollection of conversations) |
+| `user_notifications` | User notifications |
 | `team_invitations` | Engineer team invitations |
 | `studio_invitations` | Artist studio invitations |
 | `studio_claims` | Studio claim requests (pending approval) |
-| `conversations` | Messaging between users |
-| `unavailabilities` | Studio/engineer unavailable periods |
+| `studio_requests` | Requests to add missing studios |
+| `studio_unavailabilities` | Studio unavailable periods |
+| `subscription_tiers` | Subscription tier configurations |
+| `app_config` | App configuration (Stripe, etc.) |
+| `ai_conversations` | AI assistant conversations |
+| `ai_messages` | AI messages (subcollection) |
+| `ai_settings` | AI configuration per studio |
+
+### Backend-Only Collections (Cloud Functions)
+
+| Collection | Description |
+|------------|-------------|
+| `ai_actions_log` | AI action tracking/logs |
+| `ai_analytics` | AI analytics data |
+| `counters` | Document counters (invoice numbering) |
+| `encryption_ivs` | Encryption initialization vectors |
+| `invitation_codes` | Invitation codes |
+| `payment_accounts` | Payment account records |
+| `payment_distributions` | Payment distribution records |
+| `xpTransactions` | Experience point transactions |
 
 ## Role-Based Access
 
@@ -194,6 +218,51 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 // 5. Local imports
 import 'package:useme/core/models/session.dart';
 ```
+
+## Key Features Implemented
+
+### Map & Search
+- **Search by city/address**: `SearchByAddressEvent` in `map_event.dart` - geocoding search
+- **"Search in this zone" button**: `search_in_zone_button.dart` - appears when map moves
+- **Service filters**: Filter studios by services offered
+- **Partner filter**: Show only verified partner studios
+
+### Sessions & Booking
+- **Calendar views**: Week, Month, List views in `artist_sessions_page.dart`
+- **Export to phone calendar**: `add_2_calendar` package in `artist_session_detail_screen.dart`
+- **Availability picker**: `availability_picker.dart` with engineer availability
+- **Working hours**: `WorkingHours` model from smoothandesign_package
+
+### Studios
+- **Manual registration**: `manual_studio_form_screen.dart` - no Google Maps required
+- **Studio types**: `StudioType` enum (pro, independent, amateur) with badges
+- **Verification badges**: Partner verified badge in `studio_detail_bottom_sheet.dart`
+- **Studio claiming**: Claim existing Google Places studios via `studio_claim_screen.dart`
+
+### Calendar Integration
+- **Google Calendar import**: `CalendarBloc` with OAuth flow
+- **Unavailabilities sync**: Import events as unavailabilities
+- **Calendar review screen**: `calendar_import_review_screen.dart`
+
+### Messaging
+- **Contact search**: `new_conversation_bottom_sheet.dart` - search by name/email
+- **AI Assistant**: `chat_assistant_service.dart` with intent detection
+- **Voice messages**: Audio recording in conversations
+- **Reactions**: Message reactions with emojis
+
+### User Management
+- **Multi-studio support**: `studioIds: List<String>` in AppUser for artists
+- **Team invitations**: Invite engineers to studio team
+- **Artist invitations**: Invite artists to studio
+- **Device sessions**: `device_sessions_screen.dart` - manage connected devices
+
+### Shared Package (smoothandesign_package)
+Components migrated to shared package for reuse:
+- Models: `WorkingHours`, `Unavailability`, `CalendarConnection`
+- BLoCs: `LocaleBloc`
+- Widgets: `AppSnackBar`, `AppLoader`, `FloatingBottomNav`, `NotificationBell`
+- Glass widgets: `GlassChip`, `GlassEmptyState`, `GlassSectionHeader`
+- Settings: `SettingsTile`, `SettingsSectionHeader`
 
 ## Backend
 

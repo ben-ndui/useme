@@ -434,6 +434,9 @@
   "discoverEngineersToFavorite": "Discover engineers and add them to your favorites",
   "noFavoriteArtists": "No favorite artist",
   "addArtistsToFavorite": "Add artists to your favorites from the artists list",
+  "prosLabel": "Pros",
+  "noFavoritePros": "No favorite pro",
+  "discoverProsToFavorite": "Discover pros and add them to your favorites",
   "unnamed": "Unnamed",
 
   "claimStudioTitle": "My studio",
@@ -1180,5 +1183,23 @@
   "proBookingSend": "Send request",
   "proBookingSent": "Request sent!",
   "proBookingSelectDate": "Please select a date",
-  "proBookingSelectTime": "Please select a time slot"
+  "proBookingSelectTime": "Please select a time slot",
+
+  "proBookingsReceived": "Requests received",
+  "proBookingsReceivedDesc": "Manage your booking requests",
+  "proBookingsEmpty": "No requests yet",
+  "proBookingsEmptyDesc": "Your booking requests will appear here",
+  "proBookingFrom": "Request from {name}",
+  "@proBookingFrom": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "proBookingAccept": "Accept",
+  "proBookingDecline": "Decline",
+  "proBookingAccepted": "Request accepted",
+  "proBookingDeclined": "Request declined",
+  "proBookingPending": "Pending",
+  "proBookingConfirmed": "Confirmed",
+  "proBookingStatusCancelled": "Cancelled"
 }

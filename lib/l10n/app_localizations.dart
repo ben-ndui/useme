@@ -2402,6 +2402,24 @@ abstract class AppLocalizations {
   /// **'Ajoutez des artistes à vos favoris depuis la liste des artistes'**
   String get addArtistsToFavorite;
 
+  /// No description provided for @prosLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pros'**
+  String get prosLabel;
+
+  /// No description provided for @noFavoritePros.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun pro favori'**
+  String get noFavoritePros;
+
+  /// No description provided for @discoverProsToFavorite.
+  ///
+  /// In fr, this message translates to:
+  /// **'Découvrez les pros et ajoutez-les à vos favoris'**
+  String get discoverProsToFavorite;
+
   /// No description provided for @unnamed.
   ///
   /// In fr, this message translates to:
@@ -6067,6 +6085,78 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Veuillez selectionner un creneau'**
   String get proBookingSelectTime;
+
+  /// No description provided for @proBookingsReceived.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demandes reçues'**
+  String get proBookingsReceived;
+
+  /// No description provided for @proBookingsReceivedDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérez vos demandes de booking'**
+  String get proBookingsReceivedDesc;
+
+  /// No description provided for @proBookingsEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune demande pour le moment'**
+  String get proBookingsEmpty;
+
+  /// No description provided for @proBookingsEmptyDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vos demandes de booking apparaîtront ici'**
+  String get proBookingsEmptyDesc;
+
+  /// No description provided for @proBookingFrom.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demande de {name}'**
+  String proBookingFrom(String name);
+
+  /// No description provided for @proBookingAccept.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accepter'**
+  String get proBookingAccept;
+
+  /// No description provided for @proBookingDecline.
+  ///
+  /// In fr, this message translates to:
+  /// **'Refuser'**
+  String get proBookingDecline;
+
+  /// No description provided for @proBookingAccepted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demande acceptée'**
+  String get proBookingAccepted;
+
+  /// No description provided for @proBookingDeclined.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demande refusée'**
+  String get proBookingDeclined;
+
+  /// No description provided for @proBookingPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'En attente'**
+  String get proBookingPending;
+
+  /// No description provided for @proBookingConfirmed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Confirmée'**
+  String get proBookingConfirmed;
+
+  /// No description provided for @proBookingStatusCancelled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annulée'**
+  String get proBookingStatusCancelled;
 }
 
 class _AppLocalizationsDelegate

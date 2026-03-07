@@ -46,6 +46,7 @@ import 'package:useme/screens/dev/store_screenshots_page.dart';
 import 'package:useme/screens/onboarding/onboarding_screen.dart';
 import 'package:useme/screens/shared/device_sessions_screen.dart';
 import 'package:useme/screens/shared/pro/pro_profile_setup_screen.dart';
+import 'package:useme/screens/shared/pro/pro_bookings_received_screen.dart';
 import 'package:useme/screens/shared/pro/pro_discovery_screen.dart';
 import 'app_routes.dart';
 
@@ -256,6 +257,12 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.proDiscovery,
           builder: (context, state) => const ProDiscoveryScreen(),
+        ),
+
+        // Pro Bookings received
+        GoRoute(
+          path: AppRoutes.proBookingsReceived,
+          builder: (context, state) => const ProBookingsReceivedScreen(),
         ),
 
         // Team management

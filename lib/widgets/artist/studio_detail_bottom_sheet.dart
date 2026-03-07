@@ -144,15 +144,13 @@ class StudioDetailBottomSheet extends StatelessWidget {
               )
             : null,
       ),
-      child: studio.photoUrl == null
-          ? Center(
-              child: FaIcon(
-                FontAwesomeIcons.buildingUser,
-                color: theme.colorScheme.primary,
-                size: 32,
-              ),
-            )
-          : null,
+      child: Center(
+        child: FaIcon(
+          FontAwesomeIcons.buildingUser,
+          color: theme.colorScheme.primary,
+          size: 32,
+        ),
+      ),
     );
   }
 
