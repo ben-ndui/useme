@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 
 // Re-export les types du package pour simplifier les imports
@@ -72,27 +73,28 @@ class UseMeIAPService extends BaseIAPService {
       throw Exception('Tier inconnu pour le produit: ${purchase.productID}');
     }
 
-    // Récupérer l'utilisateur courant
-    // Note: L'userId doit être passé au service ou récupéré autrement
-    // Pour l'instant on utilise les metadata du purchase si disponibles
     final userId = _currentUserId;
     if (userId == null) {
       throw Exception('Utilisateur non connecté');
     }
 
-    // Mettre à jour l'abonnement dans Firestore
-    await _firestore.collection('users').doc(userId).update({
-      'subscription': {
-        'tierId': tierId,
-        'startedAt': FieldValue.serverTimestamp(),
-        'expiresAt': null, // Géré par Apple
-        'appleProductId': purchase.productID,
-        'appleTransactionId': purchase.purchaseID,
-        'purchaseSource': 'apple_iap',
-        'sessionsThisMonth': 0,
-        'sessionsResetAt': FieldValue.serverTimestamp(),
-      },
-    });
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'subscription': {
+          'tierId': tierId,
+          'startedAt': FieldValue.serverTimestamp(),
+          'expiresAt': null,
+          'appleProductId': purchase.productID,
+          'appleTransactionId': purchase.purchaseID,
+          'purchaseSource': 'apple_iap',
+          'sessionsThisMonth': 0,
+          'sessionsResetAt': FieldValue.serverTimestamp(),
+        },
+      });
+    } catch (e) {
+      debugPrint('IAP deliverProduct failed for $userId: $e');
+      rethrow;
+    }
   }
 
   /// UserId courant (à définir avant les achats)
