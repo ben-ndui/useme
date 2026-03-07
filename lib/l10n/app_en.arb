@@ -1613,5 +1613,17 @@
   "adminInvalidPublicKeyFormat": "Invalid public key format",
   "adminTestKeyInProduction": "Test key used in production mode",
   "adminProdKeyInTestMode": "Production key used in test mode",
-  "adminStripeConfigSaved": "Stripe configuration saved"
+  "adminStripeConfigSaved": "Stripe configuration saved",
+
+  "claimRequestSent": "Request sent",
+  "ok": "OK",
+  "nameOptional": "Name (optional)",
+  "send": "Send",
+  "uncertain": "Uncertain",
+  "fileOrPhoto": "File or photo",
+  "sessionOrBooking": "Session or booking",
+  "noEngineerInTeam": "No engineer in team",
+  "statistics": "Statistics",
+  "availabilities": "Availabilities",
+  "remote": "Remote"
 }

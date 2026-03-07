@@ -7527,6 +7527,72 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Configuration Stripe enregistrée'**
   String get adminStripeConfigSaved;
+
+  /// No description provided for @claimRequestSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demande envoyée'**
+  String get claimRequestSent;
+
+  /// No description provided for @ok.
+  ///
+  /// In fr, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @nameOptional.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom (optionnel)'**
+  String get nameOptional;
+
+  /// No description provided for @send.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer'**
+  String get send;
+
+  /// No description provided for @uncertain.
+  ///
+  /// In fr, this message translates to:
+  /// **'Incertain'**
+  String get uncertain;
+
+  /// No description provided for @fileOrPhoto.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fichier ou photo'**
+  String get fileOrPhoto;
+
+  /// No description provided for @sessionOrBooking.
+  ///
+  /// In fr, this message translates to:
+  /// **'Session ou réservation'**
+  String get sessionOrBooking;
+
+  /// No description provided for @noEngineerInTeam.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun ingénieur dans l\'équipe'**
+  String get noEngineerInTeam;
+
+  /// No description provided for @statistics.
+  ///
+  /// In fr, this message translates to:
+  /// **'Statistiques'**
+  String get statistics;
+
+  /// No description provided for @availabilities.
+  ///
+  /// In fr, this message translates to:
+  /// **'Disponibilités'**
+  String get availabilities;
+
+  /// No description provided for @remote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Remote'**
+  String get remote;
 }
 
 class _AppLocalizationsDelegate

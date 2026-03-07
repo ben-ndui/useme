@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/messaging/reaction_button.dart';
 import 'package:useme/widgets/messaging/reaction_picker.dart';
 
@@ -60,6 +61,7 @@ class MessageOptionsSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return SafeArea(
       child: Column(
@@ -70,13 +72,13 @@ class MessageOptionsSheet extends StatelessWidget {
           if (message.text != null && message.text!.isNotEmpty && onCopy != null)
             ListTile(
               leading: const Icon(Icons.copy),
-              title: const Text('Copier'),
+              title: Text(l10n.copy),
               onTap: onCopy,
             ),
           if (isMe && !message.isDeleted && onDelete != null)
             ListTile(
               leading: Icon(Icons.delete, color: theme.colorScheme.error),
-              title: Text('Supprimer', style: TextStyle(color: theme.colorScheme.error)),
+              title: Text(l10n.delete, style: TextStyle(color: theme.colorScheme.error)),
               onTap: onDelete,
             ),
         ],

@@ -1805,5 +1805,17 @@
   "adminInvalidPublicKeyFormat": "Format de clé publique invalide",
   "adminTestKeyInProduction": "Clé de test utilisée en mode production",
   "adminProdKeyInTestMode": "Clé de production utilisée en mode test",
-  "adminStripeConfigSaved": "Configuration Stripe enregistrée"
+  "adminStripeConfigSaved": "Configuration Stripe enregistrée",
+
+  "claimRequestSent": "Demande envoyée",
+  "ok": "OK",
+  "nameOptional": "Nom (optionnel)",
+  "send": "Envoyer",
+  "uncertain": "Incertain",
+  "fileOrPhoto": "Fichier ou photo",
+  "sessionOrBooking": "Session ou réservation",
+  "noEngineerInTeam": "Aucun ingénieur dans l'équipe",
+  "statistics": "Statistiques",
+  "availabilities": "Disponibilités",
+  "remote": "Remote"
 }

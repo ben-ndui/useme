@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Bottom sheet for attachment options
 class AttachmentOptionsSheet extends StatelessWidget {
@@ -35,6 +36,7 @@ class AttachmentOptionsSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return SafeArea(
       child: Padding(
@@ -46,12 +48,12 @@ class AttachmentOptionsSheet extends StatelessWidget {
             const SizedBox(height: 16),
             ListTile(
               leading: _buildOptionIcon(FontAwesomeIcons.file, theme.colorScheme.primary),
-              title: const Text('Fichier ou photo'),
+              title: Text(l10n.fileOrPhoto),
               onTap: onFilePickerTap,
             ),
             ListTile(
               leading: _buildOptionIcon(FontAwesomeIcons.music, theme.colorScheme.tertiary),
-              title: const Text('Session ou réservation'),
+              title: Text(l10n.sessionOrBooking),
               onTap: onBusinessObjectTap,
             ),
           ],

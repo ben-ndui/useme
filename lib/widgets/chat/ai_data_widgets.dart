@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Widget pour afficher une liste de sessions
 class AISessionsCard extends StatelessWidget {
@@ -336,7 +337,7 @@ class AITeamCard extends StatelessWidget {
     final engineers = (data['engineers'] as List?)?.cast<Map<String, dynamic>>() ?? [];
 
     if (engineers.isEmpty) {
-      return _buildEmptyCard(theme);
+      return _buildEmptyCard(context, theme);
     }
 
     return Card(
@@ -348,7 +349,7 @@ class AITeamCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildHeader(theme, engineers.length),
+          _buildHeader(context, theme, engineers.length),
           Padding(
             padding: const EdgeInsets.all(12),
             child: Wrap(
@@ -399,7 +400,9 @@ class AITeamCard extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(ThemeData theme, int count) {
+  Widget _buildHeader(BuildContext context, ThemeData theme, int count) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -410,7 +413,7 @@ class AITeamCard extends StatelessWidget {
         children: [
           const FaIcon(FontAwesomeIcons.userTie, size: 14, color: Colors.purple),
           const SizedBox(width: 8),
-          Text('Équipe', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+          Text(l10n.team, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
           const Spacer(),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -427,7 +430,9 @@ class AITeamCard extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyCard(ThemeData theme) {
+  Widget _buildEmptyCard(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Card(
       elevation: 0,
       color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
@@ -437,7 +442,7 @@ class AITeamCard extends StatelessWidget {
           children: [
             FaIcon(FontAwesomeIcons.userTie, size: 16, color: theme.colorScheme.outline),
             const SizedBox(width: 12),
-            Text('Aucun ingénieur dans l\'équipe', style: TextStyle(color: theme.colorScheme.outline)),
+            Text(l10n.noEngineerInTeam, style: TextStyle(color: theme.colorScheme.outline)),
           ],
         ),
       ),
@@ -464,7 +469,7 @@ class AIStatsCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildHeader(theme),
+          _buildHeader(context, theme),
           Padding(
             padding: const EdgeInsets.all(12),
             child: Row(
@@ -506,7 +511,9 @@ class AIStatsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(ThemeData theme) {
+  Widget _buildHeader(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -517,7 +524,7 @@ class AIStatsCard extends StatelessWidget {
         children: [
           const FaIcon(FontAwesomeIcons.chartLine, size: 14, color: Colors.purple),
           const SizedBox(width: 8),
-          Text('Statistiques', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+          Text(l10n.statistics, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -533,6 +540,7 @@ class AIAvailabilityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final slots = (data['slots'] as List?)?.cast<Map<String, dynamic>>() ?? [];
     final date = data['date'];
 
@@ -546,11 +554,11 @@ class AIAvailabilityCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(theme, date),
+          _buildHeader(context, theme, date),
           Padding(
             padding: const EdgeInsets.all(12),
             child: slots.isEmpty
-                ? Text('Aucun créneau disponible', style: TextStyle(color: theme.colorScheme.outline))
+                ? Text(l10n.noSlotAvailable, style: TextStyle(color: theme.colorScheme.outline))
                 : Wrap(
                     spacing: 8,
                     runSpacing: 8,
@@ -584,7 +592,9 @@ class AIAvailabilityCard extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(ThemeData theme, String? date) {
+  Widget _buildHeader(BuildContext context, ThemeData theme, String? date) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -595,7 +605,7 @@ class AIAvailabilityCard extends StatelessWidget {
         children: [
           const FaIcon(FontAwesomeIcons.clock, size: 14, color: Colors.purple),
           const SizedBox(width: 8),
-          Text('Disponibilités', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+          Text(l10n.availabilities, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
           if (date != null) ...[
             const Spacer(),
             Text(date, style: theme.textTheme.bodySmall?.copyWith(color: Colors.purple)),
@@ -643,7 +653,7 @@ class AIPendingRequestsCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildHeader(theme, requests.length),
+          _buildHeader(context, theme, requests.length),
           ...requests.take(5).map((r) => _buildRequestItem(theme, r)),
         ],
       ),
@@ -691,7 +701,9 @@ class AIPendingRequestsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(ThemeData theme, int count) {
+  Widget _buildHeader(BuildContext context, ThemeData theme, int count) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -702,7 +714,7 @@ class AIPendingRequestsCard extends StatelessWidget {
         children: [
           const FaIcon(FontAwesomeIcons.inbox, size: 14, color: Colors.orange),
           const SizedBox(width: 8),
-          Text('Demandes en attente', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+          Text(l10n.pendingRequests, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
           const Spacer(),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),

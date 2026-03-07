@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/invitation_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/widgets/studio/artist/artist_info_card.dart';
 import 'package:useme/widgets/studio/artist/artist_creation_success.dart';
@@ -222,7 +223,7 @@ class _ArtistCreationFormState extends State<ArtistCreationForm> {
     return SwitchListTile(
       value: _sendInvitation,
       onChanged: (v) => setState(() => _sendInvitation = v),
-      title: const Text('Envoyer une invitation'),
+      title: Text(AppLocalizations.of(context)!.sendInvitation),
       subtitle: Text(
         'L\'artiste recevra un code pour rejoindre votre studio',
         style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),

@@ -539,7 +539,7 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         icon: const FaIcon(FontAwesomeIcons.clock, color: Colors.orange, size: 32),
-        title: const Text('Demande envoyée'),
+        title: Text(AppLocalizations.of(context)!.claimRequestSent),
         content: Text(
           'Votre demande de revendication pour "$studioName" a été envoyée. '
           'Un administrateur examinera votre demande prochainement.',
@@ -550,7 +550,7 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
               Navigator.pop(ctx);
               context.pop();
             },
-            child: const Text('Compris'),
+            child: Text(AppLocalizations.of(context)!.understood),
           ),
         ],
       ),

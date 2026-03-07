@@ -1802,5 +1802,17 @@
   "adminInvalidPublicKeyFormat": "Format tî clé publique a-nzönî pëpe",
   "adminTestKeyInProduction": "Clé test a-sâra na mode production",
   "adminProdKeyInTestMode": "Clé production a-sâra na mode test",
-  "adminStripeConfigSaved": "Configuration Stripe a-bâa"
+  "adminStripeConfigSaved": "Configuration Stripe a-bâa",
+
+  "claimRequestSent": "Demande a-tö",
+  "ok": "OK",
+  "nameOptional": "Ïrï (optionnel)",
+  "send": "Tene",
+  "uncertain": "A-sûre pëpe",
+  "fileOrPhoto": "Dosïe wala foto",
+  "sessionOrBooking": "Session wala réservation",
+  "noEngineerInTeam": "Ingénieur a-vöngo pëpe na équipe",
+  "statistics": "Statistiques",
+  "availabilities": "Disponibilités",
+  "remote": "Remote"
 }

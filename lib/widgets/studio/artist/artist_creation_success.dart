@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:useme/core/models/studio_invitation.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Success state after artist creation with shareable invitation code
@@ -92,12 +93,12 @@ class ArtistCreationSuccess extends StatelessWidget {
         OutlinedButton.icon(
           onPressed: () => _shareInvitation(),
           icon: const FaIcon(FontAwesomeIcons.shareNodes, size: 14),
-          label: const Text('Partager'),
+          label: Text(AppLocalizations.of(context)!.share),
         ),
         const SizedBox(width: 12),
         FilledButton(
           onPressed: onDone,
-          child: const Text('Terminé'),
+          child: Text(AppLocalizations.of(context)!.done),
         ),
       ],
     );

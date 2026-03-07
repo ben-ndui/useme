@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/services/team_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Bottom sheet for adding a team member
@@ -99,7 +100,7 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        labelText: 'Email',
+        labelText: AppLocalizations.of(context)!.email,
         prefixIcon: const Icon(Icons.email_outlined),
         suffixIcon: _isLoading
             ? const Padding(
@@ -124,7 +125,7 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
           ),
           title: Text(_foundUser!.fullName),
           subtitle: Text(_foundUser!.email),
-          trailing: FilledButton(onPressed: _addExistingUser, child: const Text('Ajouter')),
+          trailing: FilledButton(onPressed: _addExistingUser, child: Text(AppLocalizations.of(context)!.add)),
         ),
       ),
     );
@@ -155,7 +156,7 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
               const SizedBox(height: 12),
               TextField(
                 controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Nom (optionnel)', prefixIcon: Icon(Icons.person_outline)),
+                decoration: InputDecoration(labelText: AppLocalizations.of(context)!.nameOptional, prefixIcon: const Icon(Icons.person_outline)),
               ),
               const SizedBox(height: 12),
               SizedBox(
@@ -163,7 +164,7 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
                 child: FilledButton.icon(
                   onPressed: _sendInvitation,
                   icon: const FaIcon(FontAwesomeIcons.paperPlane, size: 16),
-                  label: const Text('Envoyer l\'invitation'),
+                  label: Text(AppLocalizations.of(context)!.sendInvitation),
                 ),
               ),
             ],
@@ -242,11 +243,11 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Invitation créée'),
+        title: Text(AppLocalizations.of(context)!.invitationCreated),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Partagez ce code avec l\'ingénieur :'),
+            Text(AppLocalizations.of(context)!.shareCodeWithEngineer),
             const SizedBox(height: 16),
             Container(
               padding: const EdgeInsets.all(16),
@@ -274,7 +275,7 @@ class _AddTeamMemberSheetState extends State<AddTeamMemberSheet> {
             ),
           ],
         ),
-        actions: [FilledButton(onPressed: () => Navigator.pop(context), child: const Text('OK'))],
+        actions: [FilledButton(onPressed: () => Navigator.pop(context), child: Text(AppLocalizations.of(context)!.ok))],
       ),
     );
   }

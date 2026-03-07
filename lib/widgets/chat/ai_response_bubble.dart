@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Bulle de réponse de l'assistant IA
 class AIResponseBubble extends StatelessWidget {
@@ -75,6 +76,8 @@ class AIResponseBubble extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Row(
@@ -92,9 +95,9 @@ class AIResponseBubble extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          const Text(
-            'Assistant IA',
-            style: TextStyle(
+          Text(
+            l10n.aiAssistant,
+            style: const TextStyle(
               fontSize: 12,
               color: Colors.purple,
               fontWeight: FontWeight.w600,
@@ -108,9 +111,9 @@ class AIResponseBubble extends StatelessWidget {
                 color: Colors.orange.withValues(alpha:0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text(
-                'Incertain',
-                style: TextStyle(
+              child: Text(
+                l10n.uncertain,
+                style: const TextStyle(
                   fontSize: 10,
                   color: Colors.orange,
                   fontWeight: FontWeight.w500,
@@ -160,6 +163,8 @@ class AIResponseBubble extends StatelessWidget {
   }
 
   Widget _buildActionButtons(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Row(
@@ -168,7 +173,7 @@ class AIResponseBubble extends StatelessWidget {
             child: OutlinedButton.icon(
               onPressed: onEditResponse,
               icon: const Icon(Icons.edit, size: 16),
-              label: const Text('Modifier'),
+              label: Text(l10n.edit),
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.grey.shade600,
                 side: BorderSide(color: Colors.grey.shade300),
@@ -181,7 +186,7 @@ class AIResponseBubble extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: onUseResponse,
               icon: const Icon(Icons.send, size: 16),
-              label: const Text('Envoyer'),
+              label: Text(l10n.send),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple,
                 foregroundColor: Colors.white,

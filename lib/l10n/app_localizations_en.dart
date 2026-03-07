@@ -4012,4 +4012,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminStripeConfigSaved => 'Stripe configuration saved';
+
+  @override
+  String get claimRequestSent => 'Request sent';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get nameOptional => 'Name (optional)';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get uncertain => 'Uncertain';
+
+  @override
+  String get fileOrPhoto => 'File or photo';
+
+  @override
+  String get sessionOrBooking => 'Session or booking';
+
+  @override
+  String get noEngineerInTeam => 'No engineer in team';
+
+  @override
+  String get statistics => 'Statistics';
+
+  @override
+  String get availabilities => 'Availabilities';
+
+  @override
+  String get remote => 'Remote';
 }

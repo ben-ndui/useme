@@ -4047,4 +4047,37 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get adminStripeConfigSaved => 'Configuration Stripe enregistrée';
+
+  @override
+  String get claimRequestSent => 'Demande envoyée';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get nameOptional => 'Nom (optionnel)';
+
+  @override
+  String get send => 'Envoyer';
+
+  @override
+  String get uncertain => 'Incertain';
+
+  @override
+  String get fileOrPhoto => 'Fichier ou photo';
+
+  @override
+  String get sessionOrBooking => 'Session ou réservation';
+
+  @override
+  String get noEngineerInTeam => 'Aucun ingénieur dans l\'équipe';
+
+  @override
+  String get statistics => 'Statistiques';
+
+  @override
+  String get availabilities => 'Disponibilités';
+
+  @override
+  String get remote => 'Remote';
 }

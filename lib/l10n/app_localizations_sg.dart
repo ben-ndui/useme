@@ -3995,4 +3995,37 @@ class AppLocalizationsSg extends AppLocalizations {
 
   @override
   String get adminStripeConfigSaved => 'Configuration Stripe a-bâa';
+
+  @override
+  String get claimRequestSent => 'Demande a-tö';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get nameOptional => 'Ïrï (optionnel)';
+
+  @override
+  String get send => 'Tene';
+
+  @override
+  String get uncertain => 'A-sûre pëpe';
+
+  @override
+  String get fileOrPhoto => 'Dosïe wala foto';
+
+  @override
+  String get sessionOrBooking => 'Session wala réservation';
+
+  @override
+  String get noEngineerInTeam => 'Ingénieur a-vöngo pëpe na équipe';
+
+  @override
+  String get statistics => 'Statistiques';
+
+  @override
+  String get availabilities => 'Disponibilités';
+
+  @override
+  String get remote => 'Remote';
 }

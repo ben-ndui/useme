@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Session tracking screen - For engineer to check-in/out and add notes
@@ -28,9 +29,11 @@ class _SessionTrackingScreenState extends State<SessionTrackingScreen> {
   @override
   Widget build(BuildContext context) {
     // For now, we'll show a mock session. In production, this would load from BLoC
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Suivi session'),
+        title: Text(l10n.sessionTracking),
         actions: [
           IconButton(
             icon: const FaIcon(FontAwesomeIcons.ellipsisVertical, size: 18),
@@ -249,7 +252,7 @@ class _SessionTrackingScreenState extends State<SessionTrackingScreen> {
                 // TODO: Add photo
               },
               icon: const FaIcon(FontAwesomeIcons.camera, size: 16),
-              label: const Text('Ajouter une photo'),
+              label: Text(AppLocalizations.of(context)!.addPhoto),
             ),
           ],
         ),
@@ -288,16 +291,16 @@ class _SessionTrackingScreenState extends State<SessionTrackingScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Terminer la session ?'),
-        content: const Text('Voulez-vous pointer votre départ et terminer cette session ?'),
+        title: Text(AppLocalizations.of(context)!.endSession),
+        content: Text(AppLocalizations.of(context)!.endSessionConfirm),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Annuler')),
+          TextButton(onPressed: () => Navigator.pop(context), child: Text(AppLocalizations.of(context)!.cancel)),
           FilledButton(
             onPressed: () {
               Navigator.pop(context);
               _saveAndClose();
             },
-            child: const Text('Terminer'),
+            child: Text(AppLocalizations.of(context)!.finish),
           ),
         ],
       ),
@@ -318,12 +321,12 @@ class _SessionTrackingScreenState extends State<SessionTrackingScreen> {
           children: [
             ListTile(
               leading: const FaIcon(FontAwesomeIcons.message, size: 18),
-              title: const Text('Contacter l\'artiste'),
+              title: Text(AppLocalizations.of(context)!.contactArtist),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
               leading: const FaIcon(FontAwesomeIcons.circleExclamation, size: 18),
-              title: const Text('Signaler un problème'),
+              title: Text(AppLocalizations.of(context)!.reportProblemAction),
               onTap: () => Navigator.pop(context),
             ),
             const SizedBox(height: 8),

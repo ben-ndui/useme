@@ -113,7 +113,7 @@ class _ProDiscoveryScreenState extends State<ProDiscoveryScreen> {
       body: Column(
         children: [
           _buildSearchBar(theme, l10n),
-          if (_hasActiveFilters) _buildActiveFilters(theme),
+          if (_hasActiveFilters) _buildActiveFilters(theme, l10n),
           Expanded(child: _buildResults(theme, l10n)),
         ],
       ),
@@ -150,7 +150,7 @@ class _ProDiscoveryScreenState extends State<ProDiscoveryScreen> {
     );
   }
 
-  Widget _buildActiveFilters(ThemeData theme) {
+  Widget _buildActiveFilters(ThemeData theme, AppLocalizations l10n) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: SingleChildScrollView(
@@ -188,7 +188,7 @@ class _ProDiscoveryScreenState extends State<ProDiscoveryScreen> {
             if (_filterRemoteOnly)
               Chip(
                 avatar: const FaIcon(FontAwesomeIcons.wifi, size: 12),
-                label: const Text('Remote', style: TextStyle(fontSize: 12)),
+                label: Text(l10n.remote, style: const TextStyle(fontSize: 12)),
                 deleteIcon: const Icon(Icons.close, size: 16),
                 onDeleted: () {
                   setState(() => _filterRemoteOnly = false);

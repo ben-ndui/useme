@@ -150,7 +150,7 @@ class _SubscriptionSectionState extends State<SubscriptionSection> {
               child: OutlinedButton.icon(
                 onPressed: () => context.push('/upgrade'),
                 icon: const FaIcon(FontAwesomeIcons.gear, size: 14),
-                label: const Text('Gérer mon abonnement'),
+                label: Text(AppLocalizations.of(context)!.manageSubscription),
               ),
             ),
           ],
