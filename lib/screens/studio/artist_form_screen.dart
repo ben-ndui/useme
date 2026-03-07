@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Artist creation/editing form
 class ArtistFormScreen extends StatefulWidget {
@@ -72,9 +73,10 @@ class _ArtistFormScreenState extends State<ArtistFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? 'Modifier l\'artiste' : 'Nouvel artiste'),
+        title: Text(isEditing ? l10n.editArtist : l10n.newArtistTitle),
         actions: [
           if (isEditing)
             IconButton(
@@ -89,74 +91,74 @@ class _ArtistFormScreenState extends State<ArtistFormScreen> {
           padding: const EdgeInsets.all(16),
           children: [
             // Nom d'artiste (stage name)
-            _buildSectionTitle(context, 'Nom d\'artiste'),
+            _buildSectionTitle(context, l10n.artistName),
             const SizedBox(height: 8),
             TextFormField(
               controller: _stageNameController,
-              decoration: const InputDecoration(
-                hintText: 'Le nom de scène...',
-                prefixIcon: Icon(Icons.star),
+              decoration: InputDecoration(
+                hintText: l10n.stageNameHint,
+                prefixIcon: const Icon(Icons.star),
               ),
             ),
             const SizedBox(height: 24),
 
             // Nom civil
-            _buildSectionTitle(context, 'Nom civil'),
+            _buildSectionTitle(context, l10n.civilName),
             const SizedBox(height: 8),
             TextFormField(
               controller: _nameController,
-              decoration: const InputDecoration(
-                hintText: 'Prénom et nom...',
-                prefixIcon: Icon(Icons.person),
+              decoration: InputDecoration(
+                hintText: l10n.firstAndLastName,
+                prefixIcon: const Icon(Icons.person),
               ),
-              validator: (value) => value?.isEmpty ?? true ? 'Champ requis' : null,
+              validator: (value) => value?.isEmpty ?? true ? l10n.fieldRequired : null,
             ),
             const SizedBox(height: 24),
 
             // Contact
-            _buildSectionTitle(context, 'Contact'),
+            _buildSectionTitle(context, l10n.contact),
             const SizedBox(height: 8),
             TextFormField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                hintText: 'Email...',
-                prefixIcon: Icon(Icons.email),
+              decoration: InputDecoration(
+                hintText: l10n.emailHintGeneric,
+                prefixIcon: const Icon(Icons.email),
               ),
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: _phoneController,
               keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                hintText: 'Téléphone...',
-                prefixIcon: Icon(Icons.phone),
+              decoration: InputDecoration(
+                hintText: l10n.phoneHintGeneric,
+                prefixIcon: const Icon(Icons.phone),
               ),
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: _cityController,
-              decoration: const InputDecoration(
-                hintText: 'Ville...',
-                prefixIcon: Icon(Icons.location_on),
+              decoration: InputDecoration(
+                hintText: l10n.cityHint,
+                prefixIcon: const Icon(Icons.location_on),
               ),
             ),
             const SizedBox(height: 24),
 
             // Genres
-            _buildSectionTitle(context, 'Genres musicaux'),
+            _buildSectionTitle(context, l10n.musicalGenres),
             const SizedBox(height: 8),
             _buildGenreSelector(context),
             const SizedBox(height: 24),
 
             // Bio
-            _buildSectionTitle(context, 'Bio (optionnel)'),
+            _buildSectionTitle(context, l10n.bioOptional),
             const SizedBox(height: 8),
             TextFormField(
               controller: _bioController,
               maxLines: 3,
-              decoration: const InputDecoration(
-                hintText: 'Quelques mots sur l\'artiste...',
+              decoration: InputDecoration(
+                hintText: l10n.fewWordsAboutArtist,
               ),
             ),
             const SizedBox(height: 32),
@@ -166,7 +168,7 @@ class _ArtistFormScreenState extends State<ArtistFormScreen> {
               onPressed: _submitForm,
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Text(isEditing ? 'Enregistrer' : 'Créer l\'artiste'),
+                child: Text(isEditing ? l10n.save : l10n.createTheArtist),
               ),
             ),
           ],
@@ -232,15 +234,16 @@ class _ArtistFormScreenState extends State<ArtistFormScreen> {
   }
 
   void _showDeleteDialog() {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Supprimer l\'artiste'),
-        content: const Text('Cette action est irréversible.'),
+        title: Text(l10n.deleteTheArtist),
+        content: Text(l10n.actionIrreversible),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Annuler'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () {
@@ -249,7 +252,7 @@ class _ArtistFormScreenState extends State<ArtistFormScreen> {
               context.pop();
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Supprimer'),
+            child: Text(l10n.delete),
           ),
         ],
       ),

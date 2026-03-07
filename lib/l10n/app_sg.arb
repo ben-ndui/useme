@@ -1591,5 +1591,216 @@
   "tipNetworkTitle": "Bâta réseau tî mo",
   "tipNetworkDesc": "Fâ contact, importer na téléphone tî mo na bâta réseau musique tî mo. Gï artiste, ingénieur na studio awe na ndo ôko.",
   "tipNetworkInviteTitle": "Voko contact tî mo",
-  "tipNetworkInviteDesc": "Kângbi application na âzo tî musique tî mo tî gï âla na UZME na yângâ réservation."
+  "tipNetworkInviteDesc": "Kângbi application na âzo tî musique tî mo tî gï âla na UZME na yângâ réservation.",
+
+  "addArtistTitle": "Bâa artiste",
+  "noRoomConfigured": "Salle pëpe a-sêse",
+  "serviceCreated": "Service a-ga",
+  "serviceModified": "Service a-sêngö",
+  "sessionCreated": "Session a-ga",
+  "sessionModified": "Session a-sêngö",
+  "additionalInfoHint": "Sêse tî mingi...",
+  "roomsOptional": "Salles (sô mo sü)",
+  "recordingTooShort": "Enregistrement a-pötö mingi",
+  "descriptionHint": "Na ndâ tî service...",
+  "createTheSession": "Ga session",
+  "createTheArtist": "Ga artiste",
+  "deleteTheService": "Zïa service",
+  "deleteTheArtist": "Zïa artiste",
+  "deleteTheSession": "Zïa session",
+  "userAddedToStudio": "{name} a-bâa na studio tî mo!",
+  "@userAddedToStudio": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "descriptionOptional": "Na ndâ (sô mo sü)",
+
+  "adminSubscriptionConfig": "Configuration Abonnements",
+  "adminStripeConfigTooltip": "Config Stripe",
+  "adminNoTierConfigured": "Tier pëpe a-sêse",
+  "adminInitializeDefaults": "Initialiser na valeurs tî kôzo?",
+  "adminInitialize": "Initialiser",
+  "adminTiersInitialized": "Tiers a-initialiser nzönî",
+  "adminTierUpdated": "{name} a-sêngö",
+  "@adminTierUpdated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminDisabled": "A-duti pëpe",
+  "adminPricePerMonth": "{price}\u20ac/nze",
+  "@adminPricePerMonth": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "adminSessionsUnlimited": "Sessions \u221e",
+  "adminSessionsCount": "{count} sessions",
+  "@adminSessionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminRoomsUnlimited": "Salles \u221e",
+  "adminRoomsCount": "{count} salles",
+  "@adminRoomsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminServicesUnlimited": "Services \u221e",
+  "adminServicesCount": "{count} services",
+  "@adminServicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminEngineersUnlimited": "Engineers \u221e",
+  "adminEngineersCount": "{count} engineers",
+  "@adminEngineersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminAiUnlimited": "IA \u221e",
+  "adminAiCount": "{count} msg IA",
+  "@adminAiCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminFeatureAiAssistant": "Assistant IA",
+  "adminFeatureAdvancedAi": "IA avancée",
+  "adminFeatureDiscovery": "Discovery",
+  "adminFeatureAnalytics": "Analytics",
+  "adminFeatureBadge": "Badge",
+  "adminFeatureMultiStudios": "Multi-studios",
+  "adminFeatureApi": "API",
+  "adminFeaturePrioritySupport": "Support+",
+  "adminEditTier": "Sêngö {name}",
+  "@adminEditTier": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminSectionInformation": "Sêse",
+  "adminLabelName": "Ïrï",
+  "adminLabelDescription": "Na ndâ",
+  "adminSectionPricing": "Tarif",
+  "adminLabelMonthlyPrice": "Tarif na nze \u20ac",
+  "adminLabelYearlyPrice": "Tarif na ngû \u20ac",
+  "adminSectionLimits": "Ndïä (-1 = na ndïä pëpe)",
+  "adminLabelSessionsPerMonth": "Sessions/nze",
+  "adminLabelRooms": "Salles",
+  "adminLabelServices": "Services",
+  "adminLabelEngineers": "Engineers",
+  "adminLabelAiMessagesPerMonth": "Mbëtï IA/nze",
+  "adminSectionAiFeatures": "Fonctions IA",
+  "adminAiAssistantSubtitle": "Duti na wala-bata IA",
+  "adminAdvancedAiSubtitle": "Outils tî sara, rapports, etc.",
+  "adminSectionFeatures": "Fonctions",
+  "adminFeatureDiscoveryVisibility": "Pandöö Discovery",
+  "adminDiscoverySubtitle": "Artiste akë lîngbi yê",
+  "adminFeatureBasicAnalytics": "Analytics tî kôzo",
+  "adminFeatureAdvancedAnalytics": "Analytics avancés",
+  "adminFeatureVerifiedBadge": "Badge tî vérifier",
+  "adminFeatureApiAccess": "Duti na API",
+  "adminFeaturePrioritySupportFull": "Support tî kôzo",
+  "adminSectionStatus": "Statut",
+  "adminTierActive": "Tier a-duti",
+  "adminTierActiveSubtitle": "Studio akë lîngbi sï tier sô",
+
+  "adminStudioClaims": "Demande tî studio",
+  "adminFilterPending": "Pending",
+  "adminFilterAll": "Ôke",
+  "adminNoClaimsPending": "Demande pëpe a-tära",
+  "adminNewClaimsAppearHere": "Demande tî finî a-pandöö ôko",
+  "adminClaimApproved": "{name} a-sï!",
+  "@adminClaimApproved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminRejectClaim": "Lä demande",
+  "adminRejectClaimConfirm": "Lä \"{name}\" ?",
+  "@adminRejectClaimConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminReasonOptional": "Raison (sô mo sü)",
+  "adminReasonHint": "Ex: Sêse a-nzönî pëpe...",
+  "adminReject": "Lä",
+  "adminClaimRejected": "Demande a-lä",
+  "adminApprove": "Sï",
+  "adminStatusPending": "A-tära",
+  "adminStatusApproved": "A-sï",
+  "adminStatusRejected": "A-lä",
+
+  "adminAccessDenied": "Duti pëpe",
+  "adminDevMasterRequired": "DevMaster a-lîngbi",
+  "adminDevMasterOnly": "DevMaster ôko lîngbi duti na page sô",
+  "adminStripeConfig": "Configuration Stripe",
+  "adminStripeLoadError": "Pörö na charger config: {message}",
+  "@adminStripeLoadError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "adminStripeKeysWarning": "Clés a-crypter kôzo na bâa. Kêtê clés secrètes tî mo pëpe.",
+  "adminMode": "Mode",
+  "adminProductionMode": "Mode Production",
+  "adminLivePayments": "Paiements tî nzönî a-duti",
+  "adminTestMode": "Mode test - Paiement tî nzönî pëpe",
+  "adminApiKeys": "Clés API",
+  "adminPublishableKey": "Publishable Key",
+  "adminSecretKey": "Secret Key",
+  "adminWebhookSecret": "Webhook Secret",
+  "adminKeepCurrentKey": "Fä na ndö tî bâa clé tî fadë",
+  "adminKeepCurrentSecret": "Fä na ndö tî bâa secret tî fadë",
+  "adminStripePriceIds": "Price IDs Stripe",
+  "adminStripePriceIdsHelp": "Ga produits na tarifs na dashboard Stripe tî mo, na bâa IDs ôko.",
+  "adminProMonthly": "Pro na nze",
+  "adminProYearly": "Pro na ngû",
+  "adminEnterpriseMonthly": "Enterprise na nze",
+  "adminEnterpriseYearly": "Enterprise na ngû",
+  "adminSaving": "A-bâa...",
+  "adminLastUpdated": "Sêngö tî sô a-hûnzi: {date}",
+  "@adminLastUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "adminPublicKeyRequired": "Clé publique a-lîngbi",
+  "adminInvalidPublicKeyFormat": "Format tî clé publique a-nzönî pëpe",
+  "adminTestKeyInProduction": "Clé test a-sâra na mode production",
+  "adminProdKeyInTestMode": "Clé production a-sâra na mode test",
+  "adminStripeConfigSaved": "Configuration Stripe a-bâa"
 }

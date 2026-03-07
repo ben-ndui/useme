@@ -7,6 +7,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/widgets/common/limit_reached_dialog.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Session creation/editing form
@@ -75,6 +76,7 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
   Widget build(BuildContext context) {
     return BlocListener<SessionBloc, SessionState>(
       listener: (context, state) {
+        final l10n = AppLocalizations.of(context)!;
         if (state is SessionLimitReachedState) {
           LimitReachedDialog.show(
             context,
@@ -84,18 +86,18 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
             tierId: state.tierId,
           );
         } else if (state is SessionCreatedState) {
-          AppSnackBar.success(context, 'Session créée');
+          AppSnackBar.success(context, l10n.sessionCreated);
           context.pop();
         } else if (state is SessionUpdatedState) {
-          AppSnackBar.success(context, 'Session modifiée');
+          AppSnackBar.success(context, l10n.sessionModified);
           context.pop();
         } else if (state is SessionErrorState) {
-          AppSnackBar.error(context, state.errorMessage ?? 'Erreur');
+          AppSnackBar.error(context, state.errorMessage ?? l10n.error);
         }
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(isEditing ? 'Modifier la session' : 'Nouvelle session'),
+          title: Text(isEditing ? AppLocalizations.of(context)!.editSession : AppLocalizations.of(context)!.newSession),
           actions: [
             if (isEditing)
               IconButton(
@@ -104,43 +106,46 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
               ),
           ],
         ),
-        body: Form(
+        body: Builder(
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return Form(
         key: _formKey,
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
             // Session type
-            _buildSectionTitle(context, 'Type de session'),
+            _buildSectionTitle(context, l10n.sessionType),
             const SizedBox(height: 8),
             _buildTypeSelector(context),
             const SizedBox(height: 24),
 
             // Artist selection (multi)
-            _buildSectionTitle(context, 'Artistes'),
+            _buildSectionTitle(context, l10n.artists),
             const SizedBox(height: 8),
             _buildArtistsSelector(context),
             const SizedBox(height: 24),
 
             // Date & Time
-            _buildSectionTitle(context, 'Date et heure'),
+            _buildSectionTitle(context, l10n.dateAndTime),
             const SizedBox(height: 8),
             _buildDateTimePickers(context),
             const SizedBox(height: 24),
 
             // Duration
-            _buildSectionTitle(context, 'Durée'),
+            _buildSectionTitle(context, l10n.duration),
             const SizedBox(height: 8),
             _buildDurationSelector(context),
             const SizedBox(height: 24),
 
             // Notes
-            _buildSectionTitle(context, 'Notes (optionnel)'),
+            _buildSectionTitle(context, l10n.notesOptional),
             const SizedBox(height: 8),
             TextFormField(
               controller: _notesController,
               maxLines: 3,
-              decoration: const InputDecoration(
-                hintText: 'Informations supplémentaires...',
+              decoration: InputDecoration(
+                hintText: l10n.additionalInfoHint,
               ),
             ),
             const SizedBox(height: 32),
@@ -150,11 +155,13 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
               onPressed: _submitForm,
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Text(isEditing ? 'Enregistrer' : 'Créer la session'),
+                child: Text(isEditing ? l10n.save : l10n.createTheSession),
               ),
             ),
           ],
         ),
+      );
+        },
       ),
       ),
     );
@@ -210,7 +217,7 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
           return OutlinedButton.icon(
             onPressed: () => context.push('/artists/add'),
             icon: const FaIcon(FontAwesomeIcons.userPlus, size: 16),
-            label: const Text('Ajouter un artiste d\'abord'),
+            label: Text(AppLocalizations.of(context)!.addArtistFirst),
           );
         }
 
@@ -260,8 +267,8 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
                 initialValue: null,
                 decoration: InputDecoration(
                   hintText: _selectedArtists.isEmpty
-                      ? 'Sélectionner un artiste'
-                      : 'Ajouter un autre artiste',
+                      ? AppLocalizations.of(context)!.selectArtist
+                      : AppLocalizations.of(context)!.addAnotherArtist,
                   prefixIcon: const Icon(Icons.person_add),
                 ),
                 items: availableArtists.map((artist) {
@@ -280,7 +287,7 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
               )
             else if (_selectedArtists.isEmpty)
               Text(
-                'Tous les artistes sont déjà sélectionnés',
+                AppLocalizations.of(context)!.allArtistsSelected,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.outline,
                 ),
@@ -391,7 +398,7 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
   void _submitForm() {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedArtists.isEmpty) {
-      AppSnackBar.warning(context, 'Sélectionnez au moins un artiste');
+      AppSnackBar.warning(context, AppLocalizations.of(context)!.selectAtLeastOneArtist);
       return;
     }
 
@@ -445,15 +452,16 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
   }
 
   void _showDeleteDialog() {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Supprimer la session'),
-        content: const Text('Cette action est irréversible.'),
+        title: Text(l10n.deleteTheSession),
+        content: Text(l10n.actionIrreversible),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Annuler'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () {
@@ -464,7 +472,7 @@ class _SessionFormScreenState extends State<SessionFormScreen> {
               context.pop();
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Supprimer'),
+            child: Text(l10n.delete),
           ),
         ],
       ),

@@ -9,6 +9,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import '../../widgets/common/app_loader.dart';
 import '../../widgets/common/permission_dialog.dart';
 import '../../widgets/common/snackbar/app_snackbar.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/messaging/messaging_widgets_exports.dart';
 import '../../core/blocs/session/session_bloc.dart';
 import '../../core/blocs/booking/booking_exports.dart';
@@ -76,7 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _buildLoadingScaffold() {
     return Scaffold(
-      appBar: AppBar(title: const Text('Chargement...')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.loading)),
       body: const AppLoader(),
     );
   }
@@ -84,7 +85,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget _buildErrorScaffold(String message) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Erreur')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.error)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -162,7 +163,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 Text(displayName, style: theme.textTheme.titleMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
                 if (conversation.type == ConversationType.group)
                   Text(
-                    '${conversation.participantIds.length} participants',
+                    AppLocalizations.of(context)!.participants(conversation.participantIds.length),
                     style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                   ),
               ],
@@ -313,7 +314,7 @@ class _ChatScreenState extends State<ChatScreen> {
       if (_recordingDuration < 1) {
         _cancelAudioPreview();
         if (mounted) {
-          AppSnackBar.warning(context, 'Enregistrement trop court');
+          AppSnackBar.warning(context, AppLocalizations.of(context)!.recordingTooShort);
         }
       }
     } catch (e) {

@@ -8,6 +8,7 @@ import 'package:useme/core/services/invitation_service.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/widgets/studio/artist/artist_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/studio/artist_search_widget.dart';
 
 /// Écran d'ajout d'artiste avec recherche + création + invitation
@@ -51,14 +52,15 @@ class _AddArtistScreenState extends State<AddArtistScreen> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ajouter un artiste'),
+        title: Text(l10n.addArtistTitle),
         bottom: TabBar(
           controller: _tabController,
-          tabs: const [
-            Tab(icon: FaIcon(FontAwesomeIcons.magnifyingGlass, size: 16), text: 'Rechercher'),
-            Tab(icon: FaIcon(FontAwesomeIcons.userPlus, size: 16), text: 'Créer'),
+          tabs: [
+            Tab(icon: const FaIcon(FontAwesomeIcons.magnifyingGlass, size: 16), text: l10n.search),
+            Tab(icon: const FaIcon(FontAwesomeIcons.userPlus, size: 16), text: l10n.create),
           ],
         ),
       ),
@@ -82,10 +84,10 @@ class _AddArtistScreenState extends State<AddArtistScreen> with SingleTickerProv
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const ArtistInfoCard(
+          ArtistInfoCard(
             icon: FontAwesomeIcons.magnifyingGlass,
-            title: 'Trouvez un artiste existant',
-            description: 'Recherchez parmi les artistes déjà inscrits sur UZME pour le lier à votre studio.',
+            title: AppLocalizations.of(context)!.findExistingArtist,
+            description: AppLocalizations.of(context)!.searchAmongRegistered,
           ),
           const SizedBox(height: 24),
           if (_isLinking)
@@ -123,12 +125,13 @@ class _AddArtistScreenState extends State<AddArtistScreen> with SingleTickerProv
       );
 
       if (mounted) {
-        AppSnackBar.success(context, '${user.displayName} ajouté à votre studio !');
+        final l10n = AppLocalizations.of(context)!;
+        AppSnackBar.success(context, l10n.userAddedToStudio(user.displayName ?? ''));
         context.pop(true);
       }
     } catch (e) {
       if (mounted) {
-        AppSnackBar.error(context, 'Erreur: $e');
+        AppSnackBar.error(context, AppLocalizations.of(context)!.errorWithMessage('$e'));
       }
     } finally {
       if (mounted) setState(() => _isLinking = false);

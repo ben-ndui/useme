@@ -1594,5 +1594,216 @@
   "tipNetworkTitle": "Gérez votre réseau",
   "tipNetworkDesc": "Ajoutez des contacts, importez depuis votre téléphone et construisez votre réseau musical. Retrouvez vos artistes, ingénieurs et studios favoris en un seul endroit.",
   "tipNetworkInviteTitle": "Invitez vos contacts",
-  "tipNetworkInviteDesc": "Partagez l'application avec vos collaborateurs musicaux pour les retrouver directement sur UZME et faciliter vos futures réservations."
+  "tipNetworkInviteDesc": "Partagez l'application avec vos collaborateurs musicaux pour les retrouver directement sur UZME et faciliter vos futures réservations.",
+
+  "addArtistTitle": "Ajouter un artiste",
+  "noRoomConfigured": "Aucune salle configurée",
+  "serviceCreated": "Service créé",
+  "serviceModified": "Service modifié",
+  "sessionCreated": "Session créée",
+  "sessionModified": "Session modifiée",
+  "additionalInfoHint": "Informations supplémentaires...",
+  "roomsOptional": "Salles (optionnel)",
+  "recordingTooShort": "Enregistrement trop court",
+  "descriptionHint": "Description du service...",
+  "createTheSession": "Créer la session",
+  "createTheArtist": "Créer l'artiste",
+  "deleteTheService": "Supprimer le service",
+  "deleteTheArtist": "Supprimer l'artiste",
+  "deleteTheSession": "Supprimer la session",
+  "userAddedToStudio": "{name} ajouté à votre studio !",
+  "@userAddedToStudio": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "descriptionOptional": "Description (optionnel)",
+
+  "adminSubscriptionConfig": "Configuration Abonnements",
+  "adminStripeConfigTooltip": "Config Stripe",
+  "adminNoTierConfigured": "Aucun tier configuré",
+  "adminInitializeDefaults": "Initialiser avec les valeurs par défaut ?",
+  "adminInitialize": "Initialiser",
+  "adminTiersInitialized": "Tiers initialisés avec succès",
+  "adminTierUpdated": "{name} mis à jour",
+  "@adminTierUpdated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminDisabled": "Désactivé",
+  "adminPricePerMonth": "{price}\u20ac/mois",
+  "@adminPricePerMonth": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "adminSessionsUnlimited": "Sessions \u221e",
+  "adminSessionsCount": "{count} sessions",
+  "@adminSessionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminRoomsUnlimited": "Salles \u221e",
+  "adminRoomsCount": "{count} salles",
+  "@adminRoomsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminServicesUnlimited": "Services \u221e",
+  "adminServicesCount": "{count} services",
+  "@adminServicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminEngineersUnlimited": "Engineers \u221e",
+  "adminEngineersCount": "{count} engineers",
+  "@adminEngineersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminAiUnlimited": "IA \u221e",
+  "adminAiCount": "{count} msg IA",
+  "@adminAiCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminFeatureAiAssistant": "Assistant IA",
+  "adminFeatureAdvancedAi": "IA avancée",
+  "adminFeatureDiscovery": "Discovery",
+  "adminFeatureAnalytics": "Analytics",
+  "adminFeatureBadge": "Badge",
+  "adminFeatureMultiStudios": "Multi-studios",
+  "adminFeatureApi": "API",
+  "adminFeaturePrioritySupport": "Support+",
+  "adminEditTier": "Modifier {name}",
+  "@adminEditTier": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminSectionInformation": "Informations",
+  "adminLabelName": "Nom",
+  "adminLabelDescription": "Description",
+  "adminSectionPricing": "Tarification",
+  "adminLabelMonthlyPrice": "Prix mensuel \u20ac",
+  "adminLabelYearlyPrice": "Prix annuel \u20ac",
+  "adminSectionLimits": "Limites (-1 = illimité)",
+  "adminLabelSessionsPerMonth": "Sessions/mois",
+  "adminLabelRooms": "Salles",
+  "adminLabelServices": "Services",
+  "adminLabelEngineers": "Engineers",
+  "adminLabelAiMessagesPerMonth": "Messages IA/mois",
+  "adminSectionAiFeatures": "Fonctionnalités IA",
+  "adminAiAssistantSubtitle": "Accès à l'assistant conversationnel",
+  "adminAdvancedAiSubtitle": "Outils d'action, rapports, etc.",
+  "adminSectionFeatures": "Fonctionnalités",
+  "adminFeatureDiscoveryVisibility": "Visibilité Discovery",
+  "adminDiscoverySubtitle": "Visible par les artistes",
+  "adminFeatureBasicAnalytics": "Analytics basiques",
+  "adminFeatureAdvancedAnalytics": "Analytics avancés",
+  "adminFeatureVerifiedBadge": "Badge vérifié",
+  "adminFeatureApiAccess": "Accès API",
+  "adminFeaturePrioritySupportFull": "Support prioritaire",
+  "adminSectionStatus": "Statut",
+  "adminTierActive": "Tier actif",
+  "adminTierActiveSubtitle": "Les studios peuvent souscrire à ce tier",
+
+  "adminStudioClaims": "Revendications studios",
+  "adminFilterPending": "Pending",
+  "adminFilterAll": "Toutes",
+  "adminNoClaimsPending": "Aucune demande en attente",
+  "adminNewClaimsAppearHere": "Les nouvelles demandes apparaîtront ici",
+  "adminClaimApproved": "{name} approuvé !",
+  "@adminClaimApproved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminRejectClaim": "Refuser la demande",
+  "adminRejectClaimConfirm": "Refuser \"{name}\" ?",
+  "@adminRejectClaimConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "adminReasonOptional": "Raison (optionnel)",
+  "adminReasonHint": "Ex: Informations incorrectes...",
+  "adminReject": "Refuser",
+  "adminClaimRejected": "Demande refusée",
+  "adminApprove": "Approuver",
+  "adminStatusPending": "En attente",
+  "adminStatusApproved": "Approuvé",
+  "adminStatusRejected": "Refusé",
+
+  "adminAccessDenied": "Accès refusé",
+  "adminDevMasterRequired": "Accès DevMaster requis",
+  "adminDevMasterOnly": "Seuls les DevMasters peuvent accéder à cette page",
+  "adminStripeConfig": "Configuration Stripe",
+  "adminStripeLoadError": "Erreur chargement config: {message}",
+  "@adminStripeLoadError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "adminStripeKeysWarning": "Les clés sont cryptées avant stockage. Ne partagez jamais vos clés secrètes.",
+  "adminMode": "Mode",
+  "adminProductionMode": "Mode Production",
+  "adminLivePayments": "Paiements réels activés",
+  "adminTestMode": "Mode test - Aucun paiement réel",
+  "adminApiKeys": "Clés API",
+  "adminPublishableKey": "Publishable Key",
+  "adminSecretKey": "Secret Key",
+  "adminWebhookSecret": "Webhook Secret",
+  "adminKeepCurrentKey": "Laissez vide pour garder la clé actuelle",
+  "adminKeepCurrentSecret": "Laissez vide pour garder le secret actuel",
+  "adminStripePriceIds": "Price IDs Stripe",
+  "adminStripePriceIdsHelp": "Créez les produits et prix dans votre dashboard Stripe, puis collez les IDs ici.",
+  "adminProMonthly": "Pro Mensuel",
+  "adminProYearly": "Pro Annuel",
+  "adminEnterpriseMonthly": "Enterprise Mensuel",
+  "adminEnterpriseYearly": "Enterprise Annuel",
+  "adminSaving": "Enregistrement...",
+  "adminLastUpdated": "Dernière mise à jour: {date}",
+  "@adminLastUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "adminPublicKeyRequired": "La clé publique est requise",
+  "adminInvalidPublicKeyFormat": "Format de clé publique invalide",
+  "adminTestKeyInProduction": "Clé de test utilisée en mode production",
+  "adminProdKeyInTestMode": "Clé de production utilisée en mode test",
+  "adminStripeConfigSaved": "Configuration Stripe enregistrée"
 }

@@ -3618,4 +3618,381 @@ class AppLocalizationsSg extends AppLocalizations {
   @override
   String get tipNetworkInviteDesc =>
       'Kângbi application na âzo tî musique tî mo tî gï âla na UZME na yângâ réservation.';
+
+  @override
+  String get addArtistTitle => 'Bâa artiste';
+
+  @override
+  String get noRoomConfigured => 'Salle pëpe a-sêse';
+
+  @override
+  String get serviceCreated => 'Service a-ga';
+
+  @override
+  String get serviceModified => 'Service a-sêngö';
+
+  @override
+  String get sessionCreated => 'Session a-ga';
+
+  @override
+  String get sessionModified => 'Session a-sêngö';
+
+  @override
+  String get additionalInfoHint => 'Sêse tî mingi...';
+
+  @override
+  String get roomsOptional => 'Salles (sô mo sü)';
+
+  @override
+  String get recordingTooShort => 'Enregistrement a-pötö mingi';
+
+  @override
+  String get descriptionHint => 'Na ndâ tî service...';
+
+  @override
+  String get createTheSession => 'Ga session';
+
+  @override
+  String get createTheArtist => 'Ga artiste';
+
+  @override
+  String get deleteTheService => 'Zïa service';
+
+  @override
+  String get deleteTheArtist => 'Zïa artiste';
+
+  @override
+  String get deleteTheSession => 'Zïa session';
+
+  @override
+  String userAddedToStudio(String name) {
+    return '$name a-bâa na studio tî mo!';
+  }
+
+  @override
+  String get descriptionOptional => 'Na ndâ (sô mo sü)';
+
+  @override
+  String get adminSubscriptionConfig => 'Configuration Abonnements';
+
+  @override
+  String get adminStripeConfigTooltip => 'Config Stripe';
+
+  @override
+  String get adminNoTierConfigured => 'Tier pëpe a-sêse';
+
+  @override
+  String get adminInitializeDefaults => 'Initialiser na valeurs tî kôzo?';
+
+  @override
+  String get adminInitialize => 'Initialiser';
+
+  @override
+  String get adminTiersInitialized => 'Tiers a-initialiser nzönî';
+
+  @override
+  String adminTierUpdated(String name) {
+    return '$name a-sêngö';
+  }
+
+  @override
+  String get adminDisabled => 'A-duti pëpe';
+
+  @override
+  String adminPricePerMonth(String price) {
+    return '$price€/nze';
+  }
+
+  @override
+  String get adminSessionsUnlimited => 'Sessions ∞';
+
+  @override
+  String adminSessionsCount(int count) {
+    return '$count sessions';
+  }
+
+  @override
+  String get adminRoomsUnlimited => 'Salles ∞';
+
+  @override
+  String adminRoomsCount(int count) {
+    return '$count salles';
+  }
+
+  @override
+  String get adminServicesUnlimited => 'Services ∞';
+
+  @override
+  String adminServicesCount(int count) {
+    return '$count services';
+  }
+
+  @override
+  String get adminEngineersUnlimited => 'Engineers ∞';
+
+  @override
+  String adminEngineersCount(int count) {
+    return '$count engineers';
+  }
+
+  @override
+  String get adminAiUnlimited => 'IA ∞';
+
+  @override
+  String adminAiCount(int count) {
+    return '$count msg IA';
+  }
+
+  @override
+  String get adminFeatureAiAssistant => 'Assistant IA';
+
+  @override
+  String get adminFeatureAdvancedAi => 'IA avancée';
+
+  @override
+  String get adminFeatureDiscovery => 'Discovery';
+
+  @override
+  String get adminFeatureAnalytics => 'Analytics';
+
+  @override
+  String get adminFeatureBadge => 'Badge';
+
+  @override
+  String get adminFeatureMultiStudios => 'Multi-studios';
+
+  @override
+  String get adminFeatureApi => 'API';
+
+  @override
+  String get adminFeaturePrioritySupport => 'Support+';
+
+  @override
+  String adminEditTier(String name) {
+    return 'Sêngö $name';
+  }
+
+  @override
+  String get adminSectionInformation => 'Sêse';
+
+  @override
+  String get adminLabelName => 'Ïrï';
+
+  @override
+  String get adminLabelDescription => 'Na ndâ';
+
+  @override
+  String get adminSectionPricing => 'Tarif';
+
+  @override
+  String get adminLabelMonthlyPrice => 'Tarif na nze €';
+
+  @override
+  String get adminLabelYearlyPrice => 'Tarif na ngû €';
+
+  @override
+  String get adminSectionLimits => 'Ndïä (-1 = na ndïä pëpe)';
+
+  @override
+  String get adminLabelSessionsPerMonth => 'Sessions/nze';
+
+  @override
+  String get adminLabelRooms => 'Salles';
+
+  @override
+  String get adminLabelServices => 'Services';
+
+  @override
+  String get adminLabelEngineers => 'Engineers';
+
+  @override
+  String get adminLabelAiMessagesPerMonth => 'Mbëtï IA/nze';
+
+  @override
+  String get adminSectionAiFeatures => 'Fonctions IA';
+
+  @override
+  String get adminAiAssistantSubtitle => 'Duti na wala-bata IA';
+
+  @override
+  String get adminAdvancedAiSubtitle => 'Outils tî sara, rapports, etc.';
+
+  @override
+  String get adminSectionFeatures => 'Fonctions';
+
+  @override
+  String get adminFeatureDiscoveryVisibility => 'Pandöö Discovery';
+
+  @override
+  String get adminDiscoverySubtitle => 'Artiste akë lîngbi yê';
+
+  @override
+  String get adminFeatureBasicAnalytics => 'Analytics tî kôzo';
+
+  @override
+  String get adminFeatureAdvancedAnalytics => 'Analytics avancés';
+
+  @override
+  String get adminFeatureVerifiedBadge => 'Badge tî vérifier';
+
+  @override
+  String get adminFeatureApiAccess => 'Duti na API';
+
+  @override
+  String get adminFeaturePrioritySupportFull => 'Support tî kôzo';
+
+  @override
+  String get adminSectionStatus => 'Statut';
+
+  @override
+  String get adminTierActive => 'Tier a-duti';
+
+  @override
+  String get adminTierActiveSubtitle => 'Studio akë lîngbi sï tier sô';
+
+  @override
+  String get adminStudioClaims => 'Demande tî studio';
+
+  @override
+  String get adminFilterPending => 'Pending';
+
+  @override
+  String get adminFilterAll => 'Ôke';
+
+  @override
+  String get adminNoClaimsPending => 'Demande pëpe a-tära';
+
+  @override
+  String get adminNewClaimsAppearHere => 'Demande tî finî a-pandöö ôko';
+
+  @override
+  String adminClaimApproved(String name) {
+    return '$name a-sï!';
+  }
+
+  @override
+  String get adminRejectClaim => 'Lä demande';
+
+  @override
+  String adminRejectClaimConfirm(String name) {
+    return 'Lä \"$name\" ?';
+  }
+
+  @override
+  String get adminReasonOptional => 'Raison (sô mo sü)';
+
+  @override
+  String get adminReasonHint => 'Ex: Sêse a-nzönî pëpe...';
+
+  @override
+  String get adminReject => 'Lä';
+
+  @override
+  String get adminClaimRejected => 'Demande a-lä';
+
+  @override
+  String get adminApprove => 'Sï';
+
+  @override
+  String get adminStatusPending => 'A-tära';
+
+  @override
+  String get adminStatusApproved => 'A-sï';
+
+  @override
+  String get adminStatusRejected => 'A-lä';
+
+  @override
+  String get adminAccessDenied => 'Duti pëpe';
+
+  @override
+  String get adminDevMasterRequired => 'DevMaster a-lîngbi';
+
+  @override
+  String get adminDevMasterOnly => 'DevMaster ôko lîngbi duti na page sô';
+
+  @override
+  String get adminStripeConfig => 'Configuration Stripe';
+
+  @override
+  String adminStripeLoadError(String message) {
+    return 'Pörö na charger config: $message';
+  }
+
+  @override
+  String get adminStripeKeysWarning =>
+      'Clés a-crypter kôzo na bâa. Kêtê clés secrètes tî mo pëpe.';
+
+  @override
+  String get adminMode => 'Mode';
+
+  @override
+  String get adminProductionMode => 'Mode Production';
+
+  @override
+  String get adminLivePayments => 'Paiements tî nzönî a-duti';
+
+  @override
+  String get adminTestMode => 'Mode test - Paiement tî nzönî pëpe';
+
+  @override
+  String get adminApiKeys => 'Clés API';
+
+  @override
+  String get adminPublishableKey => 'Publishable Key';
+
+  @override
+  String get adminSecretKey => 'Secret Key';
+
+  @override
+  String get adminWebhookSecret => 'Webhook Secret';
+
+  @override
+  String get adminKeepCurrentKey => 'Fä na ndö tî bâa clé tî fadë';
+
+  @override
+  String get adminKeepCurrentSecret => 'Fä na ndö tî bâa secret tî fadë';
+
+  @override
+  String get adminStripePriceIds => 'Price IDs Stripe';
+
+  @override
+  String get adminStripePriceIdsHelp =>
+      'Ga produits na tarifs na dashboard Stripe tî mo, na bâa IDs ôko.';
+
+  @override
+  String get adminProMonthly => 'Pro na nze';
+
+  @override
+  String get adminProYearly => 'Pro na ngû';
+
+  @override
+  String get adminEnterpriseMonthly => 'Enterprise na nze';
+
+  @override
+  String get adminEnterpriseYearly => 'Enterprise na ngû';
+
+  @override
+  String get adminSaving => 'A-bâa...';
+
+  @override
+  String adminLastUpdated(String date) {
+    return 'Sêngö tî sô a-hûnzi: $date';
+  }
+
+  @override
+  String get adminPublicKeyRequired => 'Clé publique a-lîngbi';
+
+  @override
+  String get adminInvalidPublicKeyFormat =>
+      'Format tî clé publique a-nzönî pëpe';
+
+  @override
+  String get adminTestKeyInProduction => 'Clé test a-sâra na mode production';
+
+  @override
+  String get adminProdKeyInTestMode => 'Clé production a-sâra na mode test';
+
+  @override
+  String get adminStripeConfigSaved => 'Configuration Stripe a-bâa';
 }

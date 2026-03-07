@@ -7,6 +7,7 @@ import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/services_exports.dart';
 import 'package:useme/widgets/common/limit_reached_dialog.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Service creation/editing form
@@ -68,6 +69,7 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
   Widget build(BuildContext context) {
     return BlocListener<ServiceBloc, ServiceState>(
       listener: (context, state) {
+        final l10n = AppLocalizations.of(context)!;
         if (state is ServiceLimitReachedState) {
           LimitReachedDialog.show(
             context,
@@ -77,18 +79,18 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
             tierId: state.tierId,
           );
         } else if (state is ServiceCreatedState) {
-          AppSnackBar.success(context, 'Service créé');
+          AppSnackBar.success(context, l10n.serviceCreated);
           context.pop();
         } else if (state is ServiceUpdatedState) {
-          AppSnackBar.success(context, 'Service modifié');
+          AppSnackBar.success(context, l10n.serviceModified);
           context.pop();
         } else if (state is ServiceErrorState) {
-          AppSnackBar.error(context, state.errorMessage ?? 'Erreur');
+          AppSnackBar.error(context, state.errorMessage ?? l10n.error);
         }
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(isEditing ? 'Modifier le service' : 'Nouveau service'),
+          title: Text(isEditing ? AppLocalizations.of(context)!.editService : AppLocalizations.of(context)!.newServiceTitle),
           actions: [
             if (isEditing)
               IconButton(
@@ -97,71 +99,74 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
               ),
           ],
         ),
-        body: Form(
+        body: Builder(
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return Form(
         key: _formKey,
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
             // Nom du service
-            _buildSectionTitle(context, 'Nom du service'),
+            _buildSectionTitle(context, l10n.serviceName),
             const SizedBox(height: 8),
             TextFormField(
               controller: _nameController,
-              decoration: const InputDecoration(
-                hintText: 'Ex: Mix, Mastering, Recording...',
-                prefixIcon: Icon(Icons.label),
+              decoration: InputDecoration(
+                hintText: l10n.serviceNameHint,
+                prefixIcon: const Icon(Icons.label),
               ),
-              validator: (value) => value?.isEmpty ?? true ? 'Champ requis' : null,
+              validator: (value) => value?.isEmpty ?? true ? l10n.fieldRequired : null,
             ),
             const SizedBox(height: 24),
 
             // Description
-            _buildSectionTitle(context, 'Description (optionnel)'),
+            _buildSectionTitle(context, l10n.descriptionOptional),
             const SizedBox(height: 8),
             TextFormField(
               controller: _descriptionController,
               maxLines: 2,
-              decoration: const InputDecoration(
-                hintText: 'Description du service...',
+              decoration: InputDecoration(
+                hintText: l10n.descriptionHint,
               ),
             ),
             const SizedBox(height: 24),
 
             // Prix horaire
-            _buildSectionTitle(context, 'Tarif horaire (€)'),
+            _buildSectionTitle(context, l10n.hourlyRate),
             const SizedBox(height: 8),
             TextFormField(
               controller: _hourlyRateController,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: '50',
-                prefixIcon: Icon(Icons.euro),
-                suffixText: '€/h',
+                prefixIcon: const Icon(Icons.euro),
+                suffixText: l10n.perHour,
               ),
               validator: (value) {
-                if (value?.isEmpty ?? true) return 'Champ requis';
-                if (double.tryParse(value!) == null) return 'Nombre invalide';
+                if (value?.isEmpty ?? true) return l10n.fieldRequired;
+                if (double.tryParse(value!) == null) return l10n.invalidNumber;
                 return null;
               },
             ),
             const SizedBox(height: 24),
 
             // Durée minimum
-            _buildSectionTitle(context, 'Durée minimum'),
+            _buildSectionTitle(context, l10n.minimumDuration),
             const SizedBox(height: 8),
             _buildDurationSelector(context),
             const SizedBox(height: 24),
 
             // Salles associées
-            _buildSectionTitle(context, 'Salles (optionnel)'),
+            _buildSectionTitle(context, l10n.roomsOptional),
             const SizedBox(height: 8),
             _buildRoomSelector(context),
             const SizedBox(height: 24),
 
             // Statut actif
             SwitchListTile(
-              title: const Text('Service actif'),
-              subtitle: Text(_isActive ? 'Disponible à la réservation' : 'Non disponible'),
+              title: Text(l10n.serviceActive),
+              subtitle: Text(_isActive ? l10n.availableForBooking : l10n.notAvailableForBooking),
               value: _isActive,
               onChanged: (value) => setState(() => _isActive = value),
             ),
@@ -172,11 +177,13 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
               onPressed: _submitForm,
               child: Padding(
                 padding: const EdgeInsets.all(6),
-                child: Text(isEditing ? 'Enregistrer' : 'Créer le service'),
+                child: Text(isEditing ? l10n.save : l10n.createService),
               ),
             ),
           ],
         ),
+      );
+        },
       ),
       ),
     );
@@ -210,7 +217,7 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
       builder: (context, state) {
         if (state.rooms.isEmpty) {
           return Text(
-            'Aucune salle configurée',
+            AppLocalizations.of(context)!.noRoomConfigured,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.outline,
                 ),
@@ -283,15 +290,16 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
   }
 
   void _showDeleteDialog() {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Supprimer le service'),
-        content: const Text('Cette action est irréversible.'),
+        title: Text(l10n.deleteTheService),
+        content: Text(l10n.actionIrreversible),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Annuler'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () {
@@ -300,7 +308,7 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
               context.pop();
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Supprimer'),
+            child: Text(l10n.delete),
           ),
         ],
       ),

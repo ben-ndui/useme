@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:useme/core/models/subscription_tier_config.dart';
 import 'package:useme/core/services/subscription_config_service.dart';
 import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Écran SuperAdmin pour configurer les tiers d'abonnement
@@ -21,14 +22,15 @@ class _SubscriptionTiersScreenState extends State<SubscriptionTiersScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Configuration Abonnements'),
+        title: Text(l10n.adminSubscriptionConfig),
         actions: [
           IconButton(
             icon: const FaIcon(FontAwesomeIcons.creditCard, size: 18),
-            tooltip: 'Config Stripe',
+            tooltip: l10n.adminStripeConfigTooltip,
             onPressed: () => context.push('/admin/stripe-config'),
           ),
         ],
@@ -48,11 +50,11 @@ class _SubscriptionTiersScreenState extends State<SubscriptionTiersScreen> {
                   FaIcon(FontAwesomeIcons.triangleExclamation,
                       size: 48, color: theme.colorScheme.error),
                   const SizedBox(height: 16),
-                  Text('Erreur: ${snapshot.error}'),
+                  Text(l10n.errorWithMessage(snapshot.error.toString())),
                   const SizedBox(height: 16),
                   FilledButton(
                     onPressed: () => setState(() {}),
-                    child: const Text('Réessayer'),
+                    child: Text(l10n.retry),
                   ),
                 ],
               ),
@@ -80,6 +82,7 @@ class _SubscriptionTiersScreenState extends State<SubscriptionTiersScreen> {
 
   Widget _buildInitializeState(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -87,17 +90,17 @@ class _SubscriptionTiersScreenState extends State<SubscriptionTiersScreen> {
           FaIcon(FontAwesomeIcons.gears,
               size: 48, color: theme.colorScheme.outline),
           const SizedBox(height: 16),
-          Text('Aucun tier configuré', style: theme.textTheme.titleMedium),
+          Text(l10n.adminNoTierConfigured, style: theme.textTheme.titleMedium),
           const SizedBox(height: 8),
           Text(
-            'Initialiser avec les valeurs par défaut ?',
+            l10n.adminInitializeDefaults,
             style: theme.textTheme.bodyMedium
                 ?.copyWith(color: theme.colorScheme.outline),
           ),
           const SizedBox(height: 24),
           FilledButton(
             onPressed: _initializeDefaults,
-            child: const Text('Initialiser'),
+            child: Text(l10n.adminInitialize),
           ),
         ],
       ),
@@ -105,16 +108,17 @@ class _SubscriptionTiersScreenState extends State<SubscriptionTiersScreen> {
   }
 
   Future<void> _initializeDefaults() async {
+    final l10n = AppLocalizations.of(context)!;
     try {
       for (final tier in SubscriptionTierConfig.defaultTiers) {
         await _service.createTier(tier);
       }
       if (mounted) {
-        AppSnackBar.success(context, 'Tiers initialisés avec succès');
+        AppSnackBar.success(context, l10n.adminTiersInitialized);
       }
     } catch (e) {
       if (mounted) {
-        AppSnackBar.error(context, 'Erreur: $e');
+        AppSnackBar.error(context, l10n.errorWithMessage(e.toString()));
       }
     }
   }
@@ -127,15 +131,16 @@ class _SubscriptionTiersScreenState extends State<SubscriptionTiersScreen> {
       builder: (ctx) => _TierEditSheet(tier: tier),
     );
 
-    if (result != null) {
+    if (result != null && mounted) {
+      final l10n = AppLocalizations.of(context)!;
       try {
         await _service.updateTier(result);
         if (mounted) {
-          AppSnackBar.success(context, '${result.name} mis à jour');
+          AppSnackBar.success(context, l10n.adminTierUpdated(result.name));
         }
       } catch (e) {
         if (mounted) {
-          AppSnackBar.error(context, 'Erreur: $e');
+          AppSnackBar.error(context, l10n.errorWithMessage(e.toString()));
         }
       }
     }
@@ -152,6 +157,7 @@ class _TierCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     final color = switch (tier.id) {
       'free' => Colors.grey,
@@ -198,7 +204,7 @@ class _TierCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
-                        'Désactivé',
+                        l10n.adminDisabled,
                         style: theme.textTheme.labelSmall
                             ?.copyWith(color: Colors.red),
                       ),
@@ -206,8 +212,8 @@ class _TierCard extends StatelessWidget {
                   const Spacer(),
                   Text(
                     tier.isFree
-                        ? 'Gratuit'
-                        : '${tier.priceMonthly.toStringAsFixed(0)}€/mois',
+                        ? l10n.free
+                        : l10n.adminPricePerMonth(tier.priceMonthly.toStringAsFixed(0)),
                     style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -233,32 +239,32 @@ class _TierCard extends StatelessWidget {
                   _LimitChip(
                     icon: FontAwesomeIcons.calendar,
                     label: tier.isUnlimited(tier.maxSessions)
-                        ? 'Sessions ∞'
-                        : '${tier.maxSessions} sessions',
+                        ? l10n.adminSessionsUnlimited
+                        : l10n.adminSessionsCount(tier.maxSessions),
                   ),
                   _LimitChip(
                     icon: FontAwesomeIcons.doorOpen,
                     label: tier.isUnlimited(tier.maxRooms)
-                        ? 'Salles ∞'
-                        : '${tier.maxRooms} salles',
+                        ? l10n.adminRoomsUnlimited
+                        : l10n.adminRoomsCount(tier.maxRooms),
                   ),
                   _LimitChip(
                     icon: FontAwesomeIcons.microphone,
                     label: tier.isUnlimited(tier.maxServices)
-                        ? 'Services ∞'
-                        : '${tier.maxServices} services',
+                        ? l10n.adminServicesUnlimited
+                        : l10n.adminServicesCount(tier.maxServices),
                   ),
                   _LimitChip(
                     icon: FontAwesomeIcons.userGroup,
                     label: tier.isUnlimited(tier.maxEngineers)
-                        ? 'Engineers ∞'
-                        : '${tier.maxEngineers} engineers',
+                        ? l10n.adminEngineersUnlimited
+                        : l10n.adminEngineersCount(tier.maxEngineers),
                   ),
                   _LimitChip(
                     icon: FontAwesomeIcons.robot,
                     label: tier.isUnlimited(tier.aiMessagesPerMonth)
-                        ? 'IA ∞'
-                        : '${tier.aiMessagesPerMonth} msg IA',
+                        ? l10n.adminAiUnlimited
+                        : l10n.adminAiCount(tier.aiMessagesPerMonth),
                   ),
                 ],
               ),
@@ -271,27 +277,27 @@ class _TierCard extends StatelessWidget {
                 children: [
                   if (tier.hasAIAssistant)
                     _FeatureChip(
-                        icon: FontAwesomeIcons.robot, label: 'Assistant IA'),
+                        icon: FontAwesomeIcons.robot, label: l10n.adminFeatureAiAssistant),
                   if (tier.hasAdvancedAI)
                     _FeatureChip(
-                        icon: FontAwesomeIcons.wandMagicSparkles, label: 'IA avancée'),
+                        icon: FontAwesomeIcons.wandMagicSparkles, label: l10n.adminFeatureAdvancedAi),
                   if (tier.hasDiscoveryVisibility)
                     _FeatureChip(
-                        icon: FontAwesomeIcons.eye, label: 'Discovery'),
+                        icon: FontAwesomeIcons.eye, label: l10n.adminFeatureDiscovery),
                   if (tier.hasAnalytics)
                     _FeatureChip(
-                        icon: FontAwesomeIcons.chartLine, label: 'Analytics'),
+                        icon: FontAwesomeIcons.chartLine, label: l10n.adminFeatureAnalytics),
                   if (tier.hasVerifiedBadge)
                     _FeatureChip(
-                        icon: FontAwesomeIcons.circleCheck, label: 'Badge'),
+                        icon: FontAwesomeIcons.circleCheck, label: l10n.adminFeatureBadge),
                   if (tier.hasMultiStudios)
                     _FeatureChip(
-                        icon: FontAwesomeIcons.building, label: 'Multi-studios'),
+                        icon: FontAwesomeIcons.building, label: l10n.adminFeatureMultiStudios),
                   if (tier.hasApiAccess)
-                    _FeatureChip(icon: FontAwesomeIcons.code, label: 'API'),
+                    _FeatureChip(icon: FontAwesomeIcons.code, label: l10n.adminFeatureApi),
                   if (tier.hasPrioritySupport)
                     _FeatureChip(
-                        icon: FontAwesomeIcons.headset, label: 'Support+'),
+                        icon: FontAwesomeIcons.headset, label: l10n.adminFeaturePrioritySupport),
                 ],
               ),
             ],
@@ -440,6 +446,7 @@ class _TierEditSheetState extends State<_TierEditSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return DraggableScrollableSheet(
       initialChildSize: 0.9,
@@ -464,10 +471,10 @@ class _TierEditSheetState extends State<_TierEditSheet> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
-                Text('Modifier ${widget.tier.name}',
+                Text(l10n.adminEditTier(widget.tier.name),
                     style: theme.textTheme.titleLarge),
                 const Spacer(),
-                FilledButton(onPressed: _save, child: const Text('Enregistrer')),
+                FilledButton(onPressed: _save, child: Text(l10n.save)),
               ],
             ),
           ),
@@ -480,29 +487,29 @@ class _TierEditSheetState extends State<_TierEditSheet> {
               padding: const EdgeInsets.all(16),
               children: [
                 // Basic info
-                _buildSection('Informations', [
+                _buildSection(l10n.adminSectionInformation, [
                   TextField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: 'Nom'),
+                    decoration: InputDecoration(labelText: l10n.adminLabelName),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: _descriptionController,
-                    decoration: const InputDecoration(labelText: 'Description'),
+                    decoration: InputDecoration(labelText: l10n.adminLabelDescription),
                     maxLines: 2,
                   ),
                 ]),
                 const SizedBox(height: 24),
 
                 // Pricing
-                _buildSection('Tarification', [
+                _buildSection(l10n.adminSectionPricing, [
                   Row(
                     children: [
                       Expanded(
                         child: TextField(
                           controller: _priceMonthlyController,
                           decoration:
-                              const InputDecoration(labelText: 'Prix mensuel €'),
+                              InputDecoration(labelText: l10n.adminLabelMonthlyPrice),
                           keyboardType: TextInputType.number,
                         ),
                       ),
@@ -511,7 +518,7 @@ class _TierEditSheetState extends State<_TierEditSheet> {
                         child: TextField(
                           controller: _priceYearlyController,
                           decoration:
-                              const InputDecoration(labelText: 'Prix annuel €'),
+                              InputDecoration(labelText: l10n.adminLabelYearlyPrice),
                           keyboardType: TextInputType.number,
                         ),
                       ),
@@ -521,14 +528,14 @@ class _TierEditSheetState extends State<_TierEditSheet> {
                 const SizedBox(height: 24),
 
                 // Limits
-                _buildSection('Limites (-1 = illimité)', [
+                _buildSection(l10n.adminSectionLimits, [
                   Row(
                     children: [
                       Expanded(
                         child: TextField(
                           controller: _maxSessionsController,
                           decoration:
-                              const InputDecoration(labelText: 'Sessions/mois'),
+                              InputDecoration(labelText: l10n.adminLabelSessionsPerMonth),
                           keyboardType: TextInputType.number,
                         ),
                       ),
@@ -536,7 +543,7 @@ class _TierEditSheetState extends State<_TierEditSheet> {
                       Expanded(
                         child: TextField(
                           controller: _maxRoomsController,
-                          decoration: const InputDecoration(labelText: 'Salles'),
+                          decoration: InputDecoration(labelText: l10n.adminLabelRooms),
                           keyboardType: TextInputType.number,
                         ),
                       ),
@@ -549,7 +556,7 @@ class _TierEditSheetState extends State<_TierEditSheet> {
                         child: TextField(
                           controller: _maxServicesController,
                           decoration:
-                              const InputDecoration(labelText: 'Services'),
+                              InputDecoration(labelText: l10n.adminLabelServices),
                           keyboardType: TextInputType.number,
                         ),
                       ),
@@ -558,7 +565,7 @@ class _TierEditSheetState extends State<_TierEditSheet> {
                         child: TextField(
                           controller: _maxEngineersController,
                           decoration:
-                              const InputDecoration(labelText: 'Engineers'),
+                              InputDecoration(labelText: l10n.adminLabelEngineers),
                           keyboardType: TextInputType.number,
                         ),
                       ),
@@ -568,23 +575,23 @@ class _TierEditSheetState extends State<_TierEditSheet> {
                   TextField(
                     controller: _aiMessagesPerMonthController,
                     decoration:
-                        const InputDecoration(labelText: 'Messages IA/mois'),
+                        InputDecoration(labelText: l10n.adminLabelAiMessagesPerMonth),
                     keyboardType: TextInputType.number,
                   ),
                 ]),
                 const SizedBox(height: 24),
 
                 // Features IA
-                _buildSection('Fonctionnalités IA', [
+                _buildSection(l10n.adminSectionAiFeatures, [
                   SwitchListTile(
-                    title: const Text('Assistant IA'),
-                    subtitle: const Text('Accès à l\'assistant conversationnel'),
+                    title: Text(l10n.adminFeatureAiAssistant),
+                    subtitle: Text(l10n.adminAiAssistantSubtitle),
                     value: _hasAIAssistant,
                     onChanged: (v) => setState(() => _hasAIAssistant = v),
                   ),
                   SwitchListTile(
-                    title: const Text('IA avancée'),
-                    subtitle: const Text('Outils d\'action, rapports, etc.'),
+                    title: Text(l10n.adminFeatureAdvancedAi),
+                    subtitle: Text(l10n.adminAdvancedAiSubtitle),
                     value: _hasAdvancedAI,
                     onChanged: (v) => setState(() => _hasAdvancedAI = v),
                   ),
@@ -592,41 +599,41 @@ class _TierEditSheetState extends State<_TierEditSheet> {
                 const SizedBox(height: 24),
 
                 // Features
-                _buildSection('Fonctionnalités', [
+                _buildSection(l10n.adminSectionFeatures, [
                   SwitchListTile(
-                    title: const Text('Visibilité Discovery'),
-                    subtitle: const Text('Visible par les artistes'),
+                    title: Text(l10n.adminFeatureDiscoveryVisibility),
+                    subtitle: Text(l10n.adminDiscoverySubtitle),
                     value: _hasDiscoveryVisibility,
                     onChanged: (v) =>
                         setState(() => _hasDiscoveryVisibility = v),
                   ),
                   SwitchListTile(
-                    title: const Text('Analytics basiques'),
+                    title: Text(l10n.adminFeatureBasicAnalytics),
                     value: _hasAnalytics,
                     onChanged: (v) => setState(() => _hasAnalytics = v),
                   ),
                   SwitchListTile(
-                    title: const Text('Analytics avancés'),
+                    title: Text(l10n.adminFeatureAdvancedAnalytics),
                     value: _hasAdvancedAnalytics,
                     onChanged: (v) => setState(() => _hasAdvancedAnalytics = v),
                   ),
                   SwitchListTile(
-                    title: const Text('Badge vérifié'),
+                    title: Text(l10n.adminFeatureVerifiedBadge),
                     value: _hasVerifiedBadge,
                     onChanged: (v) => setState(() => _hasVerifiedBadge = v),
                   ),
                   SwitchListTile(
-                    title: const Text('Multi-studios'),
+                    title: Text(l10n.adminFeatureMultiStudios),
                     value: _hasMultiStudios,
                     onChanged: (v) => setState(() => _hasMultiStudios = v),
                   ),
                   SwitchListTile(
-                    title: const Text('Accès API'),
+                    title: Text(l10n.adminFeatureApiAccess),
                     value: _hasApiAccess,
                     onChanged: (v) => setState(() => _hasApiAccess = v),
                   ),
                   SwitchListTile(
-                    title: const Text('Support prioritaire'),
+                    title: Text(l10n.adminFeaturePrioritySupportFull),
                     value: _hasPrioritySupport,
                     onChanged: (v) => setState(() => _hasPrioritySupport = v),
                   ),
@@ -634,11 +641,11 @@ class _TierEditSheetState extends State<_TierEditSheet> {
                 const SizedBox(height: 24),
 
                 // Status
-                _buildSection('Statut', [
+                _buildSection(l10n.adminSectionStatus, [
                   SwitchListTile(
-                    title: const Text('Tier actif'),
+                    title: Text(l10n.adminTierActive),
                     subtitle:
-                        const Text('Les studios peuvent souscrire à ce tier'),
+                        Text(l10n.adminTierActiveSubtitle),
                     value: _isActive,
                     onChanged: widget.tier.id == 'free'
                         ? null

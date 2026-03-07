@@ -6831,6 +6831,702 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Partagez l\'application avec vos collaborateurs musicaux pour les retrouver directement sur UZME et faciliter vos futures réservations.'**
   String get tipNetworkInviteDesc;
+
+  /// No description provided for @addArtistTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un artiste'**
+  String get addArtistTitle;
+
+  /// No description provided for @noRoomConfigured.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune salle configurée'**
+  String get noRoomConfigured;
+
+  /// No description provided for @serviceCreated.
+  ///
+  /// In fr, this message translates to:
+  /// **'Service créé'**
+  String get serviceCreated;
+
+  /// No description provided for @serviceModified.
+  ///
+  /// In fr, this message translates to:
+  /// **'Service modifié'**
+  String get serviceModified;
+
+  /// No description provided for @sessionCreated.
+  ///
+  /// In fr, this message translates to:
+  /// **'Session créée'**
+  String get sessionCreated;
+
+  /// No description provided for @sessionModified.
+  ///
+  /// In fr, this message translates to:
+  /// **'Session modifiée'**
+  String get sessionModified;
+
+  /// No description provided for @additionalInfoHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Informations supplémentaires...'**
+  String get additionalInfoHint;
+
+  /// No description provided for @roomsOptional.
+  ///
+  /// In fr, this message translates to:
+  /// **'Salles (optionnel)'**
+  String get roomsOptional;
+
+  /// No description provided for @recordingTooShort.
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistrement trop court'**
+  String get recordingTooShort;
+
+  /// No description provided for @descriptionHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Description du service...'**
+  String get descriptionHint;
+
+  /// No description provided for @createTheSession.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créer la session'**
+  String get createTheSession;
+
+  /// No description provided for @createTheArtist.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créer l\'artiste'**
+  String get createTheArtist;
+
+  /// No description provided for @deleteTheService.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer le service'**
+  String get deleteTheService;
+
+  /// No description provided for @deleteTheArtist.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer l\'artiste'**
+  String get deleteTheArtist;
+
+  /// No description provided for @deleteTheSession.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer la session'**
+  String get deleteTheSession;
+
+  /// No description provided for @userAddedToStudio.
+  ///
+  /// In fr, this message translates to:
+  /// **'{name} ajouté à votre studio !'**
+  String userAddedToStudio(String name);
+
+  /// No description provided for @descriptionOptional.
+  ///
+  /// In fr, this message translates to:
+  /// **'Description (optionnel)'**
+  String get descriptionOptional;
+
+  /// No description provided for @adminSubscriptionConfig.
+  ///
+  /// In fr, this message translates to:
+  /// **'Configuration Abonnements'**
+  String get adminSubscriptionConfig;
+
+  /// No description provided for @adminStripeConfigTooltip.
+  ///
+  /// In fr, this message translates to:
+  /// **'Config Stripe'**
+  String get adminStripeConfigTooltip;
+
+  /// No description provided for @adminNoTierConfigured.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun tier configuré'**
+  String get adminNoTierConfigured;
+
+  /// No description provided for @adminInitializeDefaults.
+  ///
+  /// In fr, this message translates to:
+  /// **'Initialiser avec les valeurs par défaut ?'**
+  String get adminInitializeDefaults;
+
+  /// No description provided for @adminInitialize.
+  ///
+  /// In fr, this message translates to:
+  /// **'Initialiser'**
+  String get adminInitialize;
+
+  /// No description provided for @adminTiersInitialized.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tiers initialisés avec succès'**
+  String get adminTiersInitialized;
+
+  /// No description provided for @adminTierUpdated.
+  ///
+  /// In fr, this message translates to:
+  /// **'{name} mis à jour'**
+  String adminTierUpdated(String name);
+
+  /// No description provided for @adminDisabled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Désactivé'**
+  String get adminDisabled;
+
+  /// No description provided for @adminPricePerMonth.
+  ///
+  /// In fr, this message translates to:
+  /// **'{price}€/mois'**
+  String adminPricePerMonth(String price);
+
+  /// No description provided for @adminSessionsUnlimited.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sessions ∞'**
+  String get adminSessionsUnlimited;
+
+  /// No description provided for @adminSessionsCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} sessions'**
+  String adminSessionsCount(int count);
+
+  /// No description provided for @adminRoomsUnlimited.
+  ///
+  /// In fr, this message translates to:
+  /// **'Salles ∞'**
+  String get adminRoomsUnlimited;
+
+  /// No description provided for @adminRoomsCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} salles'**
+  String adminRoomsCount(int count);
+
+  /// No description provided for @adminServicesUnlimited.
+  ///
+  /// In fr, this message translates to:
+  /// **'Services ∞'**
+  String get adminServicesUnlimited;
+
+  /// No description provided for @adminServicesCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} services'**
+  String adminServicesCount(int count);
+
+  /// No description provided for @adminEngineersUnlimited.
+  ///
+  /// In fr, this message translates to:
+  /// **'Engineers ∞'**
+  String get adminEngineersUnlimited;
+
+  /// No description provided for @adminEngineersCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} engineers'**
+  String adminEngineersCount(int count);
+
+  /// No description provided for @adminAiUnlimited.
+  ///
+  /// In fr, this message translates to:
+  /// **'IA ∞'**
+  String get adminAiUnlimited;
+
+  /// No description provided for @adminAiCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} msg IA'**
+  String adminAiCount(int count);
+
+  /// No description provided for @adminFeatureAiAssistant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Assistant IA'**
+  String get adminFeatureAiAssistant;
+
+  /// No description provided for @adminFeatureAdvancedAi.
+  ///
+  /// In fr, this message translates to:
+  /// **'IA avancée'**
+  String get adminFeatureAdvancedAi;
+
+  /// No description provided for @adminFeatureDiscovery.
+  ///
+  /// In fr, this message translates to:
+  /// **'Discovery'**
+  String get adminFeatureDiscovery;
+
+  /// No description provided for @adminFeatureAnalytics.
+  ///
+  /// In fr, this message translates to:
+  /// **'Analytics'**
+  String get adminFeatureAnalytics;
+
+  /// No description provided for @adminFeatureBadge.
+  ///
+  /// In fr, this message translates to:
+  /// **'Badge'**
+  String get adminFeatureBadge;
+
+  /// No description provided for @adminFeatureMultiStudios.
+  ///
+  /// In fr, this message translates to:
+  /// **'Multi-studios'**
+  String get adminFeatureMultiStudios;
+
+  /// No description provided for @adminFeatureApi.
+  ///
+  /// In fr, this message translates to:
+  /// **'API'**
+  String get adminFeatureApi;
+
+  /// No description provided for @adminFeaturePrioritySupport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Support+'**
+  String get adminFeaturePrioritySupport;
+
+  /// No description provided for @adminEditTier.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier {name}'**
+  String adminEditTier(String name);
+
+  /// No description provided for @adminSectionInformation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Informations'**
+  String get adminSectionInformation;
+
+  /// No description provided for @adminLabelName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom'**
+  String get adminLabelName;
+
+  /// No description provided for @adminLabelDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Description'**
+  String get adminLabelDescription;
+
+  /// No description provided for @adminSectionPricing.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tarification'**
+  String get adminSectionPricing;
+
+  /// No description provided for @adminLabelMonthlyPrice.
+  ///
+  /// In fr, this message translates to:
+  /// **'Prix mensuel €'**
+  String get adminLabelMonthlyPrice;
+
+  /// No description provided for @adminLabelYearlyPrice.
+  ///
+  /// In fr, this message translates to:
+  /// **'Prix annuel €'**
+  String get adminLabelYearlyPrice;
+
+  /// No description provided for @adminSectionLimits.
+  ///
+  /// In fr, this message translates to:
+  /// **'Limites (-1 = illimité)'**
+  String get adminSectionLimits;
+
+  /// No description provided for @adminLabelSessionsPerMonth.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sessions/mois'**
+  String get adminLabelSessionsPerMonth;
+
+  /// No description provided for @adminLabelRooms.
+  ///
+  /// In fr, this message translates to:
+  /// **'Salles'**
+  String get adminLabelRooms;
+
+  /// No description provided for @adminLabelServices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Services'**
+  String get adminLabelServices;
+
+  /// No description provided for @adminLabelEngineers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Engineers'**
+  String get adminLabelEngineers;
+
+  /// No description provided for @adminLabelAiMessagesPerMonth.
+  ///
+  /// In fr, this message translates to:
+  /// **'Messages IA/mois'**
+  String get adminLabelAiMessagesPerMonth;
+
+  /// No description provided for @adminSectionAiFeatures.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fonctionnalités IA'**
+  String get adminSectionAiFeatures;
+
+  /// No description provided for @adminAiAssistantSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accès à l\'assistant conversationnel'**
+  String get adminAiAssistantSubtitle;
+
+  /// No description provided for @adminAdvancedAiSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Outils d\'action, rapports, etc.'**
+  String get adminAdvancedAiSubtitle;
+
+  /// No description provided for @adminSectionFeatures.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fonctionnalités'**
+  String get adminSectionFeatures;
+
+  /// No description provided for @adminFeatureDiscoveryVisibility.
+  ///
+  /// In fr, this message translates to:
+  /// **'Visibilité Discovery'**
+  String get adminFeatureDiscoveryVisibility;
+
+  /// No description provided for @adminDiscoverySubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Visible par les artistes'**
+  String get adminDiscoverySubtitle;
+
+  /// No description provided for @adminFeatureBasicAnalytics.
+  ///
+  /// In fr, this message translates to:
+  /// **'Analytics basiques'**
+  String get adminFeatureBasicAnalytics;
+
+  /// No description provided for @adminFeatureAdvancedAnalytics.
+  ///
+  /// In fr, this message translates to:
+  /// **'Analytics avancés'**
+  String get adminFeatureAdvancedAnalytics;
+
+  /// No description provided for @adminFeatureVerifiedBadge.
+  ///
+  /// In fr, this message translates to:
+  /// **'Badge vérifié'**
+  String get adminFeatureVerifiedBadge;
+
+  /// No description provided for @adminFeatureApiAccess.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accès API'**
+  String get adminFeatureApiAccess;
+
+  /// No description provided for @adminFeaturePrioritySupportFull.
+  ///
+  /// In fr, this message translates to:
+  /// **'Support prioritaire'**
+  String get adminFeaturePrioritySupportFull;
+
+  /// No description provided for @adminSectionStatus.
+  ///
+  /// In fr, this message translates to:
+  /// **'Statut'**
+  String get adminSectionStatus;
+
+  /// No description provided for @adminTierActive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tier actif'**
+  String get adminTierActive;
+
+  /// No description provided for @adminTierActiveSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les studios peuvent souscrire à ce tier'**
+  String get adminTierActiveSubtitle;
+
+  /// No description provided for @adminStudioClaims.
+  ///
+  /// In fr, this message translates to:
+  /// **'Revendications studios'**
+  String get adminStudioClaims;
+
+  /// No description provided for @adminFilterPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pending'**
+  String get adminFilterPending;
+
+  /// No description provided for @adminFilterAll.
+  ///
+  /// In fr, this message translates to:
+  /// **'Toutes'**
+  String get adminFilterAll;
+
+  /// No description provided for @adminNoClaimsPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune demande en attente'**
+  String get adminNoClaimsPending;
+
+  /// No description provided for @adminNewClaimsAppearHere.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les nouvelles demandes apparaîtront ici'**
+  String get adminNewClaimsAppearHere;
+
+  /// No description provided for @adminClaimApproved.
+  ///
+  /// In fr, this message translates to:
+  /// **'{name} approuvé !'**
+  String adminClaimApproved(String name);
+
+  /// No description provided for @adminRejectClaim.
+  ///
+  /// In fr, this message translates to:
+  /// **'Refuser la demande'**
+  String get adminRejectClaim;
+
+  /// No description provided for @adminRejectClaimConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Refuser \"{name}\" ?'**
+  String adminRejectClaimConfirm(String name);
+
+  /// No description provided for @adminReasonOptional.
+  ///
+  /// In fr, this message translates to:
+  /// **'Raison (optionnel)'**
+  String get adminReasonOptional;
+
+  /// No description provided for @adminReasonHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex: Informations incorrectes...'**
+  String get adminReasonHint;
+
+  /// No description provided for @adminReject.
+  ///
+  /// In fr, this message translates to:
+  /// **'Refuser'**
+  String get adminReject;
+
+  /// No description provided for @adminClaimRejected.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demande refusée'**
+  String get adminClaimRejected;
+
+  /// No description provided for @adminApprove.
+  ///
+  /// In fr, this message translates to:
+  /// **'Approuver'**
+  String get adminApprove;
+
+  /// No description provided for @adminStatusPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'En attente'**
+  String get adminStatusPending;
+
+  /// No description provided for @adminStatusApproved.
+  ///
+  /// In fr, this message translates to:
+  /// **'Approuvé'**
+  String get adminStatusApproved;
+
+  /// No description provided for @adminStatusRejected.
+  ///
+  /// In fr, this message translates to:
+  /// **'Refusé'**
+  String get adminStatusRejected;
+
+  /// No description provided for @adminAccessDenied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accès refusé'**
+  String get adminAccessDenied;
+
+  /// No description provided for @adminDevMasterRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accès DevMaster requis'**
+  String get adminDevMasterRequired;
+
+  /// No description provided for @adminDevMasterOnly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Seuls les DevMasters peuvent accéder à cette page'**
+  String get adminDevMasterOnly;
+
+  /// No description provided for @adminStripeConfig.
+  ///
+  /// In fr, this message translates to:
+  /// **'Configuration Stripe'**
+  String get adminStripeConfig;
+
+  /// No description provided for @adminStripeLoadError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur chargement config: {message}'**
+  String adminStripeLoadError(String message);
+
+  /// No description provided for @adminStripeKeysWarning.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les clés sont cryptées avant stockage. Ne partagez jamais vos clés secrètes.'**
+  String get adminStripeKeysWarning;
+
+  /// No description provided for @adminMode.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mode'**
+  String get adminMode;
+
+  /// No description provided for @adminProductionMode.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mode Production'**
+  String get adminProductionMode;
+
+  /// No description provided for @adminLivePayments.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiements réels activés'**
+  String get adminLivePayments;
+
+  /// No description provided for @adminTestMode.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mode test - Aucun paiement réel'**
+  String get adminTestMode;
+
+  /// No description provided for @adminApiKeys.
+  ///
+  /// In fr, this message translates to:
+  /// **'Clés API'**
+  String get adminApiKeys;
+
+  /// No description provided for @adminPublishableKey.
+  ///
+  /// In fr, this message translates to:
+  /// **'Publishable Key'**
+  String get adminPublishableKey;
+
+  /// No description provided for @adminSecretKey.
+  ///
+  /// In fr, this message translates to:
+  /// **'Secret Key'**
+  String get adminSecretKey;
+
+  /// No description provided for @adminWebhookSecret.
+  ///
+  /// In fr, this message translates to:
+  /// **'Webhook Secret'**
+  String get adminWebhookSecret;
+
+  /// No description provided for @adminKeepCurrentKey.
+  ///
+  /// In fr, this message translates to:
+  /// **'Laissez vide pour garder la clé actuelle'**
+  String get adminKeepCurrentKey;
+
+  /// No description provided for @adminKeepCurrentSecret.
+  ///
+  /// In fr, this message translates to:
+  /// **'Laissez vide pour garder le secret actuel'**
+  String get adminKeepCurrentSecret;
+
+  /// No description provided for @adminStripePriceIds.
+  ///
+  /// In fr, this message translates to:
+  /// **'Price IDs Stripe'**
+  String get adminStripePriceIds;
+
+  /// No description provided for @adminStripePriceIdsHelp.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créez les produits et prix dans votre dashboard Stripe, puis collez les IDs ici.'**
+  String get adminStripePriceIdsHelp;
+
+  /// No description provided for @adminProMonthly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pro Mensuel'**
+  String get adminProMonthly;
+
+  /// No description provided for @adminProYearly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pro Annuel'**
+  String get adminProYearly;
+
+  /// No description provided for @adminEnterpriseMonthly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Enterprise Mensuel'**
+  String get adminEnterpriseMonthly;
+
+  /// No description provided for @adminEnterpriseYearly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Enterprise Annuel'**
+  String get adminEnterpriseYearly;
+
+  /// No description provided for @adminSaving.
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistrement...'**
+  String get adminSaving;
+
+  /// No description provided for @adminLastUpdated.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dernière mise à jour: {date}'**
+  String adminLastUpdated(String date);
+
+  /// No description provided for @adminPublicKeyRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'La clé publique est requise'**
+  String get adminPublicKeyRequired;
+
+  /// No description provided for @adminInvalidPublicKeyFormat.
+  ///
+  /// In fr, this message translates to:
+  /// **'Format de clé publique invalide'**
+  String get adminInvalidPublicKeyFormat;
+
+  /// No description provided for @adminTestKeyInProduction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Clé de test utilisée en mode production'**
+  String get adminTestKeyInProduction;
+
+  /// No description provided for @adminProdKeyInTestMode.
+  ///
+  /// In fr, this message translates to:
+  /// **'Clé de production utilisée en mode test'**
+  String get adminProdKeyInTestMode;
+
+  /// No description provided for @adminStripeConfigSaved.
+  ///
+  /// In fr, this message translates to:
+  /// **'Configuration Stripe enregistrée'**
+  String get adminStripeConfigSaved;
 }
 
 class _AppLocalizationsDelegate

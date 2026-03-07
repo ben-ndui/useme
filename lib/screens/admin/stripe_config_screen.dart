@@ -7,6 +7,7 @@ import 'package:useme/core/models/stripe_config.dart';
 import 'package:useme/core/services/encryption_service.dart';
 import 'package:useme/core/services/stripe_config_service.dart';
 import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Écran DevMaster pour configurer les clés Stripe
@@ -75,7 +76,8 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
       }
     } catch (e) {
       if (mounted) {
-        AppSnackBar.error(context, 'Erreur chargement config: $e');
+        final l10n = AppLocalizations.of(context)!;
+        AppSnackBar.error(context, l10n.adminStripeLoadError(e.toString()));
       }
     }
 
@@ -99,6 +101,7 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final authState = context.read<AuthBloc>().state;
 
     // Vérifier l'accès DevMaster
@@ -106,7 +109,7 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
       final user = authState.user;
       if (user is! AppUser || !user.hasDevMasterAccess) {
         return Scaffold(
-          appBar: AppBar(title: const Text('Accès refusé')),
+          appBar: AppBar(title: Text(l10n.adminAccessDenied)),
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -114,11 +117,11 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
                 FaIcon(FontAwesomeIcons.lock,
                     size: 48, color: theme.colorScheme.error),
                 const SizedBox(height: 16),
-                Text('Accès DevMaster requis',
+                Text(l10n.adminDevMasterRequired,
                     style: theme.textTheme.titleMedium),
                 const SizedBox(height: 8),
                 Text(
-                  'Seuls les DevMasters peuvent accéder à cette page',
+                  l10n.adminDevMasterOnly,
                   style: theme.textTheme.bodyMedium
                       ?.copyWith(color: theme.colorScheme.outline),
                 ),
@@ -131,14 +134,14 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
 
     if (_isLoading) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Configuration Stripe')),
+        appBar: AppBar(title: Text(l10n.adminStripeConfig)),
         body: const AppLoader(),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Configuration Stripe'),
+        title: Text(l10n.adminStripeConfig),
         actions: [
           if (_config != null)
             Container(
@@ -191,7 +194,7 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'Les clés sont cryptées avant stockage. Ne partagez jamais vos clés secrètes.',
+                    l10n.adminStripeKeysWarning,
                     style: theme.textTheme.bodySmall,
                   ),
                 ),
@@ -201,12 +204,12 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
           const SizedBox(height: 24),
 
           // Mode switch
-          _buildSection('Mode', [
+          _buildSection(l10n.adminMode, [
             SwitchListTile(
-              title: const Text('Mode Production'),
+              title: Text(l10n.adminProductionMode),
               subtitle: Text(_isLiveMode
-                  ? 'Paiements réels activés'
-                  : 'Mode test - Aucun paiement réel'),
+                  ? l10n.adminLivePayments
+                  : l10n.adminTestMode),
               value: _isLiveMode,
               onChanged: (v) => setState(() => _isLiveMode = v),
               secondary: FaIcon(
@@ -218,11 +221,11 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
           const SizedBox(height: 24),
 
           // API Keys
-          _buildSection('Clés API', [
+          _buildSection(l10n.adminApiKeys, [
             TextField(
               controller: _publishableKeyController,
               decoration: InputDecoration(
-                labelText: 'Publishable Key',
+                labelText: l10n.adminPublishableKey,
                 hintText: _isLiveMode ? 'pk_live_...' : 'pk_test_...',
                 prefixIcon: const Icon(Icons.key),
               ),
@@ -232,9 +235,9 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
               controller: _secretKeyController,
               obscureText: !_showSecretKey,
               decoration: InputDecoration(
-                labelText: 'Secret Key',
+                labelText: l10n.adminSecretKey,
                 hintText: _isLiveMode ? 'sk_live_...' : 'sk_test_...',
-                helperText: 'Laissez vide pour garder la clé actuelle',
+                helperText: l10n.adminKeepCurrentKey,
                 prefixIcon: const Icon(Icons.lock),
                 suffixIcon: IconButton(
                   icon: FaIcon(
@@ -253,9 +256,9 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
               controller: _webhookSecretController,
               obscureText: !_showWebhookSecret,
               decoration: InputDecoration(
-                labelText: 'Webhook Secret',
+                labelText: l10n.adminWebhookSecret,
                 hintText: 'whsec_...',
-                helperText: 'Laissez vide pour garder le secret actuel',
+                helperText: l10n.adminKeepCurrentSecret,
                 prefixIcon: const Icon(Icons.webhook),
                 suffixIcon: IconButton(
                   icon: FaIcon(
@@ -273,9 +276,9 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
           const SizedBox(height: 24),
 
           // Price IDs
-          _buildSection('Price IDs Stripe', [
+          _buildSection(l10n.adminStripePriceIds, [
             Text(
-              'Créez les produits et prix dans votre dashboard Stripe, puis collez les IDs ici.',
+              l10n.adminStripePriceIdsHelp,
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.outline),
             ),
@@ -285,8 +288,8 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
                 Expanded(
                   child: TextField(
                     controller: _proMonthlyController,
-                    decoration: const InputDecoration(
-                      labelText: 'Pro Mensuel',
+                    decoration: InputDecoration(
+                      labelText: l10n.adminProMonthly,
                       hintText: 'price_...',
                     ),
                   ),
@@ -295,8 +298,8 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
                 Expanded(
                   child: TextField(
                     controller: _proYearlyController,
-                    decoration: const InputDecoration(
-                      labelText: 'Pro Annuel',
+                    decoration: InputDecoration(
+                      labelText: l10n.adminProYearly,
                       hintText: 'price_...',
                     ),
                   ),
@@ -309,8 +312,8 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
                 Expanded(
                   child: TextField(
                     controller: _enterpriseMonthlyController,
-                    decoration: const InputDecoration(
-                      labelText: 'Enterprise Mensuel',
+                    decoration: InputDecoration(
+                      labelText: l10n.adminEnterpriseMonthly,
                       hintText: 'price_...',
                     ),
                   ),
@@ -319,8 +322,8 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
                 Expanded(
                   child: TextField(
                     controller: _enterpriseYearlyController,
-                    decoration: const InputDecoration(
-                      labelText: 'Enterprise Annuel',
+                    decoration: InputDecoration(
+                      labelText: l10n.adminEnterpriseYearly,
                       hintText: 'price_...',
                     ),
                   ),
@@ -340,7 +343,7 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const FaIcon(FontAwesomeIcons.floppyDisk, size: 16),
-            label: Text(_isSaving ? 'Enregistrement...' : 'Enregistrer'),
+            label: Text(_isSaving ? l10n.adminSaving : l10n.save),
             style: FilledButton.styleFrom(
               minimumSize: const Size(double.infinity, 50),
             ),
@@ -351,7 +354,7 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
           if (_config != null && _config!.updatedAt != null)
             Center(
               child: Text(
-                'Dernière mise à jour: ${_formatDate(_config!.updatedAt!)}',
+                l10n.adminLastUpdated(_formatDate(_config!.updatedAt!)),
                 style: theme.textTheme.bodySmall
                     ?.copyWith(color: theme.colorScheme.outline),
               ),
@@ -386,27 +389,28 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
     final authState = context.read<AuthBloc>().state;
     if (authState is! AuthAuthenticatedState) return;
 
+    final l10n = AppLocalizations.of(context)!;
+
     // Validation
     final publishableKey = _publishableKeyController.text.trim();
     if (publishableKey.isEmpty) {
-      AppSnackBar.error(context, 'La clé publique est requise');
+      AppSnackBar.error(context, l10n.adminPublicKeyRequired);
       return;
     }
 
     if (!publishableKey.startsWith('pk_')) {
-      AppSnackBar.error(context, 'Format de clé publique invalide');
+      AppSnackBar.error(context, l10n.adminInvalidPublicKeyFormat);
       return;
     }
 
     // Vérifier cohérence mode/clé
     final isTestKey = publishableKey.startsWith('pk_test_');
     if (_isLiveMode && isTestKey) {
-      AppSnackBar.error(
-          context, 'Clé de test utilisée en mode production');
+      AppSnackBar.error(context, l10n.adminTestKeyInProduction);
       return;
     }
     if (!_isLiveMode && !isTestKey) {
-      AppSnackBar.error(context, 'Clé de production utilisée en mode test');
+      AppSnackBar.error(context, l10n.adminProdKeyInTestMode);
       return;
     }
 
@@ -447,7 +451,7 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
       );
 
       if (mounted) {
-        AppSnackBar.success(context, 'Configuration Stripe enregistrée');
+        AppSnackBar.success(context, l10n.adminStripeConfigSaved);
         // Clear secret fields after save
         _secretKeyController.clear();
         _webhookSecretController.clear();
@@ -455,7 +459,7 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
       }
     } catch (e) {
       if (mounted) {
-        AppSnackBar.error(context, 'Erreur: $e');
+        AppSnackBar.error(context, l10n.errorWithMessage(e.toString()));
       }
     }
 

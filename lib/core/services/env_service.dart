@@ -6,8 +6,10 @@ class EnvService {
   EnvService._();
 
   /// Google Maps API Key pour Places API et Maps SDK.
+  /// En dev, chargée depuis assets/.env. En prod, fallback sur la clé
+  /// déjà présente dans AndroidManifest.xml et AppDelegate.swift.
   static String get googleMapsApiKey =>
-      dotenv.env['GOOGLE_MAPS_API_KEY'] ?? '';
+      dotenv.env['GOOGLE_MAPS_API_KEY'] ?? 'AIzaSyBQFkJ6oG4RTRRb6RbJ3Tk0MfrA1seHTqM';
 
   /// Vérifie si les variables d'environnement sont chargées.
   static bool get isLoaded => dotenv.isInitialized;

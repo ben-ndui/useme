@@ -3664,4 +3664,387 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get tipNetworkInviteDesc =>
       'Partagez l\'application avec vos collaborateurs musicaux pour les retrouver directement sur UZME et faciliter vos futures réservations.';
+
+  @override
+  String get addArtistTitle => 'Ajouter un artiste';
+
+  @override
+  String get noRoomConfigured => 'Aucune salle configurée';
+
+  @override
+  String get serviceCreated => 'Service créé';
+
+  @override
+  String get serviceModified => 'Service modifié';
+
+  @override
+  String get sessionCreated => 'Session créée';
+
+  @override
+  String get sessionModified => 'Session modifiée';
+
+  @override
+  String get additionalInfoHint => 'Informations supplémentaires...';
+
+  @override
+  String get roomsOptional => 'Salles (optionnel)';
+
+  @override
+  String get recordingTooShort => 'Enregistrement trop court';
+
+  @override
+  String get descriptionHint => 'Description du service...';
+
+  @override
+  String get createTheSession => 'Créer la session';
+
+  @override
+  String get createTheArtist => 'Créer l\'artiste';
+
+  @override
+  String get deleteTheService => 'Supprimer le service';
+
+  @override
+  String get deleteTheArtist => 'Supprimer l\'artiste';
+
+  @override
+  String get deleteTheSession => 'Supprimer la session';
+
+  @override
+  String userAddedToStudio(String name) {
+    return '$name ajouté à votre studio !';
+  }
+
+  @override
+  String get descriptionOptional => 'Description (optionnel)';
+
+  @override
+  String get adminSubscriptionConfig => 'Configuration Abonnements';
+
+  @override
+  String get adminStripeConfigTooltip => 'Config Stripe';
+
+  @override
+  String get adminNoTierConfigured => 'Aucun tier configuré';
+
+  @override
+  String get adminInitializeDefaults =>
+      'Initialiser avec les valeurs par défaut ?';
+
+  @override
+  String get adminInitialize => 'Initialiser';
+
+  @override
+  String get adminTiersInitialized => 'Tiers initialisés avec succès';
+
+  @override
+  String adminTierUpdated(String name) {
+    return '$name mis à jour';
+  }
+
+  @override
+  String get adminDisabled => 'Désactivé';
+
+  @override
+  String adminPricePerMonth(String price) {
+    return '$price€/mois';
+  }
+
+  @override
+  String get adminSessionsUnlimited => 'Sessions ∞';
+
+  @override
+  String adminSessionsCount(int count) {
+    return '$count sessions';
+  }
+
+  @override
+  String get adminRoomsUnlimited => 'Salles ∞';
+
+  @override
+  String adminRoomsCount(int count) {
+    return '$count salles';
+  }
+
+  @override
+  String get adminServicesUnlimited => 'Services ∞';
+
+  @override
+  String adminServicesCount(int count) {
+    return '$count services';
+  }
+
+  @override
+  String get adminEngineersUnlimited => 'Engineers ∞';
+
+  @override
+  String adminEngineersCount(int count) {
+    return '$count engineers';
+  }
+
+  @override
+  String get adminAiUnlimited => 'IA ∞';
+
+  @override
+  String adminAiCount(int count) {
+    return '$count msg IA';
+  }
+
+  @override
+  String get adminFeatureAiAssistant => 'Assistant IA';
+
+  @override
+  String get adminFeatureAdvancedAi => 'IA avancée';
+
+  @override
+  String get adminFeatureDiscovery => 'Discovery';
+
+  @override
+  String get adminFeatureAnalytics => 'Analytics';
+
+  @override
+  String get adminFeatureBadge => 'Badge';
+
+  @override
+  String get adminFeatureMultiStudios => 'Multi-studios';
+
+  @override
+  String get adminFeatureApi => 'API';
+
+  @override
+  String get adminFeaturePrioritySupport => 'Support+';
+
+  @override
+  String adminEditTier(String name) {
+    return 'Modifier $name';
+  }
+
+  @override
+  String get adminSectionInformation => 'Informations';
+
+  @override
+  String get adminLabelName => 'Nom';
+
+  @override
+  String get adminLabelDescription => 'Description';
+
+  @override
+  String get adminSectionPricing => 'Tarification';
+
+  @override
+  String get adminLabelMonthlyPrice => 'Prix mensuel €';
+
+  @override
+  String get adminLabelYearlyPrice => 'Prix annuel €';
+
+  @override
+  String get adminSectionLimits => 'Limites (-1 = illimité)';
+
+  @override
+  String get adminLabelSessionsPerMonth => 'Sessions/mois';
+
+  @override
+  String get adminLabelRooms => 'Salles';
+
+  @override
+  String get adminLabelServices => 'Services';
+
+  @override
+  String get adminLabelEngineers => 'Engineers';
+
+  @override
+  String get adminLabelAiMessagesPerMonth => 'Messages IA/mois';
+
+  @override
+  String get adminSectionAiFeatures => 'Fonctionnalités IA';
+
+  @override
+  String get adminAiAssistantSubtitle => 'Accès à l\'assistant conversationnel';
+
+  @override
+  String get adminAdvancedAiSubtitle => 'Outils d\'action, rapports, etc.';
+
+  @override
+  String get adminSectionFeatures => 'Fonctionnalités';
+
+  @override
+  String get adminFeatureDiscoveryVisibility => 'Visibilité Discovery';
+
+  @override
+  String get adminDiscoverySubtitle => 'Visible par les artistes';
+
+  @override
+  String get adminFeatureBasicAnalytics => 'Analytics basiques';
+
+  @override
+  String get adminFeatureAdvancedAnalytics => 'Analytics avancés';
+
+  @override
+  String get adminFeatureVerifiedBadge => 'Badge vérifié';
+
+  @override
+  String get adminFeatureApiAccess => 'Accès API';
+
+  @override
+  String get adminFeaturePrioritySupportFull => 'Support prioritaire';
+
+  @override
+  String get adminSectionStatus => 'Statut';
+
+  @override
+  String get adminTierActive => 'Tier actif';
+
+  @override
+  String get adminTierActiveSubtitle =>
+      'Les studios peuvent souscrire à ce tier';
+
+  @override
+  String get adminStudioClaims => 'Revendications studios';
+
+  @override
+  String get adminFilterPending => 'Pending';
+
+  @override
+  String get adminFilterAll => 'Toutes';
+
+  @override
+  String get adminNoClaimsPending => 'Aucune demande en attente';
+
+  @override
+  String get adminNewClaimsAppearHere =>
+      'Les nouvelles demandes apparaîtront ici';
+
+  @override
+  String adminClaimApproved(String name) {
+    return '$name approuvé !';
+  }
+
+  @override
+  String get adminRejectClaim => 'Refuser la demande';
+
+  @override
+  String adminRejectClaimConfirm(String name) {
+    return 'Refuser \"$name\" ?';
+  }
+
+  @override
+  String get adminReasonOptional => 'Raison (optionnel)';
+
+  @override
+  String get adminReasonHint => 'Ex: Informations incorrectes...';
+
+  @override
+  String get adminReject => 'Refuser';
+
+  @override
+  String get adminClaimRejected => 'Demande refusée';
+
+  @override
+  String get adminApprove => 'Approuver';
+
+  @override
+  String get adminStatusPending => 'En attente';
+
+  @override
+  String get adminStatusApproved => 'Approuvé';
+
+  @override
+  String get adminStatusRejected => 'Refusé';
+
+  @override
+  String get adminAccessDenied => 'Accès refusé';
+
+  @override
+  String get adminDevMasterRequired => 'Accès DevMaster requis';
+
+  @override
+  String get adminDevMasterOnly =>
+      'Seuls les DevMasters peuvent accéder à cette page';
+
+  @override
+  String get adminStripeConfig => 'Configuration Stripe';
+
+  @override
+  String adminStripeLoadError(String message) {
+    return 'Erreur chargement config: $message';
+  }
+
+  @override
+  String get adminStripeKeysWarning =>
+      'Les clés sont cryptées avant stockage. Ne partagez jamais vos clés secrètes.';
+
+  @override
+  String get adminMode => 'Mode';
+
+  @override
+  String get adminProductionMode => 'Mode Production';
+
+  @override
+  String get adminLivePayments => 'Paiements réels activés';
+
+  @override
+  String get adminTestMode => 'Mode test - Aucun paiement réel';
+
+  @override
+  String get adminApiKeys => 'Clés API';
+
+  @override
+  String get adminPublishableKey => 'Publishable Key';
+
+  @override
+  String get adminSecretKey => 'Secret Key';
+
+  @override
+  String get adminWebhookSecret => 'Webhook Secret';
+
+  @override
+  String get adminKeepCurrentKey => 'Laissez vide pour garder la clé actuelle';
+
+  @override
+  String get adminKeepCurrentSecret =>
+      'Laissez vide pour garder le secret actuel';
+
+  @override
+  String get adminStripePriceIds => 'Price IDs Stripe';
+
+  @override
+  String get adminStripePriceIdsHelp =>
+      'Créez les produits et prix dans votre dashboard Stripe, puis collez les IDs ici.';
+
+  @override
+  String get adminProMonthly => 'Pro Mensuel';
+
+  @override
+  String get adminProYearly => 'Pro Annuel';
+
+  @override
+  String get adminEnterpriseMonthly => 'Enterprise Mensuel';
+
+  @override
+  String get adminEnterpriseYearly => 'Enterprise Annuel';
+
+  @override
+  String get adminSaving => 'Enregistrement...';
+
+  @override
+  String adminLastUpdated(String date) {
+    return 'Dernière mise à jour: $date';
+  }
+
+  @override
+  String get adminPublicKeyRequired => 'La clé publique est requise';
+
+  @override
+  String get adminInvalidPublicKeyFormat => 'Format de clé publique invalide';
+
+  @override
+  String get adminTestKeyInProduction =>
+      'Clé de test utilisée en mode production';
+
+  @override
+  String get adminProdKeyInTestMode =>
+      'Clé de production utilisée en mode test';
+
+  @override
+  String get adminStripeConfigSaved => 'Configuration Stripe enregistrée';
 }

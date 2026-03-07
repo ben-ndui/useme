@@ -6,6 +6,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/studio_claim.dart';
 import 'package:useme/core/services/studio_claim_approval_service.dart';
 import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Écran super admin pour gérer les demandes de revendication de studios
@@ -22,14 +23,15 @@ class _StudioClaimsScreenState extends State<StudioClaimsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Revendications studios'),
+        title: Text(l10n.adminStudioClaims),
         actions: [
           TextButton.icon(
             onPressed: () => setState(() => _showAll = !_showAll),
             icon: FaIcon(_showAll ? FontAwesomeIcons.filter : FontAwesomeIcons.list, size: 14),
-            label: Text(_showAll ? 'Pending' : 'Toutes'),
+            label: Text(_showAll ? l10n.adminFilterPending : l10n.adminFilterAll),
           ),
         ],
       ),
@@ -62,16 +64,17 @@ class _StudioClaimsScreenState extends State<StudioClaimsScreen> {
 
   Widget _buildEmptyState(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FaIcon(FontAwesomeIcons.buildingCircleCheck, size: 48, color: theme.colorScheme.outline),
           const SizedBox(height: 16),
-          Text('Aucune demande en attente', style: theme.textTheme.titleMedium),
+          Text(l10n.adminNoClaimsPending, style: theme.textTheme.titleMedium),
           const SizedBox(height: 8),
           Text(
-            'Les nouvelles demandes apparaîtront ici',
+            l10n.adminNewClaimsAppearHere,
             style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.outline),
           ),
         ],
@@ -83,45 +86,47 @@ class _StudioClaimsScreenState extends State<StudioClaimsScreen> {
     final authState = context.read<AuthBloc>().state;
     if (authState is! AuthAuthenticatedState) return;
 
+    final l10n = AppLocalizations.of(context)!;
     try {
       await _service.approveClaim(claimId: claim.id, reviewerId: authState.user.uid);
       if (mounted) {
-        AppSnackBar.success(context, '${claim.studioProfile.name} approuvé !');
+        AppSnackBar.success(context, l10n.adminClaimApproved(claim.studioProfile.name));
       }
     } catch (e) {
       if (mounted) {
-        AppSnackBar.error(context, 'Erreur: $e');
+        AppSnackBar.error(context, l10n.errorWithMessage(e.toString()));
       }
     }
   }
 
   Future<void> _showRejectDialog(StudioClaim claim) async {
+    final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController();
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Refuser la demande'),
+        title: Text(l10n.adminRejectClaim),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Refuser "${claim.studioProfile.name}" ?'),
+            Text(l10n.adminRejectClaimConfirm(claim.studioProfile.name)),
             const SizedBox(height: 16),
             TextField(
               controller: controller,
-              decoration: const InputDecoration(
-                labelText: 'Raison (optionnel)',
-                hintText: 'Ex: Informations incorrectes...',
+              decoration: InputDecoration(
+                labelText: l10n.adminReasonOptional,
+                hintText: l10n.adminReasonHint,
               ),
               maxLines: 2,
             ),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Annuler')),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l10n.cancel)),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Refuser'),
+            child: Text(l10n.adminReject),
           ),
         ],
       ),
@@ -137,6 +142,7 @@ class _StudioClaimsScreenState extends State<StudioClaimsScreen> {
     final authState = context.read<AuthBloc>().state;
     if (authState is! AuthAuthenticatedState) return;
 
+    final l10n = AppLocalizations.of(context)!;
     try {
       await _service.rejectClaim(
         claimId: claim.id,
@@ -144,11 +150,11 @@ class _StudioClaimsScreenState extends State<StudioClaimsScreen> {
         reason: reason?.isNotEmpty == true ? reason : null,
       );
       if (mounted) {
-        AppSnackBar.info(context, 'Demande refusée');
+        AppSnackBar.info(context, l10n.adminClaimRejected);
       }
     } catch (e) {
       if (mounted) {
-        AppSnackBar.error(context, 'Erreur: $e');
+        AppSnackBar.error(context, l10n.errorWithMessage(e.toString()));
       }
     }
   }
@@ -165,6 +171,7 @@ class _ClaimCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final dateFormat = DateFormat.yMMMd('fr_FR');
 
     return Card(
@@ -177,7 +184,7 @@ class _ClaimCard extends StatelessWidget {
             // Header
             Row(
               children: [
-                _buildStatusBadge(theme),
+                _buildStatusBadge(theme, l10n),
                 const Spacer(),
                 Text(dateFormat.format(claim.createdAt), style: theme.textTheme.bodySmall),
               ],
@@ -217,11 +224,11 @@ class _ClaimCard extends StatelessWidget {
                     child: OutlinedButton(
                       onPressed: onReject,
                       style: OutlinedButton.styleFrom(foregroundColor: Colors.red),
-                      child: const Text('Refuser'),
+                      child: Text(l10n.adminReject),
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Expanded(child: FilledButton(onPressed: onApprove, child: const Text('Approuver'))),
+                  Expanded(child: FilledButton(onPressed: onApprove, child: Text(l10n.adminApprove))),
                 ],
               ),
             ],
@@ -250,11 +257,11 @@ class _ClaimCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusBadge(ThemeData theme) {
+  Widget _buildStatusBadge(ThemeData theme, AppLocalizations l10n) {
     final (color, label, icon) = switch (claim.status) {
-      ClaimStatus.pending => (Colors.orange, 'En attente', FontAwesomeIcons.clock),
-      ClaimStatus.approved => (Colors.green, 'Approuvé', FontAwesomeIcons.circleCheck),
-      ClaimStatus.rejected => (Colors.red, 'Refusé', FontAwesomeIcons.circleXmark),
+      ClaimStatus.pending => (Colors.orange, l10n.adminStatusPending, FontAwesomeIcons.clock),
+      ClaimStatus.approved => (Colors.green, l10n.adminStatusApproved, FontAwesomeIcons.circleCheck),
+      ClaimStatus.rejected => (Colors.red, l10n.adminStatusRejected, FontAwesomeIcons.circleXmark),
     };
 
     return Container(

@@ -6,6 +6,7 @@ import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/services/team_service.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/studio/team/team_exports.dart';
 
 /// Screen de gestion de l'équipe (ingénieurs)
@@ -38,16 +39,17 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
       return const AppLoader.fullScreen();
     }
 
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Équipe')),
+      appBar: AppBar(title: Text(l10n.team)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildSectionHeader(context, 'Membres de l\'équipe'),
+          _buildSectionHeader(context, l10n.teamMembers),
           const SizedBox(height: 8),
           _buildTeamMembersList(),
           const SizedBox(height: 24),
-          _buildSectionHeader(context, 'Invitations en attente'),
+          _buildSectionHeader(context, l10n.pendingInvitations),
           const SizedBox(height: 8),
           _buildPendingInvitations(),
         ],
@@ -55,7 +57,7 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _showAddMemberSheet,
         icon: const FaIcon(FontAwesomeIcons.userPlus, size: 18),
-        label: const Text('Ajouter'),
+        label: Text(l10n.add),
       ),
     );
   }
@@ -82,10 +84,11 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
         final members = snapshot.data ?? [];
 
         if (members.isEmpty) {
+          final l10n = AppLocalizations.of(context)!;
           return _buildEmptyState(
             icon: FontAwesomeIcons.users,
-            title: 'Aucun membre',
-            subtitle: 'Ajoutez des ingénieurs à votre équipe',
+            title: l10n.noMember,
+            subtitle: l10n.addEngineersToTeam,
           );
         }
 
@@ -106,10 +109,11 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
         final invitations = snapshot.data ?? [];
 
         if (invitations.isEmpty) {
+          final l10n = AppLocalizations.of(context)!;
           return _buildEmptyState(
             icon: FontAwesomeIcons.envelopeOpenText,
-            title: 'Aucune invitation',
-            subtitle: 'Les invitations en attente apparaîtront ici',
+            title: l10n.noInvitation,
+            subtitle: l10n.pendingInvitationsHere,
           );
         }
 
@@ -161,6 +165,7 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
   }
 
   void _showMemberOptions(AppUser member) {
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       builder: (context) => SafeArea(
@@ -169,7 +174,7 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
           children: [
             ListTile(
               leading: const FaIcon(FontAwesomeIcons.userMinus, size: 18),
-              title: const Text('Retirer de l\'équipe'),
+              title: Text(l10n.removeFromTeam),
               onTap: () {
                 Navigator.pop(context);
                 _confirmRemoveMember(member);
@@ -182,23 +187,24 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
   }
 
   void _confirmRemoveMember(AppUser member) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Retirer ce membre ?'),
-        content: Text('${member.fullName} ne pourra plus accéder aux sessions du studio.'),
+        title: Text(l10n.removeMemberConfirm),
+        content: Text(l10n.memberNoAccessAnymore(member.fullName)),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(dialogContext), child: const Text('Annuler')),
+          TextButton(onPressed: () => Navigator.pop(dialogContext), child: Text(l10n.cancel)),
           FilledButton(
             onPressed: () async {
               Navigator.pop(dialogContext);
               await _teamService.removeFromTeam(member.uid);
               if (mounted) {
-                AppSnackBar.success(context, 'Membre retiré');
+                AppSnackBar.success(context, l10n.memberRemoved);
               }
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Retirer'),
+            child: Text(l10n.remove),
           ),
         ],
       ),
@@ -208,7 +214,7 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
   Future<void> _cancelInvitation(TeamInvitation invitation) async {
     await _teamService.cancelInvitation(invitation.id);
     if (mounted) {
-      AppSnackBar.success(context, 'Invitation annulée');
+      AppSnackBar.success(context, AppLocalizations.of(context)!.invitationCancelled);
     }
   }
 }
