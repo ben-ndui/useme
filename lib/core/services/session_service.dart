@@ -105,6 +105,16 @@ class SessionService {
         .map((s) => s.docs.map((d) => Session.fromMap({...d.data(), 'id': d.id})).toList());
   }
 
+  /// Stream sessions for a pro (freelance bookings where they are the provider).
+  Stream<List<Session>> streamProSessions(String proId) {
+    return _firestore
+        .collection(_collection)
+        .where('proId', isEqualTo: proId)
+        .orderBy('scheduledStart', descending: true)
+        .snapshots()
+        .map((s) => s.docs.map((d) => Session.fromMap({...d.data(), 'id': d.id})).toList());
+  }
+
   /// Get sessions by date range
   Stream<List<Session>> streamSessionsByDateRange(
     String studioId,
@@ -139,7 +149,7 @@ class SessionService {
       final newSession = session.copyWith(id: docRef.id);
       await docRef.set(newSession.toMap());
 
-      // Si c'est une demande (pending), notifier le studio
+      // Si c'est une demande (pending), notifier le studio ou le pro
       if (session.status == SessionStatus.pending) {
         await _createSessionRequestNotification(newSession);
       }
@@ -150,13 +160,14 @@ class SessionService {
     }
   }
 
-  /// Crée une notification pour le studio quand un artiste envoie une demande
+  /// Crée une notification pour le studio ou le pro quand un artiste envoie une demande
   Future<void> _createSessionRequestNotification(Session session) async {
     try {
+      final targetUserId = session.isProSession ? session.proId! : session.studioId;
       final notifRef = _firestore.collection('user_notifications').doc();
       await notifRef.set({
         'id': notifRef.id,
-        'userId': session.studioId,
+        'userId': targetUserId,
         'type': 'session_request',
         'title': 'Nouvelle demande de session',
         'body': '${session.artistName} souhaite réserver une session ${session.typeLabel}',
@@ -168,7 +179,7 @@ class SessionService {
         'isRead': false,
         'createdAt': FieldValue.serverTimestamp(),
       });
-      debugPrint('✅ Notification créée pour le studio ${session.studioId}');
+      debugPrint('✅ Notification créée pour $targetUserId');
     } catch (e) {
       debugPrint('❌ Erreur création notification: $e');
     }

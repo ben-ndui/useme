@@ -84,6 +84,7 @@ class StudioPreviewBottomSheet extends StatelessWidget {
             ? DecorationImage(
                 image: NetworkImage(studio.photoUrl!),
                 fit: BoxFit.cover,
+                onError: (_, __) {},
               )
             : null,
       ),

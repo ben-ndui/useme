@@ -182,12 +182,17 @@ class SessionIntervention {
   bool get hasCheckedOut => checkoutTime != null;
 }
 
-/// Session model for studio bookings
+/// Session model for studio bookings and pro service bookings.
 class Session {
   final String id;
   final String studioId;
   final String? roomId;
   final String? roomName;
+
+  /// Pro freelance booking: ID and name of the pro being booked.
+  /// When set, this is a pro service session (not a studio session).
+  final String? proId;
+  final String? proName;
 
   /// Ingénieur principal (rétro-compatibilité single engineer)
   final String? engineerId;
@@ -228,6 +233,8 @@ class Session {
     required this.studioId,
     this.roomId,
     this.roomName,
+    this.proId,
+    this.proName,
     this.engineerId,
     this.engineerName,
     this.engineerIds = const [],
@@ -255,6 +262,8 @@ class Session {
     required String studioId,
     String? roomId,
     String? roomName,
+    String? proId,
+    String? proName,
     String? engineerId,
     String? engineerName,
     List<String> engineerIds = const [],
@@ -278,6 +287,8 @@ class Session {
       studioId: studioId,
       roomId: roomId,
       roomName: roomName,
+      proId: proId,
+      proName: proName,
       engineerId: engineerId,
       engineerName: engineerName,
       engineerIds: engineerIds,
@@ -334,6 +345,8 @@ class Session {
       studioId: map['studioId']?.toString() ?? '',
       roomId: map['roomId']?.toString(),
       roomName: map['roomName']?.toString(),
+      proId: map['proId']?.toString(),
+      proName: map['proName']?.toString(),
       engineerId: map['engineerId']?.toString(),
       engineerName: map['engineerName']?.toString(),
       engineerIds: engineerIds,
@@ -366,6 +379,8 @@ class Session {
         'studioId': studioId,
         'roomId': roomId,
         'roomName': roomName,
+        'proId': proId,
+        'proName': proName,
         'engineerId': engineerId,
         'engineerName': engineerName,
         'engineerIds': engineerIds,
@@ -390,6 +405,8 @@ class Session {
     String? studioId,
     String? roomId,
     String? roomName,
+    String? proId,
+    String? proName,
     String? engineerId,
     String? engineerName,
     List<String>? engineerIds,
@@ -413,6 +430,8 @@ class Session {
         studioId: studioId ?? this.studioId,
         roomId: roomId ?? this.roomId,
         roomName: roomName ?? this.roomName,
+        proId: proId ?? this.proId,
+        proName: proName ?? this.proName,
         engineerId: engineerId ?? this.engineerId,
         engineerName: engineerName ?? this.engineerName,
         engineerIds: engineerIds ?? this.engineerIds,
@@ -433,6 +452,9 @@ class Session {
       );
 
   // Helper getters
+  /// Whether this is a pro service booking (vs studio session).
+  bool get isProSession => proId != null && proId!.isNotEmpty;
+
   bool get hasRoom => roomId != null;
 
   /// Vérifie si au moins un ingénieur est assigné (single ou multi)

@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import '../../widgets/common/app_loader.dart';
+import '../../widgets/common/permission_dialog.dart';
 import '../../widgets/common/snackbar/app_snackbar.dart';
 import '../../widgets/messaging/messaging_widgets_exports.dart';
 import '../../core/blocs/session/session_bloc.dart';
@@ -271,13 +272,11 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> _startRecording() async {
-    final hasPermission = await _audioService.hasPermission();
-    if (!hasPermission) {
-      if (mounted) {
-        AppSnackBar.error(context, 'Permission microphone refusée');
-      }
-      return;
-    }
+    final granted = await PermissionDialog.requestPermission(
+      context,
+      type: AppPermissionType.microphone,
+    );
+    if (!granted) return;
 
     try {
       final tempDir = await getTemporaryDirectory();

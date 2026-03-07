@@ -5,11 +5,17 @@ import 'package:useme/core/services/services_exports.dart';
 
 /// Service BLoC - Manages studio service catalog state
 class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
-  final ServiceCatalogService _serviceCatalogService = ServiceCatalogService();
-  final SubscriptionConfigService _subscriptionService =
-      SubscriptionConfigService();
+  final ServiceCatalogService _serviceCatalogService;
+  final SubscriptionConfigService _subscriptionService;
 
-  ServiceBloc() : super(const ServiceInitialState()) {
+  ServiceBloc({
+    ServiceCatalogService? serviceCatalogService,
+    SubscriptionConfigService? subscriptionService,
+  })  : _serviceCatalogService =
+            serviceCatalogService ?? ServiceCatalogService(),
+        _subscriptionService =
+            subscriptionService ?? SubscriptionConfigService(),
+        super(const ServiceInitialState()) {
     on<LoadServicesEvent>(_onLoadServices);
     on<SearchServicesEvent>(_onSearchServices);
     on<CreateServiceEvent>(_onCreateService);

@@ -45,6 +45,8 @@ import 'package:useme/screens/studio/calendar_import_review_screen.dart';
 import 'package:useme/screens/dev/store_screenshots_page.dart';
 import 'package:useme/screens/onboarding/onboarding_screen.dart';
 import 'package:useme/screens/shared/device_sessions_screen.dart';
+import 'package:useme/screens/shared/pro/pro_profile_setup_screen.dart';
+import 'package:useme/screens/shared/pro/pro_discovery_screen.dart';
 import 'app_routes.dart';
 
 /// GoRouter configuration for Use Me
@@ -242,6 +244,18 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.profile,
           builder: (context, state) => const ProfileScreen(),
+        ),
+
+        // Pro Profile setup
+        GoRoute(
+          path: AppRoutes.proProfileSetup,
+          builder: (context, state) => const ProProfileSetupScreen(),
+        ),
+
+        // Pro Discovery
+        GoRoute(
+          path: AppRoutes.proDiscovery,
+          builder: (context, state) => const ProDiscoveryScreen(),
         ),
 
         // Team management

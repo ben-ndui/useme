@@ -13,6 +13,7 @@ import 'package:useme/core/services/studio_claim_approval_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/common/permission_dialog.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Écran pour revendiquer son studio (lier un Google Place à son compte)
@@ -43,6 +44,12 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
       _isLoading = true;
       _error = null;
     });
+
+    await PermissionDialog.requestPermission(
+      context,
+      type: AppPermissionType.location,
+    );
+    if (!mounted) return;
 
     try {
       final position = await _locationService.getCurrentLatLng();

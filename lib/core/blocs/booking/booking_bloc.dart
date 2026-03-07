@@ -6,9 +6,11 @@ import 'package:useme/core/services/services_exports.dart';
 
 /// Booking BLoC - Manages booking state
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
-  final BookingService _bookingService = BookingService();
+  final BookingService _bookingService;
 
-  BookingBloc() : super(const BookingInitialState()) {
+  BookingBloc({BookingService? bookingService})
+      : _bookingService = bookingService ?? BookingService(),
+        super(const BookingInitialState()) {
     on<LoadBookingsEvent>(_onLoadBookings);
     on<LoadArtistBookingsEvent>(_onLoadArtistBookings);
     on<CreateBookingEvent>(_onCreateBooking);

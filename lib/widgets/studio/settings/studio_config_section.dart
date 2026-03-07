@@ -5,7 +5,7 @@ import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/settings/settings_exports.dart';
 
-/// Section des paramètres de configuration du studio
+/// Section des paramètres de configuration du studio.
 class StudioConfigSection extends StatelessWidget {
   final String? userId;
 
@@ -25,6 +25,7 @@ class StudioConfigSection extends StatelessWidget {
           subtitle: l10n.nameAddressContact,
           onTap: () => context.push(AppRoutes.profile),
         ),
+        const SettingsProProfileTile(),
         SettingsTile(
           icon: FontAwesomeIcons.tags,
           title: l10n.services,

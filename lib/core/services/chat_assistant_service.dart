@@ -4,13 +4,31 @@ import 'package:useme/core/models/models_exports.dart';
 
 /// Service pour gérer l'assistant IA dans le chat
 class ChatAssistantService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseFunctions _functions = FirebaseFunctions.instance;
+  final FirebaseFirestore _firestore;
+  final FirebaseFunctions _functions;
 
   // Singleton
   static final ChatAssistantService _instance = ChatAssistantService._internal();
-  factory ChatAssistantService() => _instance;
-  ChatAssistantService._internal();
+  factory ChatAssistantService({
+    FirebaseFirestore? firestore,
+    FirebaseFunctions? functions,
+  }) {
+    if (firestore != null || functions != null) {
+      return ChatAssistantService._di(
+        firestore: firestore ?? FirebaseFirestore.instance,
+        functions: functions ?? FirebaseFunctions.instance,
+      );
+    }
+    return _instance;
+  }
+  ChatAssistantService._internal()
+      : _firestore = FirebaseFirestore.instance,
+        _functions = FirebaseFunctions.instance;
+  ChatAssistantService._di({
+    required FirebaseFirestore firestore,
+    required FirebaseFunctions functions,
+  })  : _firestore = firestore,
+        _functions = functions;
 
   // =====================
   // AI Response Generation

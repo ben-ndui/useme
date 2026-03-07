@@ -9,6 +9,7 @@ import 'package:useme/core/services/location_service.dart';
 import 'package:useme/core/services/studio_claim_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
+import 'package:useme/widgets/common/permission_dialog.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Écran pour créer manuellement un profil studio (sans lien Google)
@@ -65,6 +66,12 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
   }
 
   Future<void> _loadCurrentLocation() async {
+    final granted = await PermissionDialog.requestPermission(
+      context,
+      type: AppPermissionType.location,
+    );
+    if (!granted || !mounted) return;
+
     try {
       final latLng = await _locationService.getCurrentLatLng();
       setState(() {

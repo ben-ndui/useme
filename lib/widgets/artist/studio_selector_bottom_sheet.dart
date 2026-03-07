@@ -259,6 +259,7 @@ class _StudioSelectorBottomSheetState extends State<StudioSelectorBottomSheet> {
         leading: CircleAvatar(
           backgroundColor: theme.colorScheme.primaryContainer,
           backgroundImage: studio.photoUrl != null ? NetworkImage(studio.photoUrl!) : null,
+          onBackgroundImageError: studio.photoUrl != null ? (_, __) {} : null,
           child: studio.photoUrl == null
               ? Text(
                   studio.name[0].toUpperCase(),

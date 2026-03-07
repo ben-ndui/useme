@@ -100,7 +100,7 @@ class _EngineerMainScaffoldState extends State<EngineerMainScaffold> {
         body: PageView(
           controller: _pageController,
           onPageChanged: _onPageChanged,
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           children: _pages,
         ),
         bottomNavigationBar: BlocBuilder<MessagingBloc, MessagingState>(

@@ -5581,6 +5581,492 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Email de réinitialisation envoyé à {email}'**
   String passwordResetSent(String email);
+
+  /// No description provided for @permissionContinue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Continuer'**
+  String get permissionContinue;
+
+  /// No description provided for @permissionNotNow.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas maintenant'**
+  String get permissionNotNow;
+
+  /// No description provided for @permissionOpenSettings.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvrir les réglages'**
+  String get permissionOpenSettings;
+
+  /// No description provided for @permissionDeniedTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Permission refusée'**
+  String get permissionDeniedTitle;
+
+  /// No description provided for @permissionDeniedDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous avez refusé cette permission. Pour l\'activer, rendez-vous dans les réglages de votre téléphone.'**
+  String get permissionDeniedDesc;
+
+  /// No description provided for @permissionCameraTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accès à l\'appareil photo'**
+  String get permissionCameraTitle;
+
+  /// No description provided for @permissionCameraDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour prendre des photos de votre studio, de vos sessions ou modifier votre photo de profil.'**
+  String get permissionCameraDesc;
+
+  /// No description provided for @permissionMicrophoneTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accès au microphone'**
+  String get permissionMicrophoneTitle;
+
+  /// No description provided for @permissionMicrophoneDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour envoyer des messages vocaux dans vos conversations.'**
+  String get permissionMicrophoneDesc;
+
+  /// No description provided for @permissionLocationTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accès à la localisation'**
+  String get permissionLocationTitle;
+
+  /// No description provided for @permissionLocationDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour trouver les studios de musique près de chez vous et calculer les distances.'**
+  String get permissionLocationDesc;
+
+  /// No description provided for @permissionPhotosTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accès à vos photos'**
+  String get permissionPhotosTitle;
+
+  /// No description provided for @permissionPhotosDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour choisir des images depuis votre galerie et les ajouter à votre profil ou vos messages.'**
+  String get permissionPhotosDesc;
+
+  /// No description provided for @permissionNotificationTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer les notifications'**
+  String get permissionNotificationTitle;
+
+  /// No description provided for @permissionNotificationDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour être informé des nouvelles réservations, messages et mises à jour importantes.'**
+  String get permissionNotificationDesc;
+
+  /// No description provided for @proProfileTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil Pro'**
+  String get proProfileTitle;
+
+  /// No description provided for @proProfileSetup.
+  ///
+  /// In fr, this message translates to:
+  /// **'Devenir Pro'**
+  String get proProfileSetup;
+
+  /// No description provided for @proProfileEdit.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier mon profil pro'**
+  String get proProfileEdit;
+
+  /// No description provided for @proProfileSetupDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Proposez vos services aux artistes et studios sur UZME. Remplissez votre profil pour apparaitre dans la marketplace.'**
+  String get proProfileSetupDesc;
+
+  /// No description provided for @proProfileActivate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer mon profil pro'**
+  String get proProfileActivate;
+
+  /// No description provided for @proProfileActivateDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Proposez vos services sur UZME'**
+  String get proProfileActivateDesc;
+
+  /// No description provided for @proProfileManage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gerez votre profil professionnel'**
+  String get proProfileManage;
+
+  /// No description provided for @proProfileActive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actif'**
+  String get proProfileActive;
+
+  /// No description provided for @proProfileInactive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Inactif'**
+  String get proProfileInactive;
+
+  /// No description provided for @proProfileSelectType.
+  ///
+  /// In fr, this message translates to:
+  /// **'Selectionnez au moins un type de service'**
+  String get proProfileSelectType;
+
+  /// No description provided for @proProfileTypeLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Que proposez-vous ?'**
+  String get proProfileTypeLabel;
+
+  /// No description provided for @proProfileTypeHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Selectionnez un ou plusieurs roles'**
+  String get proProfileTypeHint;
+
+  /// No description provided for @proProfileDisplayName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom professionnel'**
+  String get proProfileDisplayName;
+
+  /// No description provided for @proProfileBio.
+  ///
+  /// In fr, this message translates to:
+  /// **'Description de vos services'**
+  String get proProfileBio;
+
+  /// No description provided for @proProfileRate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tarif horaire'**
+  String get proProfileRate;
+
+  /// No description provided for @proProfileCity.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ville'**
+  String get proProfileCity;
+
+  /// No description provided for @proProfileWebsite.
+  ///
+  /// In fr, this message translates to:
+  /// **'Site web'**
+  String get proProfileWebsite;
+
+  /// No description provided for @proProfilePhone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Telephone'**
+  String get proProfilePhone;
+
+  /// No description provided for @proProfileSpecialties.
+  ///
+  /// In fr, this message translates to:
+  /// **'Specialites'**
+  String get proProfileSpecialties;
+
+  /// No description provided for @proProfileSpecialtiesHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex: Mix voix, Mastering...'**
+  String get proProfileSpecialtiesHint;
+
+  /// No description provided for @proProfileGenres.
+  ///
+  /// In fr, this message translates to:
+  /// **'Genres musicaux'**
+  String get proProfileGenres;
+
+  /// No description provided for @proProfileGenresHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex: Hip-Hop, Pop, Jazz...'**
+  String get proProfileGenresHint;
+
+  /// No description provided for @proProfileInstruments.
+  ///
+  /// In fr, this message translates to:
+  /// **'Instruments'**
+  String get proProfileInstruments;
+
+  /// No description provided for @proProfileInstrumentsHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex: Guitare, Piano...'**
+  String get proProfileInstrumentsHint;
+
+  /// No description provided for @proProfileDaws.
+  ///
+  /// In fr, this message translates to:
+  /// **'DAWs'**
+  String get proProfileDaws;
+
+  /// No description provided for @proProfileDawsHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex: Pro Tools, Logic Pro...'**
+  String get proProfileDawsHint;
+
+  /// No description provided for @proProfileRemote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Services a distance'**
+  String get proProfileRemote;
+
+  /// No description provided for @proProfileRemoteDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous acceptez des missions en remote'**
+  String get proProfileRemoteDesc;
+
+  /// No description provided for @proProfileAvailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Disponible'**
+  String get proProfileAvailable;
+
+  /// No description provided for @proProfileAvailableDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre profil est visible sur la marketplace'**
+  String get proProfileAvailableDesc;
+
+  /// No description provided for @requiredField.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce champ est requis'**
+  String get requiredField;
+
+  /// No description provided for @proDiscovery.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pros'**
+  String get proDiscovery;
+
+  /// No description provided for @proDiscoveryTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trouver un pro'**
+  String get proDiscoveryTitle;
+
+  /// No description provided for @proDiscoveryDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Decouvrez les professionnels disponibles'**
+  String get proDiscoveryDesc;
+
+  /// No description provided for @proDiscoveryEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun professionnel trouve'**
+  String get proDiscoveryEmpty;
+
+  /// No description provided for @proDiscoveryEmptyDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Essayez d\'elargir vos filtres ou de modifier votre recherche'**
+  String get proDiscoveryEmptyDesc;
+
+  /// No description provided for @proSearchHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom, specialite, genre...'**
+  String get proSearchHint;
+
+  /// No description provided for @proFilterTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Filtrer les pros'**
+  String get proFilterTitle;
+
+  /// No description provided for @proFilterDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Affinez votre recherche'**
+  String get proFilterDesc;
+
+  /// No description provided for @proFilterRemoteOnly.
+  ///
+  /// In fr, this message translates to:
+  /// **'A distance uniquement'**
+  String get proFilterRemoteOnly;
+
+  /// No description provided for @proFilterRemoteDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pros acceptant les missions remote'**
+  String get proFilterRemoteDesc;
+
+  /// No description provided for @proFilterCity.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ville'**
+  String get proFilterCity;
+
+  /// No description provided for @proFilterCityHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex: Paris, Lyon...'**
+  String get proFilterCityHint;
+
+  /// No description provided for @proDetailContact.
+  ///
+  /// In fr, this message translates to:
+  /// **'Contacter'**
+  String get proDetailContact;
+
+  /// No description provided for @proDetailRate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tarif'**
+  String get proDetailRate;
+
+  /// No description provided for @proDetailSpecialties.
+  ///
+  /// In fr, this message translates to:
+  /// **'Specialites'**
+  String get proDetailSpecialties;
+
+  /// No description provided for @proDetailGenres.
+  ///
+  /// In fr, this message translates to:
+  /// **'Genres'**
+  String get proDetailGenres;
+
+  /// No description provided for @proDetailInstruments.
+  ///
+  /// In fr, this message translates to:
+  /// **'Instruments'**
+  String get proDetailInstruments;
+
+  /// No description provided for @proDetailDaws.
+  ///
+  /// In fr, this message translates to:
+  /// **'DAWs'**
+  String get proDetailDaws;
+
+  /// No description provided for @proDetailRemote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accepte le remote'**
+  String get proDetailRemote;
+
+  /// No description provided for @proDetailOnQuote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sur devis'**
+  String get proDetailOnQuote;
+
+  /// No description provided for @seeFullProfile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir le profil complet'**
+  String get seeFullProfile;
+
+  /// No description provided for @proResultCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} pros trouves'**
+  String proResultCount(int count);
+
+  /// No description provided for @proBookingTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Reserver {proName}'**
+  String proBookingTitle(String proName);
+
+  /// No description provided for @proBookingDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Selectionnez une date, un creneau et la duree souhaitee.'**
+  String get proBookingDesc;
+
+  /// No description provided for @proBookingDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Date'**
+  String get proBookingDate;
+
+  /// No description provided for @proBookingTime.
+  ///
+  /// In fr, this message translates to:
+  /// **'Heure de debut'**
+  String get proBookingTime;
+
+  /// No description provided for @proBookingDuration.
+  ///
+  /// In fr, this message translates to:
+  /// **'Duree'**
+  String get proBookingDuration;
+
+  /// No description provided for @proBookingNotes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Decrivez votre projet'**
+  String get proBookingNotes;
+
+  /// No description provided for @proBookingNotesHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex: Mix d\'un EP 5 titres, style R&B...'**
+  String get proBookingNotesHint;
+
+  /// No description provided for @proBookingRemote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Session a distance'**
+  String get proBookingRemote;
+
+  /// No description provided for @proBookingSummary.
+  ///
+  /// In fr, this message translates to:
+  /// **'Recapitulatif'**
+  String get proBookingSummary;
+
+  /// No description provided for @proBookingSend.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer la demande'**
+  String get proBookingSend;
+
+  /// No description provided for @proBookingSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Demande envoyee !'**
+  String get proBookingSent;
+
+  /// No description provided for @proBookingSelectDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Veuillez selectionner une date'**
+  String get proBookingSelectDate;
+
+  /// No description provided for @proBookingSelectTime.
+  ///
+  /// In fr, this message translates to:
+  /// **'Veuillez selectionner un creneau'**
+  String get proBookingSelectTime;
 }
 
 class _AppLocalizationsDelegate

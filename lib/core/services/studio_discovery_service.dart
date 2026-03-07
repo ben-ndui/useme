@@ -12,16 +12,40 @@ import 'package:useme/core/services/location_service.dart';
 class StudioDiscoveryService {
   static final StudioDiscoveryService _instance =
       StudioDiscoveryService._internal();
-  factory StudioDiscoveryService() => _instance;
-  StudioDiscoveryService._internal();
+  factory StudioDiscoveryService({
+    FirebaseFirestore? firestore,
+    LocationService? locationService,
+    http.Client? httpClient,
+  }) {
+    if (firestore != null || locationService != null || httpClient != null) {
+      return StudioDiscoveryService._di(
+        firestore: firestore ?? FirebaseFirestore.instance,
+        locationService: locationService ?? LocationService(),
+        httpClient: httpClient ?? http.Client(),
+      );
+    }
+    return _instance;
+  }
+  StudioDiscoveryService._internal()
+      : _firestore = FirebaseFirestore.instance,
+        _locationService = LocationService(),
+        _httpClient = http.Client();
+  StudioDiscoveryService._di({
+    required FirebaseFirestore firestore,
+    required LocationService locationService,
+    required http.Client httpClient,
+  })  : _firestore = firestore,
+        _locationService = locationService,
+        _httpClient = httpClient;
 
   /// Google Maps API Key from environment
   String get _apiKey => EnvService.googleMapsApiKey;
   static const String _baseUrl =
       'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
 
-  final LocationService _locationService = LocationService();
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final LocationService _locationService;
+  final FirebaseFirestore _firestore;
+  final http.Client _httpClient;
 
   // Cache studios for 25 minutes per position
   List<DiscoveredStudio>? _cachedStudios;
@@ -159,7 +183,7 @@ class StudioDiscoveryService {
       '&key=$_apiKey',
     );
 
-    final response = await http.get(url).timeout(const Duration(seconds: 15));
+    final response = await _httpClient.get(url).timeout(const Duration(seconds: 15));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -206,7 +230,7 @@ class StudioDiscoveryService {
     );
 
     try {
-      final response = await http.get(url);
+      final response = await _httpClient.get(url);
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final result = data['result'];
@@ -236,7 +260,7 @@ class StudioDiscoveryService {
     );
 
     try {
-      final response = await http.get(url).timeout(const Duration(seconds: 10));
+      final response = await _httpClient.get(url).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);

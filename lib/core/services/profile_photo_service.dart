@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/permission_dialog.dart';
 
 /// Service pour gérer les photos de profil utilisateur
 class ProfilePhotoService {
@@ -19,6 +20,17 @@ class ProfilePhotoService {
     );
 
     if (source == null) return null;
+
+    // Demander la permission avant d'utiliser la caméra ou la galerie
+    if (!context.mounted) return null;
+    final permissionType = source == ImageSource.camera
+        ? AppPermissionType.camera
+        : AppPermissionType.photos;
+    final granted = await PermissionDialog.requestPermission(
+      context,
+      type: permissionType,
+    );
+    if (!granted) return null;
 
     final XFile? pickedFile = await _picker.pickImage(
       source: source,

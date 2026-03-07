@@ -93,7 +93,7 @@ class _StudioMainScaffoldState extends State<StudioMainScaffold> {
         body: PageView(
           controller: _pageController,
           onPageChanged: (index) => setState(() => _currentIndex = index),
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           children: _pages,
         ),
         extendBody: true,

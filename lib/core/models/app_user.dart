@@ -1,6 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:smoothandesign_package/core/models/calendar_connection.dart';
+import 'pro_profile.dart';
 import 'studio_profile.dart';
 import 'studio_subscription.dart';
 
@@ -90,6 +91,9 @@ class AppUser extends BaseUser {
   /// Abonnement du studio (pour admins).
   final StudioSubscription? subscription;
 
+  /// Profil professionnel (marketplace de services).
+  final ProProfile? proProfile;
+
   /// DevMaster a accès à la config Stripe et système.
   final bool isDevMaster;
 
@@ -117,6 +121,7 @@ class AppUser extends BaseUser {
     this.isPartner = false,
     this.studioProfile,
     this.subscription,
+    this.proProfile,
     this.isDevMaster = false,
   });
 
@@ -152,6 +157,9 @@ class AppUser extends BaseUser {
       subscription: map['subscription'] != null
           ? StudioSubscription.fromMap(map['subscription'] as Map<String, dynamic>)
           : null,
+      proProfile: map['proProfile'] != null
+          ? ProProfile.fromMap(map['proProfile'] as Map<String, dynamic>)
+          : null,
       isDevMaster: map['isDevMaster'] ?? false,
     );
   }
@@ -171,6 +179,7 @@ class AppUser extends BaseUser {
       'isPartner': isPartner,
       'studioProfile': studioProfile?.toMap(),
       'subscription': subscription?.toMap(),
+      'proProfile': proProfile?.toMap(),
       'isDevMaster': isDevMaster,
     };
   }
@@ -200,6 +209,7 @@ class AppUser extends BaseUser {
     bool? isPartner,
     StudioProfile? studioProfile,
     StudioSubscription? subscription,
+    ProProfile? proProfile,
     bool? isDevMaster,
   }) {
     return AppUser(
@@ -226,6 +236,7 @@ class AppUser extends BaseUser {
       isPartner: isPartner ?? this.isPartner,
       studioProfile: studioProfile ?? this.studioProfile,
       subscription: subscription ?? this.subscription,
+      proProfile: proProfile ?? this.proProfile,
       isDevMaster: isDevMaster ?? this.isDevMaster,
     );
   }
@@ -248,6 +259,12 @@ class AppUser extends BaseUser {
 
   /// Vérifie si le studio est partenaire et a un profil
   bool get hasStudioProfile => isPartner && studioProfile != null;
+
+  /// Vérifie si l'utilisateur a un profil pro actif
+  bool get hasProProfile => proProfile != null;
+
+  /// Vérifie si l'utilisateur propose des services pro
+  bool get isPro => hasProProfile && proProfile!.isAvailable;
 
   /// Nom du studio pour affichage
   String get studioDisplayName =>
@@ -289,6 +306,7 @@ class AppUser extends BaseUser {
         isPartner,
         studioProfile,
         subscription,
+        proProfile,
         isDevMaster,
       ];
 }

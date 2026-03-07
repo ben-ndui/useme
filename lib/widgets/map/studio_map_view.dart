@@ -7,6 +7,7 @@ import 'package:useme/core/blocs/map/map_event.dart';
 import 'package:useme/core/blocs/map/map_state.dart';
 import 'package:useme/core/models/discovered_studio.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/permission_dialog.dart';
 import 'package:useme/widgets/map/custom_studio_pin.dart';
 import 'package:useme/widgets/map/search_in_zone_button.dart';
 
@@ -34,8 +35,17 @@ class _StudioMapViewState extends State<StudioMapView> {
   @override
   void initState() {
     super.initState();
-    context.read<MapBloc>().add(const InitMapEvent());
+    _initWithPermission();
     _loadDefaultPins();
+  }
+
+  Future<void> _initWithPermission() async {
+    await PermissionDialog.requestPermission(
+      context,
+      type: AppPermissionType.location,
+    );
+    if (!mounted) return;
+    context.read<MapBloc>().add(const InitMapEvent());
   }
 
   @override

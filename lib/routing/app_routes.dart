@@ -99,6 +99,12 @@ class AppRoutes {
   // Upgrade
   static const String upgrade = '/upgrade';
 
+  // Pro Profile
+  static const String proProfileSetup = '/pro/setup';
+  static const String proDiscovery = '/pro/discover';
+  static const String proProfileView = '/pro/view';
+  static const String proBooking = '/pro/book';
+
   // Device Sessions / Security
   static const String connectedDevices = '/settings/devices';
 }

@@ -5,9 +5,11 @@ import 'package:useme/core/services/services_exports.dart';
 
 /// Artist BLoC - Manages artist state
 class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {
-  final ArtistService _artistService = ArtistService();
+  final ArtistService _artistService;
 
-  ArtistBloc() : super(const ArtistInitialState()) {
+  ArtistBloc({ArtistService? artistService})
+      : _artistService = artistService ?? ArtistService(),
+        super(const ArtistInitialState()) {
     on<LoadArtistsEvent>(_onLoadArtists);
     on<SearchArtistsEvent>(_onSearchArtists);
     on<CreateArtistEvent>(_onCreateArtist);

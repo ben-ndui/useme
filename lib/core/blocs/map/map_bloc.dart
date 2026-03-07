@@ -7,10 +7,15 @@ import 'package:useme/core/services/studio_discovery_service.dart';
 
 /// BLoC for managing map state and studio discovery
 class MapBloc extends Bloc<MapEvent, MapState> {
-  final LocationService _locationService = LocationService();
-  final StudioDiscoveryService _studioService = StudioDiscoveryService();
+  final LocationService _locationService;
+  final StudioDiscoveryService _studioService;
 
-  MapBloc() : super(const MapState()) {
+  MapBloc({
+    LocationService? locationService,
+    StudioDiscoveryService? studioService,
+  })  : _locationService = locationService ?? LocationService(),
+        _studioService = studioService ?? StudioDiscoveryService(),
+        super(const MapState()) {
     on<InitMapEvent>(_onInitMap);
     on<LoadNearbyStudiosEvent>(_onLoadNearbyStudios);
     on<UpdateUserLocationEvent>(_onUpdateUserLocation);

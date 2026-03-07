@@ -1276,5 +1276,101 @@
         "type": "String"
       }
     }
-  }
+  },
+
+  "permissionContinue": "Continuer",
+  "permissionNotNow": "Pas maintenant",
+  "permissionOpenSettings": "Ouvrir les réglages",
+  "permissionDeniedTitle": "Permission refusée",
+  "permissionDeniedDesc": "Vous avez refusé cette permission. Pour l'activer, rendez-vous dans les réglages de votre téléphone.",
+
+  "permissionCameraTitle": "Accès à l'appareil photo",
+  "permissionCameraDesc": "Pour prendre des photos de votre studio, de vos sessions ou modifier votre photo de profil.",
+  "permissionMicrophoneTitle": "Accès au microphone",
+  "permissionMicrophoneDesc": "Pour envoyer des messages vocaux dans vos conversations.",
+  "permissionLocationTitle": "Accès à la localisation",
+  "permissionLocationDesc": "Pour trouver les studios de musique près de chez vous et calculer les distances.",
+  "permissionPhotosTitle": "Accès à vos photos",
+  "permissionPhotosDesc": "Pour choisir des images depuis votre galerie et les ajouter à votre profil ou vos messages.",
+  "permissionNotificationTitle": "Activer les notifications",
+  "permissionNotificationDesc": "Pour être informé des nouvelles réservations, messages et mises à jour importantes.",
+
+  "proProfileTitle": "Profil Pro",
+  "proProfileSetup": "Devenir Pro",
+  "proProfileEdit": "Modifier mon profil pro",
+  "proProfileSetupDesc": "Proposez vos services aux artistes et studios sur UZME. Remplissez votre profil pour apparaitre dans la marketplace.",
+  "proProfileActivate": "Activer mon profil pro",
+  "proProfileActivateDesc": "Proposez vos services sur UZME",
+  "proProfileManage": "Gerez votre profil professionnel",
+  "proProfileActive": "Actif",
+  "proProfileInactive": "Inactif",
+  "proProfileSelectType": "Selectionnez au moins un type de service",
+  "proProfileTypeLabel": "Que proposez-vous ?",
+  "proProfileTypeHint": "Selectionnez un ou plusieurs roles",
+  "proProfileDisplayName": "Nom professionnel",
+  "proProfileBio": "Description de vos services",
+  "proProfileRate": "Tarif horaire",
+  "proProfileCity": "Ville",
+  "proProfileWebsite": "Site web",
+  "proProfilePhone": "Telephone",
+  "proProfileSpecialties": "Specialites",
+  "proProfileSpecialtiesHint": "Ex: Mix voix, Mastering...",
+  "proProfileGenres": "Genres musicaux",
+  "proProfileGenresHint": "Ex: Hip-Hop, Pop, Jazz...",
+  "proProfileInstruments": "Instruments",
+  "proProfileInstrumentsHint": "Ex: Guitare, Piano...",
+  "proProfileDaws": "DAWs",
+  "proProfileDawsHint": "Ex: Pro Tools, Logic Pro...",
+  "proProfileRemote": "Services a distance",
+  "proProfileRemoteDesc": "Vous acceptez des missions en remote",
+  "proProfileAvailable": "Disponible",
+  "proProfileAvailableDesc": "Votre profil est visible sur la marketplace",
+  "requiredField": "Ce champ est requis",
+
+  "proDiscovery": "Pros",
+  "proDiscoveryTitle": "Trouver un pro",
+  "proDiscoveryDesc": "Decouvrez les professionnels disponibles",
+  "proDiscoveryEmpty": "Aucun professionnel trouve",
+  "proDiscoveryEmptyDesc": "Essayez d'elargir vos filtres ou de modifier votre recherche",
+  "proSearchHint": "Nom, specialite, genre...",
+  "proFilterTitle": "Filtrer les pros",
+  "proFilterDesc": "Affinez votre recherche",
+  "proFilterRemoteOnly": "A distance uniquement",
+  "proFilterRemoteDesc": "Pros acceptant les missions remote",
+  "proFilterCity": "Ville",
+  "proFilterCityHint": "Ex: Paris, Lyon...",
+  "proDetailContact": "Contacter",
+  "proDetailRate": "Tarif",
+  "proDetailSpecialties": "Specialites",
+  "proDetailGenres": "Genres",
+  "proDetailInstruments": "Instruments",
+  "proDetailDaws": "DAWs",
+  "proDetailRemote": "Accepte le remote",
+  "proDetailOnQuote": "Sur devis",
+  "seeFullProfile": "Voir le profil complet",
+  "proResultCount": "{count} pros trouves",
+  "@proResultCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "proBookingTitle": "Reserver {proName}",
+  "@proBookingTitle": {
+    "placeholders": {
+      "proName": {"type": "String"}
+    }
+  },
+  "proBookingDesc": "Selectionnez une date, un creneau et la duree souhaitee.",
+  "proBookingDate": "Date",
+  "proBookingTime": "Heure de debut",
+  "proBookingDuration": "Duree",
+  "proBookingNotes": "Decrivez votre projet",
+  "proBookingNotesHint": "Ex: Mix d'un EP 5 titres, style R&B...",
+  "proBookingRemote": "Session a distance",
+  "proBookingSummary": "Recapitulatif",
+  "proBookingSend": "Envoyer la demande",
+  "proBookingSent": "Demande envoyee !",
+  "proBookingSelectDate": "Veuillez selectionner une date",
+  "proBookingSelectTime": "Veuillez selectionner un creneau"
 }

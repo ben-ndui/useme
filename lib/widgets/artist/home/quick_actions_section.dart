@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/artist/studio_selector_bottom_sheet.dart';
 
 /// Quick actions horizontal scrollable section
@@ -51,6 +52,11 @@ class QuickActionsSection extends StatelessWidget {
                 icon: FontAwesomeIcons.solidMessage,
                 label: l10n.messages,
                 onTap: () => context.push('/messages'),
+              ),
+              QuickActionPill(
+                icon: FontAwesomeIcons.userGroup,
+                label: l10n.proDiscovery,
+                onTap: () => context.push(AppRoutes.proDiscovery),
               ),
               QuickActionPill(
                 icon: FontAwesomeIcons.solidHeart,

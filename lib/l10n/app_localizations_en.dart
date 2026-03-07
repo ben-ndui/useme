@@ -2959,4 +2959,260 @@ class AppLocalizationsEn extends AppLocalizations {
   String passwordResetSent(String email) {
     return 'Password reset email sent to $email';
   }
+
+  @override
+  String get permissionContinue => 'Continue';
+
+  @override
+  String get permissionNotNow => 'Not now';
+
+  @override
+  String get permissionOpenSettings => 'Open Settings';
+
+  @override
+  String get permissionDeniedTitle => 'Permission denied';
+
+  @override
+  String get permissionDeniedDesc =>
+      'You denied this permission. To enable it, go to your phone settings.';
+
+  @override
+  String get permissionCameraTitle => 'Camera access';
+
+  @override
+  String get permissionCameraDesc =>
+      'To take photos of your studio, sessions, or update your profile picture.';
+
+  @override
+  String get permissionMicrophoneTitle => 'Microphone access';
+
+  @override
+  String get permissionMicrophoneDesc =>
+      'To send voice messages in your conversations.';
+
+  @override
+  String get permissionLocationTitle => 'Location access';
+
+  @override
+  String get permissionLocationDesc =>
+      'To find nearby music studios and calculate distances.';
+
+  @override
+  String get permissionPhotosTitle => 'Photo library access';
+
+  @override
+  String get permissionPhotosDesc =>
+      'To choose images from your gallery and add them to your profile or messages.';
+
+  @override
+  String get permissionNotificationTitle => 'Enable notifications';
+
+  @override
+  String get permissionNotificationDesc =>
+      'To stay informed about new bookings, messages, and important updates.';
+
+  @override
+  String get proProfileTitle => 'Pro Profile';
+
+  @override
+  String get proProfileSetup => 'Become a Pro';
+
+  @override
+  String get proProfileEdit => 'Edit my pro profile';
+
+  @override
+  String get proProfileSetupDesc =>
+      'Offer your services to artists and studios on UZME. Fill in your profile to appear in the marketplace.';
+
+  @override
+  String get proProfileActivate => 'Activate my pro profile';
+
+  @override
+  String get proProfileActivateDesc => 'Offer your services on UZME';
+
+  @override
+  String get proProfileManage => 'Manage your professional profile';
+
+  @override
+  String get proProfileActive => 'Active';
+
+  @override
+  String get proProfileInactive => 'Inactive';
+
+  @override
+  String get proProfileSelectType => 'Select at least one service type';
+
+  @override
+  String get proProfileTypeLabel => 'What do you offer?';
+
+  @override
+  String get proProfileTypeHint => 'Select one or more roles';
+
+  @override
+  String get proProfileDisplayName => 'Professional name';
+
+  @override
+  String get proProfileBio => 'Describe your services';
+
+  @override
+  String get proProfileRate => 'Hourly rate';
+
+  @override
+  String get proProfileCity => 'City';
+
+  @override
+  String get proProfileWebsite => 'Website';
+
+  @override
+  String get proProfilePhone => 'Phone';
+
+  @override
+  String get proProfileSpecialties => 'Specialties';
+
+  @override
+  String get proProfileSpecialtiesHint => 'E.g. Vocal mix, Mastering...';
+
+  @override
+  String get proProfileGenres => 'Music genres';
+
+  @override
+  String get proProfileGenresHint => 'E.g. Hip-Hop, Pop, Jazz...';
+
+  @override
+  String get proProfileInstruments => 'Instruments';
+
+  @override
+  String get proProfileInstrumentsHint => 'E.g. Guitar, Piano...';
+
+  @override
+  String get proProfileDaws => 'DAWs';
+
+  @override
+  String get proProfileDawsHint => 'E.g. Pro Tools, Logic Pro...';
+
+  @override
+  String get proProfileRemote => 'Remote services';
+
+  @override
+  String get proProfileRemoteDesc => 'You accept remote missions';
+
+  @override
+  String get proProfileAvailable => 'Available';
+
+  @override
+  String get proProfileAvailableDesc =>
+      'Your profile is visible on the marketplace';
+
+  @override
+  String get requiredField => 'This field is required';
+
+  @override
+  String get proDiscovery => 'Pros';
+
+  @override
+  String get proDiscoveryTitle => 'Find a pro';
+
+  @override
+  String get proDiscoveryDesc => 'Discover available professionals';
+
+  @override
+  String get proDiscoveryEmpty => 'No professionals found';
+
+  @override
+  String get proDiscoveryEmptyDesc =>
+      'Try broadening your filters or changing your search';
+
+  @override
+  String get proSearchHint => 'Name, specialty, genre...';
+
+  @override
+  String get proFilterTitle => 'Filter pros';
+
+  @override
+  String get proFilterDesc => 'Refine your search';
+
+  @override
+  String get proFilterRemoteOnly => 'Remote only';
+
+  @override
+  String get proFilterRemoteDesc => 'Pros accepting remote missions';
+
+  @override
+  String get proFilterCity => 'City';
+
+  @override
+  String get proFilterCityHint => 'E.g. Paris, Lyon...';
+
+  @override
+  String get proDetailContact => 'Contact';
+
+  @override
+  String get proDetailRate => 'Rate';
+
+  @override
+  String get proDetailSpecialties => 'Specialties';
+
+  @override
+  String get proDetailGenres => 'Genres';
+
+  @override
+  String get proDetailInstruments => 'Instruments';
+
+  @override
+  String get proDetailDaws => 'DAWs';
+
+  @override
+  String get proDetailRemote => 'Accepts remote';
+
+  @override
+  String get proDetailOnQuote => 'On quote';
+
+  @override
+  String get seeFullProfile => 'See full profile';
+
+  @override
+  String proResultCount(int count) {
+    return '$count pros found';
+  }
+
+  @override
+  String proBookingTitle(String proName) {
+    return 'Book $proName';
+  }
+
+  @override
+  String get proBookingDesc => 'Select a date, time slot and desired duration.';
+
+  @override
+  String get proBookingDate => 'Date';
+
+  @override
+  String get proBookingTime => 'Start time';
+
+  @override
+  String get proBookingDuration => 'Duration';
+
+  @override
+  String get proBookingNotes => 'Describe your project';
+
+  @override
+  String get proBookingNotesHint => 'e.g. Mix of a 5-track EP, R&B style...';
+
+  @override
+  String get proBookingRemote => 'Remote session';
+
+  @override
+  String get proBookingSummary => 'Summary';
+
+  @override
+  String get proBookingSend => 'Send request';
+
+  @override
+  String get proBookingSent => 'Request sent!';
+
+  @override
+  String get proBookingSelectDate => 'Please select a date';
+
+  @override
+  String get proBookingSelectTime => 'Please select a time slot';
 }

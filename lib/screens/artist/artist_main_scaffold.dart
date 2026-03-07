@@ -97,7 +97,7 @@ class _ArtistMainScaffoldState extends State<ArtistMainScaffold> {
         body: PageView(
           controller: _pageController,
           onPageChanged: _onPageChanged,
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           children: _pages,
         ),
       bottomNavigationBar: BlocBuilder<MessagingBloc, MessagingState>(

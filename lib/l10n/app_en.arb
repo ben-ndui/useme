@@ -1084,5 +1084,101 @@
         "type": "String"
       }
     }
-  }
+  },
+
+  "permissionContinue": "Continue",
+  "permissionNotNow": "Not now",
+  "permissionOpenSettings": "Open Settings",
+  "permissionDeniedTitle": "Permission denied",
+  "permissionDeniedDesc": "You denied this permission. To enable it, go to your phone settings.",
+
+  "permissionCameraTitle": "Camera access",
+  "permissionCameraDesc": "To take photos of your studio, sessions, or update your profile picture.",
+  "permissionMicrophoneTitle": "Microphone access",
+  "permissionMicrophoneDesc": "To send voice messages in your conversations.",
+  "permissionLocationTitle": "Location access",
+  "permissionLocationDesc": "To find nearby music studios and calculate distances.",
+  "permissionPhotosTitle": "Photo library access",
+  "permissionPhotosDesc": "To choose images from your gallery and add them to your profile or messages.",
+  "permissionNotificationTitle": "Enable notifications",
+  "permissionNotificationDesc": "To stay informed about new bookings, messages, and important updates.",
+
+  "proProfileTitle": "Pro Profile",
+  "proProfileSetup": "Become a Pro",
+  "proProfileEdit": "Edit my pro profile",
+  "proProfileSetupDesc": "Offer your services to artists and studios on UZME. Fill in your profile to appear in the marketplace.",
+  "proProfileActivate": "Activate my pro profile",
+  "proProfileActivateDesc": "Offer your services on UZME",
+  "proProfileManage": "Manage your professional profile",
+  "proProfileActive": "Active",
+  "proProfileInactive": "Inactive",
+  "proProfileSelectType": "Select at least one service type",
+  "proProfileTypeLabel": "What do you offer?",
+  "proProfileTypeHint": "Select one or more roles",
+  "proProfileDisplayName": "Professional name",
+  "proProfileBio": "Describe your services",
+  "proProfileRate": "Hourly rate",
+  "proProfileCity": "City",
+  "proProfileWebsite": "Website",
+  "proProfilePhone": "Phone",
+  "proProfileSpecialties": "Specialties",
+  "proProfileSpecialtiesHint": "E.g. Vocal mix, Mastering...",
+  "proProfileGenres": "Music genres",
+  "proProfileGenresHint": "E.g. Hip-Hop, Pop, Jazz...",
+  "proProfileInstruments": "Instruments",
+  "proProfileInstrumentsHint": "E.g. Guitar, Piano...",
+  "proProfileDaws": "DAWs",
+  "proProfileDawsHint": "E.g. Pro Tools, Logic Pro...",
+  "proProfileRemote": "Remote services",
+  "proProfileRemoteDesc": "You accept remote missions",
+  "proProfileAvailable": "Available",
+  "proProfileAvailableDesc": "Your profile is visible on the marketplace",
+  "requiredField": "This field is required",
+
+  "proDiscovery": "Pros",
+  "proDiscoveryTitle": "Find a pro",
+  "proDiscoveryDesc": "Discover available professionals",
+  "proDiscoveryEmpty": "No professionals found",
+  "proDiscoveryEmptyDesc": "Try broadening your filters or changing your search",
+  "proSearchHint": "Name, specialty, genre...",
+  "proFilterTitle": "Filter pros",
+  "proFilterDesc": "Refine your search",
+  "proFilterRemoteOnly": "Remote only",
+  "proFilterRemoteDesc": "Pros accepting remote missions",
+  "proFilterCity": "City",
+  "proFilterCityHint": "E.g. Paris, Lyon...",
+  "proDetailContact": "Contact",
+  "proDetailRate": "Rate",
+  "proDetailSpecialties": "Specialties",
+  "proDetailGenres": "Genres",
+  "proDetailInstruments": "Instruments",
+  "proDetailDaws": "DAWs",
+  "proDetailRemote": "Accepts remote",
+  "proDetailOnQuote": "On quote",
+  "seeFullProfile": "See full profile",
+  "proResultCount": "{count} pros found",
+  "@proResultCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "proBookingTitle": "Book {proName}",
+  "@proBookingTitle": {
+    "placeholders": {
+      "proName": {"type": "String"}
+    }
+  },
+  "proBookingDesc": "Select a date, time slot and desired duration.",
+  "proBookingDate": "Date",
+  "proBookingTime": "Start time",
+  "proBookingDuration": "Duration",
+  "proBookingNotes": "Describe your project",
+  "proBookingNotesHint": "e.g. Mix of a 5-track EP, R&B style...",
+  "proBookingRemote": "Remote session",
+  "proBookingSummary": "Summary",
+  "proBookingSend": "Send request",
+  "proBookingSent": "Request sent!",
+  "proBookingSelectDate": "Please select a date",
+  "proBookingSelectTime": "Please select a time slot"
 }

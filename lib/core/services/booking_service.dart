@@ -4,8 +4,11 @@ import 'package:useme/core/models/models_exports.dart';
 
 /// Booking Service - CRUD operations for session bookings
 class BookingService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore;
   final String _collection = 'useme_bookings';
+
+  BookingService({FirebaseFirestore? firestore})
+      : _firestore = firestore ?? FirebaseFirestore.instance;
 
   /// Get a new booking ID
   String getNewBookingId() => _firestore.collection(_collection).doc().id;

@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:useme/core/services/notification_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/main.dart';
+import 'package:useme/widgets/common/permission_dialog.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// A notification toggle tile for settings pages
@@ -57,8 +58,12 @@ class SettingsNotificationTile extends StatelessWidget {
     AppLocalizations l10n,
   ) async {
     if (enable) {
-      final granted = await UseMeNotificationService.instance.requestPermissions();
+      final granted = await PermissionDialog.requestPermission(
+        context,
+        type: AppPermissionType.notification,
+      );
       if (granted) {
+        await UseMeNotificationService.instance.requestPermissions();
         await preferencesService.setNotificationsEnabled(true, userId: userId);
       } else {
         if (context.mounted) {

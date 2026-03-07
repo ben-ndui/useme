@@ -4,4 +4,5 @@ export 'settings_notification_tile.dart';
 export 'settings_remember_email_tile.dart';
 export 'package:smoothandesign_package/core/widgets/settings/settings_section_header.dart';
 export 'package:smoothandesign_package/core/widgets/settings/settings_tile.dart';
+export 'settings_pro_profile_tile.dart';
 export 'settings_theme_tile.dart';

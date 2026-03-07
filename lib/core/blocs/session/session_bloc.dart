@@ -6,11 +6,16 @@ import 'package:useme/core/services/services_exports.dart';
 
 /// Session BLoC - Manages session state
 class SessionBloc extends Bloc<SessionEvent, SessionState> {
-  final SessionService _sessionService = SessionService();
-  final SubscriptionConfigService _subscriptionService =
-      SubscriptionConfigService();
+  final SessionService _sessionService;
+  final SubscriptionConfigService _subscriptionService;
 
-  SessionBloc() : super(const SessionInitialState()) {
+  SessionBloc({
+    SessionService? sessionService,
+    SubscriptionConfigService? subscriptionService,
+  })  : _sessionService = sessionService ?? SessionService(),
+        _subscriptionService =
+            subscriptionService ?? SubscriptionConfigService(),
+        super(const SessionInitialState()) {
     on<LoadSessionsEvent>(_onLoadSessions);
     on<LoadEngineerSessionsEvent>(_onLoadEngineerSessions);
     on<LoadArtistSessionsEvent>(_onLoadArtistSessions);

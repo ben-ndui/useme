@@ -30,6 +30,7 @@ class ArtistSettingsPage extends StatelessWidget {
             subtitle: l10n.personalInfo,
             onTap: () => context.push(AppRoutes.profile),
           ),
+          const SettingsProProfileTile(),
 
           const Divider(height: 32),
 
