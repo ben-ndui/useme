@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/services_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Écran de configuration de l'assistant IA pour un studio
 class AISettingsScreen extends StatefulWidget {
@@ -38,8 +39,9 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
     } catch (e) {
       setState(() => _isLoading = false);
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur: $e')),
+          SnackBar(content: Text(l10n.errorWithMessage(e.toString()))),
         );
       }
     }
@@ -52,14 +54,16 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
     try {
       await _service.updateSettings(_settings!);
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Paramètres sauvegardés')),
+          SnackBar(content: Text(l10n.settingsSaved)),
         );
       }
     } catch (e) {
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur: $e')),
+          SnackBar(content: Text(l10n.errorWithMessage(e.toString()))),
         );
       }
     } finally {
@@ -69,9 +73,10 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Assistant IA'),
+        title: Text(l10n.aiAssistant),
         actions: [
           if (_settings != null)
             TextButton(
@@ -82,14 +87,14 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
                       height: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Text('Sauvegarder'),
+                  : Text(l10n.save),
             ),
         ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _settings == null
-              ? const Center(child: Text('Erreur de chargement'))
+              ? Center(child: Text(l10n.loadingError))
               : _buildContent(),
     );
   }
@@ -153,17 +158,16 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          const Text(
-            'Assistant IA',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.aiAssistant,
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Répondez automatiquement aux questions fréquentes '
-            'et gagnez du temps',
+            AppLocalizations.of(context)!.aiAssistantDescription,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.grey.shade600,
@@ -175,13 +179,14 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
   }
 
   Widget _buildEnableSection() {
+    final l10n = AppLocalizations.of(context)!;
     return _buildCard(
       child: SwitchListTile(
-        title: const Text('Activer l\'assistant IA'),
+        title: Text(l10n.enableAIAssistant),
         subtitle: Text(
           _settings!.enabled
-              ? 'L\'IA aide à répondre aux messages'
-              : 'L\'IA est désactivée',
+              ? l10n.aiHelpsRespond
+              : l10n.aiDisabled,
         ),
         value: _settings!.enabled,
         onChanged: (value) {
@@ -199,7 +204,7 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
 
   Widget _buildModeSection() {
     return _buildCard(
-      title: 'Mode de fonctionnement',
+      title: AppLocalizations.of(context)!.operatingMode,
       child: Column(
         children: AIMode.values
             .where((m) => m != AIMode.off)
@@ -234,14 +239,15 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
   }
 
   Widget _buildToneSection() {
+    final l10n = AppLocalizations.of(context)!;
     final tones = [
-      ('professional', 'Professionnel', 'Formel et courtois'),
-      ('friendly', 'Amical', 'Chaleureux et accueillant'),
-      ('casual', 'Décontracté', 'Relax mais respectueux'),
+      ('professional', l10n.toneProfessional, l10n.toneProfessionalDesc),
+      ('friendly', l10n.toneFriendly, l10n.toneFriendlyDesc),
+      ('casual', l10n.toneCasual, l10n.toneCasualDesc),
     ];
 
     return _buildCard(
-      title: 'Ton des réponses',
+      title: l10n.responseTone,
       child: Column(
         children: tones.map((tone) {
           final isSelected = _settings!.tone == tone.$1;
@@ -263,14 +269,15 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
   }
 
   Widget _buildAdvancedSection() {
+    final l10n = AppLocalizations.of(context)!;
     return _buildCard(
-      title: 'Options avancées',
+      title: l10n.advancedOptions,
       child: Column(
         children: [
           SwitchListTile(
-            title: const Text('Discussion de prix'),
-            subtitle: const Text(
-              'L\'IA peut mentionner les réductions possibles',
+            title: Text(l10n.priceDiscussion),
+            subtitle: Text(
+              l10n.aiCanMentionDiscounts,
             ),
             value: _settings!.allowPriceDiscussion,
             onChanged: (value) {
@@ -282,8 +289,8 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
           if (_settings!.mode == AIMode.autoReply) ...[
             const Divider(),
             ListTile(
-              title: const Text('Délai avant réponse auto'),
-              subtitle: Text('${_settings!.autoReplyDelayMinutes} minutes'),
+              title: Text(l10n.autoReplyDelay),
+              subtitle: Text(l10n.minutesCount(_settings!.autoReplyDelayMinutes)),
               trailing: DropdownButton<int>(
                 value: _settings!.autoReplyDelayMinutes,
                 items: [1, 2, 5, 10, 15, 30]
@@ -310,8 +317,9 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
   }
 
   Widget _buildFAQSection() {
+    final l10n = AppLocalizations.of(context)!;
     return _buildCard(
-      title: 'FAQs personnalisées',
+      title: l10n.customFAQs,
       trailing: IconButton(
         icon: const Icon(Icons.add_circle_outline, color: Colors.purple),
         onPressed: _showAddFAQDialog,
@@ -322,8 +330,7 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Text(
-                'Ajoutez des questions fréquentes pour que l\'IA '
-                'puisse y répondre automatiquement',
+                l10n.customFAQsEmpty,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey.shade500),
               ),
@@ -356,28 +363,29 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
   void _showAddFAQDialog() {
     final questionController = TextEditingController();
     final answerController = TextEditingController();
+    final l10n = AppLocalizations.of(context)!;
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Ajouter une FAQ'),
+        title: Text(l10n.addFAQ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: questionController,
-              decoration: const InputDecoration(
-                labelText: 'Question',
-                hintText: 'Ex: Quels sont vos horaires ?',
+              decoration: InputDecoration(
+                labelText: l10n.question,
+                hintText: l10n.questionHint,
               ),
               maxLines: 2,
             ),
             const SizedBox(height: 16),
             TextField(
               controller: answerController,
-              decoration: const InputDecoration(
-                labelText: 'Réponse',
-                hintText: 'Ex: Nous sommes ouverts du lundi au samedi...',
+              decoration: InputDecoration(
+                labelText: l10n.answer,
+                hintText: l10n.answerHint,
               ),
               maxLines: 3,
             ),
@@ -386,7 +394,7 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Annuler'),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -399,7 +407,7 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
                 Navigator.pop(context);
               }
             },
-            child: const Text('Ajouter'),
+            child: Text(l10n.add),
           ),
         ],
       ),

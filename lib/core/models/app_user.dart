@@ -1,4 +1,3 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:smoothandesign_package/core/models/calendar_connection.dart';
 import 'pro_profile.dart';
@@ -270,18 +269,9 @@ class AppUser extends BaseUser {
   String get studioDisplayName =>
       studioProfile?.name ?? displayName ?? name ?? 'Studio';
 
-  /// ID du DevMaster principal (depuis .env pour la sécurité)
-  static String get _devMasterUserId {
-    if (!dotenv.isInitialized) return '';
-    return dotenv.env['DEV_MASTER_USER_ID'] ?? '';
-  }
-
   /// Vérifie si l'utilisateur a accès aux configurations système (DevMaster)
-  /// Retourne true si:
-  /// - L'utilisateur est le DevMaster principal (ID depuis .env)
-  /// - OU l'utilisateur est SuperAdmin avec isDevMaster=true dans Firestore
-  bool get hasDevMasterAccess =>
-      uid == _devMasterUserId || (isSuperAdmin && isDevMaster);
+  /// Basé sur le flag isDevMaster dans Firestore + rôle SuperAdmin.
+  bool get hasDevMasterAccess => isSuperAdmin && isDevMaster;
 
   /// ID du tier d'abonnement actuel (par défaut 'free')
   String get subscriptionTierId => subscription?.tierId ?? 'free';

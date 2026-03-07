@@ -12,6 +12,7 @@ enum AppPermissionType {
   location,
   photos,
   notification,
+  contacts,
 }
 
 /// Dialog custom affiché AVANT le popup système pour expliquer la permission.
@@ -113,6 +114,8 @@ class PermissionDialog extends StatelessWidget {
         return Permission.photos;
       case AppPermissionType.notification:
         return Permission.notification;
+      case AppPermissionType.contacts:
+        return Permission.contacts;
     }
   }
 
@@ -246,6 +249,13 @@ class PermissionDialog extends StatelessWidget {
           color: UseMeTheme.warningColor,
           title: l10n.permissionNotificationTitle,
           description: l10n.permissionNotificationDesc,
+        );
+      case AppPermissionType.contacts:
+        return _PermissionConfig(
+          icon: FontAwesomeIcons.addressBook,
+          color: UseMeTheme.infoColor,
+          title: l10n.permissionContactsTitle,
+          description: l10n.permissionContactsDesc,
         );
     }
   }

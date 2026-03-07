@@ -130,10 +130,10 @@ class _ChatScreenState extends State<ChatScreen> {
           reactions: reactions,
           currentUserId: userId,
           onReactionTap: (emoji) {
-            final message = state.messages.firstWhere(
-              (m) => m.reactions == reactions,
-              orElse: () => state.messages.first,
-            );
+            final message = state.messages
+                .where((m) => m.reactions == reactions)
+                .firstOrNull;
+            if (message == null) return;
             context.read<MessagingBloc>().add(ToggleReactionEvent(messageId: message.id, emoji: emoji));
           },
         ),

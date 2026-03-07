@@ -52,21 +52,23 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
-	<string>UZME a besoin d'accéder à votre calendrier pour importer vos événements et éviter les conflits de réservation.</string>
+	<string>UZME needs access to your calendar to import your events and avoid booking conflicts. For example, if you have a meeting at 3 PM, UZME will show that time slot as unavailable when booking a studio session.</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>UZME a besoin d'accéder à votre calendrier pour importer vos événements et éviter les conflits de réservation.</string>
+	<string>UZME needs full access to your calendar to import your events and avoid booking conflicts. For example, your existing appointments will be shown as unavailable time slots when scheduling a studio session.</string>
 	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
-	<string>UZME peut ajouter vos sessions de studio à votre calendrier.</string>
+	<string>UZME can add your studio sessions to your calendar. For example, when you book a recording session for Friday at 2 PM, it will automatically appear in your calendar.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Pour trouver les studios d'enregistrement proches de vous</string>
+	<string>UZME needs your location to find nearby recording studios. For example, the map will show studios within 10 km of your current position.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Pour trouver les studios d'enregistrement proches de vous</string>
+	<string>UZME needs your location to find nearby recording studios. For example, the map will show studios within 10 km of your current position.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>UZME a besoin d'accéder à votre microphone pour enregistrer des messages vocaux.</string>
+	<string>UZME needs access to your microphone to record voice messages. For example, you can send a voice note to a studio owner to discuss your session details.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>UZME needs access to your contacts to help you find and invite your music collaborators. For example, you can see which of your contacts are already on UZME and connect with them.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>UZME utilise votre caméra pour prendre des photos de profil, des photos de studio, ou envoyer des images dans vos conversations avec les artistes et studios.</string>
+	<string>UZME needs access to your camera to take photos. For example, you can take a profile picture, capture a photo of your studio setup, or snap a picture to share in a conversation with an artist or studio.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>UZME a besoin d'accéder à vos photos pour les partager dans les conversations.</string>
+	<string>UZME needs access to your photo library to share images. For example, you can send a photo of your lyrics or album artwork in a conversation with a studio or artist.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

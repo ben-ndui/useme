@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/core/services/services_exports.dart';
 import 'package:useme/widgets/chat/chat_widgets_exports.dart';
 
@@ -170,6 +171,7 @@ Qu'est-ce que tu cherches aujourd'hui ?''';
     final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId == null) return;
 
+    final l10n = AppLocalizations.of(context)!;
     _messageController.clear();
 
     // Ajouter le message utilisateur
@@ -223,8 +225,7 @@ Qu'est-ce que tu cherches aujourd'hui ?''';
       // Message d'erreur
       final errorMessage = AIMessage(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
-        content: 'Désolé, je n\'ai pas pu traiter ta demande. '
-            'Réessaie dans quelques instants ! 🙏',
+        content: l10n.aiErrorMessage,
         isFromAI: true,
         timestamp: DateTime.now(),
       );
@@ -621,6 +622,7 @@ Qu'est-ce qui t'intéresse le plus ?''';
   }
 
   PreferredSizeWidget _buildAppBar() {
+    final l10n = AppLocalizations.of(context)!;
     return AppBar(
       titleSpacing: 0,
       title: Row(
@@ -644,12 +646,12 @@ Qu'est-ce qui t'intéresse le plus ?''';
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Assistant UZME',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              Text(
+                l10n.aiAssistantTitle,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               Text(
-                'Toujours disponible',
+                l10n.alwaysAvailable,
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.green.shade400,
@@ -720,7 +722,7 @@ Qu'est-ce qui t'intéresse le plus ?''';
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          'Assistant IA',
+                          AppLocalizations.of(context)!.aiAssistantLabel,
                           style: TextStyle(
                             fontSize: 11,
                             color: Colors.purple.shade400,
@@ -813,7 +815,7 @@ Qu'est-ce qui t'intéresse le plus ?''';
               keyboardType: TextInputType.multiline,
               textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
-                hintText: 'Pose ta question...',
+                hintText: AppLocalizations.of(context)!.askYourQuestion,
                 filled: true,
                 fillColor: Theme.of(context).cardColor,
                 border: OutlineInputBorder(

@@ -38,6 +38,7 @@
   "language": "Langue",
   "languageFrench": "Français",
   "languageEnglish": "English",
+  "languageSango": "Sängö",
   "languageSystem": "Système",
   "languageSystemSubtitle": "Suit les réglages de l'appareil",
 
@@ -1395,5 +1396,193 @@
   "proBookingDeclined": "Demande refusée",
   "proBookingPending": "En attente",
   "proBookingConfirmed": "Confirmée",
-  "proBookingStatusCancelled": "Annulée"
+  "proBookingStatusCancelled": "Annulée",
+
+  "myNetwork": "Mon réseau",
+  "networkEmpty": "Aucun contact",
+  "networkEmptyDesc": "Ajoutez vos contacts professionnels pour construire votre réseau",
+  "addContact": "Ajouter un contact",
+  "networkProducer": "Producteurs",
+  "networkOther": "Autre",
+  "networkNote": "Note",
+  "networkNoteHint": "Note personnelle (optionnel)",
+  "networkInvite": "Inviter",
+  "networkInviteEmailSubject": "Rejoins-moi sur UZME !",
+  "networkInviteEmailBody": "Salut ! J'utilise UZME pour me connecter avec des studios et des pros de la musique. Rejoins-moi : https://uzme.app",
+  "networkManualAdd": "Manuel",
+  "networkAddManually": "Ajouter ce contact manuellement",
+  "networkContactName": "Nom du contact",
+  "all": "Tous",
+
+  "permissionContactsTitle": "Accéder à vos contacts",
+  "permissionContactsDesc": "Pour importer vos contacts et trouver ceux qui sont déjà sur UZME.",
+  "importContacts": "Importer depuis le téléphone",
+  "importContactsDesc": "Retrouvez vos contacts déjà sur UZME",
+  "importCount": "Importer ({count})",
+  "@importCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "contactsOnPlatform": "{count} de vos contacts sont sur UZME !",
+  "@contactsOnPlatform": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "contactAlreadyOnUzme": "Déjà sur UZME",
+  "aiAssistantTitle": "Assistant UZME",
+  "alwaysAvailable": "Toujours disponible",
+  "aiAssistantLabel": "Assistant IA",
+  "askYourQuestion": "Pose ta question...",
+  "aiErrorMessage": "Désolé, je n'ai pas pu traiter ta demande. Réessaie dans quelques instants ! 🙏",
+
+  "subscriptionRestored": "Abonnement restauré avec succès",
+  "subscriptionActivated": "Abonnement activé avec succès",
+  "chooseSubscription": "Choisir un abonnement",
+  "restorePurchases": "Restaurer les achats",
+  "manageSubscription": "Gérer mon abonnement",
+  "noSubscriptionAvailable": "Aucun abonnement disponible",
+  "monthly": "Mensuel",
+  "yearly": "Annuel",
+  "twoMonthsFree": "2 mois offerts",
+  "userNotConnected": "Utilisateur non connecté",
+  "downgradeToFreeTitle": "Passer au plan gratuit ?",
+  "cancelViaAppStore": "Pour annuler votre abonnement, vous devez le faire depuis les paramètres de l'App Store.",
+  "downgradeWarning": "Vous perdrez les fonctionnalités premium. Cette action prendra effet à la fin de votre période actuelle.",
+  "openAppStore": "Ouvrir App Store",
+  "subscriptionCancelledOn": "Abonnement annulé le {date}",
+  "@subscriptionCancelledOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "subscriptionCancelledEndPeriod": "Abonnement annulé à la fin de la période",
+  "cancellationError": "Erreur lors de l'annulation",
+  "productNotAvailable": "Produit non disponible",
+  "purchaseError": "Erreur lors de l'achat: {error}",
+  "@purchaseError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "redirectingToPayment": "Redirection vers le paiement...",
+  "paymentCreationError": "Erreur lors de la création du paiement",
+  "restoreCompleted": "Restauration terminée",
+  "restoreError": "Erreur lors de la restauration",
+  "cannotOpenPortal": "Impossible d'ouvrir le portail",
+  "recommended": "Recommandé",
+  "currentPlan": "Actuel",
+  "free": "Gratuit",
+  "perYear": "/an",
+  "perMonth": "/mois",
+  "pricePerMonth": "{price}€/mois",
+  "@pricePerMonth": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "currentPlanButton": "Plan actuel",
+  "switchToFree": "Passer au gratuit",
+  "choosePlan": "Choisir {name}",
+  "@choosePlan": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "unlimitedSessions": "Sessions illimitées",
+  "sessionsPerMonth": "{count} sessions/mois",
+  "@sessionsPerMonth": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unlimitedRooms": "Salles illimitées",
+  "roomsCount": "{count} salles",
+  "@roomsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unlimitedServices": "Services illimités",
+  "servicesCount": "{count} services",
+  "@servicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unlimitedAI": "Assistant IA illimité",
+  "aiMessagesPerMonth": "{count} messages IA/mois",
+  "@aiMessagesPerMonth": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "advancedAI": "IA avancée (rapports, actions)",
+  "discoveryVisibility": "Visibilité Discovery",
+  "verifiedBadge": "Badge vérifié",
+  "apiAccess": "Accès API",
+  "prioritySupport": "Support prioritaire",
+
+  "errorWithMessage": "Erreur: {message}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "aiAssistant": "Assistant IA",
+  "loadingError": "Erreur de chargement",
+  "aiAssistantDescription": "Répondez automatiquement aux questions fréquentes et gagnez du temps",
+  "enableAIAssistant": "Activer l'assistant IA",
+  "aiHelpsRespond": "L'IA aide à répondre aux messages",
+  "aiDisabled": "L'IA est désactivée",
+  "operatingMode": "Mode de fonctionnement",
+  "toneProfessional": "Professionnel",
+  "toneProfessionalDesc": "Formel et courtois",
+  "toneFriendly": "Amical",
+  "toneFriendlyDesc": "Chaleureux et accueillant",
+  "toneCasual": "Décontracté",
+  "toneCasualDesc": "Relax mais respectueux",
+  "responseTone": "Ton des réponses",
+  "advancedOptions": "Options avancées",
+  "priceDiscussion": "Discussion de prix",
+  "aiCanMentionDiscounts": "L'IA peut mentionner les réductions possibles",
+  "autoReplyDelay": "Délai avant réponse auto",
+  "minutesCount": "{minutes} minutes",
+  "@minutesCount": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "customFAQs": "FAQs personnalisées",
+  "customFAQsEmpty": "Ajoutez des questions fréquentes pour que l'IA puisse y répondre automatiquement",
+  "addFAQ": "Ajouter une FAQ",
+  "question": "Question",
+  "questionHint": "Ex: Quels sont vos horaires ?",
+  "answer": "Réponse",
+  "answerHint": "Ex: Nous sommes ouverts du lundi au samedi...",
+
+  "welcomeBack": "Content de te revoir !",
+  "useAnotherAccount": "Utiliser un autre compte",
+  "rememberMe": "Se souvenir de moi"
 }

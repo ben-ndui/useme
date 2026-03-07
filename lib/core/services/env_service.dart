@@ -9,10 +9,6 @@ class EnvService {
   static String get googleMapsApiKey =>
       dotenv.env['GOOGLE_MAPS_API_KEY'] ?? '';
 
-  /// DevMaster User ID (accès aux configurations système).
-  static String get devMasterUserId =>
-      dotenv.env['DEV_MASTER_USER_ID'] ?? '';
-
   /// Vérifie si les variables d'environnement sont chargées.
   static bool get isLoaded => dotenv.isInitialized;
 }

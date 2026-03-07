@@ -10,6 +10,7 @@ import 'package:useme/core/models/subscription_tier_config.dart';
 import 'package:useme/core/services/iap_service.dart';
 import 'package:useme/core/services/stripe_service.dart';
 import 'package:useme/core/services/subscription_config_service.dart';
+import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
@@ -89,9 +90,10 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
     setState(() => _isLoading = false);
 
     if (result.success) {
+      final l10n = AppLocalizations.of(context)!;
       final message = result.isRestored
-          ? 'Abonnement restauré avec succès'
-          : 'Abonnement activé avec succès';
+          ? l10n.subscriptionRestored
+          : l10n.subscriptionActivated;
       AppSnackBar.success(context, message);
     }
   }
@@ -114,24 +116,25 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Choisir un abonnement'),
+        title: Text(l10n.chooseSubscription),
         centerTitle: true,
         actions: [
           // Bouton restaurer achats (iOS uniquement)
           if (Platform.isIOS)
             IconButton(
               icon: const FaIcon(FontAwesomeIcons.arrowRotateLeft, size: 18),
-              tooltip: 'Restaurer les achats',
+              tooltip: l10n.restorePurchases,
               onPressed: _isLoading ? null : _restorePurchases,
             ),
           // Bouton pour gérer l'abonnement existant
           if (_hasActiveSubscription())
             IconButton(
               icon: const FaIcon(FontAwesomeIcons.gear, size: 18),
-              tooltip: 'Gérer mon abonnement',
+              tooltip: l10n.manageSubscription,
               onPressed: _isLoading ? null : _openSubscriptionSettings,
             ),
         ],
@@ -149,7 +152,7 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
                   (snapshot.data ?? []).where((t) => t.isActive).toList();
 
               if (tiers.isEmpty) {
-                return const Center(child: Text('Aucun abonnement disponible'));
+                return Center(child: Text(l10n.noSubscriptionAvailable));
               }
 
               return Column(
@@ -167,7 +170,7 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
                         children: [
                           Expanded(
                             child: _PeriodButton(
-                              label: 'Mensuel',
+                              label: l10n.monthly,
                               isSelected: !_showYearly,
                               onTap: _isLoading
                                   ? null
@@ -176,8 +179,8 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
                           ),
                           Expanded(
                             child: _PeriodButton(
-                              label: 'Annuel',
-                              subtitle: '2 mois offerts',
+                              label: l10n.yearly,
+                              subtitle: l10n.twoMonthsFree,
                               isSelected: _showYearly,
                               onTap: _isLoading
                                   ? null
@@ -264,7 +267,7 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
   Future<void> _selectTier(SubscriptionTierConfig tier) async {
     final userId = _getCurrentUserId();
     if (userId == null) {
-      AppSnackBar.error(context, 'Utilisateur non connecté');
+      AppSnackBar.error(context, AppLocalizations.of(context)!.userNotConnected);
       return;
     }
 
@@ -283,19 +286,20 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
 
   /// Downgrade vers le plan gratuit
   Future<void> _handleDowngradeToFree(String userId) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Passer au plan gratuit ?'),
+        title: Text(l10n.downgradeToFreeTitle),
         content: Text(
           Platform.isIOS
-              ? 'Pour annuler votre abonnement, vous devez le faire depuis les paramètres de l\'App Store.'
-              : 'Vous perdrez les fonctionnalités premium. Cette action prendra effet à la fin de votre période actuelle.',
+              ? l10n.cancelViaAppStore
+              : l10n.downgradeWarning,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Annuler'),
+            child: Text(l10n.cancel),
           ),
           if (Platform.isIOS)
             FilledButton(
@@ -303,12 +307,12 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
                 Navigator.pop(ctx, false);
                 _openSubscriptionSettings();
               },
-              child: const Text('Ouvrir App Store'),
+              child: Text(l10n.openAppStore),
             )
           else
             FilledButton(
               onPressed: () => Navigator.pop(ctx, true),
-              child: const Text('Confirmer'),
+              child: Text(l10n.confirm),
             ),
         ],
       ),
@@ -325,12 +329,12 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
         if (result.success) {
           final expiresAt = result.expiresAt;
           final message = expiresAt != null
-              ? 'Abonnement annulé le ${expiresAt.day}/${expiresAt.month}/${expiresAt.year}'
-              : 'Abonnement annulé à la fin de la période';
+              ? l10n.subscriptionCancelledOn('${expiresAt.day}/${expiresAt.month}/${expiresAt.year}')
+              : l10n.subscriptionCancelledEndPeriod;
           AppSnackBar.success(context, message);
         } else {
           AppSnackBar.error(
-              context, result.error ?? 'Erreur lors de l\'annulation');
+              context, result.error ?? l10n.cancellationError);
         }
       }
     }
@@ -345,7 +349,7 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
     final product = _iapProducts[productId];
 
     if (product == null) {
-      AppSnackBar.error(context, 'Produit non disponible');
+      AppSnackBar.error(context, AppLocalizations.of(context)!.productNotAvailable);
       return;
     }
 
@@ -357,7 +361,7 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        AppSnackBar.error(context, 'Erreur lors de l\'achat: $e');
+        AppSnackBar.error(context, AppLocalizations.of(context)!.purchaseError(e.toString()));
       }
     }
   }
@@ -376,12 +380,13 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
     if (mounted) {
       setState(() => _isLoading = false);
 
+      final l10n = AppLocalizations.of(context)!;
       if (result.success) {
-        AppSnackBar.info(context, 'Redirection vers le paiement...');
+        AppSnackBar.info(context, l10n.redirectingToPayment);
       } else {
         AppSnackBar.error(
           context,
-          result.error ?? 'Erreur lors de la création du paiement',
+          result.error ?? l10n.paymentCreationError,
         );
       }
     }
@@ -400,12 +405,12 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
 
       if (mounted) {
         setState(() => _isLoading = false);
-        AppSnackBar.info(context, 'Restauration terminée');
+        AppSnackBar.info(context, AppLocalizations.of(context)!.restoreCompleted);
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        AppSnackBar.error(context, 'Erreur lors de la restauration');
+        AppSnackBar.error(context, AppLocalizations.of(context)!.restoreError);
       }
     }
   }
@@ -432,7 +437,7 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
         setState(() => _isLoading = false);
 
         if (!success) {
-          AppSnackBar.error(context, 'Impossible d\'ouvrir le portail');
+          AppSnackBar.error(context, AppLocalizations.of(context)!.cannotOpenPortal);
         }
       }
     }
@@ -512,6 +517,7 @@ class _TierPricingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     final color = switch (tier.id) {
       'free' => Colors.grey,
@@ -549,7 +555,7 @@ class _TierPricingCard extends StatelessWidget {
                     const BorderRadius.vertical(top: Radius.circular(14)),
               ),
               child: Text(
-                'Recommandé',
+                l10n.recommended,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.labelMedium?.copyWith(
                   color: Colors.white,
@@ -582,7 +588,7 @@ class _TierPricingCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          'Actuel',
+                          l10n.currentPlan,
                           style: theme.textTheme.labelSmall
                               ?.copyWith(color: Colors.green),
                         ),
@@ -602,7 +608,7 @@ class _TierPricingCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      tier.isFree ? 'Gratuit' : displayPrice,
+                      tier.isFree ? l10n.free : displayPrice,
                       style: theme.textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -612,7 +618,7 @@ class _TierPricingCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 4),
                         child: Text(
-                          isYearly ? '/an' : '/mois',
+                          isYearly ? l10n.perYear : l10n.perMonth,
                           style: theme.textTheme.bodyMedium
                               ?.copyWith(color: theme.colorScheme.outline),
                         ),
@@ -621,7 +627,7 @@ class _TierPricingCard extends StatelessWidget {
                     if (monthlyEquivalent != null && iapPrice == null) ...[
                       const Spacer(),
                       Text(
-                        '${monthlyEquivalent.toStringAsFixed(0)}€/mois',
+                        l10n.pricePerMonth(monthlyEquivalent.toStringAsFixed(0)),
                         style: theme.textTheme.bodySmall
                             ?.copyWith(color: theme.colorScheme.outline),
                       ),
@@ -631,7 +637,7 @@ class _TierPricingCard extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 // Features
-                ..._buildFeaturesList(theme),
+                ..._buildFeaturesList(theme, l10n),
                 const SizedBox(height: 20),
 
                 // CTA Button
@@ -640,7 +646,7 @@ class _TierPricingCard extends StatelessWidget {
                   child: isCurrentTier
                       ? OutlinedButton(
                           onPressed: null,
-                          child: const Text('Plan actuel'),
+                          child: Text(l10n.currentPlanButton),
                         )
                       : FilledButton(
                           onPressed: onSelect,
@@ -648,8 +654,8 @@ class _TierPricingCard extends StatelessWidget {
                             backgroundColor: color,
                           ),
                           child: Text(tier.isFree
-                              ? 'Passer au gratuit'
-                              : 'Choisir ${tier.name}'),
+                              ? l10n.switchToFree
+                              : l10n.choosePlan(tier.name)),
                         ),
                 ),
               ],
@@ -660,43 +666,43 @@ class _TierPricingCard extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildFeaturesList(ThemeData theme) {
+  List<Widget> _buildFeaturesList(ThemeData theme, AppLocalizations l10n) {
     final features = <(IconData, String, bool)>[
       (
         FontAwesomeIcons.calendar,
         tier.isUnlimited(tier.maxSessions)
-            ? 'Sessions illimitées'
-            : '${tier.maxSessions} sessions/mois',
+            ? l10n.unlimitedSessions
+            : l10n.sessionsPerMonth(tier.maxSessions),
         true
       ),
       (
         FontAwesomeIcons.doorOpen,
         tier.isUnlimited(tier.maxRooms)
-            ? 'Salles illimitées'
-            : '${tier.maxRooms} salles',
+            ? l10n.unlimitedRooms
+            : l10n.roomsCount(tier.maxRooms),
         true
       ),
       (
         FontAwesomeIcons.microphone,
         tier.isUnlimited(tier.maxServices)
-            ? 'Services illimités'
-            : '${tier.maxServices} services',
+            ? l10n.unlimitedServices
+            : l10n.servicesCount(tier.maxServices),
         true
       ),
       (
         FontAwesomeIcons.robot,
         tier.isUnlimited(tier.aiMessagesPerMonth)
-            ? 'Assistant IA illimité'
-            : '${tier.aiMessagesPerMonth} messages IA/mois',
+            ? l10n.unlimitedAI
+            : l10n.aiMessagesPerMonth(tier.aiMessagesPerMonth),
         tier.hasAIAssistant
       ),
-      (FontAwesomeIcons.wandMagicSparkles, 'IA avancée (rapports, actions)', tier.hasAdvancedAI),
-      (FontAwesomeIcons.eye, 'Visibilité Discovery', tier.hasDiscoveryVisibility),
+      (FontAwesomeIcons.wandMagicSparkles, l10n.advancedAI, tier.hasAdvancedAI),
+      (FontAwesomeIcons.eye, l10n.discoveryVisibility, tier.hasDiscoveryVisibility),
       (FontAwesomeIcons.chartLine, 'Analytics', tier.hasAnalytics),
-      (FontAwesomeIcons.circleCheck, 'Badge vérifié', tier.hasVerifiedBadge),
+      (FontAwesomeIcons.circleCheck, l10n.verifiedBadge, tier.hasVerifiedBadge),
       (FontAwesomeIcons.building, 'Multi-studios', tier.hasMultiStudios),
-      (FontAwesomeIcons.code, 'Accès API', tier.hasApiAccess),
-      (FontAwesomeIcons.headset, 'Support prioritaire', tier.hasPrioritySupport),
+      (FontAwesomeIcons.code, l10n.apiAccess, tier.hasApiAccess),
+      (FontAwesomeIcons.headset, l10n.prioritySupport, tier.hasPrioritySupport),
     ];
 
     return features.map((f) {

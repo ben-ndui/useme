@@ -38,6 +38,7 @@
   "language": "Language",
   "languageFrench": "Français",
   "languageEnglish": "English",
+  "languageSango": "Sängö",
   "languageSystem": "System",
   "languageSystemSubtitle": "Follows device settings",
 
@@ -1203,5 +1204,193 @@
   "proBookingDeclined": "Request declined",
   "proBookingPending": "Pending",
   "proBookingConfirmed": "Confirmed",
-  "proBookingStatusCancelled": "Cancelled"
+  "proBookingStatusCancelled": "Cancelled",
+
+  "myNetwork": "My network",
+  "networkEmpty": "No contacts yet",
+  "networkEmptyDesc": "Add your professional contacts to build your network",
+  "addContact": "Add contact",
+  "networkProducer": "Producers",
+  "networkOther": "Other",
+  "networkNote": "Note",
+  "networkNoteHint": "Personal note (optional)",
+  "networkInvite": "Invite",
+  "networkInviteEmailSubject": "Join me on UZME!",
+  "networkInviteEmailBody": "Hey! I'm using UZME to connect with studios and music pros. Join me: https://uzme.app",
+  "networkManualAdd": "Manual",
+  "networkAddManually": "Add this contact manually",
+  "networkContactName": "Contact name",
+  "all": "All",
+
+  "permissionContactsTitle": "Access your contacts",
+  "permissionContactsDesc": "To import your phone contacts and find which ones are already on UZME.",
+  "importContacts": "Import from phone",
+  "importContactsDesc": "Find your contacts already on UZME",
+  "importCount": "Import ({count})",
+  "@importCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "contactsOnPlatform": "{count} of your contacts are on UZME!",
+  "@contactsOnPlatform": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "contactAlreadyOnUzme": "Already on UZME",
+  "aiAssistantTitle": "UZME Assistant",
+  "alwaysAvailable": "Always available",
+  "aiAssistantLabel": "AI Assistant",
+  "askYourQuestion": "Ask your question...",
+  "aiErrorMessage": "Sorry, I couldn't process your request. Please try again in a moment! 🙏",
+
+  "subscriptionRestored": "Subscription restored successfully",
+  "subscriptionActivated": "Subscription activated successfully",
+  "chooseSubscription": "Choose a subscription",
+  "restorePurchases": "Restore purchases",
+  "manageSubscription": "Manage my subscription",
+  "noSubscriptionAvailable": "No subscription available",
+  "monthly": "Monthly",
+  "yearly": "Yearly",
+  "twoMonthsFree": "2 months free",
+  "userNotConnected": "User not connected",
+  "downgradeToFreeTitle": "Switch to free plan?",
+  "cancelViaAppStore": "To cancel your subscription, you must do so from the App Store settings.",
+  "downgradeWarning": "You will lose premium features. This action will take effect at the end of your current period.",
+  "openAppStore": "Open App Store",
+  "subscriptionCancelledOn": "Subscription cancelled on {date}",
+  "@subscriptionCancelledOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "subscriptionCancelledEndPeriod": "Subscription cancelled at end of period",
+  "cancellationError": "Error during cancellation",
+  "productNotAvailable": "Product not available",
+  "purchaseError": "Purchase error: {error}",
+  "@purchaseError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "redirectingToPayment": "Redirecting to payment...",
+  "paymentCreationError": "Error creating payment",
+  "restoreCompleted": "Restore completed",
+  "restoreError": "Error during restore",
+  "cannotOpenPortal": "Cannot open portal",
+  "recommended": "Recommended",
+  "currentPlan": "Current",
+  "free": "Free",
+  "perYear": "/year",
+  "perMonth": "/month",
+  "pricePerMonth": "{price}€/month",
+  "@pricePerMonth": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "currentPlanButton": "Current plan",
+  "switchToFree": "Switch to free",
+  "choosePlan": "Choose {name}",
+  "@choosePlan": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "unlimitedSessions": "Unlimited sessions",
+  "sessionsPerMonth": "{count} sessions/month",
+  "@sessionsPerMonth": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unlimitedRooms": "Unlimited rooms",
+  "roomsCount": "{count} rooms",
+  "@roomsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unlimitedServices": "Unlimited services",
+  "servicesCount": "{count} services",
+  "@servicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unlimitedAI": "Unlimited AI assistant",
+  "aiMessagesPerMonth": "{count} AI messages/month",
+  "@aiMessagesPerMonth": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "advancedAI": "Advanced AI (reports, actions)",
+  "discoveryVisibility": "Discovery visibility",
+  "verifiedBadge": "Verified badge",
+  "apiAccess": "API access",
+  "prioritySupport": "Priority support",
+
+  "errorWithMessage": "Error: {message}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "aiAssistant": "AI Assistant",
+  "loadingError": "Loading error",
+  "aiAssistantDescription": "Automatically answer frequently asked questions and save time",
+  "enableAIAssistant": "Enable AI assistant",
+  "aiHelpsRespond": "AI helps respond to messages",
+  "aiDisabled": "AI is disabled",
+  "operatingMode": "Operating mode",
+  "toneProfessional": "Professional",
+  "toneProfessionalDesc": "Formal and courteous",
+  "toneFriendly": "Friendly",
+  "toneFriendlyDesc": "Warm and welcoming",
+  "toneCasual": "Casual",
+  "toneCasualDesc": "Relaxed but respectful",
+  "responseTone": "Response tone",
+  "advancedOptions": "Advanced options",
+  "priceDiscussion": "Price discussion",
+  "aiCanMentionDiscounts": "AI can mention possible discounts",
+  "autoReplyDelay": "Auto-reply delay",
+  "minutesCount": "{minutes} minutes",
+  "@minutesCount": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "customFAQs": "Custom FAQs",
+  "customFAQsEmpty": "Add frequently asked questions so the AI can answer them automatically",
+  "addFAQ": "Add a FAQ",
+  "question": "Question",
+  "questionHint": "E.g. What are your hours?",
+  "answer": "Answer",
+  "answerHint": "E.g. We are open Monday to Saturday...",
+
+  "welcomeBack": "Welcome back!",
+  "useAnotherAccount": "Use another account",
+  "rememberMe": "Remember me"
 }
