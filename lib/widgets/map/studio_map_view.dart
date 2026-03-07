@@ -9,7 +9,7 @@ import 'package:useme/core/models/discovered_studio.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/permission_dialog.dart';
 import 'package:useme/widgets/map/custom_studio_pin.dart';
-import 'package:useme/widgets/map/search_in_zone_button.dart';
+import 'package:useme/widgets/map/map_search_bar.dart';
 
 /// Google Maps view showing nearby studios with custom pins
 class StudioMapView extends StatefulWidget {
@@ -136,22 +136,11 @@ class _StudioMapViewState extends State<StudioMapView> {
                 context.read<MapBloc>().add(const DeselectStudioEvent());
               },
             ),
-            // Search in zone button (centered below app bar)
+            // Floating search bar (top left)
             Positioned(
               top: MediaQuery.of(context).padding.top + 60,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: SearchInZoneButton(
-                  center: _currentCameraPosition ?? state.searchCenter,
-                ),
-              ),
-            ),
-            // Refresh button
-            Positioned(
-              top: MediaQuery.of(context).padding.top + 60,
-              right: 16,
-              child: _buildRefreshButton(context, state),
+              left: 16,
+              child: const MapSearchBar(),
             ),
             // Location button
             Positioned(
@@ -267,23 +256,6 @@ class _StudioMapViewState extends State<StudioMapView> {
     }
 
     return markers;
-  }
-
-  Widget _buildRefreshButton(BuildContext context, MapState state) {
-    return FloatingActionButton.small(
-      heroTag: 'refresh',
-      backgroundColor: Colors.white,
-      onPressed: state.isLoading
-          ? null
-          : () => context.read<MapBloc>().add(const RefreshStudiosEvent()),
-      child: state.isLoading
-          ? const SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-          : Icon(Icons.refresh, color: UseMeTheme.primaryColor),
-    );
   }
 
   Widget _buildLocationButton(BuildContext context, MapState state) {
