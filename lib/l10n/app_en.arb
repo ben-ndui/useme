@@ -1140,6 +1140,8 @@
 
   "proDiscovery": "Pros",
   "proDiscoveryTitle": "Find a pro",
+  "proDiscoverySubtitle": "Engineers, producers & more",
+  "seeAll": "See all",
   "proDiscoveryDesc": "Discover available professionals",
   "proDiscoveryEmpty": "No professionals found",
   "proDiscoveryEmptyDesc": "Try broadening your filters or changing your search",

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:useme/widgets/artist/home/home_exports.dart';
 import 'package:useme/widgets/artist/nearby_studios_carousel.dart';
 import 'package:useme/widgets/artist/studio_detail_bottom_sheet.dart';
+import 'package:useme/widgets/pro/pro_detail_bottom_sheet.dart';
+import 'package:useme/widgets/pro/pro_discovery_carousel.dart';
 
 /// Main feed content for artist home (inside draggable sheet - dark blue bg)
 class ArtistHomeFeed extends StatelessWidget {
@@ -20,6 +22,11 @@ class ArtistHomeFeed extends StatelessWidget {
         SizedBox(height: spacing),
         NearbyStudiosCarousel(
           onStudioTap: (studio) => StudioDetailBottomSheet.show(context, studio),
+          isWideLayout: isWideLayout,
+        ),
+        SizedBox(height: spacing),
+        ProDiscoveryCarousel(
+          onProTap: (user) => ProDetailBottomSheet.show(context, user),
           isWideLayout: isWideLayout,
         ),
         SizedBox(height: spacing),

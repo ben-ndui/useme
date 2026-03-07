@@ -56,6 +56,8 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
       context.read<SessionBloc>().add(
             LoadArtistSessionsEvent(artistId: authState.user.uid),
           );
+      // Load available pros for discovery carousel
+      context.read<ProProfileBloc>().add(const SearchProsEvent());
     }
   }
 

@@ -3149,6 +3149,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get proDiscoveryTitle => 'Trouver un pro';
 
   @override
+  String get proDiscoverySubtitle => 'Ingenieurs, producteurs & plus';
+
+  @override
+  String get seeAll => 'Voir tout';
+
+  @override
   String get proDiscoveryDesc => 'Decouvrez les professionnels disponibles';
 
   @override

@@ -1332,6 +1332,8 @@
 
   "proDiscovery": "Pros",
   "proDiscoveryTitle": "Trouver un pro",
+  "proDiscoverySubtitle": "Ingenieurs, producteurs & plus",
+  "seeAll": "Voir tout",
   "proDiscoveryDesc": "Decouvrez les professionnels disponibles",
   "proDiscoveryEmpty": "Aucun professionnel trouve",
   "proDiscoveryEmptyDesc": "Essayez d'elargir vos filtres ou de modifier votre recherche",

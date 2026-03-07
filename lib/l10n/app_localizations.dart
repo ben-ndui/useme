@@ -5888,6 +5888,18 @@ abstract class AppLocalizations {
   /// **'Trouver un pro'**
   String get proDiscoveryTitle;
 
+  /// No description provided for @proDiscoverySubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ingenieurs, producteurs & plus'**
+  String get proDiscoverySubtitle;
+
+  /// No description provided for @seeAll.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir tout'**
+  String get seeAll;
+
   /// No description provided for @proDiscoveryDesc.
   ///
   /// In fr, this message translates to:
