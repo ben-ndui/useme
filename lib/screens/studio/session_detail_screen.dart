@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/booking_acceptance_service.dart';
 import 'package:useme/core/services/payment_config_service.dart';
@@ -85,7 +86,7 @@ class _SessionDetailContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = intlLocale(context);
     final dateFormat = DateFormat('EEEE d MMMM yyyy', locale);
     final timeFormat = DateFormat('HH:mm', locale);
 

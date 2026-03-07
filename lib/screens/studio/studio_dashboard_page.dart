@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/studio/dashboard/studio_dashboard_exports.dart';
 
@@ -13,7 +14,7 @@ class StudioDashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = intlLocale(context);
     final padding = context.horizontalPadding;
     final spacing = context.itemSpacing;
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/studio_room.dart';
 import 'package:useme/core/services/engineer_availability_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
@@ -26,7 +27,7 @@ class SessionRequestSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = intlLocale(context);
     final dateFormat = DateFormat('EEEE d MMMM yyyy', locale);
     final timeFormat = DateFormat('HH:mm', locale);
 

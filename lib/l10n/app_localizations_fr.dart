@@ -106,6 +106,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get languageEnglish => 'English';
 
   @override
+  String get languageSango => 'Sängö';
+
+  @override
   String get languageSystem => 'Système';
 
   @override
@@ -3296,4 +3299,338 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get proBookingStatusCancelled => 'Annulée';
+
+  @override
+  String get myNetwork => 'Mon réseau';
+
+  @override
+  String get networkEmpty => 'Aucun contact';
+
+  @override
+  String get networkEmptyDesc =>
+      'Ajoutez vos contacts professionnels pour construire votre réseau';
+
+  @override
+  String get addContact => 'Ajouter un contact';
+
+  @override
+  String get networkProducer => 'Producteurs';
+
+  @override
+  String get networkOther => 'Autre';
+
+  @override
+  String get networkNote => 'Note';
+
+  @override
+  String get networkNoteHint => 'Note personnelle (optionnel)';
+
+  @override
+  String get networkInvite => 'Inviter';
+
+  @override
+  String get networkInviteEmailSubject => 'Rejoins-moi sur UZME !';
+
+  @override
+  String get networkInviteEmailBody =>
+      'Salut ! J\'utilise UZME pour me connecter avec des studios et des pros de la musique. Rejoins-moi : https://uzme.app';
+
+  @override
+  String get networkManualAdd => 'Manuel';
+
+  @override
+  String get networkAddManually => 'Ajouter ce contact manuellement';
+
+  @override
+  String get networkContactName => 'Nom du contact';
+
+  @override
+  String get permissionContactsTitle => 'Accéder à vos contacts';
+
+  @override
+  String get permissionContactsDesc =>
+      'Pour importer vos contacts et trouver ceux qui sont déjà sur UZME.';
+
+  @override
+  String get importContacts => 'Importer depuis le téléphone';
+
+  @override
+  String get importContactsDesc => 'Retrouvez vos contacts déjà sur UZME';
+
+  @override
+  String importCount(int count) {
+    return 'Importer ($count)';
+  }
+
+  @override
+  String contactsOnPlatform(int count) {
+    return '$count de vos contacts sont sur UZME !';
+  }
+
+  @override
+  String get contactAlreadyOnUzme => 'Déjà sur UZME';
+
+  @override
+  String get aiAssistantTitle => 'Assistant UZME';
+
+  @override
+  String get alwaysAvailable => 'Toujours disponible';
+
+  @override
+  String get aiAssistantLabel => 'Assistant IA';
+
+  @override
+  String get askYourQuestion => 'Pose ta question...';
+
+  @override
+  String get aiErrorMessage =>
+      'Désolé, je n\'ai pas pu traiter ta demande. Réessaie dans quelques instants ! 🙏';
+
+  @override
+  String get subscriptionRestored => 'Abonnement restauré avec succès';
+
+  @override
+  String get subscriptionActivated => 'Abonnement activé avec succès';
+
+  @override
+  String get chooseSubscription => 'Choisir un abonnement';
+
+  @override
+  String get restorePurchases => 'Restaurer les achats';
+
+  @override
+  String get manageSubscription => 'Gérer mon abonnement';
+
+  @override
+  String get noSubscriptionAvailable => 'Aucun abonnement disponible';
+
+  @override
+  String get monthly => 'Mensuel';
+
+  @override
+  String get yearly => 'Annuel';
+
+  @override
+  String get twoMonthsFree => '2 mois offerts';
+
+  @override
+  String get userNotConnected => 'Utilisateur non connecté';
+
+  @override
+  String get downgradeToFreeTitle => 'Passer au plan gratuit ?';
+
+  @override
+  String get cancelViaAppStore =>
+      'Pour annuler votre abonnement, vous devez le faire depuis les paramètres de l\'App Store.';
+
+  @override
+  String get downgradeWarning =>
+      'Vous perdrez les fonctionnalités premium. Cette action prendra effet à la fin de votre période actuelle.';
+
+  @override
+  String get openAppStore => 'Ouvrir App Store';
+
+  @override
+  String subscriptionCancelledOn(String date) {
+    return 'Abonnement annulé le $date';
+  }
+
+  @override
+  String get subscriptionCancelledEndPeriod =>
+      'Abonnement annulé à la fin de la période';
+
+  @override
+  String get cancellationError => 'Erreur lors de l\'annulation';
+
+  @override
+  String get productNotAvailable => 'Produit non disponible';
+
+  @override
+  String purchaseError(String error) {
+    return 'Erreur lors de l\'achat: $error';
+  }
+
+  @override
+  String get redirectingToPayment => 'Redirection vers le paiement...';
+
+  @override
+  String get paymentCreationError => 'Erreur lors de la création du paiement';
+
+  @override
+  String get restoreCompleted => 'Restauration terminée';
+
+  @override
+  String get restoreError => 'Erreur lors de la restauration';
+
+  @override
+  String get cannotOpenPortal => 'Impossible d\'ouvrir le portail';
+
+  @override
+  String get recommended => 'Recommandé';
+
+  @override
+  String get currentPlan => 'Actuel';
+
+  @override
+  String get free => 'Gratuit';
+
+  @override
+  String get perYear => '/an';
+
+  @override
+  String get perMonth => '/mois';
+
+  @override
+  String pricePerMonth(String price) {
+    return '$price€/mois';
+  }
+
+  @override
+  String get currentPlanButton => 'Plan actuel';
+
+  @override
+  String get switchToFree => 'Passer au gratuit';
+
+  @override
+  String choosePlan(String name) {
+    return 'Choisir $name';
+  }
+
+  @override
+  String get unlimitedSessions => 'Sessions illimitées';
+
+  @override
+  String sessionsPerMonth(int count) {
+    return '$count sessions/mois';
+  }
+
+  @override
+  String get unlimitedRooms => 'Salles illimitées';
+
+  @override
+  String roomsCount(int count) {
+    return '$count salles';
+  }
+
+  @override
+  String get unlimitedServices => 'Services illimités';
+
+  @override
+  String servicesCount(int count) {
+    return '$count services';
+  }
+
+  @override
+  String get unlimitedAI => 'Assistant IA illimité';
+
+  @override
+  String aiMessagesPerMonth(int count) {
+    return '$count messages IA/mois';
+  }
+
+  @override
+  String get advancedAI => 'IA avancée (rapports, actions)';
+
+  @override
+  String get discoveryVisibility => 'Visibilité Discovery';
+
+  @override
+  String get verifiedBadge => 'Badge vérifié';
+
+  @override
+  String get apiAccess => 'Accès API';
+
+  @override
+  String get prioritySupport => 'Support prioritaire';
+
+  @override
+  String errorWithMessage(String message) {
+    return 'Erreur: $message';
+  }
+
+  @override
+  String get aiAssistantDescription =>
+      'Répondez automatiquement aux questions fréquentes et gagnez du temps';
+
+  @override
+  String get enableAIAssistant => 'Activer l\'assistant IA';
+
+  @override
+  String get aiHelpsRespond => 'L\'IA aide à répondre aux messages';
+
+  @override
+  String get aiDisabled => 'L\'IA est désactivée';
+
+  @override
+  String get operatingMode => 'Mode de fonctionnement';
+
+  @override
+  String get toneProfessional => 'Professionnel';
+
+  @override
+  String get toneProfessionalDesc => 'Formel et courtois';
+
+  @override
+  String get toneFriendly => 'Amical';
+
+  @override
+  String get toneFriendlyDesc => 'Chaleureux et accueillant';
+
+  @override
+  String get toneCasual => 'Décontracté';
+
+  @override
+  String get toneCasualDesc => 'Relax mais respectueux';
+
+  @override
+  String get responseTone => 'Ton des réponses';
+
+  @override
+  String get advancedOptions => 'Options avancées';
+
+  @override
+  String get priceDiscussion => 'Discussion de prix';
+
+  @override
+  String get aiCanMentionDiscounts =>
+      'L\'IA peut mentionner les réductions possibles';
+
+  @override
+  String get autoReplyDelay => 'Délai avant réponse auto';
+
+  @override
+  String minutesCount(int minutes) {
+    return '$minutes minutes';
+  }
+
+  @override
+  String get customFAQs => 'FAQs personnalisées';
+
+  @override
+  String get customFAQsEmpty =>
+      'Ajoutez des questions fréquentes pour que l\'IA puisse y répondre automatiquement';
+
+  @override
+  String get addFAQ => 'Ajouter une FAQ';
+
+  @override
+  String get question => 'Question';
+
+  @override
+  String get questionHint => 'Ex: Quels sont vos horaires ?';
+
+  @override
+  String get answer => 'Réponse';
+
+  @override
+  String get answerHint => 'Ex: Nous sommes ouverts du lundi au samedi...';
+
+  @override
+  String get welcomeBack => 'Content de te revoir !';
+
+  @override
+  String get useAnotherAccount => 'Utiliser un autre compte';
+
+  @override
+  String get rememberMe => 'Se souvenir de moi';
 }

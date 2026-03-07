@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:useme/core/localization/intl_locale.dart';
 
 /// A compact date badge showing day and month
 class SessionDateBadge extends StatelessWidget {
@@ -10,7 +11,7 @@ class SessionDateBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = intlLocale(context);
     final dayFormat = DateFormat('d', locale);
     final monthFormat = DateFormat('MMM', locale);
 

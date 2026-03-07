@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/useme_theme.dart';
+import 'package:useme/core/localization/sango_material_localizations.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/services/auth_service.dart';
@@ -235,6 +236,7 @@ class _UseMeAppState extends State<UseMeApp> {
         BlocProvider<MessagingBloc>(create: (_) => MessagingBloc()),
         BlocProvider<FavoriteBloc>(create: (_) => FavoriteBloc()),
         BlocProvider<ProProfileBloc>(create: (_) => ProProfileBloc()),
+        BlocProvider<NetworkBloc>(create: (_) => NetworkBloc()),
         BlocProvider<CalendarBloc>.value(value: globalCalendarBloc),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
@@ -264,7 +266,7 @@ class _UseMeAppState extends State<UseMeApp> {
                       );
                     }
                   } else {
-                    // User logged out: remove token and reset calendar
+                    // User logged out: remove token, reset calendar
                     notificationService.removeToken();
                     globalCalendarBloc.add(const ResetCalendarEvent());
 
@@ -284,6 +286,8 @@ class _UseMeAppState extends State<UseMeApp> {
                   supportedLocales: AppLocalizations.supportedLocales,
                   localizationsDelegates: const [
                     AppLocalizations.delegate,
+                    SangoMaterialLocalizationsDelegate(),
+                    SangoCupertinoLocalizationsDelegate(),
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                     GlobalCupertinoLocalizations.delegate,

@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:smoothandesign_package/core/models/working_hours.dart';
+import '../../core/localization/intl_locale.dart';
 import '../../core/services/availability_service.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -88,7 +89,7 @@ class _AvailabilityPickerState extends State<AvailabilityPicker> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     _l10n = AppLocalizations.of(context)!;
-    _locale = Localizations.localeOf(context).languageCode;
+    _locale = intlLocale(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

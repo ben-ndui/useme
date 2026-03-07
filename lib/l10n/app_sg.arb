@@ -1,0 +1,1585 @@
+{
+  "@@locale": "sg",
+
+  "appName": "UZME",
+
+  "settings": "Sêse",
+  "profile": "Profîli",
+  "myProfile": "Profîli tî mbi",
+  "personalInfo": "Sêse tî mbi",
+  "application": "Application",
+  "account": "Kömändë",
+  "emailPassword": "Email, tëngbi-da",
+  "about": "Na ndâ tî",
+  "versionLegal": "Version, mbëtï tî ndiä",
+  "logout": "Fä",
+  "logoutConfirmTitle": "Fä",
+  "logoutConfirmMessage": "Mo yê töngana mo sü fä tî pëpe?",
+  "cancel": "Lä",
+
+  "notifications": "Notifications",
+  "notificationsEnabled": "A-duti",
+  "notificationsDisabled": "A-duti pëpe",
+  "notificationsMuted": "Notifications na gï-ngû",
+  "enableNotificationsInSettings": "Zîa notifications na sêse tî téléphone tî mo",
+
+  "rememberEmail": "Bâa email na ndö",
+  "rememberEmailEnabled": "Email a-duti kôzo na connexion",
+  "rememberEmailDisabled": "Email a-bâa na ndö pëpe",
+
+  "appearance": "Pandöö",
+  "themeLight": "Vûru",
+  "themeDark": "Bîm",
+  "themeSystem": "Système",
+  "themeLightSubtitle": "Pandöö vûru",
+  "themeDarkSubtitle": "Pandöö bîm",
+  "themeSystemSubtitle": "Tökua sêse tî téléphone",
+
+  "language": "Yângâ",
+  "languageFrench": "Français",
+  "languageEnglish": "English",
+  "languageSango": "Sängö",
+  "languageSystem": "Système",
+  "languageSystemSubtitle": "Tökua sêse tî téléphone",
+
+  "userGuide": "Ndiä tî sära na",
+  "tipsAndAdvice": "Kpälë na ndiä",
+  "artistGuide": "Ndiä tî artiste",
+  "engineerGuide": "Ndiä tî enjëniëre",
+  "studioGuide": "Ndiä tî studio",
+
+  "messages": "Mbëtï",
+  "noConversations": "Bîanî tî tënë pëpe",
+  "startNewConversation": "Kôzo bîanî tî tënë tî finî",
+  "newMessage": "Mbëtï tî finî",
+  "loading": "A-ga sara...",
+  "error": "Pörö",
+  "retry": "Tene ngbii",
+
+  "conversationSettings": "Sêse",
+  "viewProfile": "Yê profîli",
+  "viewParticipants": "Yê âzo",
+  "information": "Sêse",
+  "block": "Kangbi",
+  "blockContact": "Kangbi zo sô",
+  "blockConfirmTitle": "Kangbi",
+  "blockConfirmMessage": "Mo sü kangbi {name}? Mo sï mbëtï tî lo ngbii pëpe.",
+  "@blockConfirmMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "blocked": "{name} a-kangbi awe",
+  "@blocked": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "report": "Tene na ndâ",
+  "reportProblem": "Tene pörö",
+  "reportConfirmTitle": "Tene na ndâ",
+  "reportConfirmMessage": "Ngâ nî mo sü tene na ndâ tî bîanî sô?",
+  "reportSent": "Mbëtï tî tene na ndâ a-tö awe",
+  "leaveConversation": "Fä bîanî",
+  "deleteFromList": "Zïa na liste tî mo",
+  "leaveConfirmTitle": "Fä bîanî",
+  "leaveConfirmMessage": "Mo sü fä bîanî na {name}? Mbëtï ôke a-zïa.",
+  "@leaveConfirmMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "leave": "Fä",
+  "actions": "Sara",
+
+  "accountSettings": "Kömändë",
+  "credentials": "Sêse tî duti",
+  "email": "Email",
+  "notAvailable": "Pëpe",
+  "changePassword": "Sêngö tëngbi-da",
+  "oauthNoPasswordReset": "Mo duti na {provider}. Sêngö tëngbi-da na sêse tî {provider}.",
+  "@oauthNoPasswordReset": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "sendResetEmail": "Tö email tî sêngö tëngbi-da",
+  "emailSentTo": "Email a-tö na {email}",
+  "@emailSentTo": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "sendError": "Pörö na tö",
+  "dangerZone": "Ndö tî sïönî",
+  "deleteAccount": "Zïa kömändë tî mbi",
+  "deleteAccountWarning": "Sara sô a-kîri pëpe",
+  "deleteAccountConfirmTitle": "Zïa kömändë",
+  "deleteAccountConfirmMessage": "Mo bê töngana mo sü zïa kömändë tî mo? Sêse ôke tî mo a-bûngi. Sara sô a-kîri pëpe.",
+  "delete": "Zïa",
+  "confirmDeletion": "Tene éé tî zïa",
+  "enterPassword": "Sü tëngbi-da tî mo tî tene éé:",
+  "password": "Tëngbi-da",
+  "confirm": "Tene éé",
+  "deletionError": "Pörö na zïa",
+  "oauthReauthRequired": "Tî zïa kömändë tî mo, mo lîngbi tî duti ngbii na {provider}.",
+  "@oauthReauthRequired": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "continueWithProvider": "Sü na {provider}",
+  "@continueWithProvider": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+
+  "studio": "Studio",
+  "studioProfile": "Profîli tî studio",
+  "nameAddressContact": "Ïrï, adresse, ndö tî bâta",
+  "services": "Services",
+  "serviceCatalog": "Catalogue tî services",
+  "team": "Equipe",
+  "manageEngineers": "Kämä enjëniëre",
+  "paymentMethods": "Lêgë tî fûta",
+  "paymentMethodsSubtitle": "Wâlë, virement, PayPal...",
+  "aiAssistant": "Wala-bata IA",
+  "aiSettingsSubtitle": "Sêse tî mbëtï otomätîki",
+  "visibility": "Pandöö",
+  "studioVisible": "Studio a-yê",
+  "artistsCanSee": "Artiste akë lîngbi tî yê studio tî mo na tî tö demande tî session.",
+  "edit": "Sêngö",
+  "becomeVisible": "Bâa ködörö tî mo pandöö",
+  "artistsCantFind": "Artiste akë lîngbi tî gï mo pëpe",
+  "claimStudio": "Tene na ndâ tî studio tî mo tî pandöö na carte na tî sï demande tî session.",
+  "calendar": "Calendrier",
+  "availability": "Ndö tî sara",
+  "manageSlots": "Kämä créneaux tî mbi",
+
+  "participants": "{count} âzo",
+  "@participants": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "copy": "Kopîe",
+  "deleteMessage": "Zïa",
+
+  "version": "UZME v{version}",
+  "@version": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+
+  "studiosPlatform": "Plateforme tî studio",
+  "versionBuild": "Version {version} ({build})",
+  "@versionBuild": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "build": {
+        "type": "String"
+      }
+    }
+  },
+  "legalInfo": "Sêse tî ndiä",
+  "termsOfService": "Ndiä tî sära na",
+  "privacyPolicy": "Ndiä tî sêse tî mbi",
+  "legalNotices": "Mbëtï tî ndiä",
+  "support": "Bata",
+  "helpCenter": "Ndö tî bata",
+  "contactUs": "Bîanî na âla",
+  "followUs": "Tökua âla",
+  "copyright": "© {year} UZME. Ndiä ôke a-bâa.",
+  "@copyright": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "archive": "Bâa na ndö",
+  "unarchive": "Ûse na ndö",
+
+  "mySessions": "Sessions tî mbi",
+  "book": "Réserver",
+  "noSession": "Session pëpe",
+  "enjoyYourDay": "Nzönî lâ!",
+  "inProgressStatus": "A-ga sara",
+  "upcomingStatus": "A-sï",
+  "pastStatus": "A-hûnzi",
+  "noSessions": "Session pëpe",
+  "bookFirstSession": "Réserver session tî kôzo tî mo",
+  "pendingStatus": "A-tära",
+  "confirmedStatus": "A-tene éé",
+  "completedStatus": "A-hûnzi",
+  "cancelledStatus": "A-lä",
+  "noShowStatus": "A-sï pëpe",
+  "hoursOfSession": "{hours}h tî session",
+  "@hoursOfSession": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+
+  "sessionAt": "Session na {studio}",
+  "@sessionAt": {
+    "placeholders": {
+      "studio": {
+        "type": "String"
+      }
+    }
+  },
+  "sessionRequest": "Demande tî session",
+  "noStudioSelected": "Studio pëpe a-lêkë",
+  "selectStudioFirst": "Lêkë studio kôzo tî yê ndö tî sara.",
+  "back": "Kîri",
+  "sessionType": "Lêgë tî session",
+  "sessionDuration": "Ngâ tî session",
+  "chooseSlot": "Lêkë créneau tî mo",
+  "engineerPreference": "Lêkë enjëniëre",
+  "notesOptional": "Mbëtï (sô mo sü)",
+  "describeProject": "Tene na ndâ tî projet tî mo, sêse tî mo sü...",
+  "sendRequest": "Tö demande",
+  "summaryLabel": "Ôke na ndö ôko",
+  "noPreference": "Préférence pëpe",
+  "engineerSelectedLabel": "Enjëniëre a-lêkë",
+  "letStudioChoose": "Studio a-lêkë",
+  "availableCount": "{count} dispo",
+  "@availableCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "requestSent": "Demande a-tö! Studio a-kîri mbëtï na mo mbï.",
+  "slotInfoText": "Créneaux vêrë a-lîngbi mingi. Mo lîngbi tî lêkë enjëniëre tî mo ngâ.",
+  "engineer": "Enjëniëre",
+  "notSpecified": "Pëpe",
+
+  "goodMorning": "Balaö",
+  "goodAfternoon": "Balaö",
+  "goodEvening": "Nzönî kekerê",
+  "quickAccess": "Ndö tî duti mbï",
+  "sessionsLabel": "Sessions",
+  "favoritesLabel": "Â-nzönî",
+  "preferencesLabel": "Sêse",
+  "upcomingSessions": "Sessions tî sï",
+  "viewAll": "Yê ôke",
+  "noUpcomingSessions": "Session tî sï pëpe",
+  "bookNextSession": "Réserver session tî mo tî sô a-sï na studio",
+  "recentActivity": "Sara tî mbï sô",
+  "noHistory": "Mbëtï tî kôzo pëpe",
+  "completedSessionsHere": "Sessions tî mo tî hûnzi a-pandöö ôko",
+  "waitingStatus": "Tära",
+
+  "todaySessions": "Sessions tî lâsô",
+  "today": "Lâsô",
+  "noSessionToday": "Session pëpe lâsô",
+  "noSessionsPlanned": "Session pëpe a-bâa",
+  "noAssignedSessions": "Session pëpe a-mu na mo",
+  "notConnected": "Duti pëpe",
+  "myAvailabilities": "Ndö tî sara tî mbi",
+  "workingHours": "Ngâ tî sara",
+  "unavailabilities": "Ndö tî sara pëpe",
+  "add": "Bâa",
+  "noTimeOff": "Ndö tî sara pëpe pëpe",
+  "addTimeOffHint": "Bâa vacances, congés, wala ndö tî fä",
+
+  "myStudio": "Studio tî mbi",
+  "overview": "Yê ôke",
+  "session": "Session",
+  "artist": "Artiste",
+  "artists": "Artiste akë",
+  "artistsLabel": "Artiste akë",
+  "planning": "Planning",
+  "stats": "Stats",
+  "thisMonth": "Nze sô",
+  "freeDay": "Lâ tî pâsi",
+  "noSessionScheduled": "Session pëpe a-bâa",
+  "pendingRequests": "Demande tî tära",
+  "recentArtists": "Artiste akë tî mbï sô",
+  "filterByStatus": "Filtrer na statut",
+  "all": "Ôke",
+  "confirmed": "A-tene éé",
+  "sessionCount": "{count} session",
+  "@sessionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sessionsCount": "{count} sessions",
+  "@sessionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noSessionThisDay": "Session pëpe lâ sô",
+  "noSessionTodayScheduled": "Session pëpe a-bâa lâsô",
+  "scheduleSession": "Bâa session",
+  "serviceCatalogTitle": "Catalogue services",
+  "noService": "Service pëpe",
+  "createServiceCatalog": "Ga catalogue tî services tî mo",
+  "newService": "Service tî finî",
+  "active": "A-duti",
+  "inactive": "A-duti pëpe",
+
+  "rooms": "Da akë",
+  "noRooms": "Da pëpe",
+  "createRoomsHint": "Sêse da akë tî studio tî mo",
+  "addRoom": "Bâa da",
+  "editRoom": "Sêngö da",
+  "roomName": "Ïrï tî da",
+  "roomNameHint": "Ex: Studio A, Cabine 1...",
+  "roomDescriptionHint": "Tene na ndâ tî da na sêse tî lo",
+  "accessType": "Lêgë tî duti",
+  "withEngineer": "Na enjëniëre",
+  "withEngineerDesc": "Enjëniëre tî sön a-lîngbi",
+  "selfService": "Tî mbi ôko",
+  "selfServiceDesc": "Na enjëniëre pëpe",
+  "equipment": "Matériels",
+  "equipmentHint": "Micro, console, enceintes... (na virgule)",
+  "roomActive": "Da a-duti",
+  "roomVisibleForBooking": "A-pandöö tî réservation",
+  "roomHiddenForBooking": "A-pandöö pëpe tî réservation",
+  "deleteRoom": "Zïa da",
+  "deleteRoomConfirm": "Mo bê töngana mo sü zïa da sô?",
+  "selectRoom": "Lêkë da",
+  "noRoomAvailable": "Da pëpe a-duti",
+
+  "restDay": "Pâsi",
+  "inProgress": "A-ga sara",
+  "upcoming": "A-sï",
+  "past": "A-hûnzi",
+  "listView": "Yê na liste",
+  "calendarView": "Yê na calendrier",
+  "deleteTimeOff": "Zïa",
+  "deleteTimeOffConfirm": "Zïa ndö tî sara pëpe sô?",
+  "daysCount": "{count} lâ",
+  "@daysCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysCountPlural": "{count} lâ",
+  "@daysCountPlural": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "addTimeOff": "Bâa ndö tî sara pëpe",
+  "fromDate": "Kôzo",
+  "toDate": "Sô",
+  "reasonOptional": "Ngâ nî (sô mo sü)",
+  "enterCustomReason": "Wala sü ngâ nî...",
+  "errorLoadingAvailability": "Pörö na chargement tî ndö tî sara",
+  "available": "Dispo",
+  "limited": "Na ndïä",
+  "unavailable": "Dispo pëpe",
+  "slotsForDate": "Créneaux tî {date}",
+  "@slotsForDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "noSlotAvailable": "Créneau pëpe a-duti",
+  "tryAnotherDate": "Tene na lâ ôko",
+  "fullyAvailable": "Dispo nzönî",
+  "partiallyAvailable": "Dispo na ndïä",
+  "noEngineerAvailable": "Enjëniëre pëpe a-duti",
+  "studioUnavailable": "Studio a-duti pëpe",
+  "noEngineerTryAnotherDate": "Enjëniëre pëpe a-duti lâ sô. Tene na lâ ôko.",
+  "chooseEngineer": "Lêkë enjëniëre",
+  "availableCountLabel": "{count} dispo",
+  "@availableCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "optionalEngineerInfo": "Sô mo sü: studio a-mu enjëniëre otomätîki",
+  "availableLabel": "DISPO",
+  "unavailableLabel": "DISPO PËPE",
+  "studioWillAssignEngineer": "Studio a-mu enjëniëre",
+  "bookNextSessionSubtitle": "Réserver session tî mo tî sô a-sï",
+  "emailHint": "Email",
+  "emailRequired": "Email a-lîngbi",
+  "emailInvalid": "Email nzönî pëpe",
+  "passwordHint": "Tëngbi-da",
+  "passwordRequired": "Tëngbi-da a-lîngbi",
+  "minCharacters": "Minimum {count} caractères",
+  "@minCharacters": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "forgotPassword": "Mo düngo tëngbi-da?",
+  "signIn": "Duti",
+  "or": "wala",
+  "noAccountYet": "Kömändë pëpe?",
+  "signUp": "Sü kömändë",
+  "demoAccess": "Yê demo",
+  "enterEmailFirst": "Sü email tî mo kôzo",
+  "demoMode": "Mode Démo",
+  "browseWithoutLogin": "Yê na duti pëpe",
+  "studioAdmin": "Studio (Admin)",
+  "manageSessionsArtistsServices": "Kämä sessions, artiste akë, services",
+  "soundEngineer": "Enjëniëre tî sön",
+  "viewAndTrackSessions": "Yê na tökua sessions",
+  "bookSessions": "Réserver sessions",
+  "createAccount": "Ga kömändë",
+  "joinCommunity": "Duti na âla",
+  "iAm": "Mbi sï...",
+  "orByEmail": "wala na email",
+  "stageNameOrName": "Ïrï tî scène wala ïrï",
+  "fullName": "Ïrï ôke",
+  "nameRequired": "Ïrï a-lîngbi",
+  "confirmPassword": "Tene éé tëngbi-da",
+  "confirmationRequired": "Tene éé a-lîngbi",
+  "passwordsDontMatch": "Tëngbi-da akë a-kängö pëpe",
+  "createMyAccount": "Ga kömändë tî mbi",
+  "alreadyHaveAccount": "Kömändë fadë a-duti?",
+  "chooseYourProfile": "Lêkë profîli tî mo",
+  "actionIsPermanent": "Sara sô a-kîri pëpe",
+  "howToUseApp": "Mo sü sära na app töngana nî?",
+  "iOwnStudio": "Studio tî mbi a-duti",
+  "iWorkInStudio": "Mbi sara na studio",
+  "iWantToBookSessions": "Mbi sü réserver sessions",
+  "acceptBooking": "Sï réservation",
+  "choosePaymentMethod": "Lêkë lêgë tî fûta",
+  "noPaymentMethodConfigured": "Lêgë tî fûta pëpe. Gue na Sêse > Lêgë tî fûta.",
+  "paymentMode": "Lêgë tî fûta",
+  "depositRequested": "Acompte a-sü",
+  "customMessageOptional": "Mbëtï (sô mo sü)",
+  "customMessageHint": "Ex: Singîla mingi!",
+  "totalAmount": "Wâlë ôke",
+  "depositToPay": "Acompte tî fûta",
+  "paymentBy": "Fûta na",
+  "ofTotalAmount": "{percent}% tî wâlë ôke",
+  "@ofTotalAmount": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "acceptAndSendInfo": "Sï na tö sêse",
+  "welcome": "Balao!",
+  "discoverAppFeatures": "Gï töngana nî tî sära na UZME nzönî",
+
+  "nearbyStudios": "Studio akë tî pëtï",
+  "discoverWhereToRecord": "Gï ndö tî enregistrer",
+  "noStudioFound": "Studio pëpe a-gï",
+  "enableLocationToDiscover": "Zîa localisation tî gï studio akë tî pëtï",
+  "partner": "Partner",
+  "verified": "A-vérifier",
+
+  "missingStudio": "Studio a-duti pëpe?",
+  "tellUsWhichStudio": "Tene na âla studio nî mo gï",
+  "studioName": "Ïrï tî studio",
+  "studioNameExample": "Ex: Studio XYZ",
+  "pleaseEnterStudioName": "Sü ïrï tî studio",
+  "city": "Ködörö",
+  "cityExample": "Ex: Bangui, Bimbo...",
+  "pleaseEnterCity": "Sü ködörö",
+  "notesOptionalLabel": "Mbëtï (sô mo sü)",
+  "notesHint": "Adresse, site web, sêse...",
+  "sending": "A-tö...",
+  "sendRequestLabel": "Tö demande",
+  "requestSubmitted": "Demande a-tö!",
+  "weWillVerifyAndAddStudio": "Âla a-vérifier na bâa studio sô mbï.",
+
+  "searchingStudios": "A-gï studio akë...",
+  "partnerLabel": "Partner",
+
+  "newConversation": "Bîanî tî finî",
+  "searchContact": "Gï zo...",
+  "searchNewContact": "Kôzo bîanî tî finî tî gï zo sô",
+  "errorLoadingContacts": "Pörö na chargement tî âzo",
+  "user": "Zo",
+  "contact": "Zo",
+  "noResult": "Ködörö pëpe",
+  "noContactAvailable": "Zo pëpe a-duti",
+  "myContacts": "Âzo tî mbi",
+  "searchResults": "Ködörö tî gï",
+  "tryOtherTerms": "Tene na mbëtï ôko",
+  "contactsWillAppearHere": "Âzo tî mo a-pandöö ôko",
+  "noName": "Ïrï pëpe",
+
+  "searchByNameOrEmail": "Gï na ïrï wala email...",
+  "searchArtist": "Gï artiste",
+  "typeAtLeastTwoChars": "Sü 2 caractères kôzo tî gï artiste akë",
+  "noArtistFound": "Artiste pëpe a-gï",
+  "artistNotRegistered": "Artiste sô a-sü pëpe. Inviter lo wala ga fiche na nzönî.",
+  "link": "Lier",
+  "createNewArtist": "Ga artiste tî finî",
+  "artistNotOnApp": "Artiste a-duti na app pëpe? Ga fiche tî lo na inviter lo",
+
+  "home": "Da",
+  "favorites": "Â-nzönî",
+
+  "myFavorites": "Â-nzönî tî mbi",
+  "studios": "Studios",
+  "studiosLabel": "Studios",
+  "engineers": "Enjëniëre akë",
+  "engineersLabel": "Enjëniëre akë",
+  "noFavoriteStudio": "Studio nzönî pëpe",
+  "noFavoriteStudios": "Studio nzönî pëpe",
+  "exploreStudiosAndAddFavorites": "Gï studio akë na bâa na â-nzönî tî mo",
+  "exploreStudiosToFavorite": "Gï studio akë na bâa na â-nzönî tî mo",
+  "noFavoriteEngineer": "Enjëniëre nzönî pëpe",
+  "noFavoriteEngineers": "Enjëniëre nzönî pëpe",
+  "discoverEngineersAndAddFavorites": "Gï enjëniëre akë na bâa na â-nzönî tî mo",
+  "discoverEngineersToFavorite": "Gï enjëniëre akë na bâa na â-nzönî tî mo",
+  "noFavoriteArtists": "Artiste nzönî pëpe",
+  "addArtistsToFavorite": "Bâa artiste akë na â-nzönî tî mo",
+  "prosLabel": "Pros",
+  "noFavoritePros": "Pro nzönî pëpe",
+  "discoverProsToFavorite": "Gï pro akë na bâa na â-nzönî tî mo",
+  "unnamed": "Ïrï pëpe",
+
+  "claimStudioTitle": "Studio tî mbi",
+  "nearbyStudiosTitle": "Studio akë tî pëtï",
+  "selectStudioToClaim": "Lêkë studio tî mo tî tene na ndâ",
+  "connectGoogleCalendarDesc": "Bâa Google Calendar tî mo tî synchroniser ndö tî sara otomätîki.",
+  "connectGoogleCalendar": "Bâa Google Calendar",
+  "claimYourStudioTitle": "Tene na ndâ tî studio tî mo",
+  "claimYourStudio": "Tene na ndâ tî studio tî mo",
+  "claimYourStudioDesc": "Bâa studio tî mo pandöö na artiste akë na sï demande tî session.",
+  "claimStudioDescription": "Bâa studio tî mo pandöö na artiste akë na sï demande tî session.",
+  "noStudioFoundNearby": "Studio pëpe a-gï na pëtï",
+  "createStudioManually": "Ga studio tî mo na nzönî ôko",
+  "createStudioManuallyBelow": "Ga studio tî mo na nzönî ôko",
+  "studioNotAppearing": "Studio tî mbi a-pandöö pëpe",
+  "studioNotListed": "Studio tî mbi a-pandöö pëpe",
+  "createStudioProfileManually": "Ga profîli tî studio na nzönî",
+  "createManualProfile": "Ga profîli tî studio na nzönî",
+  "claimThisStudio": "Tene na ndâ tî studio sô?",
+  "claimStudioExplanation": "Na tene na ndâ tî studio sô, mo bâa lo pandöö na artiste akë na UZME. Ala lîngbi tî yê ndö tî sara tî mo na tî tö demande tî session.",
+  "claimStudioInfo": "Na tene na ndâ tî studio sô, mo bâa lo pandöö na artiste akë na UZME. Ala lîngbi tî yê ndö tî sara tî mo na tî tö demande tî session.",
+  "claim": "Tene na ndâ",
+  "studioClaimedSuccess": "{name} a-tene na ndâ nzönî!",
+  "@studioClaimedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "studioClaims": "Demande tî studio",
+  "studioClaimsSubtitle": "Sï wala lä demande akë",
+  "unclaim": "Ûse",
+  "unclaimStudioTitle": "Ûse studio?",
+  "unclaimStudioMessage": "Mo bê töngana mo sü ûse \"{name}\"? Studio tî mo a-pandöö na artiste akë pëpe ngbii.",
+  "@unclaimStudioMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "studioUnclaimed": "Studio a-ûse nzönî",
+
+  "configurePayments": "Sêse fûta tî mo",
+  "paymentOptionsDescription": "Lêgë sô a-mu na artiste akë na tene éé tî réservation.",
+  "defaultDeposit": "Acompte tî kôzo",
+  "depositPercentDescription": "Pourcentage tî wâlë ôke tî sü na acompte",
+  "acceptedPaymentMethods": "Lêgë tî fûta a-sï",
+  "instructionsOptional": "Ndiä (sô mo sü)",
+  "instructionsHint": "Ex: Bâa ïrï tî artiste na référence",
+  "paypalEmail": "Email PayPal",
+  "cardInfo": "Sêse",
+  "details": "Sêse ôke",
+  "iban": "IBAN",
+
+  "createMyStudio": "Ga studio tî mbi",
+  "studioNameRequired": "Ïrï tî studio *",
+  "studioNameHint": "Ex: Studio Harmonie",
+  "studioNameRequiredError": "Ïrï tî studio a-lîngbi",
+  "studioNameIsRequired": "Ïrï tî studio a-lîngbi",
+  "description": "Na ndâ",
+  "describeStudioHint": "Tene na ndâ tî studio tî mo...",
+  "describeYourStudio": "Tene na ndâ tî studio tî mo...",
+  "location": "Ndö",
+  "address": "Adresse",
+  "addressHint": "Ex: 123 rue tî Mûzîki",
+  "postalCode": "Code postal",
+  "cityRequired": "Ködörö *",
+  "cityRequiredError": "Ködörö a-lîngbi",
+  "cityIsRequired": "Ködörö a-lîngbi",
+  "phone": "Téléphone",
+  "phoneHint": "06 12 34 56 78",
+  "website": "Site web",
+  "websiteHint": "https://www.monstudio.com",
+  "offeredServices": "Services a-mu",
+  "servicesOffered": "Services a-mu",
+  "creating": "A-ga ga...",
+  "creatingInProgress": "A-ga ga...",
+  "studioCreatedSuccess": "Studio a-ga nzönî!",
+  "manualCreation": "Ga na nzönî",
+  "studioVisibleAfterCreation": "Studio tî mo a-pandöö na artiste akë mbï. Mo lîngbi tî sêngö profîli tî mo mbï sô.",
+  "manualCreationDescription": "Studio tî mo a-pandöö na artiste akë mbï. Mo lîngbi tî sêngö profîli tî mo mbï sô.",
+
+  "editSession": "Sêngö session",
+  "newSession": "Session tî finî",
+  "dateAndTime": "Lâ na ngâ",
+  "duration": "Ngâ",
+  "save": "Bâa",
+  "createSession": "Ga session",
+  "addArtistFirst": "Bâa artiste kôzo",
+  "selectArtist": "Lêkë artiste",
+  "addAnotherArtist": "Bâa artiste ôko",
+  "allArtistsSelected": "Artiste ôke a-lêkë fadë",
+  "selectAtLeastOneArtist": "Lêkë artiste ôko kôzo",
+  "deleteSession": "Zïa session",
+  "actionIrreversible": "Sara sô a-kîri pëpe.",
+
+  "editService": "Sêngö service",
+  "newServiceTitle": "Service tî finî",
+  "serviceName": "Ïrï tî service",
+  "serviceNameHint": "Ex: Mix, Mastering, Recording...",
+  "fieldRequired": "Ndö sô a-lîngbi",
+  "serviceDescription": "Na ndâ (sô mo sü)",
+  "serviceDescriptionHint": "Na ndâ tî service...",
+  "hourlyRate": "Tarif na ngâ (€)",
+  "perHour": "€/h",
+  "invalidNumber": "Nombre nzönî pëpe",
+  "minimumDuration": "Ngâ minimum",
+  "serviceActive": "Service a-duti",
+  "availableForBooking": "A-duti tî réservation",
+  "notAvailableForBooking": "A-duti pëpe",
+  "createService": "Ga service",
+  "deleteService": "Zïa service",
+
+  "teamMembers": "Âzo tî equipe",
+  "pendingInvitations": "Invitation akë tî tära",
+  "noMember": "Zo pëpe",
+  "addEngineersToTeam": "Bâa enjëniëre akë na equipe tî mo",
+  "noInvitation": "Invitation pëpe",
+  "pendingInvitationsHere": "Invitation akë tî tära a-pandöö ôko",
+  "codeCopied": "Code a-kopîe",
+  "removeFromTeam": "Ûse na equipe",
+  "removeMemberConfirm": "Ûse zo sô?",
+  "memberNoAccessAnymore": "{name} a-lîngbi tî yê sessions tî studio pëpe ngbii.",
+  "@memberNoAccessAnymore": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "memberRemoved": "Zo a-ûse",
+  "remove": "Ûse",
+  "invitationCancelled": "Invitation a-lä",
+  "addMember": "Bâa zo",
+  "searchByEmailOrInvite": "Gï na email wala inviter enjëniëre tî finî",
+  "userNotRegistered": "Zo sô a-sü pëpe",
+  "sendInvitationToJoin": "Tö invitation na lo tî duti na equipe tî mo.",
+  "sendInvitation": "Tö invitation",
+  "enterValidEmail": "Sü email nzönî",
+  "invitationCreated": "Invitation a-ga",
+  "shareCodeWithEngineer": "Kêtê code sô na enjëniëre:",
+
+  "searchArtistHint": "Gï artiste...",
+  "noArtistEmpty": "Artiste pëpe",
+  "addFirstArtist": "Bâa artiste tî kôzo tî mo",
+  "addArtist": "Bâa artiste",
+  "tryAnotherSearch": "Tene na mbëtï ôko",
+  "search": "Gï",
+  "create": "Ga",
+  "findExistingArtist": "Gï artiste tî duti fadë",
+  "searchAmongRegistered": "Gï artiste akë tî sü fadë na UZME tî lier na studio tî mo.",
+  "artistAddedToStudio": "{name} a-bâa na studio tî mo!",
+  "@artistAddedToStudio": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "artistName": "Ïrï tî artiste",
+  "stageNameHint": "Ïrï tî scène...",
+  "civilName": "Ïrï tî lêgë",
+  "firstAndLastName": "Ïrï kôzo na ïrï tî da...",
+  "emailHintArtist": "Email tî artiste...",
+  "emailRequiredForInvitation": "Email a-lîngbi tî invitation",
+  "phoneOptional": "Téléphone (sô mo sü)",
+  "phoneHintGeneric": "Téléphone...",
+  "musicalGenres": "Lêgë tî mûzîki",
+  "sendInvitationToggle": "Tö invitation",
+  "artistWillReceiveCode": "Artiste a-sï code tî duti na studio tî mo",
+  "createAndInvite": "Ga na inviter",
+  "createProfile": "Ga fiche",
+  "createArtistProfile": "Ga fiche tî artiste",
+  "createProfileAndInvite": "Ga fiche na inviter artiste. Kömändë tî lo a-lier otomätîki na lo duti.",
+  "artistCreated": "Artiste a-ga!",
+  "shareCodeWithArtist": "Kêtê code sô na artiste tî duti na studio tî mo",
+  "share": "Kêtê",
+  "done": "Awe",
+
+  "notificationsTitle": "Notifications",
+  "markAllRead": "Bâa ôke lu",
+  "markAllAsRead": "Bâa ôke lu",
+  "noNotification": "Notification pëpe",
+  "noNotifications": "Notification pëpe",
+  "notifiedForNewSessions": "Mo a-sï notification tî session akë tî finî",
+  "notifyNewSessions": "Mo a-sï notification tî session akë tî finî",
+  "loadingError": "Pörö na chargement",
+
+  "personalInformation": "Sêse tî mbi",
+  "fullNameLabel": "Ïrï ôke",
+  "required": "A-lîngbi",
+  "stageName": "Ïrï tî scène",
+  "bio": "Bio",
+  "tellAboutYourself": "Tene na ndâ tî mo...",
+  "accountSection": "Kömändë",
+  "changePasswordAction": "Sêngö tëngbi-da",
+  "logoutAction": "Fä",
+  "signOut": "Fä",
+  "deleteMyAccount": "Zïa kömändë tî mbi",
+  "resetEmailSent": "Email tî sêngö a-tö",
+  "deleteAccountTitle": "Zïa kömändë",
+  "deleteAccountFinalWarning": "Sara sô a-kîri pëpe. Sêse ôke tî mo a-zïa.",
+
+  "sessionTracking": "Tökua session",
+  "hoursPlanned": "{hours}h a-bâa",
+  "@hoursPlanned": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "checkIn": "Pointage",
+  "checkInArrival": "Pointer arrivée",
+  "arrivalChecked": "Arrivée a-pointer",
+  "checkOutDeparture": "Pointer départ",
+  "sessionNotes": "Mbëtï tî session",
+  "addSessionNotes": "Bâa mbëtï na session...",
+  "photos": "Photos",
+  "addPhoto": "Bâa photo",
+  "arrivalCheckedSuccess": "Arrivée a-pointer!",
+  "endSession": "Hûnzi session?",
+  "endSessionConfirm": "Mo sü pointer départ tî mo na hûnzi session sô?",
+  "finish": "Hûnzi",
+  "contactArtist": "Bîanî na artiste",
+  "reportProblemAction": "Tene pörö",
+
+  "editArtist": "Sêngö artiste",
+  "newArtistTitle": "Artiste tî finî",
+  "emailHintGeneric": "Email...",
+  "cityHint": "Ködörö...",
+  "bioOptional": "Bio (sô mo sü)",
+  "fewWordsAboutArtist": "Mbëtï na ndâ tî artiste...",
+  "createArtist": "Ga artiste",
+  "deleteArtist": "Zïa artiste",
+
+  "calendarTitle": "Calendrier",
+  "unavailabilityAdded": "Ndö tî sara pëpe a-bâa",
+  "unavailabilityDeleted": "Ndö tî sara pëpe a-zïa",
+  "calendarConnected": "Calendrier a-bâa",
+  "unavailabilities": "Ndö tî sara pëpe",
+  "never": "Pëpe",
+  "lastSync": "Sync tî sô a-hûnzi",
+  "synchronize": "Synchroniser",
+  "disconnect": "Ûse",
+  "disconnectCalendar": "Ûse calendrier?",
+  "disconnectCalendarWarning": "Ndö tî sara pëpe tî synchroniser a-zïa. Ndö tî sara pëpe tî nzönî a-duti.",
+
+  "tipsSectionGettingStarted": "Kôzo",
+  "tipsSectionBookings": "Réservations",
+  "tipsSectionProTips": "Kpälë tî pro",
+  "tipsSectionSetup": "Sêse",
+  "tipsSectionSessions": "Sessions",
+  "tipsSectionTips": "Kpälë",
+  "tipsSectionStudioSetup": "Sêse tî studio",
+  "tipsSectionTeamManagement": "Kämä equipe",
+  "tipsSectionVisibility": "Pandöö",
+
+  "tipExploreMapTitle": "Gï na carte",
+  "tipExploreMapDesc": "Carte a-pandöö studio ôke tî pëtï tî mo. Pin vêrë sï studio partner. Zoom na gue tî gï studio akë mingi.",
+  "tipCompleteProfileTitle": "Hûnzi profîli tî mo",
+  "tipCompleteProfileDesc": "Profîli ôke na photo na lêgë tî mûzîki a-bata studio akë tî hînga mo nzönî. Gue na Sêse > Profîli tî mbi.",
+  "tipChooseSlotTitle": "Lêkë créneau nzönî",
+  "tipChooseSlotDesc": "Créneaux vêrë a-tene enjëniëre mingi a-duti. Créneaux orange a-na ndïä. Lêkë créneaux vêrë tî duti nzönî.",
+  "tipSelectEngineerTitle": "Lêkë enjëniëre tî mo",
+  "tipSelectEngineerDesc": "Mo lîngbi tî lêkë enjëniëre wala studio a-mu. Töngana mo sara na zo kôzo fadë, gï lo na liste!",
+  "tipPrepareSessionTitle": "Ga session tî mo prêt",
+  "tipPrepareSessionDesc": "Sära na ndö \"Mbëtï\" tî tene na ndâ tî projet tî mo: style, référence, sêse tî mo sü. Lo a-bata enjëniëre.",
+  "tipBookAdvanceTitle": "Réserver kôzo",
+  "tipBookAdvanceDesc": "Créneaux nzönî a-fä mbï! Réserver 2-3 lâ kôzo tî gï ngâ na enjëniëre akë.",
+  "tipManageFavoritesTitle": "Kämä â-nzönî tî mo",
+  "tipManageFavoritesDesc": "Bâa studio akë nzönî tî mo na â-nzönî tî gï ala mbï. Appuyer na coeur na page tî studio.",
+  "tipTrackSessionsTitle": "Tökua sessions tî mo",
+  "tipTrackSessionsDesc": "Na onglet Sessions, gï mbëtï ôke tî mo. Nzönî tî réserver ngbii na enjëniëre wala studio kängö.",
+
+  "tipSetScheduleTitle": "Bâa ngâ tî sara tî mo",
+  "tipSetScheduleDesc": "Gue na Sêse > Ndö tî sara tî sêse lâ na ngâ tî sara tî mo. Artiste akë a-lîngbi réserver na créneaux tî mo ôko.",
+  "tipAddUnavailabilityTitle": "Bâa ndö tî sara pëpe tî mo",
+  "tipAddUnavailabilityDesc": "Vacances, RDV, wala lâ tî pâsi? Bâa ndö tî sara pëpe tî kangbi ngâ sô. Mo lîngbi bâa ngâ nî.",
+  "tipViewSessionsTitle": "Yê sessions tî mo",
+  "tipViewSessionsDesc": "Onglet Sessions a-pandöö sessions ôke tî sï. Sessions \"A-tene éé\" nzönî, \"A-tära\" a-tära studio.",
+  "tipStartSessionTitle": "Kôzo session",
+  "tipStartSessionDesc": "Lâ sô, appuyer na \"Kôzo\" tî lancer chrono. Na hûnzi, appuyer na \"Hûnzi\" na bâa mbëtï tî session.",
+  "tipSessionNotesTitle": "Mbëtï tî session",
+  "tipSessionNotesDesc": "Na session ôke, bâa mbëtï: sêse, fichiers, remarques. Nzönî tî mo na artiste.",
+  "tipStayUpdatedTitle": "Bâa sêse tî mo na lâ",
+  "tipStayUpdatedDesc": "Sêngö ndö tî sara tî mo na lâ. Planning nzönî = réservation mingi tî mo!",
+  "tipProfileMattersTitle": "Profîli tî mo a-lîngbi",
+  "tipProfileMattersDesc": "Artiste akë lîngbi tî lêkë mo. Photo nzönî na bio na spécialités tî mo a-bata mingi.",
+
+  "tipCompleteStudioProfileTitle": "Hûnzi profîli tî studio tî mo",
+  "tipCompleteStudioProfileDesc": "Bâa photos, na ndâ, matériels na services. Profîli ôke a-pandöö kôzo na artiste akë mingi a-sï.",
+  "tipSetStudioHoursTitle": "Bâa ngâ tî sara",
+  "tipSetStudioHoursDesc": "Sêse ngâ tî sû tî studio na Sêse. Artiste akë a-lîngbi réserver na ngâ sô ôko.",
+  "tipAddServicesTitle": "Bâa services tî mo",
+  "tipAddServicesDesc": "Enregistrement, mix, mastering... Bâa services na tarifs tî ala. Lo a-bata artiste akë tî lêkë.",
+  "tipInviteEngineersTitle": "Inviter enjëniëre akë tî mo",
+  "tipInviteEngineersDesc": "Gue na Equipe > Inviter tî bâa enjëniëre akë. Ala a-sï lien tî duti na studio tî mo.",
+  "tipManageAvailabilitiesTitle": "Kämä ndö tî sara",
+  "tipManageAvailabilitiesDesc": "Enjëniëre ôke a-kämä ndö tî sara tî ala. Mo lîngbi yê ôke na planning tî studio.",
+  "tipAssignSessionsTitle": "Mu sessions",
+  "tipAssignSessionsDesc": "Na artiste lêkë enjëniëre pëpe, mo a-mu lo. Vérifier ndö tî sara kôzo.",
+  "tipManageRequestsTitle": "Kämä demande akë",
+  "tipManageRequestsDesc": "Demande tî finî a-pandöö na \"A-tära\". Tene éé mbï tî bâa artiste akë nzönî!",
+  "tipInviteArtistsTitle": "Inviter artiste akë tî mo",
+  "tipInviteArtistsDesc": "Artiste akë tî mo a-sï? Inviter ala na Clients > Inviter. Ala a-lîngbi réserver mbï.",
+  "tipTrackActivityTitle": "Tökua sara",
+  "tipTrackActivityDesc": "Dashboard a-pandöö stats: sessions tî nze, wâlë, artiste akë. Yê sara tî mo.",
+  "tipBecomePartnerTitle": "Duti partner",
+  "tipBecomePartnerDesc": "Studio partner a-pandöö na vêrë na carte na kôzo. Bîanî na âla tî hînga mingi!",
+  "tipEncourageReviewsTitle": "Sü avis akë",
+  "tipEncourageReviewsDesc": "Na session nzönî, inviter artiste tî bâa avis. Avis nzönî a-bata artiste akë mingi.",
+
+  "tipsSectionAIAssistant": "Wala-bata IA",
+  "tipAIAssistantTitle": "Tene na wala-bata tî mo",
+  "tipAIAssistantDesc": "Wala-bata IA a-hînga sêse ôke tî mo. Sü lo sessions, stats, wala bata tî sêse ôke!",
+  "tipAIActionsTitle": "Sara na tënë",
+  "tipAIActionsStudioDesc": "Mo lîngbi sü wala-bata tî ga sessions, sï réservations, kämä services... Ôke na chat!",
+  "tipAIActionsEngineerDesc": "Sü wala-bata tî kôzo wala hûnzi sessions tî mo, kämä ndö tî sara pëpe, na mingi.",
+  "tipAIActionsArtistDesc": "Wala-bata lîngbi gï studios, kämä â-nzönî tî mo, ga demande tî réservation tî mo.",
+  "tipAIContextTitle": "Lo hînga mo",
+  "tipAIContextDesc": "Wala-bata hînga zo nî mo na lo sêngö mbëtï tî lo na profîli tî mo. Lo lîngbi yê sêse tî mo na ngâ tî kängö.",
+
+  "teamInvitations": "Invitation akë tî equipe",
+  "noEmailConfigured": "Email a-sêse pëpe",
+  "noInvitations": "Invitation pëpe",
+  "noInvitationsDescription": "Invitation tî tära pëpe na mo.",
+  "invitationSentOn": "A-tö lâ {date}",
+  "@invitationSentOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "teamInvitationMessage": "{studioName} a-inviter mo tî duti na equipe tî lo töngana enjëniëre tî sön.",
+  "@teamInvitationMessage": {
+    "placeholders": {
+      "studioName": {
+        "type": "String"
+      }
+    }
+  },
+  "expiresOn": "A-hûnzi lâ {date}",
+  "@expiresOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "decline": "Lä",
+  "accept": "Sï",
+  "invitationAccepted": "Invitation a-sï! Mo duti na equipe fadë.",
+  "declineInvitation": "Lä invitation",
+  "declineInvitationConfirm": "Mo bê töngana mo sü lä invitation tî {studioName}?",
+  "@declineInvitationConfirm": {
+    "placeholders": {
+      "studioName": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationDeclined": "Invitation a-lä.",
+  "errorOccurred": "Pörö a-sï",
+
+  "sessionDetails": "Sêse tî session",
+  "toBeAssigned": "Studio a-mu",
+  "acceptSession": "Sï session",
+  "confirmAcceptSession": "Mo sü sï demande tî session sô?",
+  "sessionAccepted": "Session a-sï!",
+  "declineSession": "Lä session",
+  "confirmDeclineSession": "Mo sü lä demande tî session sô?",
+  "sessionDeclined": "Session a-lä",
+  "cancelSession": "Lä session",
+  "confirmCancelSession": "Mo sü lä session sô? Sara sô a-kîri pëpe.",
+
+  "bic": "BIC / SWIFT",
+  "accountHolder": "Zo tî kömändë",
+  "bankName": "Ïrï tî banque",
+  "cancellationPolicy": "Ndiä tî lä",
+  "cancellationPolicyDescription": "Bâa ndiä tî kîri wâlë na lä",
+  "customCancellationTerms": "Ndiä tî mbi",
+  "customCancellationHint": "Tene na ndâ tî ndiä tî lä tî mo...",
+  "saveAsDefault": "Bâa töngana kôzo",
+  "saveAsDefaultDescription": "Sära na lêkë sô tî sessions tî sô a-sï",
+
+  "proposeToEngineers": "Proposer",
+  "assignLater": "Mbï sô",
+  "assignLaterDescription": "Mo lîngbi mu enjëniëre na sêse tî session",
+  "selectAtLeastOne": "Lêkë 1 kôzo",
+  "assignEngineer": "Enjëniëre tî sön",
+  "noEngineersAvailable": "Enjëniëre pëpe a-duti tî créneau sô",
+
+  "proposedSessions": "Sessions a-proposer",
+  "proposedSessionsEmpty": "Proposition pëpe a-tära",
+  "acceptProposal": "Sï",
+  "declineProposal": "Lä",
+  "joinAsCoEngineer": "Duti na",
+  "sessionProposedToYou": "Session a-proposer",
+  "sessionTaken": "Session a-lêkë",
+  "sessionTakenDesc": "Enjëniëre ôko a-sï session sô. Mo lîngbi sü tî duti na.",
+  "requestToJoin": "Sü tî duti na",
+  "joinedAsCoEngineer": "Mo duti na session!",
+  "proposalAccepted": "Proposition a-sï!",
+  "proposalDeclined": "Proposition a-lä",
+  "youAreAssigned": "Mo a-mu",
+  "pendingProposal": "A-tära",
+
+  "openingHours": "Ngâ tî sû",
+  "openingHoursSubtitle": "Bâa ngâ tî sû tî studio tî mo",
+  "noOpeningHoursConfigured": "Ngâ tî sû pëpe a-sêse",
+  "openingHoursSaved": "Ngâ a-bâa",
+  "allowNoEngineer": "Réservation na enjëniëre pëpe",
+  "allowNoEngineerSubtitle": "Artiste akë lîngbi réserver na enjëniëre pëpe a-duti",
+  "settingsSaved": "Sêse a-bâa",
+
+  "selectStudio": "Lêkë studio",
+  "selectStudioDescription": "Lêkë studio tî session tî mo",
+  "noLinkedStudios": "Studio pëpe a-lier",
+  "noLinkedStudiosDescription": "Studio pëpe a-lier na mo. Gï studio akë tî kôzo.",
+  "discoverStudios": "Gï studio akë",
+  "exploreMapHint": "Gï na carte tî gï studio akë tî pëtï",
+  "exploreStudiosTitle": "Gï na carte",
+  "exploreStudiosDescription": "Glisser liste na ngö tî yê carte na gï studio akë tî pëtï. Cliquer na studio tî yê sêse tî lo na bîanî na lo.",
+  "understood": "Mbi hînga",
+
+  "changePhoto": "Sêngö photo",
+  "takePhoto": "Lêkë photo",
+  "useCamera": "Sära na caméra",
+  "chooseFromGallery": "Lêkë na galerie",
+  "selectExistingPhoto": "Lêkë photo tî duti",
+  "photoUpdated": "Photo a-sêngö",
+
+  "aiGuideTitle": "Ndiä tî wala-bata IA",
+  "aiGuideHeaderTitle": "Wala-bata tî mo",
+  "aiGuideHeaderSubtitle": "Gï ôke tî IA lîngbi ga tî mo",
+  "aiGuideSecurityTitle": "Na nzönî tî mo na ngâ ôke",
+  "aiGuideSecurityDesc": "Wala-bata a-sü mo tene éé kôzo tî ga sara ôke. Ködörö a-ga na tene éé tî mo pëpe.",
+
+  "aiGuideIntroTitle": "Lo sara töngana nî?",
+  "aiGuideWhatIsTitle": "Wala-bata intelligent",
+  "aiGuideWhatIsDesc": "Wala-bata IA a-hînga mbëtï tî mo na lîngbi yê sêse tî mo wala ga sara tî mo. Sü lo sêse wala sü lo tî sara!",
+  "aiGuideConfirmTitle": "Tene éé a-lîngbi",
+  "aiGuideConfirmDesc": "Kôzo sara ôke (réservation, lä, sêngö...), wala-bata a-tene na mo sêse tî lo sü ga na tära tene éé tî mo. Mo kämä ôke.",
+
+  "aiGuideReadTitle": "Sêse tî IA lîngbi yê",
+  "aiGuideActionsTitle": "Sara akë tî lîngbi",
+  "aiGuideExamplesTitle": "Kpälë tî demande",
+
+  "aiGuideSessionsTitle": "Sessions tî mo",
+  "aiGuideArtistSessionsDesc": "Yê réservations tî mo tî hûnzi, tî fadë wala tî sï. Filtrer na lâ wala statut.",
+  "aiGuideEngineerSessionsDesc": "Yê sessions tî mu na mo, propositions tî tära na planning tî mo.",
+  "aiGuideStudioSessionsDesc": "Yê sessions ôke tî studio tî mo, filtrer na statut, lâ wala artiste.",
+
+  "aiGuideAvailabilityTitle": "Ndö tî sara",
+  "aiGuideAvailabilityDesc": "Vérifier créneaux tî duti tî studio tî lâ nî.",
+  "aiGuideConversationsTitle": "Bîanî akë",
+  "aiGuideConversationsDesc": "Yê bîanî akë tî mbï sô na mbëtï tî lu pëpe.",
+
+  "aiGuideTimeOffTitle": "Ndö tî sara pëpe tî mo",
+  "aiGuideTimeOffDesc": "Yê ngâ tî sara pëpe tî mo (vacances, congés...).",
+
+  "aiGuidePendingTitle": "Demande akë tî tära",
+  "aiGuidePendingDesc": "Yê demande ôke tî réservation tî tära mbëtï tî mo.",
+  "aiGuideStatsTitle": "Stats",
+  "aiGuideStatsDesc": "Yê sêse tî sessions tî mo (a-hûnzi, a-tära, a-lä) na ngâ nî.",
+  "aiGuideRevenueTitle": "Rapport tî wâlë",
+  "aiGuideRevenueDesc": "Ga rapport tî wâlë ôke, na service, enjëniëre wala lâ.",
+  "aiGuideTeamTitle": "Equipe tî mo",
+  "aiGuideTeamDesc": "Yê enjëniëre akë tî equipe tî mo na ndö tî sara tî ala.",
+
+  "aiGuideBookingTitle": "Réserver session",
+  "aiGuideBookingDesc": "Sü IA tî ga demande tî réservation. Lo a-bata mo tî lêkë studio, service, lâ na créneau.",
+  "aiGuideFavoritesTitle": "Kämä â-nzönî",
+  "aiGuideFavoritesDesc": "Bâa wala ûse studio akë na â-nzönî tî mo, wala yê liste tî â-nzönî tî mo.",
+  "aiGuideSearchStudiosTitle": "Gï studio akë",
+  "aiGuideSearchStudiosDesc": "Gï studio akë na ïrï, ködörö wala lêgë tî service.",
+  "aiGuideSendMessageTitle": "Tö mbëtï",
+  "aiGuideSendMessageDesc": "Tö mbëtï na studio wala artiste na wala-bata.",
+
+  "aiGuideStartSessionTitle": "Kôzo session",
+  "aiGuideStartSessionDesc": "Pointer arrivée tî mo na kôzo session tî tene éé lâ sô.",
+  "aiGuideCompleteSessionTitle": "Hûnzi session",
+  "aiGuideCompleteSessionDesc": "Bâa session töngana a-hûnzi na bâa mbëtï.",
+  "aiGuideRespondProposalTitle": "Kîri mbëtï tî proposition",
+  "aiGuideRespondProposalDesc": "Sï wala lä sessions tî studio a-proposer na mo.",
+  "aiGuideManageTimeOffTitle": "Kämä ndö tî sara pëpe",
+  "aiGuideManageTimeOffDesc": "Bâa wala zïa ngâ tî sara pëpe (vacances, RDV...).",
+
+  "aiGuideAcceptDeclineTitle": "Sï/Lä demande akë",
+  "aiGuideAcceptDeclineDesc": "Kämä demande tî réservation na sï wala lä na wala-bata.",
+  "aiGuideRescheduleTitle": "Sêngö ngâ tî session",
+  "aiGuideRescheduleDesc": "Sêngö lâ wala ngâ tî session tî duti. Artiste a-sï notification.",
+  "aiGuideAssignEngineerTitle": "Mu enjëniëre",
+  "aiGuideAssignEngineerDesc": "Mu enjëniëre tî duti na session tî tene éé.",
+  "aiGuideCreateSessionTitle": "Ga session",
+  "aiGuideCreateSessionDesc": "Ga session na nzönî tî artiste, na demande pëpe.",
+  "aiGuideBlockSlotsTitle": "Kangbi créneaux",
+  "aiGuideBlockSlotsDesc": "Bâa ngâ tî sara pëpe tî studio a-kangbi.",
+  "aiGuideManageServicesTitle": "Kämä services",
+  "aiGuideManageServicesDesc": "Ga wala sêngö services tî mo (ïrï, tarif, ngâ, na ndâ).",
+
+  "aiGuideExample1ArtistTitle": "Sessions tî sï tî mbi",
+  "aiGuideExample1ArtistDesc": "\"Sessions tî mbi tî bîkua sô nî?\" - IA a-pandöö réservations ôke tî sï tî mo.",
+  "aiGuideExample2ArtistTitle": "Gï studio",
+  "aiGuideExample2ArtistDesc": "\"Mbi gï studio na Bangui tî mix\" - IA a-gï studio akë tî kängö.",
+  "aiGuideExample3ArtistTitle": "Réserver créneau",
+  "aiGuideExample3ArtistDesc": "\"Mbi sü réserver kêkerê na 14h na Studio X\" - IA a-vérifier ndö tî sara na bata mo.",
+
+  "aiGuideExample1EngineerTitle": "Sessions tî lâsô",
+  "aiGuideExample1EngineerDesc": "\"Nî mbi sü ga lâsô?\" - IA a-pandöö sessions tî mu na mo tî lâsô.",
+  "aiGuideExample2EngineerTitle": "Bâa congés",
+  "aiGuideExample2EngineerDesc": "\"Mbi sï pëpe kôzo 15 sô 20 janvier\" - IA a-ga ndö tî sara pëpe na tene éé tî mo.",
+  "aiGuideExample3EngineerTitle": "Kîri mbëtï tî proposition",
+  "aiGuideExample3EngineerDesc": "\"Sï session tî kêkerê\" - IA a-tene éé proposition tî tära.",
+
+  "aiGuideExample1StudioTitle": "Demande tî tära",
+  "aiGuideExample1StudioDesc": "\"Pandöö demande tî tära\" - IA a-pandöö réservations ôke tî traiter.",
+  "aiGuideExample2StudioTitle": "Rapport tî wâlë",
+  "aiGuideExample2StudioDesc": "\"Wâlë tî mbi tî nze sô nî?\" - IA a-ga rapport ôke.",
+  "aiGuideExample3StudioTitle": "Sêngö ngâ tî session",
+  "aiGuideExample3StudioDesc": "\"Sêngö session tî Lundi na Mardi 10h\" - IA a-sêngö na tene éé tî mo.",
+
+  "aiGuideSettingsLink": "Ndiä tî wala-bata IA",
+
+  "importFromGoogleCalendar": "Lêkë na Google Calendar",
+  "importAsSession": "Session",
+  "importAsUnavailability": "Dispo pëpe",
+  "skipImport": "Fä",
+  "selectArtistForSession": "Lêkë artiste",
+  "createExternalArtist": "Artiste tî ngâ",
+  "externalArtistName": "Ïrï tî artiste",
+  "externalArtistHint": "Ïrï tî artiste tî ngâ...",
+  "importSummary": "{sessions} sessions, {unavailabilities} dispo pëpe",
+  "@importSummary": {
+    "placeholders": {
+      "sessions": {
+        "type": "int"
+      },
+      "unavailabilities": {
+        "type": "int"
+      }
+    }
+  },
+  "importButton": "Lêkë",
+  "noEventsToImport": "Événement pëpe tî lêkë",
+  "eventsToReview": "{count} événements tî yê",
+  "@eventsToReview": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importSuccessMessage": "Lêkë nzönî! {sessions} sessions na {unavailabilities} ndö tî sara pëpe a-ga.",
+  "@importSuccessMessage": {
+    "placeholders": {
+      "sessions": {
+        "type": "int"
+      },
+      "unavailabilities": {
+        "type": "int"
+      }
+    }
+  },
+  "allDay": "Lâ ôke",
+  "selectAnArtist": "Lêkë artiste",
+  "orCreateExternal": "wala ga artiste tî ngâ",
+  "reviewAndImport": "Vérifier na lêkë",
+  "dateRange": "Ngâ tî lâ",
+  "selectDateRange": "Lêkë ngâ tî lâ",
+  "tryChangingDateRange": "Tene na sêngö ngâ tî lâ",
+  "changeDateRange": "Sêngö lâ akë",
+
+  "tipsSectionCalendar": "Calendrier",
+  "tipConnectCalendarTitle": "Bâa calendrier tî mo",
+  "tipConnectCalendarDesc": "Lier Google Calendar tî mo tî synchroniser événements. Gue na Sêse > Calendrier tî bâa kömändë Google tî mo.",
+  "tipImportEventsTitle": "Lêkë événements tî mo",
+  "tipImportEventsDesc": "Sära na \"Vérifier na lêkë\" tî sï événements Google Calendar tî mo na bâa ala töngana sessions wala ndö tî sara pëpe.",
+  "tipCategorizeEventsTitle": "Bâa événements na ndö",
+  "tipCategorizeEventsDesc": "Tî événement ôke, lêkë: Session (na artiste), Dispo pëpe (kangbi créneau), wala Fä. Sessions a-ga na statut \"A-tära\".",
+
+  "allNotificationsMarkedAsRead": "Notification ôke a-bâa lu",
+
+  "comingSoon": "A-sï mbï sô",
+
+  "onboardingWelcomeTitle": "Balao na UZME",
+  "onboardingWelcomeDesc": "Plateforme tî réservation tî studio tî mûzîki tî mo",
+
+  "onboardingStudioSessionsTitle": "Kämä réservations tî mo",
+  "onboardingStudioSessionsDesc": "Bâa sessions tî mo, kämä calendrier na tökua sara na ngâ tî kängö",
+  "onboardingStudioTeamTitle": "Ga equipe tî mo",
+  "onboardingStudioTeamDesc": "Inviter enjëniëre akë tî sön na kämä artiste akë tî studio tî mo",
+
+  "onboardingEngineerSessionsTitle": "Sessions tî mo na yê ôko",
+  "onboardingEngineerSessionsDesc": "Yê planning tî mo na tökua sessions tî ga sara",
+  "onboardingEngineerAvailabilityTitle": "Kämä ndö tî sara tî mo",
+  "onboardingEngineerAvailabilityDesc": "Bâa ngâ na congés tî mo tî kämä nzönî",
+
+  "onboardingArtistSearchTitle": "Gï studio nzönî",
+  "onboardingArtistSearchDesc": "Gï studio akë tî pëtï tî mo na comparer services tî ala",
+  "onboardingArtistBookingTitle": "Réserver mbï",
+  "onboardingArtistBookingDesc": "Sü sessions na clics na kämä réservations tî mo",
+
+  "onboardingAITitle": "Wala-bata IA tî mo",
+  "onboardingAIDesc": "Sü sêse tî mo na sï bata mbï",
+
+  "onboardingReadyTitle": "Mo prêt!",
+  "onboardingReadyDesc": "Kôzo sära na UZME fadë sô",
+
+  "onboardingSkip": "Fä",
+  "onboardingNext": "Sô a-sï",
+  "onboardingGetStarted": "Kôzo",
+
+  "onboardingLocationTitle": "Zîa localisation",
+  "onboardingLocationDescArtist": "Tî gï studio akë tî pëtï tî mo",
+  "onboardingLocationDescStudio": "Tî artiste akë lîngbi gï mo",
+  "onboardingEnableLocation": "Zîa",
+  "onboardingLater": "Mbï sô",
+  "onboardingLocationGranted": "Localisation a-zîa",
+
+  "onboardingNotificationTitle": "Duti na sêse",
+  "onboardingNotificationDesc": "Sï alertes tî sessions na mbëtï tî mo",
+  "onboardingEnableNotifications": "Zîa",
+  "onboardingNotificationGranted": "Notifications a-zîa",
+
+  "onboardingTermsTitle": "Ndiä tî sära na",
+  "onboardingTermsDesc": "Tî sära na UZME, mo lîngbi sï ndiä tî sära na na ndiä tî sêse tî mbi.",
+  "onboardingTermsAccept": "Mbi sï CGU na Ndiä tî sêse tî mbi",
+  "onboardingTermsLink": "Lu ndiä",
+  "onboardingPrivacyLink": "Ndiä tî sêse tî mbi",
+  "onboardingLetsGo": "Âla gue!",
+
+  "searchAddressHint": "Gï ködörö, adresse...",
+  "searchInThisZone": "Gï na ndö sô",
+  "filterStudios": "Filtrer studio akë",
+  "filterDescription": "Ga gï tî mo nzönî",
+  "filterActive": "A-duti",
+  "partnerStudiosOnly": "Studio partner ôko",
+  "partnerStudiosDescription": "Pandöö studio akë tî vérifier ôko",
+  "serviceTypes": "Lêgë tî services",
+  "clearFilters": "Zïa",
+  "applyFilters": "Sära na",
+
+  "filterSessions": "Filtrer sessions",
+  "filterSessionsDescription": "Ga planning tî mo nzönî",
+  "statusLabel": "Statut",
+  "studioLabel": "Studio",
+
+  "addToCalendar": "Bâa na calendrier",
+  "addedToCalendar": "Session a-bâa na calendrier",
+  "sessionCalendarTitle": "Session {type} - UZME",
+  "@sessionCalendarTitle": {
+    "placeholders": {
+      "type": {"type": "Object"}
+    }
+  },
+
+  "studioTypePro": "Studio Pro",
+  "studioTypeIndependent": "Indépendant",
+  "studioTypeAmateur": "Home Studio",
+  "studioTypeLabel": "Lêgë tî studio",
+
+  "connectedDevices": "Appareils tî bâa",
+  "thisDevice": "Appareil sô",
+  "disconnectDevice": "Ûse",
+  "disconnectAllOthers": "Ûse appareils ôke ôko",
+  "disconnectDeviceTitle": "Ûse appareil",
+  "disconnectDeviceConfirm": "Mo sü ûse appareil sô?",
+  "disconnectAllConfirm": "Mo sü ûse appareils ôke ôko?",
+  "deviceDisconnected": "Appareil a-ûse",
+  "allDevicesDisconnected": "Appareils ôke ôko a-ûse",
+  "activeNow": "A-duti fadë sô",
+  "activeAgo": "A-duti kôzo {time}",
+  "@activeAgo": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "noConnectedDevices": "Appareil pëpe a-bâa",
+  "securitySection": "Sêse tî sïönî",
+  "manageDevices": "Kämä appareils",
+  "sessionExpired": "Session tî mo a-hûnzi",
+  "disconnectedRemotely": "Mo a-ûse na appareil ôko",
+  "oauthAccountResetError": "Kömändë sô a-sära na {provider}. Duti na {provider}.",
+  "@oauthAccountResetError": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "passwordResetSent": "Email tî sêngö tëngbi-da a-tö na {email}",
+  "@passwordResetSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+
+  "permissionContinue": "Sü",
+  "permissionNotNow": "Pëpe fadë sô",
+  "permissionOpenSettings": "Zîa sêse",
+  "permissionDeniedTitle": "Permission a-lä",
+  "permissionDeniedDesc": "Mo lä permission sô. Tî zîa lo, gue na sêse tî téléphone tî mo.",
+
+  "permissionCameraTitle": "Duti na caméra",
+  "permissionCameraDesc": "Tî lêkë photos tî studio tî mo, sessions wala sêngö photo tî mo.",
+  "permissionMicrophoneTitle": "Duti na micro",
+  "permissionMicrophoneDesc": "Tî tö mbëtï tî tënë na bîanî tî mo.",
+  "permissionLocationTitle": "Duti na localisation",
+  "permissionLocationDesc": "Tî gï studio akë tî mûzîki tî pëtï tî mo.",
+  "permissionPhotosTitle": "Duti na photos tî mo",
+  "permissionPhotosDesc": "Tî lêkë images na galerie na bâa na profîli wala mbëtï tî mo.",
+  "permissionNotificationTitle": "Zîa notifications",
+  "permissionNotificationDesc": "Tî sï sêse tî réservations, mbëtï na sêse tî finî.",
+
+  "proProfileTitle": "Profîli Pro",
+  "proProfileSetup": "Duti Pro",
+  "proProfileEdit": "Sêngö profîli pro tî mbi",
+  "proProfileSetupDesc": "Proposer services tî mo na artiste akë na studio akë na UZME. Hûnzi profîli tî mo tî pandöö na marketplace.",
+  "proProfileActivate": "Zîa profîli pro tî mbi",
+  "proProfileActivateDesc": "Proposer services tî mo na UZME",
+  "proProfileManage": "Kämä profîli pro tî mo",
+  "proProfileActive": "A-duti",
+  "proProfileInactive": "A-duti pëpe",
+  "proProfileSelectType": "Lêkë lêgë tî service ôko kôzo",
+  "proProfileTypeLabel": "Mo proposer nî?",
+  "proProfileTypeHint": "Lêkë rôle ôko wala mingi",
+  "proProfileDisplayName": "Ïrï tî pro",
+  "proProfileBio": "Na ndâ tî services tî mo",
+  "proProfileRate": "Tarif na ngâ",
+  "proProfileCity": "Ködörö",
+  "proProfileWebsite": "Site web",
+  "proProfilePhone": "Téléphone",
+  "proProfileSpecialties": "Spécialités",
+  "proProfileSpecialtiesHint": "Ex: Mix voix, Mastering...",
+  "proProfileGenres": "Lêgë tî mûzîki",
+  "proProfileGenresHint": "Ex: Hip-Hop, Pop, Jazz...",
+  "proProfileInstruments": "Instruments",
+  "proProfileInstrumentsHint": "Ex: Guitare, Piano...",
+  "proProfileDaws": "DAWs",
+  "proProfileDawsHint": "Ex: Pro Tools, Logic Pro...",
+  "proProfileRemote": "Services na ngâ",
+  "proProfileRemoteDesc": "Mo sï missions na remote",
+  "proProfileAvailable": "A-duti",
+  "proProfileAvailableDesc": "Profîli tî mo a-pandöö na marketplace",
+  "requiredField": "Ndö sô a-lîngbi",
+
+  "proDiscovery": "Pros",
+  "proDiscoveryTitle": "Gï pro",
+  "proDiscoverySubtitle": "Enjëniëre, producteurs na mingi",
+  "seeAll": "Yê ôke",
+  "proDiscoveryDesc": "Gï pro akë tî duti",
+  "proDiscoveryEmpty": "Pro pëpe a-gï",
+  "proDiscoveryEmptyDesc": "Tene na sêngö filtres wala gï tî mo",
+  "proSearchHint": "Ïrï, spécialité, lêgë...",
+  "proFilterTitle": "Filtrer pro akë",
+  "proFilterDesc": "Ga gï tî mo nzönî",
+  "proFilterRemoteOnly": "Na ngâ ôko",
+  "proFilterRemoteDesc": "Pro akë tî sï missions na remote",
+  "proFilterCity": "Ködörö",
+  "proFilterCityHint": "Ex: Bangui, Bimbo...",
+  "proDetailContact": "Bîanî",
+  "proDetailRate": "Tarif",
+  "proDetailSpecialties": "Spécialités",
+  "proDetailGenres": "Lêgë",
+  "proDetailInstruments": "Instruments",
+  "proDetailDaws": "DAWs",
+  "proDetailRemote": "A-sï remote",
+  "proDetailOnQuote": "Na devis",
+  "seeFullProfile": "Yê profîli ôke",
+  "proResultCount": "{count} pro akë a-gï",
+  "@proResultCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "proBookingTitle": "Réserver {proName}",
+  "@proBookingTitle": {
+    "placeholders": {
+      "proName": {"type": "String"}
+    }
+  },
+  "proBookingDesc": "Lêkë lâ, créneau na ngâ tî mo sü.",
+  "proBookingDate": "Lâ",
+  "proBookingTime": "Ngâ tî kôzo",
+  "proBookingDuration": "Ngâ",
+  "proBookingNotes": "Tene na ndâ tî projet tî mo",
+  "proBookingNotesHint": "Ex: Mix tî EP 5 titres, style R&B...",
+  "proBookingRemote": "Session na ngâ",
+  "proBookingSummary": "Ôke na ndö ôko",
+  "proBookingSend": "Tö demande",
+  "proBookingSent": "Demande a-tö!",
+  "proBookingSelectDate": "Lêkë lâ",
+  "proBookingSelectTime": "Lêkë créneau",
+
+  "proBookingsReceived": "Demande akë a-sï",
+  "proBookingsReceivedDesc": "Kämä demande tî booking tî mo",
+  "proBookingsEmpty": "Demande pëpe fadë sô",
+  "proBookingsEmptyDesc": "Demande tî booking tî mo a-pandöö ôko",
+  "proBookingFrom": "Demande tî {name}",
+  "@proBookingFrom": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "proBookingAccept": "Sï",
+  "proBookingDecline": "Lä",
+  "proBookingAccepted": "Demande a-sï",
+  "proBookingDeclined": "Demande a-lä",
+  "proBookingPending": "A-tära",
+  "proBookingConfirmed": "A-tene éé",
+  "proBookingStatusCancelled": "A-lä",
+
+  "myNetwork": "Réseau tî mbi",
+  "networkEmpty": "Zo pëpe",
+  "networkEmptyDesc": "Bâa âzo tî sara tî mo tî ga réseau tî mo",
+  "addContact": "Bâa zo",
+  "networkProducer": "Producteurs",
+  "networkOther": "Ôko",
+  "networkNote": "Mbëtï",
+  "networkNoteHint": "Mbëtï tî mbi (sô mo sü)",
+  "networkInvite": "Inviter",
+  "networkInviteEmailSubject": "Duti na mbi na UZME!",
+  "networkInviteEmailBody": "Balao! Mbi sära na UZME tî bîanî na studio akë na pro akë tî mûzîki. Duti na mbi: https://uzme.app",
+  "networkManualAdd": "Na nzönî",
+  "networkAddManually": "Bâa zo sô na nzönî",
+  "networkContactName": "Ïrï tî zo",
+
+  "permissionContactsTitle": "Duti na âzo tî mo",
+  "permissionContactsDesc": "Tî lêkë âzo tî mo na gï âzo tî duti fadë na UZME.",
+  "importContacts": "Lêkë na téléphone",
+  "importContactsDesc": "Gï âzo tî mo na UZME fadë",
+  "importCount": "Lêkë ({count})",
+  "@importCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "contactsOnPlatform": "{count} âzo tî mo a-duti na UZME!",
+  "@contactsOnPlatform": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "contactAlreadyOnUzme": "A-duti na UZME fadë",
+  "aiAssistantTitle": "Wala-bata UZME",
+  "alwaysAvailable": "Na ndo oko kûê",
+  "aiAssistantLabel": "Wala-bata IA",
+  "askYourQuestion": "Tî mo...",
+  "aiErrorMessage": "Pardon, mo kua yeke da âpe. Nzönî mo gbâ sô lêgë! 🙏",
+
+  "subscriptionRestored": "Abonnement a-kîri nzönî",
+  "subscriptionActivated": "Abonnement a-zîa nzönî",
+  "chooseSubscription": "Lêkë abonnement",
+  "restorePurchases": "Kîri achats",
+  "manageSubscription": "Kämä abonnement tî mbi",
+  "noSubscriptionAvailable": "Abonnement pëpe a-duti",
+  "monthly": "Na nze",
+  "yearly": "Na ngû",
+  "twoMonthsFree": "Nze 2 cadeau",
+  "userNotConnected": "Zo a-duti pëpe",
+  "downgradeToFreeTitle": "Gue na plan cadeau?",
+  "cancelViaAppStore": "Tî lä abonnement tî mo, mo lîngbi ga lo na sêse tî App Store.",
+  "downgradeWarning": "Mo a-bë fonctions premium. Sara sô a-kôzo na hûnzi tî ngâ tî mo fadë.",
+  "openAppStore": "Zîa App Store",
+  "subscriptionCancelledOn": "Abonnement a-lä lâ {date}",
+  "@subscriptionCancelledOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "subscriptionCancelledEndPeriod": "Abonnement a-lä na hûnzi tî ngâ",
+  "cancellationError": "Pörö na lä",
+  "productNotAvailable": "Produit a-duti pëpe",
+  "purchaseError": "Pörö na achat: {error}",
+  "@purchaseError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "redirectingToPayment": "Gue na paiement...",
+  "paymentCreationError": "Pörö na ga paiement",
+  "restoreCompleted": "Kîri a-hûnzi",
+  "restoreError": "Pörö na kîri",
+  "cannotOpenPortal": "Lîngbi pëpe tî zîa portail",
+  "recommended": "A-tene éé",
+  "currentPlan": "Tî fadë",
+  "free": "Cadeau",
+  "perYear": "/ngû",
+  "perMonth": "/nze",
+  "pricePerMonth": "{price}€/nze",
+  "@pricePerMonth": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "currentPlanButton": "Plan tî fadë",
+  "switchToFree": "Gue na cadeau",
+  "choosePlan": "Lêkë {name}",
+  "@choosePlan": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "unlimitedSessions": "Sessions na ndïä pëpe",
+  "sessionsPerMonth": "{count} sessions/nze",
+  "@sessionsPerMonth": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unlimitedRooms": "Salles na ndïä pëpe",
+  "roomsCount": "{count} salles",
+  "@roomsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unlimitedServices": "Services na ndïä pëpe",
+  "servicesCount": "{count} services",
+  "@servicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unlimitedAI": "Wala-bata IA na ndïä pëpe",
+  "aiMessagesPerMonth": "{count} mbëtï IA/nze",
+  "@aiMessagesPerMonth": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "advancedAI": "IA avancée (rapports, actions)",
+  "discoveryVisibility": "Pandöö Discovery",
+  "verifiedBadge": "Badge tî vérifier",
+  "apiAccess": "Duti na API",
+  "prioritySupport": "Support tî kôzo",
+
+  "errorWithMessage": "Pörö: {message}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "aiAssistant": "Wala-bata IA",
+  "loadingError": "Pörö na charger",
+  "aiAssistantDescription": "Kîri mbëtï na sêse tî lâ kûê na bâa ngâ tî mo",
+  "enableAIAssistant": "Zîa wala-bata IA",
+  "aiHelpsRespond": "IA a-bata tî kîri mbëtï",
+  "aiDisabled": "IA a-duti pëpe",
+  "operatingMode": "Lêgë tî sara",
+  "toneProfessional": "Professionnel",
+  "toneProfessionalDesc": "Formel na nzönî",
+  "toneFriendly": "Nzönî",
+  "toneFriendlyDesc": "Na bêlêmbê na sïönî",
+  "toneCasual": "Relax",
+  "toneCasualDesc": "Relax na respect",
+  "responseTone": "Lêgë tî mbëtï",
+  "advancedOptions": "Options avancées",
+  "priceDiscussion": "Tënë tî tarif",
+  "aiCanMentionDiscounts": "IA lîngbi tene réductions",
+  "autoReplyDelay": "Ngâ kôzo kîri mbëtï",
+  "minutesCount": "{minutes} minutes",
+  "@minutesCount": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "customFAQs": "FAQs tî mbi",
+  "customFAQsEmpty": "Bâa sêse tî lâ kûê tî IA lîngbi kîri mbëtï na nzönî",
+  "addFAQ": "Bâa FAQ",
+  "question": "Sêse",
+  "questionHint": "Ex: Ngâ tî sû tî âla nî?",
+  "answer": "Mbëtï",
+  "answerHint": "Ex: Âla sû kôzo lundi sô samedi...",
+
+  "welcomeBack": "Balao na mo ngâ!",
+  "useAnotherAccount": "Sâra na kua-compte ôko",
+  "rememberMe": "Bâa mbi"
+}

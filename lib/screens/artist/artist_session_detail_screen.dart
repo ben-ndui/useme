@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
@@ -64,7 +65,7 @@ class _ArtistSessionDetailContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = intlLocale(context);
     final dateFormat = DateFormat('EEEE d MMMM yyyy', locale);
     final timeFormat = DateFormat('HH:mm', locale);
 

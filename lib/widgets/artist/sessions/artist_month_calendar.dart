@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/session.dart';
 
 /// Month calendar widget for artist sessions
@@ -24,7 +25,7 @@ class ArtistMonthCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = intlLocale(context);
     final monthFormat = DateFormat('MMMM yyyy', locale);
 
     return Column(

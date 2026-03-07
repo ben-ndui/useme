@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/session/session_date_badge.dart';
@@ -26,7 +27,7 @@ class _ModernSessionCardState extends State<ModernSessionCard> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = intlLocale(context);
     final timeFormat = DateFormat('HH:mm', locale);
     final dateFormat = DateFormat('EEE d MMM', locale);
 

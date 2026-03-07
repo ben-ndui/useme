@@ -7,6 +7,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
@@ -160,7 +161,7 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
 
   Widget _buildWeekCalendar(ColorScheme colorScheme) {
     final days = List.generate(7, (i) => _weekStart.add(Duration(days: i)));
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = intlLocale(context);
     final monthFormat = DateFormat('MMMM yyyy', locale);
 
     return Padding(
@@ -232,7 +233,7 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
   }
 
   Widget _buildDayCell(ColorScheme colorScheme, DateTime day) {
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = intlLocale(context);
     final dayFormat = DateFormat('E', locale);
     final isSelected = _isSameDay(day, _selectedDate);
     final isToday = _isSameDay(day, DateTime.now());
@@ -266,7 +267,7 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
   }
 
   Widget _buildSessionsList(ColorScheme colorScheme, AppLocalizations l10n) {
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = intlLocale(context);
     final dateFormat = DateFormat('EEEE d MMMM', locale);
 
     return Container(

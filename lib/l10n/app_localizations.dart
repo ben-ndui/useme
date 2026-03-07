@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
 import 'app_localizations_fr.dart';
+import 'app_localizations_sg.dart';
 
 // ignore_for_file: type=lint
 
@@ -96,6 +97,7 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('fr'),
+    Locale('sg'),
   ];
 
   /// No description provided for @appName.
@@ -289,6 +291,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'English'**
   String get languageEnglish;
+
+  /// No description provided for @languageSango.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sängö'**
+  String get languageSango;
 
   /// No description provided for @languageSystem.
   ///
@@ -6169,6 +6177,606 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Annulée'**
   String get proBookingStatusCancelled;
+
+  /// No description provided for @myNetwork.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mon réseau'**
+  String get myNetwork;
+
+  /// No description provided for @networkEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun contact'**
+  String get networkEmpty;
+
+  /// No description provided for @networkEmptyDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajoutez vos contacts professionnels pour construire votre réseau'**
+  String get networkEmptyDesc;
+
+  /// No description provided for @addContact.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un contact'**
+  String get addContact;
+
+  /// No description provided for @networkProducer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Producteurs'**
+  String get networkProducer;
+
+  /// No description provided for @networkOther.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autre'**
+  String get networkOther;
+
+  /// No description provided for @networkNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Note'**
+  String get networkNote;
+
+  /// No description provided for @networkNoteHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Note personnelle (optionnel)'**
+  String get networkNoteHint;
+
+  /// No description provided for @networkInvite.
+  ///
+  /// In fr, this message translates to:
+  /// **'Inviter'**
+  String get networkInvite;
+
+  /// No description provided for @networkInviteEmailSubject.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rejoins-moi sur UZME !'**
+  String get networkInviteEmailSubject;
+
+  /// No description provided for @networkInviteEmailBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Salut ! J\'utilise UZME pour me connecter avec des studios et des pros de la musique. Rejoins-moi : https://uzme.app'**
+  String get networkInviteEmailBody;
+
+  /// No description provided for @networkManualAdd.
+  ///
+  /// In fr, this message translates to:
+  /// **'Manuel'**
+  String get networkManualAdd;
+
+  /// No description provided for @networkAddManually.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter ce contact manuellement'**
+  String get networkAddManually;
+
+  /// No description provided for @networkContactName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom du contact'**
+  String get networkContactName;
+
+  /// No description provided for @permissionContactsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accéder à vos contacts'**
+  String get permissionContactsTitle;
+
+  /// No description provided for @permissionContactsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour importer vos contacts et trouver ceux qui sont déjà sur UZME.'**
+  String get permissionContactsDesc;
+
+  /// No description provided for @importContacts.
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer depuis le téléphone'**
+  String get importContacts;
+
+  /// No description provided for @importContactsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retrouvez vos contacts déjà sur UZME'**
+  String get importContactsDesc;
+
+  /// No description provided for @importCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer ({count})'**
+  String importCount(int count);
+
+  /// No description provided for @contactsOnPlatform.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} de vos contacts sont sur UZME !'**
+  String contactsOnPlatform(int count);
+
+  /// No description provided for @contactAlreadyOnUzme.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déjà sur UZME'**
+  String get contactAlreadyOnUzme;
+
+  /// No description provided for @aiAssistantTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Assistant UZME'**
+  String get aiAssistantTitle;
+
+  /// No description provided for @alwaysAvailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Toujours disponible'**
+  String get alwaysAvailable;
+
+  /// No description provided for @aiAssistantLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Assistant IA'**
+  String get aiAssistantLabel;
+
+  /// No description provided for @askYourQuestion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pose ta question...'**
+  String get askYourQuestion;
+
+  /// No description provided for @aiErrorMessage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Désolé, je n\'ai pas pu traiter ta demande. Réessaie dans quelques instants ! 🙏'**
+  String get aiErrorMessage;
+
+  /// No description provided for @subscriptionRestored.
+  ///
+  /// In fr, this message translates to:
+  /// **'Abonnement restauré avec succès'**
+  String get subscriptionRestored;
+
+  /// No description provided for @subscriptionActivated.
+  ///
+  /// In fr, this message translates to:
+  /// **'Abonnement activé avec succès'**
+  String get subscriptionActivated;
+
+  /// No description provided for @chooseSubscription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisir un abonnement'**
+  String get chooseSubscription;
+
+  /// No description provided for @restorePurchases.
+  ///
+  /// In fr, this message translates to:
+  /// **'Restaurer les achats'**
+  String get restorePurchases;
+
+  /// No description provided for @manageSubscription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérer mon abonnement'**
+  String get manageSubscription;
+
+  /// No description provided for @noSubscriptionAvailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun abonnement disponible'**
+  String get noSubscriptionAvailable;
+
+  /// No description provided for @monthly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mensuel'**
+  String get monthly;
+
+  /// No description provided for @yearly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuel'**
+  String get yearly;
+
+  /// No description provided for @twoMonthsFree.
+  ///
+  /// In fr, this message translates to:
+  /// **'2 mois offerts'**
+  String get twoMonthsFree;
+
+  /// No description provided for @userNotConnected.
+  ///
+  /// In fr, this message translates to:
+  /// **'Utilisateur non connecté'**
+  String get userNotConnected;
+
+  /// No description provided for @downgradeToFreeTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Passer au plan gratuit ?'**
+  String get downgradeToFreeTitle;
+
+  /// No description provided for @cancelViaAppStore.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pour annuler votre abonnement, vous devez le faire depuis les paramètres de l\'App Store.'**
+  String get cancelViaAppStore;
+
+  /// No description provided for @downgradeWarning.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous perdrez les fonctionnalités premium. Cette action prendra effet à la fin de votre période actuelle.'**
+  String get downgradeWarning;
+
+  /// No description provided for @openAppStore.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvrir App Store'**
+  String get openAppStore;
+
+  /// No description provided for @subscriptionCancelledOn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Abonnement annulé le {date}'**
+  String subscriptionCancelledOn(String date);
+
+  /// No description provided for @subscriptionCancelledEndPeriod.
+  ///
+  /// In fr, this message translates to:
+  /// **'Abonnement annulé à la fin de la période'**
+  String get subscriptionCancelledEndPeriod;
+
+  /// No description provided for @cancellationError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur lors de l\'annulation'**
+  String get cancellationError;
+
+  /// No description provided for @productNotAvailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Produit non disponible'**
+  String get productNotAvailable;
+
+  /// No description provided for @purchaseError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur lors de l\'achat: {error}'**
+  String purchaseError(String error);
+
+  /// No description provided for @redirectingToPayment.
+  ///
+  /// In fr, this message translates to:
+  /// **'Redirection vers le paiement...'**
+  String get redirectingToPayment;
+
+  /// No description provided for @paymentCreationError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur lors de la création du paiement'**
+  String get paymentCreationError;
+
+  /// No description provided for @restoreCompleted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Restauration terminée'**
+  String get restoreCompleted;
+
+  /// No description provided for @restoreError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur lors de la restauration'**
+  String get restoreError;
+
+  /// No description provided for @cannotOpenPortal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Impossible d\'ouvrir le portail'**
+  String get cannotOpenPortal;
+
+  /// No description provided for @recommended.
+  ///
+  /// In fr, this message translates to:
+  /// **'Recommandé'**
+  String get recommended;
+
+  /// No description provided for @currentPlan.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actuel'**
+  String get currentPlan;
+
+  /// No description provided for @free.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gratuit'**
+  String get free;
+
+  /// No description provided for @perYear.
+  ///
+  /// In fr, this message translates to:
+  /// **'/an'**
+  String get perYear;
+
+  /// No description provided for @perMonth.
+  ///
+  /// In fr, this message translates to:
+  /// **'/mois'**
+  String get perMonth;
+
+  /// No description provided for @pricePerMonth.
+  ///
+  /// In fr, this message translates to:
+  /// **'{price}€/mois'**
+  String pricePerMonth(String price);
+
+  /// No description provided for @currentPlanButton.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plan actuel'**
+  String get currentPlanButton;
+
+  /// No description provided for @switchToFree.
+  ///
+  /// In fr, this message translates to:
+  /// **'Passer au gratuit'**
+  String get switchToFree;
+
+  /// No description provided for @choosePlan.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisir {name}'**
+  String choosePlan(String name);
+
+  /// No description provided for @unlimitedSessions.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sessions illimitées'**
+  String get unlimitedSessions;
+
+  /// No description provided for @sessionsPerMonth.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} sessions/mois'**
+  String sessionsPerMonth(int count);
+
+  /// No description provided for @unlimitedRooms.
+  ///
+  /// In fr, this message translates to:
+  /// **'Salles illimitées'**
+  String get unlimitedRooms;
+
+  /// No description provided for @roomsCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} salles'**
+  String roomsCount(int count);
+
+  /// No description provided for @unlimitedServices.
+  ///
+  /// In fr, this message translates to:
+  /// **'Services illimités'**
+  String get unlimitedServices;
+
+  /// No description provided for @servicesCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} services'**
+  String servicesCount(int count);
+
+  /// No description provided for @unlimitedAI.
+  ///
+  /// In fr, this message translates to:
+  /// **'Assistant IA illimité'**
+  String get unlimitedAI;
+
+  /// No description provided for @aiMessagesPerMonth.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} messages IA/mois'**
+  String aiMessagesPerMonth(int count);
+
+  /// No description provided for @advancedAI.
+  ///
+  /// In fr, this message translates to:
+  /// **'IA avancée (rapports, actions)'**
+  String get advancedAI;
+
+  /// No description provided for @discoveryVisibility.
+  ///
+  /// In fr, this message translates to:
+  /// **'Visibilité Discovery'**
+  String get discoveryVisibility;
+
+  /// No description provided for @verifiedBadge.
+  ///
+  /// In fr, this message translates to:
+  /// **'Badge vérifié'**
+  String get verifiedBadge;
+
+  /// No description provided for @apiAccess.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accès API'**
+  String get apiAccess;
+
+  /// No description provided for @prioritySupport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Support prioritaire'**
+  String get prioritySupport;
+
+  /// No description provided for @errorWithMessage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur: {message}'**
+  String errorWithMessage(String message);
+
+  /// No description provided for @aiAssistantDescription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Répondez automatiquement aux questions fréquentes et gagnez du temps'**
+  String get aiAssistantDescription;
+
+  /// No description provided for @enableAIAssistant.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer l\'assistant IA'**
+  String get enableAIAssistant;
+
+  /// No description provided for @aiHelpsRespond.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'IA aide à répondre aux messages'**
+  String get aiHelpsRespond;
+
+  /// No description provided for @aiDisabled.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'IA est désactivée'**
+  String get aiDisabled;
+
+  /// No description provided for @operatingMode.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mode de fonctionnement'**
+  String get operatingMode;
+
+  /// No description provided for @toneProfessional.
+  ///
+  /// In fr, this message translates to:
+  /// **'Professionnel'**
+  String get toneProfessional;
+
+  /// No description provided for @toneProfessionalDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Formel et courtois'**
+  String get toneProfessionalDesc;
+
+  /// No description provided for @toneFriendly.
+  ///
+  /// In fr, this message translates to:
+  /// **'Amical'**
+  String get toneFriendly;
+
+  /// No description provided for @toneFriendlyDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Chaleureux et accueillant'**
+  String get toneFriendlyDesc;
+
+  /// No description provided for @toneCasual.
+  ///
+  /// In fr, this message translates to:
+  /// **'Décontracté'**
+  String get toneCasual;
+
+  /// No description provided for @toneCasualDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Relax mais respectueux'**
+  String get toneCasualDesc;
+
+  /// No description provided for @responseTone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ton des réponses'**
+  String get responseTone;
+
+  /// No description provided for @advancedOptions.
+  ///
+  /// In fr, this message translates to:
+  /// **'Options avancées'**
+  String get advancedOptions;
+
+  /// No description provided for @priceDiscussion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Discussion de prix'**
+  String get priceDiscussion;
+
+  /// No description provided for @aiCanMentionDiscounts.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'IA peut mentionner les réductions possibles'**
+  String get aiCanMentionDiscounts;
+
+  /// No description provided for @autoReplyDelay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Délai avant réponse auto'**
+  String get autoReplyDelay;
+
+  /// No description provided for @minutesCount.
+  ///
+  /// In fr, this message translates to:
+  /// **'{minutes} minutes'**
+  String minutesCount(int minutes);
+
+  /// No description provided for @customFAQs.
+  ///
+  /// In fr, this message translates to:
+  /// **'FAQs personnalisées'**
+  String get customFAQs;
+
+  /// No description provided for @customFAQsEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajoutez des questions fréquentes pour que l\'IA puisse y répondre automatiquement'**
+  String get customFAQsEmpty;
+
+  /// No description provided for @addFAQ.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une FAQ'**
+  String get addFAQ;
+
+  /// No description provided for @question.
+  ///
+  /// In fr, this message translates to:
+  /// **'Question'**
+  String get question;
+
+  /// No description provided for @questionHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex: Quels sont vos horaires ?'**
+  String get questionHint;
+
+  /// No description provided for @answer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réponse'**
+  String get answer;
+
+  /// No description provided for @answerHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex: Nous sommes ouverts du lundi au samedi...'**
+  String get answerHint;
+
+  /// No description provided for @welcomeBack.
+  ///
+  /// In fr, this message translates to:
+  /// **'Content de te revoir !'**
+  String get welcomeBack;
+
+  /// No description provided for @useAnotherAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Utiliser un autre compte'**
+  String get useAnotherAccount;
+
+  /// No description provided for @rememberMe.
+  ///
+  /// In fr, this message translates to:
+  /// **'Se souvenir de moi'**
+  String get rememberMe;
 }
 
 class _AppLocalizationsDelegate
@@ -6182,7 +6790,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'fr'].contains(locale.languageCode);
+      <String>['en', 'fr', 'sg'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -6195,6 +6803,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEn();
     case 'fr':
       return AppLocalizationsFr();
+    case 'sg':
+      return AppLocalizationsSg();
   }
 
   throw FlutterError(

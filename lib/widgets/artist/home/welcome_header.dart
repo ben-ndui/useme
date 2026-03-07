@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/notification_bell.dart';
@@ -40,7 +41,7 @@ class _WelcomeHeaderState extends State<WelcomeHeader>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = intlLocale(context);
     final today = DateFormat('EEEE d MMMM', locale).format(DateTime.now());
 
     return BlocBuilder<AuthBloc, AuthState>(

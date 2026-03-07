@@ -32,6 +32,8 @@ class SettingsLanguageTile extends StatelessWidget {
         return l10n.languageFrench;
       case 'en':
         return l10n.languageEnglish;
+      case 'sg':
+        return l10n.languageSango;
       default:
         return l10n.languageSystem;
     }
@@ -71,6 +73,13 @@ class SettingsLanguageTile extends StatelessWidget {
               subtitle: 'Anglais',
               locale: const Locale('en'),
               isSelected: currentLocale?.languageCode == 'en',
+            ),
+            _LanguageOption(
+              icon: FontAwesomeIcons.language,
+              title: l10n.languageSango,
+              subtitle: 'Centrafrique',
+              locale: const Locale('sg'),
+              isSelected: currentLocale?.languageCode == 'sg',
             ),
             const SizedBox(height: 16),
           ],
