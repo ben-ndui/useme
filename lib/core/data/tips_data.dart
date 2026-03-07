@@ -20,9 +20,20 @@ class TipsData {
           icon: FontAwesomeIcons.mapLocationDot,
         ),
         TipItem(
+          title: l10n.tipSearchCityTitle,
+          description: l10n.tipSearchCityDesc,
+          icon: FontAwesomeIcons.magnifyingGlassLocation,
+        ),
+        TipItem(
           title: l10n.tipCompleteProfileTitle,
           description: l10n.tipCompleteProfileDesc,
           icon: FontAwesomeIcons.userPen,
+        ),
+        TipItem(
+          title: l10n.tipQuickLoginTitle,
+          description: l10n.tipQuickLoginDesc,
+          icon: FontAwesomeIcons.rightToBracket,
+          iconColor: Colors.teal,
         ),
       ],
     ),
@@ -73,6 +84,24 @@ class TipsData {
       ],
     ),
     TipSection(
+      title: l10n.tipsSectionNetwork,
+      icon: FontAwesomeIcons.userGroup,
+      color: Colors.teal,
+      tips: [
+        TipItem(
+          title: l10n.tipNetworkTitle,
+          description: l10n.tipNetworkDesc,
+          icon: FontAwesomeIcons.addressBook,
+        ),
+        TipItem(
+          title: l10n.tipNetworkInviteTitle,
+          description: l10n.tipNetworkInviteDesc,
+          icon: FontAwesomeIcons.shareNodes,
+          iconColor: Colors.blue,
+        ),
+      ],
+    ),
+    TipSection(
       title: l10n.tipsSectionAIAssistant,
       icon: FontAwesomeIcons.robot,
       color: Colors.deepPurple,
@@ -115,6 +144,12 @@ class TipsData {
           title: l10n.tipAddUnavailabilityTitle,
           description: l10n.tipAddUnavailabilityDesc,
           icon: FontAwesomeIcons.calendarXmark,
+        ),
+        TipItem(
+          title: l10n.tipQuickLoginTitle,
+          description: l10n.tipQuickLoginDesc,
+          icon: FontAwesomeIcons.rightToBracket,
+          iconColor: Colors.teal,
         ),
       ],
     ),
@@ -206,6 +241,12 @@ class TipsData {
           description: l10n.tipAddServicesDesc,
           icon: FontAwesomeIcons.tags,
         ),
+        TipItem(
+          title: l10n.tipQuickLoginTitle,
+          description: l10n.tipQuickLoginDesc,
+          icon: FontAwesomeIcons.rightToBracket,
+          iconColor: Colors.teal,
+        ),
       ],
     ),
     TipSection(
@@ -294,6 +335,24 @@ class TipsData {
           description: l10n.tipEncourageReviewsDesc,
           icon: FontAwesomeIcons.star,
           iconColor: Colors.amber,
+        ),
+      ],
+    ),
+    TipSection(
+      title: l10n.tipsSectionNetwork,
+      icon: FontAwesomeIcons.userGroup,
+      color: Colors.teal,
+      tips: [
+        TipItem(
+          title: l10n.tipNetworkTitle,
+          description: l10n.tipNetworkDesc,
+          icon: FontAwesomeIcons.addressBook,
+        ),
+        TipItem(
+          title: l10n.tipNetworkInviteTitle,
+          description: l10n.tipNetworkInviteDesc,
+          icon: FontAwesomeIcons.shareNodes,
+          iconColor: Colors.blue,
         ),
       ],
     ),

@@ -1392,5 +1392,15 @@
 
   "welcomeBack": "Welcome back!",
   "useAnotherAccount": "Use another account",
-  "rememberMe": "Remember me"
+  "rememberMe": "Remember me",
+
+  "tipQuickLoginTitle": "Quick login",
+  "tipQuickLoginDesc": "Check 'Remember me' when signing in to quickly access your account next time you open the app.",
+  "tipSearchCityTitle": "Search by city",
+  "tipSearchCityDesc": "Use the search icon on the map to find studios in a specific city or address. You can also use the search-in-zone button when the map moves.",
+  "tipsSectionNetwork": "Network & Contacts",
+  "tipNetworkTitle": "Manage your network",
+  "tipNetworkDesc": "Add contacts, import from your phone and build your music network. Find your favourite artists, engineers and studios in one place.",
+  "tipNetworkInviteTitle": "Invite your contacts",
+  "tipNetworkInviteDesc": "Share the app with your music collaborators to find them on UZME and make future bookings easier."
 }

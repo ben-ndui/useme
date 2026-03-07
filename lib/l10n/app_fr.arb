@@ -1584,5 +1584,15 @@
 
   "welcomeBack": "Content de te revoir !",
   "useAnotherAccount": "Utiliser un autre compte",
-  "rememberMe": "Se souvenir de moi"
+  "rememberMe": "Se souvenir de moi",
+
+  "tipQuickLoginTitle": "Connexion rapide",
+  "tipQuickLoginDesc": "Cochez 'Se souvenir de moi' lors de votre connexion pour retrouver votre compte en un clic à la prochaine ouverture de l'app.",
+  "tipSearchCityTitle": "Rechercher par ville",
+  "tipSearchCityDesc": "Utilisez la loupe sur la carte pour chercher des studios dans une ville ou une adresse précise. Vous pouvez aussi utiliser le bouton de recherche dans la zone visible.",
+  "tipsSectionNetwork": "Réseau & Contacts",
+  "tipNetworkTitle": "Gérez votre réseau",
+  "tipNetworkDesc": "Ajoutez des contacts, importez depuis votre téléphone et construisez votre réseau musical. Retrouvez vos artistes, ingénieurs et studios favoris en un seul endroit.",
+  "tipNetworkInviteTitle": "Invitez vos contacts",
+  "tipNetworkInviteDesc": "Partagez l'application avec vos collaborateurs musicaux pour les retrouver directement sur UZME et faciliter vos futures réservations."
 }

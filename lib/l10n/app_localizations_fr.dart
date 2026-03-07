@@ -3633,4 +3633,35 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get rememberMe => 'Se souvenir de moi';
+
+  @override
+  String get tipQuickLoginTitle => 'Connexion rapide';
+
+  @override
+  String get tipQuickLoginDesc =>
+      'Cochez \'Se souvenir de moi\' lors de votre connexion pour retrouver votre compte en un clic à la prochaine ouverture de l\'app.';
+
+  @override
+  String get tipSearchCityTitle => 'Rechercher par ville';
+
+  @override
+  String get tipSearchCityDesc =>
+      'Utilisez la loupe sur la carte pour chercher des studios dans une ville ou une adresse précise. Vous pouvez aussi utiliser le bouton de recherche dans la zone visible.';
+
+  @override
+  String get tipsSectionNetwork => 'Réseau & Contacts';
+
+  @override
+  String get tipNetworkTitle => 'Gérez votre réseau';
+
+  @override
+  String get tipNetworkDesc =>
+      'Ajoutez des contacts, importez depuis votre téléphone et construisez votre réseau musical. Retrouvez vos artistes, ingénieurs et studios favoris en un seul endroit.';
+
+  @override
+  String get tipNetworkInviteTitle => 'Invitez vos contacts';
+
+  @override
+  String get tipNetworkInviteDesc =>
+      'Partagez l\'application avec vos collaborateurs musicaux pour les retrouver directement sur UZME et faciliter vos futures réservations.';
 }

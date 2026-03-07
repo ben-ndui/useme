@@ -6777,6 +6777,60 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Se souvenir de moi'**
   String get rememberMe;
+
+  /// No description provided for @tipQuickLoginTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion rapide'**
+  String get tipQuickLoginTitle;
+
+  /// No description provided for @tipQuickLoginDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cochez \'Se souvenir de moi\' lors de votre connexion pour retrouver votre compte en un clic à la prochaine ouverture de l\'app.'**
+  String get tipQuickLoginDesc;
+
+  /// No description provided for @tipSearchCityTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rechercher par ville'**
+  String get tipSearchCityTitle;
+
+  /// No description provided for @tipSearchCityDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Utilisez la loupe sur la carte pour chercher des studios dans une ville ou une adresse précise. Vous pouvez aussi utiliser le bouton de recherche dans la zone visible.'**
+  String get tipSearchCityDesc;
+
+  /// No description provided for @tipsSectionNetwork.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réseau & Contacts'**
+  String get tipsSectionNetwork;
+
+  /// No description provided for @tipNetworkTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gérez votre réseau'**
+  String get tipNetworkTitle;
+
+  /// No description provided for @tipNetworkDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajoutez des contacts, importez depuis votre téléphone et construisez votre réseau musical. Retrouvez vos artistes, ingénieurs et studios favoris en un seul endroit.'**
+  String get tipNetworkDesc;
+
+  /// No description provided for @tipNetworkInviteTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Invitez vos contacts'**
+  String get tipNetworkInviteTitle;
+
+  /// No description provided for @tipNetworkInviteDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partagez l\'application avec vos collaborateurs musicaux pour les retrouver directement sur UZME et faciliter vos futures réservations.'**
+  String get tipNetworkInviteDesc;
 }
 
 class _AppLocalizationsDelegate

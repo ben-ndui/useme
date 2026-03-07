@@ -1581,5 +1581,15 @@
 
   "welcomeBack": "Balao na mo ngâ!",
   "useAnotherAccount": "Sâra na kua-compte ôko",
-  "rememberMe": "Bâa mbi"
+  "rememberMe": "Bâa mbi",
+
+  "tipQuickLoginTitle": "Connexion vîte",
+  "tipQuickLoginDesc": "Tî mo cocher 'Bâa mbi' tî mo sü, tî kôzo zo na compte tî mo vîte na ndo ôko.",
+  "tipSearchCityTitle": "Gï na ville",
+  "tipSearchCityDesc": "Sâra na icône loupe na carte tî gï studio na ville wala adresse ôko. Mo lîngbi tî sâra na bouton tî gï na zone tî carte.",
+  "tipsSectionNetwork": "Réseau na Contact",
+  "tipNetworkTitle": "Bâta réseau tî mo",
+  "tipNetworkDesc": "Fâ contact, importer na téléphone tî mo na bâta réseau musique tî mo. Gï artiste, ingénieur na studio awe na ndo ôko.",
+  "tipNetworkInviteTitle": "Voko contact tî mo",
+  "tipNetworkInviteDesc": "Kângbi application na âzo tî musique tî mo tî gï âla na UZME na yângâ réservation."
 }

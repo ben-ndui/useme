@@ -3587,4 +3587,35 @@ class AppLocalizationsSg extends AppLocalizations {
 
   @override
   String get rememberMe => 'Bâa mbi';
+
+  @override
+  String get tipQuickLoginTitle => 'Connexion vîte';
+
+  @override
+  String get tipQuickLoginDesc =>
+      'Tî mo cocher \'Bâa mbi\' tî mo sü, tî kôzo zo na compte tî mo vîte na ndo ôko.';
+
+  @override
+  String get tipSearchCityTitle => 'Gï na ville';
+
+  @override
+  String get tipSearchCityDesc =>
+      'Sâra na icône loupe na carte tî gï studio na ville wala adresse ôko. Mo lîngbi tî sâra na bouton tî gï na zone tî carte.';
+
+  @override
+  String get tipsSectionNetwork => 'Réseau na Contact';
+
+  @override
+  String get tipNetworkTitle => 'Bâta réseau tî mo';
+
+  @override
+  String get tipNetworkDesc =>
+      'Fâ contact, importer na téléphone tî mo na bâta réseau musique tî mo. Gï artiste, ingénieur na studio awe na ndo ôko.';
+
+  @override
+  String get tipNetworkInviteTitle => 'Voko contact tî mo';
+
+  @override
+  String get tipNetworkInviteDesc =>
+      'Kângbi application na âzo tî musique tî mo tî gï âla na UZME na yângâ réservation.';
 }

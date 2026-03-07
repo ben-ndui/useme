@@ -3605,4 +3605,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rememberMe => 'Remember me';
+
+  @override
+  String get tipQuickLoginTitle => 'Quick login';
+
+  @override
+  String get tipQuickLoginDesc =>
+      'Check \'Remember me\' when signing in to quickly access your account next time you open the app.';
+
+  @override
+  String get tipSearchCityTitle => 'Search by city';
+
+  @override
+  String get tipSearchCityDesc =>
+      'Use the search icon on the map to find studios in a specific city or address. You can also use the search-in-zone button when the map moves.';
+
+  @override
+  String get tipsSectionNetwork => 'Network & Contacts';
+
+  @override
+  String get tipNetworkTitle => 'Manage your network';
+
+  @override
+  String get tipNetworkDesc =>
+      'Add contacts, import from your phone and build your music network. Find your favourite artists, engineers and studios in one place.';
+
+  @override
+  String get tipNetworkInviteTitle => 'Invite your contacts';
+
+  @override
+  String get tipNetworkInviteDesc =>
+      'Share the app with your music collaborators to find them on UZME and make future bookings easier.';
 }
