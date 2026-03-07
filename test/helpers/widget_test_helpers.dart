@@ -24,6 +24,9 @@ class MockSessionBloc extends MockBloc<SessionEvent, SessionState>
 class MockFavoriteBloc extends MockBloc<FavoriteEvent, FavoriteState>
     implements FavoriteBloc {}
 
+class MockNetworkBloc extends MockBloc<NetworkEvent, NetworkState>
+    implements NetworkBloc {}
+
 /// Creates a test [AppUser] with optional [proProfile].
 AppUser testAppUser({
   String uid = 'test-uid',
@@ -57,6 +60,7 @@ Widget buildTestApp({
   MessagingBloc? messagingBloc,
   SessionBloc? sessionBloc,
   FavoriteBloc? favoriteBloc,
+  NetworkBloc? networkBloc,
   Locale locale = const Locale('en'),
   List<BlocProvider>? extraProviders,
 }) {
@@ -70,6 +74,8 @@ Widget buildTestApp({
       BlocProvider<SessionBloc>.value(value: sessionBloc),
     if (favoriteBloc != null)
       BlocProvider<FavoriteBloc>.value(value: favoriteBloc),
+    if (networkBloc != null)
+      BlocProvider<NetworkBloc>.value(value: networkBloc),
     ...?extraProviders,
   ];
 

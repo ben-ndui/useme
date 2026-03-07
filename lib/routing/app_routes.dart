@@ -4,9 +4,7 @@ class AppRoutes {
   static const String splash = '/';
   static const String login = '/login';
   static const String signup = '/signup';
-  static const String forgotPassword = '/forgot-password';
   static const String onboarding = '/onboarding';
-  static const String roleSelection = '/role-selection';
 
   // Studio (Admin) routes
   static const String home = '/home';
@@ -52,7 +50,7 @@ class AppRoutes {
   static const String artistPortal = '/artist';
   static const String artistSessions = '/artist/sessions';
   static const String artistSessionDetail = '/artist/sessions/:id';
-  static const String artistSessionRequest = '/artist/sessions/request';
+  static const String artistSessionRequest = '/artist/request';
   static const String artistProfile = '/artist/profile';
   static const String artistSettings = '/artist/settings';
 
@@ -105,6 +103,9 @@ class AppRoutes {
   static const String proProfileView = '/pro/view';
   static const String proBooking = '/pro/book';
   static const String proBookingsReceived = '/pro/bookings';
+
+  // Network
+  static const String network = '/network';
 
   // Device Sessions / Security
   static const String connectedDevices = '/settings/devices';

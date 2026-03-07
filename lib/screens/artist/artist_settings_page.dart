@@ -30,6 +30,12 @@ class ArtistSettingsPage extends StatelessWidget {
             subtitle: l10n.personalInfo,
             onTap: () => context.push(AppRoutes.profile),
           ),
+          SettingsTile(
+            icon: FontAwesomeIcons.userGroup,
+            title: l10n.myNetwork,
+            subtitle: l10n.networkEmptyDesc,
+            onTap: () => context.push(AppRoutes.network),
+          ),
           const SettingsProProfileTile(),
           const SettingsProBookingsTile(),
 

@@ -7,7 +7,8 @@ import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/favorite/favorite_button.dart';
+import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/studio/artist_card.dart';
 
 /// Artists list page
 class ArtistsPage extends StatefulWidget {
@@ -29,9 +30,11 @@ class _ArtistsPageState extends State<ArtistsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Artistes'),
+        title: Text(l10n.artists),
       ),
       body: Column(
         children: [
@@ -41,7 +44,7 @@ class _ArtistsPageState extends State<ArtistsPage> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Rechercher un artiste...',
+                hintText: l10n.searchArtistHint,
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _searchQuery.isNotEmpty
                     ? IconButton(
@@ -83,7 +86,7 @@ class _ArtistsPageState extends State<ArtistsPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: filteredArtists.length,
                     itemBuilder: (context, index) {
-                      return _buildArtistCard(context, filteredArtists[index]);
+                      return ArtistCard(artist: filteredArtists[index]);
                     },
                   ),
                 );
@@ -97,7 +100,7 @@ class _ArtistsPageState extends State<ArtistsPage> {
         child: FloatingActionButton.extended(
           onPressed: () => context.push(AppRoutes.artistAdd),
           icon: const FaIcon(FontAwesomeIcons.userPlus, size: 18),
-          label: const Text('Ajouter'),
+          label: Text(l10n.add),
         ),
       ),
     );
@@ -114,6 +117,7 @@ class _ArtistsPageState extends State<ArtistsPage> {
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
     return Center(
@@ -127,14 +131,14 @@ class _ArtistsPageState extends State<ArtistsPage> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Aucun artiste',
+            l10n.noArtistEmpty,
             style: theme.textTheme.titleLarge?.copyWith(
               color: theme.colorScheme.outline,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Ajoutez votre premier artiste',
+            l10n.addFirstArtist,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.outline,
             ),
@@ -143,7 +147,7 @@ class _ArtistsPageState extends State<ArtistsPage> {
           FilledButton.icon(
             onPressed: () => context.push(AppRoutes.artistAdd),
             icon: const FaIcon(FontAwesomeIcons.userPlus, size: 16),
-            label: const Text('Ajouter un artiste'),
+            label: Text(l10n.addArtist),
           ),
         ],
       ),
@@ -151,6 +155,7 @@ class _ArtistsPageState extends State<ArtistsPage> {
   }
 
   Widget _buildNoResultsState(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
     return Center(
@@ -164,14 +169,14 @@ class _ArtistsPageState extends State<ArtistsPage> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Aucun résultat',
+            l10n.noResult,
             style: theme.textTheme.titleMedium?.copyWith(
               color: theme.colorScheme.outline,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Essayez une autre recherche',
+            l10n.tryAnotherSearch,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.outline,
             ),
@@ -181,89 +186,4 @@ class _ArtistsPageState extends State<ArtistsPage> {
     );
   }
 
-  Widget _buildArtistCard(BuildContext context, Artist artist) {
-    final theme = Theme.of(context);
-
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: InkWell(
-        onTap: () => context.push('/artists/${artist.id}'),
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              // Avatar
-              CircleAvatar(
-                radius: 28,
-                backgroundColor: theme.colorScheme.primaryContainer,
-                backgroundImage:
-                    artist.photoUrl != null ? NetworkImage(artist.photoUrl!) : null,
-                child: artist.photoUrl == null
-                    ? Text(
-                        artist.displayName.substring(0, 1).toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.primary,
-                        ),
-                      )
-                    : null,
-              ),
-              const SizedBox(width: 16),
-
-              // Info
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      artist.displayName,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    if (artist.stageName != null && artist.stageName != artist.name)
-                      Text(
-                        artist.name,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.outline,
-                        ),
-                      ),
-                    if (artist.hasGenres)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Text(
-                          artist.genresDisplay,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-
-              // Favorite button
-              FavoriteButtonCompact(
-                targetId: artist.id,
-                type: FavoriteType.artist,
-                targetName: artist.displayName,
-                targetPhotoUrl: artist.photoUrl,
-                size: 18,
-              ),
-              const SizedBox(width: 8),
-
-              // Arrow
-              FaIcon(
-                FontAwesomeIcons.chevronRight,
-                size: 16,
-                color: theme.colorScheme.outline,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }

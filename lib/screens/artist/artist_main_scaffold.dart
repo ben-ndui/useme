@@ -50,6 +50,7 @@ class _ArtistMainScaffoldState extends State<ArtistMainScaffold> {
       final user = authState.user;
       context.read<SessionBloc>().add(LoadArtistSessionsEvent(artistId: user.uid));
       context.read<FavoriteBloc>().add(LoadFavoritesEvent(userId: user.uid));
+      context.read<NetworkBloc>().add(LoadContactsEvent(userId: user.uid));
 
       // Configure l'utilisateur pour la messagerie
       final messagingBloc = context.read<MessagingBloc>();

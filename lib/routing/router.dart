@@ -35,6 +35,7 @@ import 'package:useme/screens/shared/conversation_settings_screen.dart';
 import 'package:useme/screens/shared/about_screen.dart';
 import 'package:useme/screens/shared/account_screen.dart';
 import 'package:useme/screens/shared/favorites_screen.dart';
+import 'package:useme/screens/shared/network_screen.dart';
 import 'package:useme/screens/admin/studio_claims_screen.dart';
 import 'package:useme/screens/admin/subscription_tiers_screen.dart';
 import 'package:useme/screens/admin/stripe_config_screen.dart';
@@ -347,6 +348,12 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.favorites,
           builder: (context, state) => const FavoritesScreen(),
+        ),
+
+        // Network
+        GoRoute(
+          path: AppRoutes.network,
+          builder: (context, state) => const NetworkScreen(),
         ),
 
         // AI Assistant
