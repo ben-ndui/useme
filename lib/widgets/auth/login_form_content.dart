@@ -5,10 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/core/models/app_user.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/main.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/auth/glass_text_field.dart';
+import 'package:useme/widgets/auth/quick_login_card.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Login form content with glassmorphism design
@@ -23,10 +25,15 @@ class _LoginFormContentState extends State<LoginFormContent> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _showQuickLogin = false;
+  bool _rememberMe = false;
+  String _lastLoginProvider = 'email';
 
   @override
   void initState() {
     super.initState();
+    _showQuickLogin = preferencesService.quickLoginEnabled &&
+        preferencesService.quickLoginDisplayName != null;
     _loadSavedEmail();
   }
 
@@ -47,33 +54,93 @@ class _LoginFormContentState extends State<LoginFormContent> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        final isLoading = state is AuthLoadingState;
-        final isGoogleLoading = state is AuthGoogleLoadingState;
-        final isAppleLoading = state is AuthAppleLoadingState;
+    if (_showQuickLogin) {
+      final provider = preferencesService.quickLoginProvider ?? 'email';
+      return QuickLoginCard(
+        displayName: preferencesService.quickLoginDisplayName ?? '',
+        email: preferencesService.quickLoginEmail ?? '',
+        role: preferencesService.quickLoginRole ?? 'client',
+        provider: provider,
+        photoUrl: preferencesService.quickLoginPhotoUrl,
+        onConnect: (password) => _quickConnect(context, password),
+        onSwitchAccount: () => setState(() => _showQuickLogin = false),
+      );
+    }
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              _buildHeader(l10n),
-              const SizedBox(height: 32),
-              _buildForm(isLoading, l10n),
-              const SizedBox(height: 24),
-              _buildDivider(l10n),
-              const SizedBox(height: 24),
-              _buildSocialButtons(isGoogleLoading, isAppleLoading),
-              const SizedBox(height: 28),
-              _buildSignUpLink(l10n),
-              const SizedBox(height: 24),
-              // Demo mode disabled for V1 App Store release
-              // _buildDemoButton(l10n),
-            ],
-          ),
-        );
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthAuthenticatedState && _rememberMe) {
+          final appUser = state.user as AppUser;
+          preferencesService.setQuickLoginData(
+            displayName: appUser.displayName ?? appUser.name ?? '',
+            email: appUser.email,
+            role: appUser.role.name,
+            provider: _lastLoginProvider,
+            photoUrl: appUser.photoURL,
+          );
+        }
       },
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          final isLoading = state is AuthLoadingState;
+          final isGoogleLoading = state is AuthGoogleLoadingState;
+          final isAppleLoading = state is AuthAppleLoadingState;
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              children: [
+                _buildHeader(l10n),
+                const SizedBox(height: 32),
+                _buildForm(isLoading, l10n),
+                const SizedBox(height: 24),
+                _buildDivider(l10n),
+                const SizedBox(height: 24),
+                _buildSocialButtons(isGoogleLoading, isAppleLoading),
+                const SizedBox(height: 28),
+                _buildSignUpLink(l10n),
+                const SizedBox(height: 24),
+              ],
+            ),
+          );
+        },
+      ),
     );
+  }
+
+  void _quickConnect(BuildContext context, String? password) {
+    // If Firebase session is still active, navigate directly
+    final state = context.read<AuthBloc>().state;
+    if (state is AuthAuthenticatedState) {
+      final appUser = state.user as AppUser;
+      if (appUser.isSuperAdmin || appUser.isStudio) {
+        context.go(AppRoutes.home);
+      } else if (appUser.isEngineer) {
+        context.go(AppRoutes.engineerDashboard);
+      } else {
+        context.go(AppRoutes.artistPortal);
+      }
+      return;
+    }
+
+    // Session expired — re-authenticate based on provider
+    final provider = preferencesService.quickLoginProvider ?? 'email';
+    _rememberMe = true; // Keep quick login enabled after re-auth
+    _lastLoginProvider = provider;
+
+    if (provider == 'google') {
+      context.read<AuthBloc>().add(const SignInWithGoogleEvent());
+    } else if (provider == 'apple') {
+      context.read<AuthBloc>().add(const SignInWithAppleEvent());
+    } else {
+      // Email/password — need password
+      final email = preferencesService.quickLoginEmail ?? '';
+      if (password == null || password.isEmpty) return;
+      context.read<AuthBloc>().add(SignInWithEmailEvent(
+        email: email,
+        password: password,
+      ));
+    }
   }
 
   Widget _buildHeader(AppLocalizations l10n) {
@@ -131,25 +198,60 @@ class _LoginFormContentState extends State<LoginFormContent> {
             },
           ),
           const SizedBox(height: 12),
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: () => _forgotPassword(l10n),
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white.withValues(alpha: 0.8),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          Row(
+            children: [
+              _buildRememberMeCheckbox(l10n),
+              const Spacer(),
+              TextButton(
+                onPressed: () => _forgotPassword(l10n),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white.withValues(alpha: 0.8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                ),
+                child: Text(
+                  l10n.forgotPassword,
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                ),
               ),
-              child: Text(
-                l10n.forgotPassword,
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-              ),
-            ),
+            ],
           ),
           const SizedBox(height: 20),
           GlassButton(
             label: l10n.signIn,
             isLoading: isLoading,
             onPressed: _login,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRememberMeCheckbox(AppLocalizations l10n) {
+    return GestureDetector(
+      onTap: () => setState(() => _rememberMe = !_rememberMe),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 20,
+            height: 20,
+            child: Checkbox(
+              value: _rememberMe,
+              onChanged: (v) => setState(() => _rememberMe = v ?? false),
+              side: BorderSide(color: Colors.white.withValues(alpha: 0.6)),
+              checkColor: Colors.white,
+              activeColor: Colors.white.withValues(alpha: 0.3),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            l10n.rememberMe,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ],
       ),
@@ -268,6 +370,7 @@ class _LoginFormContentState extends State<LoginFormContent> {
   }
 
   void _socialLogin(String provider) {
+    _lastLoginProvider = provider;
     if (provider == 'google') {
       context.read<AuthBloc>().add(const SignInWithGoogleEvent());
     } else if (provider == 'apple') {
