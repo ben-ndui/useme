@@ -27,6 +27,9 @@ class _StudioMapViewState extends State<StudioMapView> {
   bool _isControllerDisposed = false;
   LatLng? _currentCameraPosition;
 
+  /// Cache statique : une fois la permission accordée, ne plus redemander
+  static bool _locationPermissionHandled = false;
+
   // Cached custom pins
   BitmapDescriptor? _partnerPin;
   BitmapDescriptor? _defaultPin;
@@ -40,10 +43,13 @@ class _StudioMapViewState extends State<StudioMapView> {
   }
 
   Future<void> _initWithPermission() async {
-    await PermissionDialog.requestPermission(
-      context,
-      type: AppPermissionType.location,
-    );
+    if (!_locationPermissionHandled) {
+      final granted = await PermissionDialog.requestPermission(
+        context,
+        type: AppPermissionType.location,
+      );
+      if (granted) _locationPermissionHandled = true;
+    }
     if (!mounted) return;
     context.read<MapBloc>().add(const InitMapEvent());
   }

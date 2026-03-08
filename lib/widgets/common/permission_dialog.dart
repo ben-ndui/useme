@@ -109,7 +109,7 @@ class PermissionDialog extends StatelessWidget {
       case AppPermissionType.microphone:
         return Permission.microphone;
       case AppPermissionType.location:
-        return Permission.location;
+        return Permission.locationWhenInUse;
       case AppPermissionType.photos:
         return Permission.photos;
       case AppPermissionType.notification:
