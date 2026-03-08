@@ -25,8 +25,6 @@ class StudioConfigSection extends StatelessWidget {
           subtitle: l10n.nameAddressContact,
           onTap: () => context.push(AppRoutes.profile),
         ),
-        const SettingsProProfileTile(),
-        const SettingsProBookingsTile(),
         SettingsTile(
           icon: FontAwesomeIcons.tags,
           title: l10n.services,
