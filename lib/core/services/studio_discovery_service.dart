@@ -77,22 +77,30 @@ class StudioDiscoveryService {
       final googleStudios = await _searchGooglePlaces(position, radius);
 
       // Merge with partner studios (filters out claimed Google Places)
-      final mergedStudios = await _mergeStudiosWithClaims(
-        googleStudios,
-        position,
-        radius,
-      );
+      List<DiscoveredStudio> mergedStudios;
+      try {
+        mergedStudios = await _mergeStudiosWithClaims(
+          googleStudios,
+          position,
+          radius,
+        );
+      } catch (e) {
+        debugPrint('⚠️ StudioDiscoveryService: merge failed, using Google Places only: $e');
+        mergedStudios = googleStudios;
+      }
 
       _cachedStudios = mergedStudios;
       _cacheTime = DateTime.now();
       _cachedPosition = position;
       return _updateDistances(mergedStudios, position);
-    } catch (e) {
-      // Return cached if available, otherwise return mock data
+    } catch (e, stackTrace) {
+      debugPrint('⚠️ StudioDiscoveryService: findNearbyStudios error: $e');
+      debugPrint('⚠️ StackTrace: $stackTrace');
+      // Return cached if available, otherwise empty list
       if (_cachedStudios != null) {
         return _updateDistances(_cachedStudios!, position);
       }
-      return _getMockStudios(position);
+      return [];
     }
   }
 
@@ -142,23 +150,27 @@ class StudioDiscoveryService {
     final claimedGooglePlaceIds = <String>{};
 
     for (final doc in query.docs) {
-      final user = AppUser.fromMap(doc.data(), doc.id);
-      // Only include admin or superAdmin roles
-      if (!user.isStudio && !user.isSuperAdmin) continue;
+      try {
+        final user = AppUser.fromMap(doc.data(), doc.id);
+        // Only include admin or superAdmin roles
+        if (!user.isStudio && !user.isSuperAdmin) continue;
 
-      if (user.studioProfile != null) {
-        // Track claimed Google Place ID
-        if (user.studioProfile!.googlePlaceId != null) {
-          claimedGooglePlaceIds.add(user.studioProfile!.googlePlaceId!);
-        }
-        // Add partner if has location and is within radius
-        if (user.studioProfile!.location != null) {
-          final studio = _partnerToDiscoveredStudio(user);
-          final distance = _locationService.distanceBetween(position, studio.position);
-          if (distance <= radius) {
-            partnerStudios.add(studio);
+        if (user.studioProfile != null) {
+          // Track claimed Google Place ID
+          if (user.studioProfile!.googlePlaceId != null) {
+            claimedGooglePlaceIds.add(user.studioProfile!.googlePlaceId!);
+          }
+          // Add partner if has location and is within radius
+          if (user.studioProfile!.location != null) {
+            final studio = _partnerToDiscoveredStudio(user);
+            final distance = _locationService.distanceBetween(position, studio.position);
+            if (distance <= radius) {
+              partnerStudios.add(studio);
+            }
           }
         }
+      } catch (e) {
+        debugPrint('⚠️ StudioDiscoveryService: Error parsing partner ${doc.id}: $e');
       }
     }
 
@@ -281,51 +293,4 @@ class StudioDiscoveryService {
     return null;
   }
 
-  /// Mock studios for testing / demo
-  List<DiscoveredStudio> _getMockStudios(LatLng userPosition) {
-    return [
-      DiscoveredStudio(
-        id: 'mock_1',
-        name: 'Studio Bleu',
-        address: '12 Rue de la Musique, Paris',
-        position: LatLng(
-          userPosition.latitude + 0.005,
-          userPosition.longitude + 0.003,
-        ),
-        rating: 4.8,
-        reviewCount: 42,
-        isPartner: true,
-        services: ['Enregistrement', 'Mixage', 'Mastering'],
-      ),
-      DiscoveredStudio(
-        id: 'mock_2',
-        name: 'Sound Factory',
-        address: '45 Avenue du Son, Paris',
-        position: LatLng(
-          userPosition.latitude - 0.008,
-          userPosition.longitude + 0.002,
-        ),
-        rating: 4.5,
-        reviewCount: 28,
-        isPartner: true,
-        services: ['Enregistrement', 'Production'],
-      ),
-      DiscoveredStudio(
-        id: 'mock_3',
-        name: 'Le Labo Musical',
-        address: '8 Rue des Artistes, Paris',
-        position: LatLng(
-          userPosition.latitude + 0.002,
-          userPosition.longitude - 0.006,
-        ),
-        rating: 4.2,
-        reviewCount: 15,
-        isPartner: false,
-        services: ['Enregistrement'],
-      ),
-    ].map((s) {
-      final distance = _locationService.distanceBetween(userPosition, s.position);
-      return s.copyWithDistance(distance);
-    }).toList();
-  }
 }

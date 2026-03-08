@@ -66,7 +66,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         event.position,
         radius: event.radius,
       );
-
       emit(state.copyWith(
         isLoading: false,
         nearbyStudios: studios,
