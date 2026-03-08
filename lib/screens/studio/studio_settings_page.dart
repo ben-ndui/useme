@@ -79,8 +79,7 @@ class _StudioSettingsPageState extends State<StudioSettingsPage> {
           const SettingsSectionHeader(title: 'Abonnement'),
           SubscriptionSection(
             user: _currentUser,
-            showComingSoonOverlay: !(_currentUser?.isSuperAdmin == true ||
-                _currentUser?.hasDevMasterAccess == true),
+            showComingSoonOverlay: false,
           ),
           const Divider(height: 32),
 

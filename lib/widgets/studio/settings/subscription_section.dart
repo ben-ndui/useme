@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/subscription_tier_config.dart';
 import 'package:useme/core/services/subscription_config_service.dart';
@@ -126,31 +128,24 @@ class _SubscriptionSectionState extends State<SubscriptionSection> {
             ),
           ],
 
-          // Upgrade button for non-enterprise
-          if (tierId != 'enterprise') ...[
+          // Manage on website button (Android & Web only — iOS App Store policy)
+          if (!_isApplePlatform) ...[
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: FilledButton.icon(
-                onPressed: () => context.push('/upgrade'),
-                icon: const FaIcon(FontAwesomeIcons.arrowUp, size: 14),
-                label: Text(_getUpgradeLabel(tierId)),
+                onPressed: () => launchUrl(
+                  Uri.parse('https://uzme.app/admin/subscription'),
+                  mode: LaunchMode.externalApplication,
+                ),
+                icon: const FaIcon(
+                  FontAwesomeIcons.arrowUpRightFromSquare,
+                  size: 14,
+                ),
+                label: Text(l10n.manageSubscription),
                 style: FilledButton.styleFrom(
                   backgroundColor: tierStyle.color,
                 ),
-              ),
-            ),
-          ],
-
-          // Manage button for paid tiers
-          if (tierId != 'free') ...[
-            const SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () => context.push('/upgrade'),
-                icon: const FaIcon(FontAwesomeIcons.gear, size: 14),
-                label: Text(AppLocalizations.of(context)!.manageSubscription),
               ),
             ),
           ],
@@ -245,9 +240,8 @@ class _SubscriptionSectionState extends State<SubscriptionSection> {
     );
   }
 
-  String _getUpgradeLabel(String tierId) {
-    return tierId == 'free' ? 'Passer à Pro' : 'Passer à Enterprise';
-  }
+  bool get _isApplePlatform =>
+      !kIsWeb && (Platform.isIOS || Platform.isMacOS);
 
   SubscriptionTierConfig _getDefaultConfig(String tierId) {
     return switch (tierId) {
