@@ -5,7 +5,6 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/routing/app_routes.dart';
-import 'package:useme/main.dart';
 import 'package:useme/routing/router.dart';
 
 /// Splash screen shown on app launch
@@ -89,12 +88,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         final roleParam = _getRoleParam(user);
         debugPrint('🚀 Splash: Navigating to onboarding with role=$roleParam');
         context.go('${AppRoutes.onboarding}?role=$roleParam');
-      } else if (preferencesService.quickLoginEnabled) {
-        // Quick login: show welcome back card on login screen
-        debugPrint('🚀 Splash: Quick login enabled, showing welcome back');
-        context.go(AppRoutes.login);
       } else {
-        // Notifications are handled in main.dart via BlocListener
+        // User is authenticated and not first-time → go home
         final route = AppRouter.getHomeRouteForUser(state.user);
         debugPrint('🚀 Splash: Navigating to home: $route');
         context.go(route);
