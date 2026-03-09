@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:useme/config/map_styles.dart';
 import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/blocs/map/map_bloc.dart';
 import 'package:useme/core/blocs/map/map_event.dart';
@@ -130,6 +131,7 @@ class _StudioMapViewState extends State<StudioMapView> {
                 target: state.userLocation,
                 zoom: 14,
               ),
+              style: MapStyles.forBrightness(Theme.of(context).brightness),
               markers: _buildMarkers(state),
               myLocationEnabled: true,
               myLocationButtonEnabled: false,
@@ -194,8 +196,9 @@ class _StudioMapViewState extends State<StudioMapView> {
   }
 
   Widget _buildLoadingMap(MapState state) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
-      color: Colors.grey.shade200,
+      color: isDark ? const Color(0xFF0D0D0F) : Colors.grey.shade200,
       child: Stack(
         children: [
           GoogleMap(
@@ -203,6 +206,7 @@ class _StudioMapViewState extends State<StudioMapView> {
               target: state.userLocation,
               zoom: 14,
             ),
+            style: MapStyles.forBrightness(Theme.of(context).brightness),
             myLocationEnabled: false,
             zoomControlsEnabled: false,
             mapToolbarEnabled: false,
@@ -215,7 +219,7 @@ class _StudioMapViewState extends State<StudioMapView> {
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
@@ -280,9 +284,9 @@ class _StudioMapViewState extends State<StudioMapView> {
   Widget _buildLocationButton(BuildContext context, MapState state) {
     return FloatingActionButton.small(
       heroTag: 'location',
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       onPressed: () => _safeAnimateCamera(state.userLocation, 15),
-      child: Icon(Icons.my_location, color: UseMeTheme.primaryColor),
+      child: Icon(Icons.my_location, color: Theme.of(context).colorScheme.primary),
     );
   }
 }
