@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/services/pro_profile_service.dart';
@@ -73,7 +74,10 @@ class FavoritesScreen extends StatelessWidget {
                 )
               : null,
         ),
-        body: BlocBuilder<FavoriteBloc, FavoriteState>(
+        body: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+            child: BlocBuilder<FavoriteBloc, FavoriteState>(
           builder: (context, state) {
             if (state.isLoading) {
               return const AppLoader();
@@ -99,6 +103,8 @@ class FavoritesScreen extends StatelessWidget {
               )).toList(),
             );
           },
+        ),
+          ),
         ),
       ),
     );

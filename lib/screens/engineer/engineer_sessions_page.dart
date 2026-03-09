@@ -10,6 +10,7 @@ import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/engineer/sessions/engineer_sessions_exports.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/widgets/studio/sessions/sessions_filter_sheet.dart';
 
 /// Engineer sessions page - Calendar view with week selector
@@ -44,14 +45,19 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
     return Scaffold(
       backgroundColor: colorScheme.surface,
       appBar: _buildAppBar(context, l10n, colorScheme),
-      body: _isListView
-          ? _buildAllSessionsList(colorScheme, l10n, locale)
-          : Column(
-              children: [
-                _buildWeekCalendar(colorScheme, locale),
-                Expanded(child: _buildSessionsList(colorScheme, l10n, locale)),
-              ],
-            ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: _isListView
+              ? _buildAllSessionsList(colorScheme, l10n, locale)
+              : Column(
+                  children: [
+                    _buildWeekCalendar(colorScheme, locale),
+                    Expanded(child: _buildSessionsList(colorScheme, l10n, locale)),
+                  ],
+                ),
+        ),
+      ),
     );
   }
 

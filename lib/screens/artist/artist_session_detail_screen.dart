@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
@@ -71,7 +72,10 @@ class _ArtistSessionDetailContent extends StatelessWidget {
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
-      child: Column(
+      child: ResponsiveContainer(
+        maxWidth: Responsive.maxFormWidth,
+        padding: EdgeInsets.zero,
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _StatusBadge(status: session.displayStatus, l10n: l10n),
@@ -131,6 +135,7 @@ class _ArtistSessionDetailContent extends StatelessWidget {
           if (session.canBeCancelled)
             _CancelButton(session: session, l10n: l10n),
         ],
+      ),
       ),
     );
   }

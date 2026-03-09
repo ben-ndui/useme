@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/app_loader.dart';
@@ -62,7 +63,10 @@ class _ConversationSettingsScreenState
 
         return Scaffold(
           appBar: AppBar(title: Text(l10n.conversationSettings)),
-          body: ListView(
+          body: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+              child: ListView(
             children: [
               const SizedBox(height: 24),
 
@@ -154,6 +158,8 @@ class _ConversationSettingsScreenState
 
               const SizedBox(height: 32),
             ],
+          ),
+            ),
           ),
         );
       },

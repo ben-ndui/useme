@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/pro_profile.dart';
@@ -108,7 +109,10 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
         appBar: AppBar(
           title: Text(_isEditing ? l10n.proProfileEdit : l10n.proProfileSetup),
         ),
-        body: BlocBuilder<ProProfileBloc, ProProfileState>(
+        body: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+            child: BlocBuilder<ProProfileBloc, ProProfileState>(
           builder: (context, state) {
             return Form(
               key: _formKey,
@@ -154,6 +158,8 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
               ),
             );
           },
+        ),
+          ),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/app_loader.dart';
@@ -30,16 +31,21 @@ class ServicesPage extends StatelessWidget {
             return _buildEmptyState(context, l10n);
           }
 
-          return RefreshIndicator(
-            onRefresh: () async {
-              // TODO: Refresh services
-            },
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: state.services.length,
-              itemBuilder: (context, index) {
-                return _buildServiceCard(context, state.services[index], l10n);
-              },
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  // TODO: Refresh services
+                },
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: state.services.length,
+                  itemBuilder: (context, index) {
+                    return _buildServiceCard(context, state.services[index], l10n);
+                  },
+                ),
+              ),
             ),
           );
         },

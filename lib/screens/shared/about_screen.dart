@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 
 /// About screen showing app info and legal links.
@@ -37,7 +38,10 @@ class _AboutScreenState extends State<AboutScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.about)),
-      body: ListView(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: ListView(
         children: [
           const SizedBox(height: 32),
 
@@ -163,6 +167,8 @@ class _AboutScreenState extends State<AboutScreen> {
 
           const SizedBox(height: 16),
         ],
+      ),
+        ),
       ),
     );
   }

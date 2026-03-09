@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/services_exports.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 
 /// Écran de configuration de l'assistant IA pour un studio
@@ -100,34 +101,39 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
   }
 
   Widget _buildContent() {
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        // Header avec icône
-        _buildHeader(),
-        const SizedBox(height: 24),
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            // Header avec icône
+            _buildHeader(),
+            const SizedBox(height: 24),
 
-        // Activation
-        _buildEnableSection(),
-        const SizedBox(height: 24),
+            // Activation
+            _buildEnableSection(),
+            const SizedBox(height: 24),
 
-        // Mode de fonctionnement
-        if (_settings!.enabled) ...[
-          _buildModeSection(),
-          const SizedBox(height: 24),
+            // Mode de fonctionnement
+            if (_settings!.enabled) ...[
+              _buildModeSection(),
+              const SizedBox(height: 24),
 
-          // Ton de réponse
-          _buildToneSection(),
-          const SizedBox(height: 24),
+              // Ton de réponse
+              _buildToneSection(),
+              const SizedBox(height: 24),
 
-          // Options avancées
-          _buildAdvancedSection(),
-          const SizedBox(height: 24),
+              // Options avancées
+              _buildAdvancedSection(),
+              const SizedBox(height: 24),
 
-          // FAQs personnalisées
-          _buildFAQSection(),
-        ],
-      ],
+              // FAQs personnalisées
+              _buildFAQSection(),
+            ],
+          ],
+        ),
+      ),
     );
   }
 

@@ -6,6 +6,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/studio_room.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/limit_reached_dialog.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
@@ -99,11 +100,14 @@ class _RoomFormScreenState extends State<RoomFormScreen> {
               ),
           ],
         ),
-        body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
+        body: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
             // Name
             TextFormField(
               controller: _nameController,
@@ -177,9 +181,11 @@ class _RoomFormScreenState extends State<RoomFormScreen> {
                   ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
                   : Text(isEditing ? l10n.save : l10n.create),
             ),
-          ],
+                ],
+              ),
+            ),
+          ),
         ),
-      ),
       ),
     );
   }

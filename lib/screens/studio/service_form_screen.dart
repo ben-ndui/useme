@@ -6,6 +6,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/services_exports.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/widgets/common/limit_reached_dialog.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
@@ -99,14 +100,17 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
               ),
           ],
         ),
-        body: Builder(
-        builder: (context) {
-          final l10n = AppLocalizations.of(context)!;
-          return Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
+        body: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+            child: Builder(
+              builder: (context) {
+                final l10n = AppLocalizations.of(context)!;
+                return Form(
+                  key: _formKey,
+                  child: ListView(
+                    padding: const EdgeInsets.all(16),
+                    children: [
             // Nom du service
             _buildSectionTitle(context, l10n.serviceName),
             const SizedBox(height: 8),
@@ -180,11 +184,13 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                 child: Text(isEditing ? l10n.save : l10n.createService),
               ),
             ),
-          ],
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
         ),
-      );
-        },
-      ),
       ),
     );
   }

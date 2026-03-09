@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/services/team_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
@@ -74,18 +75,23 @@ class _TeamInvitationsScreenState extends State<TeamInvitationsScreen> {
   }
 
   Widget _buildInvitationsList(BuildContext context, List<TeamInvitation> invitations, String userId) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: invitations.length,
-      itemBuilder: (context, index) {
-        return _InvitationCard(
-          invitation: invitations[index],
-          userId: userId,
-          teamService: _teamService,
-          isLoading: _isLoading,
-          onLoadingChanged: (loading) => setState(() => _isLoading = loading),
-        );
-      },
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+        child: ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: invitations.length,
+          itemBuilder: (context, index) {
+            return _InvitationCard(
+              invitation: invitations[index],
+              userId: userId,
+              teamService: _teamService,
+              isLoading: _isLoading,
+              onLoadingChanged: (loading) => setState(() => _isLoading = loading),
+            );
+          },
+        ),
+      ),
     );
   }
 }

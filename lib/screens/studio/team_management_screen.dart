@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/services/team_service.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/l10n/app_localizations.dart';
@@ -42,17 +43,22 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.team)),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          _buildSectionHeader(context, l10n.teamMembers),
-          const SizedBox(height: 8),
-          _buildTeamMembersList(),
-          const SizedBox(height: 24),
-          _buildSectionHeader(context, l10n.pendingInvitations),
-          const SizedBox(height: 8),
-          _buildPendingInvitations(),
-        ],
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              _buildSectionHeader(context, l10n.teamMembers),
+              const SizedBox(height: 8),
+              _buildTeamMembersList(),
+              const SizedBox(height: 24),
+              _buildSectionHeader(context, l10n.pendingInvitations),
+              const SizedBox(height: 8),
+              _buildPendingInvitations(),
+            ],
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _showAddMemberSheet,

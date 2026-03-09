@@ -8,6 +8,7 @@ import 'package:useme/routing/app_routes.dart';
 import 'package:useme/screens/common/ai_guide_screen.dart';
 import 'package:useme/screens/common/tips_screen.dart';
 import 'package:useme/widgets/common/settings/settings_exports.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/widgets/studio/settings/security_settings_section.dart';
 
 /// Engineer settings page
@@ -21,7 +22,10 @@ class EngineerSettingsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settings)),
-      body: ListView(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: ListView(
         children: [
           SettingsSectionHeader(title: l10n.profile),
           SettingsTile(
@@ -109,6 +113,8 @@ class EngineerSettingsPage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
         ],
+      ),
+        ),
       ),
     );
   }

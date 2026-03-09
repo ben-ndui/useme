@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/user_contact.dart';
 import 'package:useme/l10n/app_localizations.dart';
@@ -27,7 +28,10 @@ class NetworkScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocConsumer<NetworkBloc, NetworkState>(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: BlocConsumer<NetworkBloc, NetworkState>(
         listenWhen: (prev, curr) =>
             curr.errorMessage != null || curr.successMessage != null,
         listener: (context, state) {
@@ -53,6 +57,8 @@ class NetworkScreen extends StatelessWidget {
 
           return _buildContactList(context, state, theme, l10n);
         },
+      ),
+        ),
       ),
     );
   }

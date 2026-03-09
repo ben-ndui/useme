@@ -7,6 +7,7 @@ import '../../core/blocs/blocs_exports.dart';
 import '../../core/models/artist.dart';
 import '../../core/models/google_calendar_event.dart';
 import '../../core/services/artist_service.dart';
+import '../../config/responsive_config.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/common/snackbar/app_snackbar.dart';
 
@@ -271,19 +272,24 @@ class _CalendarImportReviewScreenState
       children: [
         _buildDateRangeSelector(theme, l10n),
         Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: _events.length,
-            itemBuilder: (context, index) {
-              return _EventCard(
-                event: _events[index],
-                artists: _artists,
-                l10n: l10n,
-                onChanged: (updated) {
-                  setState(() => _events[index] = updated);
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: _events.length,
+                itemBuilder: (context, index) {
+                  return _EventCard(
+                    event: _events[index],
+                    artists: _artists,
+                    l10n: l10n,
+                    onChanged: (updated) {
+                      setState(() => _events[index] = updated);
+                    },
+                  );
                 },
-              );
-            },
+              ),
+            ),
           ),
         ),
       ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:go_router/go_router.dart';
 import 'package:useme/core/data/ai_guide_data.dart';
 import 'package:useme/core/data/tips_data.dart';
@@ -21,7 +22,10 @@ class ArtistSettingsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settings)),
-      body: ListView(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: ListView(
         children: [
           SettingsSectionHeader(title: l10n.profile),
           SettingsTile(
@@ -103,6 +107,8 @@ class ArtistSettingsPage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
         ],
+      ),
+      ),
       ),
     );
   }

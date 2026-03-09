@@ -10,6 +10,7 @@ import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/booking_acceptance_service.dart';
 import 'package:useme/core/services/payment_config_service.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
@@ -92,11 +93,14 @@ class _SessionDetailContent extends StatelessWidget {
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Status badge (use displayStatus for time-based updates)
-          _StatusBadge(status: session.displayStatus, l10n: l10n),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Status badge (use displayStatus for time-based updates)
+              _StatusBadge(status: session.displayStatus, l10n: l10n),
           const SizedBox(height: 24),
 
           // Artist info
@@ -176,9 +180,11 @@ class _SessionDetailContent extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          // Action buttons based on status
-          _ActionButtons(session: session, l10n: l10n),
-        ],
+              // Action buttons based on status
+              _ActionButtons(session: session, l10n: l10n),
+            ],
+          ),
+        ),
       ),
     );
   }

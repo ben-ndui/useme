@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import '../../config/responsive_config.dart';
 import '../../widgets/common/app_loader.dart';
 import '../../widgets/common/permission_dialog.dart';
 import '../../widgets/common/snackbar/app_snackbar.dart';
@@ -102,7 +103,10 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget _buildChatScaffold(ChatOpenState state) {
     return Scaffold(
       appBar: _buildAppBar(state.conversation),
-      body: ChatView(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: ChatView(
         conversation: state.conversation,
         messages: state.messages,
         currentUserId: _currentUserId,
@@ -141,6 +145,8 @@ class _ChatScreenState extends State<ChatScreen> {
         onReactionTap: (message, emoji) {
           context.read<MessagingBloc>().add(ToggleReactionEvent(messageId: message.id, emoji: emoji));
         },
+      ),
+        ),
       ),
     );
   }

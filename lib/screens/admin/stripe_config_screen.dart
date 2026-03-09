@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/stripe_config.dart';
 import 'package:useme/core/services/encryption_service.dart';
@@ -176,7 +177,10 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
             ),
         ],
       ),
-      body: ListView(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           // Warning banner
@@ -361,6 +365,8 @@ class _StripeConfigScreenState extends State<StripeConfigScreen> {
             ),
           const SizedBox(height: 40),
         ],
+      ),
+        ),
       ),
     );
   }

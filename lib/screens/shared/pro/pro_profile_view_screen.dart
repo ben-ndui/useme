@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/models/pro_profile.dart';
@@ -44,7 +45,10 @@ class ProProfileViewScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: ListView(
         padding: const EdgeInsets.only(bottom: 100),
         children: [
           _buildProfileHeader(theme),
@@ -61,6 +65,8 @@ class ProProfileViewScreen extends StatelessWidget {
           if (_profile.daws.isNotEmpty)
             _buildTagsSection(theme, l10n.proDetailDaws, _profile.daws),
         ],
+      ),
+        ),
       ),
       bottomNavigationBar: _buildContactBar(context, theme, l10n),
     );

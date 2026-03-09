@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 
 /// Artist creation/editing form
@@ -85,11 +86,14 @@ class _ArtistFormScreenState extends State<ArtistFormScreen> {
             ),
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
             // Nom d'artiste (stage name)
             _buildSectionTitle(context, l10n.artistName),
             const SizedBox(height: 8),
@@ -171,7 +175,9 @@ class _ArtistFormScreenState extends State<ArtistFormScreen> {
                 child: Text(isEditing ? l10n.save : l10n.createTheArtist),
               ),
             ),
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -10,6 +10,7 @@ import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/artist/availability_picker.dart';
 import 'package:useme/widgets/artist/engineer_selector_bottom_sheet.dart';
 import 'package:useme/widgets/artist/session_request/session_request_exports.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Session request form for artists to request new sessions
@@ -100,7 +101,10 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
       appBar: AppBar(
         title: Text(widget.studioName != null ? l10n.sessionAt(widget.studioName!) : l10n.sessionRequest),
       ),
-      body: widget.studioId == null
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+          child: widget.studioId == null
           ? _buildNoStudioState(theme, l10n)
           : Form(
               key: _formKey,
@@ -200,6 +204,8 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
                 ],
               ),
             ),
+        ),
+      ),
     );
   }
 

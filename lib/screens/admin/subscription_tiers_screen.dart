@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/models/subscription_tier_config.dart';
 import 'package:useme/core/services/subscription_config_service.dart';
 import 'package:useme/widgets/common/app_loader.dart';
@@ -67,12 +68,17 @@ class _SubscriptionTiersScreenState extends State<SubscriptionTiersScreen> {
             return _buildInitializeState(context);
           }
 
-          return ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: tiers.length,
-            itemBuilder: (ctx, i) => _TierCard(
-              tier: tiers[i],
-              onEdit: () => _showEditDialog(tiers[i]),
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: tiers.length,
+                itemBuilder: (ctx, i) => _TierCard(
+                  tier: tiers[i],
+                  onEdit: () => _showEditDialog(tiers[i]),
+                ),
+              ),
             ),
           );
         },

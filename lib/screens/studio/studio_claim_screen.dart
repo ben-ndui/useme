@@ -10,6 +10,7 @@ import 'package:useme/core/models/studio_profile.dart';
 import 'package:useme/core/services/location_service.dart';
 import 'package:useme/core/services/studio_claim_service.dart';
 import 'package:useme/core/services/studio_claim_approval_service.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/app_loader.dart';
@@ -97,39 +98,44 @@ class _StudioClaimScreenState extends State<StudioClaimScreen> {
       return _buildErrorState(theme, l10n);
     }
 
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        // Header
-        _buildInfoCard(theme, l10n),
-        const SizedBox(height: 24),
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            // Header
+            _buildInfoCard(theme, l10n),
+            const SizedBox(height: 24),
 
-        // Studios list
-        Text(
-          l10n.nearbyStudios,
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+            // Studios list
+            Text(
+              l10n.nearbyStudios,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.selectStudioToClaim,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.outline,
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            if (_studios.isEmpty)
+              _buildEmptyState(theme, l10n)
+            else
+              ..._studios.map((studio) => _buildStudioTile(theme, studio, l10n)),
+
+            const SizedBox(height: 24),
+
+            // Manual creation
+            _buildManualCreationCard(theme, l10n),
+          ],
         ),
-        const SizedBox(height: 8),
-        Text(
-          l10n.selectStudioToClaim,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: theme.colorScheme.outline,
-          ),
-        ),
-        const SizedBox(height: 16),
-
-        if (_studios.isEmpty)
-          _buildEmptyState(theme, l10n)
-        else
-          ..._studios.map((studio) => _buildStudioTile(theme, studio, l10n)),
-
-        const SizedBox(height: 24),
-
-        // Manual creation
-        _buildManualCreationCard(theme, l10n),
-      ],
+      ),
     );
   }
 

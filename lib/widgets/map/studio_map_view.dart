@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/blocs/map/map_bloc.dart';
@@ -44,11 +45,22 @@ class _StudioMapViewState extends State<StudioMapView> {
 
   Future<void> _initWithPermission() async {
     if (!_locationPermissionHandled) {
-      final granted = await PermissionDialog.requestPermission(
-        context,
-        type: AppPermissionType.location,
-      );
-      if (granted) _locationPermissionHandled = true;
+      // Use geolocator (same package as login screen map) for consistent status
+      final geoPermission = await geo.Geolocator.checkPermission();
+      final alreadyGranted =
+          geoPermission == geo.LocationPermission.whileInUse ||
+              geoPermission == geo.LocationPermission.always;
+
+      if (alreadyGranted) {
+        _locationPermissionHandled = true;
+      } else {
+        if (!mounted) return;
+        final granted = await PermissionDialog.requestPermission(
+          context,
+          type: AppPermissionType.location,
+        );
+        if (granted) _locationPermissionHandled = true;
+      }
     }
     if (!mounted) return;
     context.read<MapBloc>().add(const InitMapEvent());
@@ -142,10 +154,11 @@ class _StudioMapViewState extends State<StudioMapView> {
                 context.read<MapBloc>().add(const DeselectStudioEvent());
               },
             ),
-            // Floating search bar (top left)
+            // Floating search bar (top left, right-constrained for tablet)
             Positioned(
               top: MediaQuery.of(context).padding.top + 60,
               left: 16,
+              right: 16,
               child: const MapSearchBar(),
             ),
             // Location button

@@ -4,6 +4,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/core/services/services_exports.dart';
@@ -611,12 +612,17 @@ Qu'est-ce qui t'intéresse le plus ?''';
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          Expanded(child: _buildMessageList()),
-          if (_isTyping) const AITypingIndicator(),
-          _buildInputArea(),
-        ],
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: Column(
+            children: [
+              Expanded(child: _buildMessageList()),
+              if (_isTyping) const AITypingIndicator(),
+              _buildInputArea(),
+            ],
+          ),
+        ),
       ),
     );
   }

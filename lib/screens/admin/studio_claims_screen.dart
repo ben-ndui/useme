@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/models/studio_claim.dart';
 import 'package:useme/core/services/studio_claim_approval_service.dart';
 import 'package:useme/widgets/common/app_loader.dart';
@@ -48,13 +49,18 @@ class _StudioClaimsScreenState extends State<StudioClaimsScreen> {
             return _buildEmptyState(context);
           }
 
-          return ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: claims.length,
-            itemBuilder: (ctx, i) => _ClaimCard(
-              claim: claims[i],
-              onApprove: () => _approveClaim(claims[i]),
-              onReject: () => _showRejectDialog(claims[i]),
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: claims.length,
+                itemBuilder: (ctx, i) => _ClaimCard(
+                  claim: claims[i],
+                  onApprove: () => _approveClaim(claims[i]),
+                  onReject: () => _showRejectDialog(claims[i]),
+                ),
+              ),
             ),
           );
         },

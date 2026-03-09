@@ -10,6 +10,7 @@ import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/widgets/studio/artist/artist_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/studio/artist_search_widget.dart';
+import 'package:useme/config/responsive_config.dart';
 
 /// Écran d'ajout d'artiste avec recherche + création + invitation
 class AddArtistScreen extends StatefulWidget {
@@ -81,24 +82,29 @@ class _AddArtistScreenState extends State<AddArtistScreen> with SingleTickerProv
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ArtistInfoCard(
-            icon: FontAwesomeIcons.magnifyingGlass,
-            title: AppLocalizations.of(context)!.findExistingArtist,
-            description: AppLocalizations.of(context)!.searchAmongRegistered,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ArtistInfoCard(
+                icon: FontAwesomeIcons.magnifyingGlass,
+                title: AppLocalizations.of(context)!.findExistingArtist,
+                description: AppLocalizations.of(context)!.searchAmongRegistered,
+              ),
+              const SizedBox(height: 24),
+              if (_isLinking)
+                const AppLoader.compact()
+              else
+                ArtistSearchWidget(
+                  studioId: _studioId!,
+                  onUserSelected: _onUserSelected,
+                  onCreateNew: () => _tabController.animateTo(1),
+                ),
+            ],
           ),
-          const SizedBox(height: 24),
-          if (_isLinking)
-            const AppLoader.compact()
-          else
-            ArtistSearchWidget(
-              studioId: _studioId!,
-              onUserSelected: _onUserSelected,
-              onCreateNew: () => _tabController.animateTo(1),
-            ),
-        ],
+        ),
       ),
     );
   }
@@ -106,11 +112,16 @@ class _AddArtistScreenState extends State<AddArtistScreen> with SingleTickerProv
   Widget _buildCreateTab() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
-      child: ArtistCreationForm(
-        studioId: _studioId,
-        studioName: _studioName,
-        invitationService: _invitationService,
-        onSuccess: () => context.pop(true),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+          child: ArtistCreationForm(
+            studioId: _studioId,
+            studioName: _studioName,
+            invitationService: _invitationService,
+            onSuccess: () => context.pop(true),
+          ),
+        ),
       ),
     );
   }

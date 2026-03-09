@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/core/services/payment_config_service.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 
@@ -63,18 +64,23 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
       appBar: AppBar(title: Text(l10n.paymentMethods)),
       body: _isLoading
           ? const AppLoader()
-          : ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                _buildInfoCard(theme, l10n),
-                const SizedBox(height: 24),
-                _buildDepositSection(theme, l10n),
-                const SizedBox(height: 24),
-                _buildPaymentMethodsSection(theme, l10n),
-                const SizedBox(height: 24),
-                _buildCancellationPolicySection(theme, l10n),
-                const SizedBox(height: 32),
-              ],
+          : Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    _buildInfoCard(theme, l10n),
+                    const SizedBox(height: 24),
+                    _buildDepositSection(theme, l10n),
+                    const SizedBox(height: 24),
+                    _buildPaymentMethodsSection(theme, l10n),
+                    const SizedBox(height: 24),
+                    _buildCancellationPolicySection(theme, l10n),
+                    const SizedBox(height: 32),
+                  ],
+                ),
+              ),
             ),
     );
   }

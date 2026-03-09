@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/glass/glass_exports.dart';
@@ -110,12 +111,17 @@ class _ProDiscoveryScreenState extends State<ProDiscoveryScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          _buildSearchBar(theme, l10n),
-          if (_hasActiveFilters) _buildActiveFilters(theme, l10n),
-          Expanded(child: _buildResults(theme, l10n)),
-        ],
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: Column(
+            children: [
+              _buildSearchBar(theme, l10n),
+              if (_hasActiveFilters) _buildActiveFilters(theme, l10n),
+              Expanded(child: _buildResults(theme, l10n)),
+            ],
+          ),
+        ),
       ),
     );
   }

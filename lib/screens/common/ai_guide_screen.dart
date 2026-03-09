@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/models/tip_item.dart';
 import 'package:useme/l10n/app_localizations.dart';
 
@@ -29,30 +30,35 @@ class _AIGuideScreenState extends State<AIGuideScreen> {
       appBar: AppBar(
         title: Text(l10n.aiGuideTitle),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          FadeInDown(
-            duration: const Duration(milliseconds: 400),
-            child: _buildHeader(theme, l10n),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              FadeInDown(
+                duration: const Duration(milliseconds: 400),
+                child: _buildHeader(theme, l10n),
+              ),
+              const SizedBox(height: 16),
+              FadeInDown(
+                delay: const Duration(milliseconds: 100),
+                duration: const Duration(milliseconds: 400),
+                child: _buildSecurityNotice(theme, l10n),
+              ),
+              const SizedBox(height: 24),
+              ...widget.sections.asMap().entries.map((entry) {
+                final index = entry.key;
+                final section = entry.value;
+                return FadeInUp(
+                  delay: Duration(milliseconds: 150 + (index * 100)),
+                  duration: const Duration(milliseconds: 400),
+                  child: _buildSection(theme, section, index),
+                );
+              }),
+            ],
           ),
-          const SizedBox(height: 16),
-          FadeInDown(
-            delay: const Duration(milliseconds: 100),
-            duration: const Duration(milliseconds: 400),
-            child: _buildSecurityNotice(theme, l10n),
-          ),
-          const SizedBox(height: 24),
-          ...widget.sections.asMap().entries.map((entry) {
-            final index = entry.key;
-            final section = entry.value;
-            return FadeInUp(
-              delay: Duration(milliseconds: 150 + (index * 100)),
-              duration: const Duration(milliseconds: 400),
-              child: _buildSection(theme, section, index),
-            );
-          }),
-        ],
+        ),
       ),
     );
   }

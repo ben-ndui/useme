@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/services/profile_photo_service.dart';
@@ -91,7 +92,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ],
           ),
-          body: Form(
+          body: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+              child: Form(
             key: _formKey,
             child: ListView(
               padding: const EdgeInsets.all(16),
@@ -186,6 +190,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onTap: _showDeleteAccountDialog,
                 ),
               ],
+            ),
+          ),
             ),
           ),
         );

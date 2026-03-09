@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/session.dart';
 import 'package:useme/l10n/app_localizations.dart';
@@ -18,7 +19,10 @@ class ProBookingsReceivedScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.proBookingsReceived)),
-      body: BlocConsumer<SessionBloc, SessionState>(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: BlocConsumer<SessionBloc, SessionState>(
         listenWhen: (prev, curr) => curr is SessionStatusUpdatedState,
         listener: (context, state) {
           if (state is SessionStatusUpdatedState) {
@@ -47,6 +51,8 @@ class ProBookingsReceivedScreen extends StatelessWidget {
             itemBuilder: (_, i) => _BookingCard(session: sessions[i]),
           );
         },
+      ),
+        ),
       ),
     );
   }

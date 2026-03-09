@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Session tracking screen - For engineer to check-in/out and add notes
@@ -41,17 +42,22 @@ class _SessionTrackingScreenState extends State<SessionTrackingScreen> {
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          _buildSessionInfo(context),
-          const SizedBox(height: 24),
-          _buildCheckInSection(context),
-          const SizedBox(height: 24),
-          _buildNotesSection(context),
-          const SizedBox(height: 24),
-          _buildPhotosSection(context),
-        ],
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              _buildSessionInfo(context),
+              const SizedBox(height: 24),
+              _buildCheckInSection(context),
+              const SizedBox(height: 24),
+              _buildNotesSection(context),
+              const SizedBox(height: 24),
+              _buildPhotosSection(context),
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: _buildBottomBar(context),
     );

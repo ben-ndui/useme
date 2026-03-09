@@ -8,6 +8,7 @@ import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/services/notification_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/main.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
@@ -47,7 +48,10 @@ class _AccountScreenState extends State<AccountScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.account)),
-      body: Stack(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: Stack(
         children: [
           ListView(
             children: [
@@ -92,6 +96,8 @@ class _AccountScreenState extends State<AccountScreen> {
               child: const Center(child: CircularProgressIndicator()),
             ),
         ],
+      ),
+        ),
       ),
     );
   }

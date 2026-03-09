@@ -7,6 +7,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/studio_profile.dart';
 import 'package:useme/core/services/location_service.dart';
 import 'package:useme/core/services/studio_claim_service.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/permission_dialog.dart';
@@ -147,13 +148,16 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.createMyStudio)),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            // Info card
-            _buildInfoCard(theme, l10n),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                // Info card
+                _buildInfoCard(theme, l10n),
             const SizedBox(height: 24),
 
             // Nom du studio
@@ -333,8 +337,10 @@ class _ManualStudioFormScreenState extends State<ManualStudioFormScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
             ),
-            const SizedBox(height: 32),
-          ],
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
         ),
       ),
     );

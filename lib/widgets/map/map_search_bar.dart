@@ -51,24 +51,39 @@ class _MapSearchBarState extends State<MapSearchBar> {
       listener: (context, state) {
         if (state.searchQuery != null) _collapse();
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeInOut,
-        width: _isExpanded ? MediaQuery.of(context).size.width - 60 : 60,
-        height: 60,
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: UseMeTheme.primaryColor,
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.15),
-              blurRadius: 12,
-              offset: const Offset(0, 2),
+      child: LayoutBuilder(
+        builder: (context, outerConstraints) {
+          final maxWidth = outerConstraints.maxWidth;
+          return Align(
+            alignment: Alignment.centerLeft,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
+              width: _isExpanded ? maxWidth : 60,
+              height: 60,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: UseMeTheme.primaryColor,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.15),
+                    blurRadius: 12,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  if (constraints.maxWidth <= 80) {
+                    return _buildCollapsedButton();
+                  }
+                  return _buildExpandedBar(l10n);
+                },
+              ),
             ),
-          ],
-        ),
-        child: _isExpanded ? _buildExpandedBar(l10n) : _buildCollapsedButton(),
+          );
+        },
       ),
     );
   }
@@ -116,17 +131,19 @@ class _MapSearchBarState extends State<MapSearchBar> {
                 style: const TextStyle(fontSize: 15),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: UseMeTheme.secondaryColor.withValues(alpha: 0.2),
+                  fillColor:
+                      UseMeTheme.secondaryColor.withValues(alpha: 0.2),
                   hintText: l10n.searchAddressHint,
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent)
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
                   ),
                   hintStyle: TextStyle(
                     color: Colors.grey.shade500,
                     fontSize: 15,
                   ),
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 12, horizontal: 12),
                   isDense: true,
                 ),
                 textInputAction: TextInputAction.search,

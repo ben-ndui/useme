@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/core/models/session.dart';
@@ -48,7 +49,10 @@ class _ProBookingScreenState extends State<ProBookingScreen> {
       appBar: AppBar(
         title: Text(l10n.proBookingTitle(_profile.displayName)),
       ),
-      body: ListView(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
+          child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           _buildProHeader(theme),
@@ -73,6 +77,8 @@ class _ProBookingScreenState extends State<ProBookingScreen> {
           _buildSubmitButton(theme, l10n),
           const SizedBox(height: 32),
         ],
+      ),
+        ),
       ),
     );
   }

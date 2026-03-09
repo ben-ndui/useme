@@ -7,6 +7,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/subscription_tier_config.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/services/iap_service.dart';
 import 'package:useme/core/services/stripe_service.dart';
 import 'package:useme/core/services/subscription_config_service.dart';
@@ -139,7 +140,10 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
             ),
         ],
       ),
-      body: Stack(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: Stack(
         children: [
           StreamBuilder<List<SubscriptionTierConfig>>(
             stream: _configService.streamTiers(),
@@ -219,6 +223,8 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
               child: const AppLoader(),
             ),
         ],
+      ),
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/screens/engineer/engineer_dashboard_page.dart';
@@ -9,9 +10,10 @@ import 'package:useme/screens/engineer/engineer_sessions_page.dart';
 import 'package:useme/screens/engineer/engineer_settings_page.dart';
 import 'package:useme/screens/shared/conversations_screen.dart';
 import 'package:useme/screens/shared/favorites_screen.dart';
+import 'package:useme/widgets/common/app_navigation_rail.dart';
 import 'package:useme/widgets/common/floating_bottom_nav.dart';
 
-/// Main scaffold for Engineer role with floating bottom navigation
+/// Main scaffold for Engineer role with adaptive navigation
 class EngineerMainScaffold extends StatefulWidget {
   final int initialPage;
 
@@ -39,22 +41,16 @@ class _EngineerMainScaffoldState extends State<EngineerMainScaffold> {
     _currentIndex = widget.initialPage;
     _pageController = PageController(initialPage: _currentIndex);
 
-    // Load data after first frame
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadData();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadData());
   }
 
   void _loadData() {
     final authState = context.read<AuthBloc>().state;
     if (authState is AuthAuthenticatedState) {
       final user = authState.user;
-
-      // Load sessions assigned to this engineer
       context.read<SessionBloc>().add(LoadEngineerSessionsEvent(engineerId: user.uid));
       context.read<FavoriteBloc>().add(LoadFavoritesEvent(userId: user.uid));
 
-      // Configure l'utilisateur pour la messagerie
       final messagingBloc = context.read<MessagingBloc>();
       messagingBloc.setCurrentUser(
         userId: user.uid,
@@ -71,39 +67,89 @@ class _EngineerMainScaffoldState extends State<EngineerMainScaffold> {
     super.dispose();
   }
 
-  void _onPageChanged(int index) {
-    setState(() => _currentIndex = index);
+  void _onNavTapped(int index) {
+    if (context.isTabletOrLarger) {
+      setState(() => _currentIndex = index);
+    } else {
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
-  void _onNavTapped(int index) {
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
-  }
+  List<AppNavRailItem> _railItems(AppLocalizations l10n) => [
+        AppNavRailItem(
+          icon: FontAwesomeIcons.house,
+          selectedIcon: FontAwesomeIcons.houseChimney,
+          label: l10n.home,
+        ),
+        AppNavRailItem(
+          icon: FontAwesomeIcons.calendarDays,
+          selectedIcon: FontAwesomeIcons.calendarCheck,
+          label: l10n.sessionsLabel,
+        ),
+        AppNavRailItem(
+          icon: FontAwesomeIcons.heart,
+          selectedIcon: FontAwesomeIcons.solidHeart,
+          label: l10n.favorites,
+        ),
+        AppNavRailItem(
+          icon: FontAwesomeIcons.comment,
+          selectedIcon: FontAwesomeIcons.solidComment,
+          label: l10n.messages,
+          isMessages: true,
+        ),
+        AppNavRailItem(
+          icon: FontAwesomeIcons.gear,
+          selectedIcon: FontAwesomeIcons.gears,
+          label: l10n.settings,
+        ),
+      ];
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isWide = context.isTabletOrLarger;
 
     return PopScope(
       canPop: _currentIndex == 0,
       onPopInvokedWithResult: (didPop, result) {
-        if (!didPop && _currentIndex != 0) {
-          // Navigate to home page instead of exiting
-          _onNavTapped(0);
-        }
+        if (!didPop && _currentIndex != 0) _onNavTapped(0);
       },
-      child: Scaffold(
-        extendBody: true,
-        body: PageView(
-          controller: _pageController,
-          onPageChanged: _onPageChanged,
-          physics: const BouncingScrollPhysics(),
-          children: _pages,
-        ),
-        bottomNavigationBar: BlocBuilder<MessagingBloc, MessagingState>(
+      child: isWide
+          ? _buildWideScaffold(l10n)
+          : _buildMobileScaffold(l10n),
+    );
+  }
+
+  Widget _buildWideScaffold(AppLocalizations l10n) {
+    return Scaffold(
+      body: Row(
+        children: [
+          AppNavigationRail(
+            selectedIndex: _currentIndex,
+            onDestinationSelected: _onNavTapped,
+
+            items: _railItems(l10n),
+          ),
+          Expanded(child: _pages[_currentIndex]),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMobileScaffold(AppLocalizations l10n) {
+    return Scaffold(
+      extendBody: true,
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (i) => setState(() => _currentIndex = i),
+        physics: const BouncingScrollPhysics(),
+        children: _pages,
+      ),
+      bottomNavigationBar: BlocBuilder<MessagingBloc, MessagingState>(
         buildWhen: (previous, current) {
           final prevCount = previous is ConversationsLoadedState ? previous.totalUnreadCount : 0;
           final currCount = current is ConversationsLoadedState ? current.totalUnreadCount : 0;
@@ -147,7 +193,6 @@ class _EngineerMainScaffoldState extends State<EngineerMainScaffold> {
             ],
           );
         },
-      ),
       ),
     );
   }

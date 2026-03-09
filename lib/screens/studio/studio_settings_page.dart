@@ -5,6 +5,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/services/studio_claim_service.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/settings/settings_exports.dart';
@@ -52,8 +53,11 @@ class _StudioSettingsPageState extends State<StudioSettingsPage> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settings)),
-      body: ListView(
-        children: [
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+          child: ListView(
+            children: [
           // Studio configuration
           StudioConfigSection(userId: _userId),
           const Divider(height: 32),
@@ -103,8 +107,10 @@ class _StudioSettingsPageState extends State<StudioSettingsPage> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
-        ],
+              const SizedBox(height: 16),
+            ],
+          ),
+        ),
       ),
     );
   }

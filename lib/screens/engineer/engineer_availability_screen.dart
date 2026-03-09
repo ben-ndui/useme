@@ -9,6 +9,7 @@ import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/widgets/engineer/add_time_off_bottom_sheet.dart';
 import 'package:useme/widgets/engineer/time_off_card.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/widgets/engineer/working_hours_editor.dart';
 
 /// Écran de gestion des disponibilités de l'ingénieur
@@ -62,61 +63,66 @@ class _AvailabilityContent extends StatelessWidget {
             return const AppLoader();
           }
 
-          return ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              // Working Hours Section
-              _buildSectionHeader(
-                context,
-                icon: FontAwesomeIcons.clock,
-                title: l10n.workingHours,
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
+                  // Working Hours Section
+                  _buildSectionHeader(
+                    context,
+                    icon: FontAwesomeIcons.clock,
+                    title: l10n.workingHours,
+                  ),
+                  const SizedBox(height: 12),
+
+                  if (state.workingHours != null)
+                    WorkingHoursEditor(
+                      workingHours: state.workingHours!,
+                      onDayChanged: (weekday, schedule) {
+                        context.read<EngineerAvailabilityBloc>().add(
+                          UpdateDayScheduleEvent(
+                            engineerId: engineerId,
+                            weekday: weekday,
+                            schedule: schedule,
+                          ),
+                        );
+                      },
+                    ),
+
+                  const SizedBox(height: 32),
+
+                  // Time Offs Section
+                  _buildSectionHeader(
+                    context,
+                    icon: FontAwesomeIcons.calendarXmark,
+                    title: l10n.unavailabilities,
+                    trailing: TextButton.icon(
+                      onPressed: () => _addTimeOff(context),
+                      icon: const FaIcon(FontAwesomeIcons.plus, size: 14),
+                      label: Text(l10n.add),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  if (state.timeOffs.isEmpty)
+                    _buildEmptyTimeOffs(context, l10n)
+                  else
+                    ...state.timeOffs.map((timeOff) => TimeOffCard(
+                      timeOff: timeOff,
+                      onDelete: () {
+                        context.read<EngineerAvailabilityBloc>().add(
+                          DeleteTimeOffEvent(timeOffId: timeOff.id),
+                        );
+                      },
+                    )),
+
+                  // Spacer for floating nav
+                  SizedBox(height: MediaQuery.of(context).padding.bottom + 100),
+                ],
               ),
-              const SizedBox(height: 12),
-
-              if (state.workingHours != null)
-                WorkingHoursEditor(
-                  workingHours: state.workingHours!,
-                  onDayChanged: (weekday, schedule) {
-                    context.read<EngineerAvailabilityBloc>().add(
-                      UpdateDayScheduleEvent(
-                        engineerId: engineerId,
-                        weekday: weekday,
-                        schedule: schedule,
-                      ),
-                    );
-                  },
-                ),
-
-              const SizedBox(height: 32),
-
-              // Time Offs Section
-              _buildSectionHeader(
-                context,
-                icon: FontAwesomeIcons.calendarXmark,
-                title: l10n.unavailabilities,
-                trailing: TextButton.icon(
-                  onPressed: () => _addTimeOff(context),
-                  icon: const FaIcon(FontAwesomeIcons.plus, size: 14),
-                  label: Text(l10n.add),
-                ),
-              ),
-              const SizedBox(height: 12),
-
-              if (state.timeOffs.isEmpty)
-                _buildEmptyTimeOffs(context, l10n)
-              else
-                ...state.timeOffs.map((timeOff) => TimeOffCard(
-                  timeOff: timeOff,
-                  onDelete: () {
-                    context.read<EngineerAvailabilityBloc>().add(
-                      DeleteTimeOffEvent(timeOffId: timeOff.id),
-                    );
-                  },
-                )),
-
-              // Spacer for floating nav
-              SizedBox(height: MediaQuery.of(context).padding.bottom + 100),
-            ],
+            ),
           );
         },
       ),
