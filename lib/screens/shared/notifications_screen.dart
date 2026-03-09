@@ -12,6 +12,7 @@ import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Notifications screen - loads from Firestore user_notifications collection
 class NotificationsScreen extends StatefulWidget {
@@ -286,7 +287,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         }
         break;
       default:
-        debugPrint('Notification type sans navigation: $type');
+        appLog('Notification type sans navigation: $type');
     }
   }
 
@@ -296,7 +297,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         'isRead': true,
       });
     } catch (e) {
-      debugPrint('Error marking notification as read: $e');
+      appLog('Error marking notification as read: $e');
     }
   }
 
@@ -329,7 +330,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       if (!context.mounted) return;
       AppSnackBar.success(context, l10n.allNotificationsMarkedAsRead);
     } catch (e) {
-      debugPrint('Error marking all notifications as read: $e');
+      appLog('Error marking all notifications as read: $e');
       if (context.mounted) {
         AppSnackBar.error(context, e.toString());
       }

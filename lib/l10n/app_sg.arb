@@ -83,6 +83,7 @@
   "reportProblem": "Tene pörö",
   "reportConfirmTitle": "Tene na ndâ",
   "reportConfirmMessage": "Ngâ nî mo sü tene na ndâ tî bîanî sô?",
+  "reportReason": "Ndâ tî tene na ndâ",
   "reportSent": "Mbëtï tî tene na ndâ a-tö awe",
   "leaveConversation": "Fä bîanî",
   "deleteFromList": "Zïa na liste tî mo",
@@ -1814,5 +1815,40 @@
   "noEngineerInTeam": "Ingénieur a-vöngo pëpe na équipe",
   "statistics": "Statistiques",
   "availabilities": "Disponibilités",
-  "remote": "Remote"
+  "remote": "Remote",
+  "limitReached": "Kötä a-sï",
+  "limitReachedMessage": "Mo sï na kötä tî {max} {type} na abonnement {tier}.",
+  "@limitReachedMessage": {
+    "placeholders": {
+      "max": {"type": "int"},
+      "type": {"type": "String"},
+      "tier": {"type": "String"}
+    }
+  },
+  "limitUsage": "{current} / {max} {type}",
+  "@limitUsage": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "max": {"type": "int"},
+      "type": {"type": "String"}
+    }
+  },
+  "upgradeToTier": "Gä na {tier} tî {limit}",
+  "@upgradeToTier": {
+    "placeholders": {
+      "tier": {"type": "String"},
+      "limit": {"type": "String"}
+    }
+  },
+  "maybeLater": "Na pekô",
+  "upgrade": "Upgrade",
+  "tierFree": "Gratuit",
+  "tierPro": "Pro",
+  "tierEnterprise": "Enterprise",
+  "unlimitedSessions": "sessions a-zîa pëpe",
+  "tenRooms": "10 da",
+  "unlimitedServices": "services a-zîa pëpe",
+  "tenEngineers": "10 ingénieurs",
+  "unlimited": "a-zîa pëpe",
+  "more": "mbênî"
 }

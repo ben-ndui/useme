@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/session.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service pour gérer les propositions de sessions aux ingénieurs
 class EngineerProposalService {
@@ -53,7 +53,7 @@ class EngineerProposalService {
     }
 
     await batch.commit();
-    debugPrint('✅ Session proposée à ${engineers.length} ingénieurs');
+    appLog('✅ Session proposée à ${engineers.length} ingénieurs');
   }
 
   /// Un ingénieur accepte une proposition de session
@@ -113,7 +113,7 @@ class EngineerProposalService {
     }
 
     await batch.commit();
-    debugPrint('✅ ${engineer.uid} a accepté la session $sessionId');
+    appLog('✅ ${engineer.uid} a accepté la session $sessionId');
   }
 
   /// Un ingénieur refuse une proposition
@@ -125,7 +125,7 @@ class EngineerProposalService {
       'proposedEngineerIds': FieldValue.arrayRemove([engineerId]),
       'updatedAt': FieldValue.serverTimestamp(),
     });
-    debugPrint('✅ $engineerId a refusé la session $sessionId');
+    appLog('✅ $engineerId a refusé la session $sessionId');
   }
 
   /// Un ingénieur demande à rejoindre une session déjà attribuée (co-ingénieur)
@@ -180,7 +180,7 @@ class EngineerProposalService {
     }
 
     await batch.commit();
-    debugPrint('✅ ${engineer.uid} a rejoint comme co-ingénieur sur $sessionId');
+    appLog('✅ ${engineer.uid} a rejoint comme co-ingénieur sur $sessionId');
   }
 
   /// Le studio retire un ingénieur de la session
@@ -222,7 +222,7 @@ class EngineerProposalService {
     });
 
     await batch.commit();
-    debugPrint('✅ $engineerId retiré de la session $sessionId');
+    appLog('✅ $engineerId retiré de la session $sessionId');
   }
 
   String _formatDate(DateTime date) {

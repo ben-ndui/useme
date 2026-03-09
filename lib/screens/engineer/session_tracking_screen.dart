@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
+import 'package:useme/core/blocs/session/session_exports.dart';
+import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/core/services/session_photo_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/config/responsive_config.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:useme/widgets/engineer/session_tracking_body.dart';
 
 /// Session tracking screen - For engineer to check-in/out and add notes
 class SessionTrackingScreen extends StatefulWidget {
@@ -18,8 +21,15 @@ class SessionTrackingScreen extends StatefulWidget {
 
 class _SessionTrackingScreenState extends State<SessionTrackingScreen> {
   final _notesController = TextEditingController();
-  bool _isCheckedIn = false;
-  DateTime? _checkInTime;
+  final _photoService = SessionPhotoService();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<SessionBloc>().add(
+          LoadSessionByIdEvent(sessionId: widget.sessionId),
+        );
+  }
 
   @override
   void dispose() {
@@ -29,7 +39,6 @@ class _SessionTrackingScreenState extends State<SessionTrackingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // For now, we'll show a mock session. In production, this would load from BLoC
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -42,228 +51,103 @@ class _SessionTrackingScreenState extends State<SessionTrackingScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
-          child: ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              _buildSessionInfo(context),
-              const SizedBox(height: 24),
-              _buildCheckInSection(context),
-              const SizedBox(height: 24),
-              _buildNotesSection(context),
-              const SizedBox(height: 24),
-              _buildPhotosSection(context),
-            ],
-          ),
-        ),
+      body: BlocConsumer<SessionBloc, SessionState>(
+        listener: _onBlocStateChange,
+        builder: (context, state) {
+          if (state.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final session = state.selectedSession;
+          if (session == null) {
+            return Center(child: Text(l10n.sessionNotFound));
+          }
+          return SessionTrackingBody(
+            session: session,
+            notesController: _notesController,
+            onCheckIn: () => _checkIn(session),
+            onCheckOut: () => _checkOut(session),
+            onAddPhoto: () => _addPhoto(session),
+          );
+        },
       ),
       bottomNavigationBar: _buildBottomBar(context),
     );
   }
 
-  Widget _buildSessionInfo(BuildContext context) {
-    final theme = Theme.of(context);
-    final dateFormat = DateFormat('EEEE d MMMM yyyy', 'fr_FR');
+  void _onBlocStateChange(BuildContext context, SessionState state) {
+    final l10n = AppLocalizations.of(context)!;
+    if (state is SessionNotesUpdatedState) {
+      AppSnackBar.success(context, l10n.notesSaved);
+    } else if (state is SessionPhotoAddedState) {
+      AppSnackBar.success(context, l10n.photoAdded);
+      context.read<SessionBloc>().add(
+            LoadSessionByIdEvent(sessionId: widget.sessionId),
+          );
+    } else if (state is SessionStatusUpdatedState) {
+      AppSnackBar.success(context, l10n.arrivalCheckedSuccess);
+      context.read<SessionBloc>().add(
+            LoadSessionByIdEvent(sessionId: widget.sessionId),
+          );
+    } else if (state is SessionErrorState && state.errorMessage != null) {
+      AppSnackBar.error(context, state.errorMessage!);
+    }
+  }
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Center(
-                    child: FaIcon(FontAwesomeIcons.microphone, size: 20),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Artiste Demo',
-                        style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      Text('Recording', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.primary)),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Divider(),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: _buildInfoRow(context, FontAwesomeIcons.calendar, dateFormat.format(DateTime.now())),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: _buildInfoRow(context, FontAwesomeIcons.clock, '10:00 - 14:00'),
-                ),
-                Expanded(
-                  child: _buildInfoRow(context, FontAwesomeIcons.hourglass, '4h prévues'),
-                ),
-              ],
-            ),
-          ],
-        ),
+  void _checkIn(Session session) =>
+      context.read<SessionBloc>().add(CheckinSessionEvent(sessionId: session.id));
+
+  void _checkOut(Session session) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.endSession),
+        content: Text(l10n.endSessionConfirm),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(l10n.cancel)),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              context.read<SessionBloc>().add(CheckoutSessionEvent(sessionId: session.id));
+            },
+            child: Text(l10n.finish),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildInfoRow(BuildContext context, IconData icon, String text) {
-    final theme = Theme.of(context);
-
-    return Row(
-      children: [
-        FaIcon(icon, size: 14, color: theme.colorScheme.outline),
-        const SizedBox(width: 8),
-        Text(text, style: theme.textTheme.bodySmall),
-      ],
+  Future<void> _addPhoto(Session session) async {
+    final l10n = AppLocalizations.of(context)!;
+    final response = await _photoService.pickAndUploadPhoto(
+      context: context,
+      sessionId: session.id,
     );
-  }
-
-  Widget _buildCheckInSection(BuildContext context) {
-    final theme = Theme.of(context);
-    final timeFormat = DateFormat('HH:mm', 'fr_FR');
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Pointage', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            if (!_isCheckedIn)
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton.icon(
-                  onPressed: _checkIn,
-                  icon: const FaIcon(FontAwesomeIcons.rightToBracket, size: 16),
-                  label: const Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Text('Pointer l\'arrivée'),
-                  ),
-                ),
-              )
-            else
-              Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade50,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.green.shade200),
-                    ),
-                    child: Row(
-                      children: [
-                        FaIcon(FontAwesomeIcons.circleCheck, size: 20, color: Colors.green.shade700),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Arrivée pointée',
-                                style: TextStyle(fontWeight: FontWeight.w600, color: Colors.green.shade700),
-                              ),
-                              Text(
-                                _checkInTime != null ? timeFormat.format(_checkInTime!) : '',
-                                style: theme.textTheme.bodySmall,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
-                      onPressed: _checkOut,
-                      icon: const FaIcon(FontAwesomeIcons.rightFromBracket, size: 16),
-                      label: const Padding(
-                        padding: EdgeInsets.all(12),
-                        child: Text('Pointer le départ'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNotesSection(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Notes de session', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _notesController,
-              maxLines: 4,
-              decoration: const InputDecoration(
-                hintText: 'Ajouter des notes sur la session...',
-                border: OutlineInputBorder(),
-              ),
+    if (!mounted) return;
+    if (response.code == 200 && response.data != null) {
+      context.read<SessionBloc>().add(
+            AddSessionPhotoEvent(
+              sessionId: session.id,
+              photoUrl: response.data!,
             ),
-          ],
-        ),
-      ),
-    );
+          );
+    } else if (response.code == 500) {
+      AppSnackBar.error(context, l10n.photoUploadError);
+    }
   }
 
-  Widget _buildPhotosSection(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Photos', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 12),
-            OutlinedButton.icon(
-              onPressed: () {
-                // TODO: Add photo
-              },
-              icon: const FaIcon(FontAwesomeIcons.camera, size: 16),
-              label: Text(AppLocalizations.of(context)!.addPhoto),
+  void _saveAndClose() {
+    final state = context.read<SessionBloc>().state;
+    final session = state.selectedSession;
+    if (session != null && _notesController.text.isNotEmpty) {
+      context.read<SessionBloc>().add(
+            UpdateSessionNotesEvent(
+              sessionId: session.id,
+              notes: _notesController.text,
             ),
-          ],
-        ),
-      ),
-    );
+          );
+    }
+    context.pop();
   }
 
   Widget _buildBottomBar(BuildContext context) {
@@ -271,73 +155,44 @@ class _SessionTrackingScreenState extends State<SessionTrackingScreen> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 4, offset: const Offset(0, -2))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 4,
+            offset: const Offset(0, -2),
+          ),
+        ],
       ),
       child: SafeArea(
         child: FilledButton(
           onPressed: _saveAndClose,
-          child: const Padding(
-            padding: EdgeInsets.all(12),
-            child: Text('Enregistrer'),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Text(AppLocalizations.of(context)!.save),
           ),
         ),
       ),
     );
-  }
-
-  void _checkIn() {
-    setState(() {
-      _isCheckedIn = true;
-      _checkInTime = DateTime.now();
-    });
-    AppSnackBar.success(context, 'Arrivée pointée !');
-  }
-
-  void _checkOut() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.endSession),
-        content: Text(AppLocalizations.of(context)!.endSessionConfirm),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text(AppLocalizations.of(context)!.cancel)),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _saveAndClose();
-            },
-            child: Text(AppLocalizations.of(context)!.finish),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _saveAndClose() {
-    // TODO: Save session data
-    context.pop();
   }
 
   void _showOptionsMenu(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
-      builder: (context) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const FaIcon(FontAwesomeIcons.message, size: 18),
-              title: Text(AppLocalizations.of(context)!.contactArtist),
-              onTap: () => Navigator.pop(context),
-            ),
-            ListTile(
-              leading: const FaIcon(FontAwesomeIcons.circleExclamation, size: 18),
-              title: Text(AppLocalizations.of(context)!.reportProblemAction),
-              onTap: () => Navigator.pop(context),
-            ),
-            const SizedBox(height: 8),
-          ],
-        ),
+      builder: (ctx) => SafeArea(
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          ListTile(
+            leading: const FaIcon(FontAwesomeIcons.message, size: 18),
+            title: Text(l10n.contactArtist),
+            onTap: () => Navigator.pop(ctx),
+          ),
+          ListTile(
+            leading: const FaIcon(FontAwesomeIcons.circleExclamation, size: 18),
+            title: Text(l10n.reportProblemAction),
+            onTap: () => Navigator.pop(ctx),
+          ),
+          const SizedBox(height: 8),
+        ]),
       ),
     );
   }

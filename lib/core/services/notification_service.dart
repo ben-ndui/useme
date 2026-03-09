@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service de notifications pour Use Me.
 /// Wrapper autour de BaseNotificationService avec sauvegarde du token.
@@ -75,7 +75,7 @@ class UseMeNotificationService {
 
     // Demander les permissions automatiquement
     await requestPermissions();
-    debugPrint('✅ Notifications initialisées, token: $fcmToken');
+    appLog('✅ Notifications initialisées, token: $fcmToken');
   }
 
   /// Gère le tap sur une notification locale
@@ -93,7 +93,7 @@ class UseMeNotificationService {
         );
         onNotificationTap!(message);
       } catch (e) {
-        debugPrint('❌ Erreur parsing notification payload: $e');
+        appLog('❌ Erreur parsing notification payload: $e');
       }
     }
   }
@@ -117,14 +117,14 @@ class UseMeNotificationService {
         }
         final token = await FirebaseMessaging.instance.getToken();
         if (token != null && token.isNotEmpty) {
-          debugPrint('✅ Token FCM obtenu (tentative ${i + 1}): ${token.substring(0, 20)}...');
+          appLog('✅ Token FCM obtenu (tentative ${i + 1}): ${token.substring(0, 20)}...');
           return token;
         }
       } catch (e) {
-        debugPrint('⚠️ Tentative ${i + 1} échouée: $e');
+        appLog('⚠️ Tentative ${i + 1} échouée: $e');
       }
     }
-    debugPrint('❌ Impossible d\'obtenir le token FCM après $maxRetries tentatives');
+    appLog('❌ Impossible d\'obtenir le token FCM après $maxRetries tentatives');
     return null;
   }
 
@@ -168,9 +168,9 @@ class UseMeNotificationService {
         'fcmToken': token,
         'fcmTokenUpdatedAt': DateTime.now().toIso8601String(),
       });
-      debugPrint('✅ Token FCM sauvegardé pour $_currentUserId');
+      appLog('✅ Token FCM sauvegardé pour $_currentUserId');
     } catch (e) {
-      debugPrint('❌ Erreur sauvegarde token FCM: $e');
+      appLog('❌ Erreur sauvegarde token FCM: $e');
     }
   }
 
@@ -182,9 +182,9 @@ class UseMeNotificationService {
       await SmoothFirebase.collection('users').doc(_currentUserId).update({
         'fcmToken': null,
       });
-      debugPrint('🗑️ Token FCM supprimé pour $_currentUserId');
+      appLog('🗑️ Token FCM supprimé pour $_currentUserId');
     } catch (e) {
-      debugPrint('❌ Erreur suppression token FCM: $e');
+      appLog('❌ Erreur suppression token FCM: $e');
     }
 
     _currentUserId = null;

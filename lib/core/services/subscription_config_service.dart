@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:useme/core/models/subscription_tier_config.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service de gestion de la configuration des tiers d'abonnement (SuperAdmin)
 /// Collection Firestore: 'subscription_tiers'
@@ -57,7 +57,7 @@ class SubscriptionConfigService {
 
       return _cachedTiers!;
     } catch (e) {
-      debugPrint('Erreur récupération tiers: $e');
+      appLog('Erreur récupération tiers: $e');
       return _cachedTiers ?? SubscriptionTierConfig.defaultTiers;
     }
   }
@@ -76,7 +76,7 @@ class SubscriptionConfigService {
 
       return SubscriptionTierConfig.fromMap(doc.data()!, id: doc.id);
     } catch (e) {
-      debugPrint('Erreur récupération tier $tierId: $e');
+      appLog('Erreur récupération tier $tierId: $e');
       // Fallback vers les défauts
       return SubscriptionTierConfig.defaultTiers
           .where((t) => t.id == tierId)
@@ -93,7 +93,7 @@ class SubscriptionConfigService {
       _cachedTiers = null;
       _lastFetch = null;
     } catch (e) {
-      debugPrint('Erreur mise à jour tier ${tier.id}: $e');
+      appLog('Erreur mise à jour tier ${tier.id}: $e');
       rethrow;
     }
   }
@@ -107,7 +107,7 @@ class SubscriptionConfigService {
       _cachedTiers = null;
       _lastFetch = null;
     } catch (e) {
-      debugPrint('Erreur création tier ${tier.id}: $e');
+      appLog('Erreur création tier ${tier.id}: $e');
       rethrow;
     }
   }
@@ -126,7 +126,7 @@ class SubscriptionConfigService {
       _cachedTiers = null;
       _lastFetch = null;
     } catch (e) {
-      debugPrint('Erreur suppression tier $tierId: $e');
+      appLog('Erreur suppression tier $tierId: $e');
       rethrow;
     }
   }
@@ -140,7 +140,7 @@ class SubscriptionConfigService {
     }
 
     await batch.commit();
-    debugPrint('Tiers par défaut initialisés');
+    appLog('Tiers par défaut initialisés');
   }
 
   /// Vérifie si un studio peut créer une session selon son tier

@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/favorite.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Bouton pour ajouter/supprimer des favoris.
 class FavoriteButton extends StatelessWidget {
@@ -45,9 +46,9 @@ class FavoriteButton extends StatelessWidget {
 
         return IconButton(
           onPressed: () {
-            debugPrint('❤️ FavoriteButton tapped - targetId: $targetId, userId: $userId');
-            debugPrint('❤️ Current state: ${state.runtimeType}, favorites count: ${state.favorites.length}');
-            debugPrint('❤️ isFavorite before toggle: $isFavorite');
+            appLog('❤️ FavoriteButton tapped - targetId: $targetId, userId: $userId');
+            appLog('❤️ Current state: ${state.runtimeType}, favorites count: ${state.favorites.length}');
+            appLog('❤️ isFavorite before toggle: $isFavorite');
             context.read<FavoriteBloc>().add(
                   ToggleFavoriteEvent(
                     userId: userId,

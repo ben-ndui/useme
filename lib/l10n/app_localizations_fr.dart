@@ -115,6 +115,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get languageSystemSubtitle => 'Suit les réglages de l\'appareil';
 
   @override
+  String get languageFrenchSubtitle => 'French';
+
+  @override
+  String get languageEnglishSubtitle => 'Anglais';
+
+  @override
+  String get languageSangoSubtitle => 'Centrafrique';
+
+  @override
   String get userGuide => 'Guide d\'utilisation';
 
   @override
@@ -193,6 +202,9 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get reportConfirmMessage =>
       'Pourquoi souhaitez-vous signaler cette conversation ?';
+
+  @override
+  String get reportReason => 'Raison du signalement';
 
   @override
   String get reportSent => 'Signalement envoyé';
@@ -1808,6 +1820,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get addPhoto => 'Ajouter une photo';
+
+  @override
+  String get sessionNotFound => 'Session introuvable';
+
+  @override
+  String get notesSaved => 'Notes enregistrées';
+
+  @override
+  String get photoAdded => 'Photo ajoutée';
+
+  @override
+  String get photoUploadError => 'Erreur lors de l\'envoi de la photo';
 
   @override
   String get arrivalCheckedSuccess => 'Arrivée pointée !';
@@ -3497,7 +3521,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get unlimitedSessions => 'Sessions illimitées';
+  String get unlimitedSessions => 'sessions illimitées';
 
   @override
   String sessionsPerMonth(int count) {
@@ -3513,7 +3537,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get unlimitedServices => 'Services illimités';
+  String get unlimitedServices => 'services illimités';
 
   @override
   String servicesCount(int count) {
@@ -4080,4 +4104,49 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get remote => 'Remote';
+
+  @override
+  String get limitReached => 'Limite atteinte';
+
+  @override
+  String limitReachedMessage(int max, String type, String tier) {
+    return 'Vous avez atteint la limite de $max $type pour l\'\'abonnement $tier.';
+  }
+
+  @override
+  String limitUsage(int current, int max, String type) {
+    return '$current / $max $type';
+  }
+
+  @override
+  String upgradeToTier(String tier, String limit) {
+    return 'Passez à $tier pour $limit';
+  }
+
+  @override
+  String get maybeLater => 'Plus tard';
+
+  @override
+  String get upgrade => 'Upgrade';
+
+  @override
+  String get tierFree => 'Gratuit';
+
+  @override
+  String get tierPro => 'Pro';
+
+  @override
+  String get tierEnterprise => 'Enterprise';
+
+  @override
+  String get tenRooms => '10 salles';
+
+  @override
+  String get tenEngineers => '10 ingénieurs';
+
+  @override
+  String get unlimited => 'illimité';
+
+  @override
+  String get more => 'plus';
 }

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:flutter/foundation.dart';
 import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/core/services/encryption_service.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service pour gérer la configuration des paiements d'un studio
 /// avec chiffrement AES-256 des données sensibles
@@ -45,7 +45,7 @@ class PaymentConfigService {
       final decryptedConfig = _decryptConfigData(configData);
       return StudioPaymentConfig.fromMap(decryptedConfig);
     } catch (e) {
-      debugPrint('Erreur getPaymentConfig: $e');
+      appLog('Erreur getPaymentConfig: $e');
       return const StudioPaymentConfig();
     }
   }
@@ -182,7 +182,7 @@ class PaymentConfigService {
 
       return result.data['message'] as String;
     } catch (e) {
-      debugPrint('Erreur generatePaymentMessage (Cloud Function): $e');
+      appLog('Erreur generatePaymentMessage (Cloud Function): $e');
       // Fallback: générer localement (moins sécurisé)
       final config = await getPaymentConfig(studioId);
       final method = config.methods.firstWhere(

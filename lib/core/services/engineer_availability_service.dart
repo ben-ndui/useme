@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/session_service.dart';
 import 'package:useme/core/services/team_service.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service de gestion des disponibilités des ingénieurs
 class EngineerAvailabilityService {
@@ -34,7 +34,7 @@ class EngineerAvailabilityService {
       final data = doc.data()!;
       return WorkingHours.fromMap(data['workingHours'] as Map<String, dynamic>?);
     } catch (e) {
-      debugPrint('Erreur getWorkingHours: $e');
+      appLog('Erreur getWorkingHours: $e');
       return WorkingHours.defaultSchedule();
     }
   }
@@ -61,7 +61,7 @@ class EngineerAvailabilityService {
       });
       return SmoothResponse(code: 200, message: 'Horaires mis à jour', data: true);
     } catch (e) {
-      debugPrint('Erreur setWorkingHours: $e');
+      appLog('Erreur setWorkingHours: $e');
       return SmoothResponse(code: 500, message: 'Erreur: $e', data: false);
     }
   }
@@ -114,7 +114,7 @@ class EngineerAvailabilityService {
           .where((timeOff) => timeOff.overlapsWith(start, end))
           .toList();
     } catch (e) {
-      debugPrint('Erreur getTimeOffsByDateRange: $e');
+      appLog('Erreur getTimeOffsByDateRange: $e');
       return [];
     }
   }
@@ -131,7 +131,7 @@ class EngineerAvailabilityService {
         data: newTimeOff,
       );
     } catch (e) {
-      debugPrint('Erreur addTimeOff: $e');
+      appLog('Erreur addTimeOff: $e');
       return SmoothResponse(code: 500, message: 'Erreur: $e', data: null);
     }
   }
@@ -142,7 +142,7 @@ class EngineerAvailabilityService {
       await _firestore.collection(_timeOffsCollection).doc(timeOffId).delete();
       return SmoothResponse(code: 200, message: 'Indisponibilité supprimée', data: true);
     } catch (e) {
-      debugPrint('Erreur deleteTimeOff: $e');
+      appLog('Erreur deleteTimeOff: $e');
       return SmoothResponse(code: 500, message: 'Erreur: $e', data: false);
     }
   }
@@ -220,7 +220,7 @@ class EngineerAvailabilityService {
 
       return results;
     } catch (e) {
-      debugPrint('Erreur getAvailableEngineers: $e');
+      appLog('Erreur getAvailableEngineers: $e');
       return [];
     }
   }

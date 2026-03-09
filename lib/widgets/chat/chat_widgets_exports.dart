@@ -1,3 +1,4 @@
+export 'ai_assistant/ai_assistant_exports.dart';
 export 'ai_data_widgets.dart';
 export 'ai_message_content.dart';
 export 'ai_response_bubble.dart';

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:useme/core/models/models_exports.dart';
 import 'package:uuid/uuid.dart' show Uuid;
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service Catalog Service - CRUD operations for studio services
 class ServiceCatalogService {
@@ -42,7 +42,7 @@ class ServiceCatalogService {
           );
       return snapshot.docs.map((doc) => StudioService.fromMap({...doc.data(), 'id': doc.id})).toList();
     } catch (e) {
-      debugPrint('❌ ServiceCatalogService.getServicesByStudioId error: $e');
+      appLog('❌ ServiceCatalogService.getServicesByStudioId error: $e');
       return [];
     }
   }
@@ -62,7 +62,7 @@ class ServiceCatalogService {
           );
       return snapshot.docs.map((doc) => StudioService.fromMap({...doc.data(), 'id': doc.id})).toList();
     } catch (e) {
-      debugPrint('❌ ServiceCatalogService.getActiveServicesByStudioId error: $e');
+      appLog('❌ ServiceCatalogService.getActiveServicesByStudioId error: $e');
       return [];
     }
   }

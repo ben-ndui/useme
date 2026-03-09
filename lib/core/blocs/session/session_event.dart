@@ -142,6 +142,28 @@ class LoadProSessionsEvent extends SessionEvent {
   List<Object?> get props => [proId];
 }
 
+/// Update session notes
+class UpdateSessionNotesEvent extends SessionEvent {
+  final String sessionId;
+  final String notes;
+
+  const UpdateSessionNotesEvent({required this.sessionId, required this.notes});
+
+  @override
+  List<Object?> get props => [sessionId, notes];
+}
+
+/// Add a photo to session
+class AddSessionPhotoEvent extends SessionEvent {
+  final String sessionId;
+  final String photoUrl;
+
+  const AddSessionPhotoEvent({required this.sessionId, required this.photoUrl});
+
+  @override
+  List<Object?> get props => [sessionId, photoUrl];
+}
+
 /// Clear all sessions (used on logout)
 class ClearSessionsEvent extends SessionEvent {
   const ClearSessionsEvent();

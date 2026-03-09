@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Dialog affiché quand une limite d'abonnement est atteinte
 class LimitReachedDialog extends StatelessWidget {
@@ -42,8 +43,9 @@ class LimitReachedDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final tierName = _getTierName(tierId);
-    final nextTier = _getNextTier(tierId);
+    final l10n = AppLocalizations.of(context)!;
+    final tierName = _getTierName(l10n, tierId);
+    final nextTier = _getNextTier(l10n, tierId);
 
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -68,7 +70,7 @@ class LimitReachedDialog extends StatelessWidget {
 
           // Title
           Text(
-            'Limite atteinte',
+            l10n.limitReached,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -77,8 +79,7 @@ class LimitReachedDialog extends StatelessWidget {
 
           // Message
           Text(
-            'Vous avez atteint la limite de $maxAllowed $limitType '
-            'pour l\'abonnement $tierName.',
+            l10n.limitReachedMessage(maxAllowed, limitType, tierName),
             textAlign: TextAlign.center,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
@@ -94,7 +95,7 @@ class LimitReachedDialog extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
-              '$currentCount / $maxAllowed $limitType',
+              l10n.limitUsage(currentCount, maxAllowed, limitType),
               style: theme.textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -105,7 +106,7 @@ class LimitReachedDialog extends StatelessWidget {
           // Upgrade suggestion
           if (nextTier != null) ...[
             Text(
-              'Passez à ${nextTier['name']} pour ${nextTier['limit']}',
+              l10n.upgradeToTier(nextTier['name']!, nextTier['limit']!),
               textAlign: TextAlign.center,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.primary,
@@ -124,7 +125,7 @@ class LimitReachedDialog extends StatelessWidget {
                     Navigator.of(context).pop();
                     onDismiss?.call();
                   },
-                  child: const Text('Plus tard'),
+                  child: Text(l10n.maybeLater),
                 ),
               ),
               const SizedBox(width: 12),
@@ -135,7 +136,7 @@ class LimitReachedDialog extends StatelessWidget {
                     context.push('/upgrade');
                   },
                   icon: const FaIcon(FontAwesomeIcons.arrowUp, size: 14),
-                  label: const Text('Upgrade'),
+                  label: Text(l10n.upgrade),
                 ),
               ),
             ],
@@ -145,48 +146,49 @@ class LimitReachedDialog extends StatelessWidget {
     );
   }
 
-  String _getTierName(String tierId) {
+  String _getTierName(AppLocalizations l10n, String tierId) {
     switch (tierId) {
       case 'free':
-        return 'Gratuit';
+        return l10n.tierFree;
       case 'pro':
-        return 'Pro';
+        return l10n.tierPro;
       case 'enterprise':
-        return 'Enterprise';
+        return l10n.tierEnterprise;
       default:
         return tierId;
     }
   }
 
-  Map<String, String>? _getNextTier(String currentTierId) {
+  Map<String, String>? _getNextTier(
+      AppLocalizations l10n, String currentTierId) {
     switch (currentTierId) {
       case 'free':
         return {
-          'name': 'Pro',
-          'limit': _getProLimit(limitType),
+          'name': l10n.tierPro,
+          'limit': _getProLimit(l10n, limitType),
         };
       case 'pro':
         return {
-          'name': 'Enterprise',
-          'limit': 'illimité',
+          'name': l10n.tierEnterprise,
+          'limit': l10n.unlimited,
         };
       default:
         return null;
     }
   }
 
-  String _getProLimit(String type) {
+  String _getProLimit(AppLocalizations l10n, String type) {
     switch (type) {
       case 'sessions':
-        return 'sessions illimitées';
+        return l10n.unlimitedSessions;
       case 'salles':
-        return '10 salles';
+        return l10n.tenRooms;
       case 'services':
-        return 'services illimités';
+        return l10n.unlimitedServices;
       case 'ingénieurs':
-        return '10 ingénieurs';
+        return l10n.tenEngineers;
       default:
-        return 'plus';
+        return l10n.more;
     }
   }
 }

@@ -28,6 +28,8 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     on<CheckoutSessionEvent>(_onCheckoutSession);
     on<LoadSessionByIdEvent>(_onLoadSessionById);
     on<LoadProSessionsEvent>(_onLoadProSessions);
+    on<UpdateSessionNotesEvent>(_onUpdateNotes);
+    on<AddSessionPhotoEvent>(_onAddPhoto);
     on<ClearSessionsEvent>(_onClearSessions);
   }
 
@@ -282,6 +284,55 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
         newStatus: SessionStatus.completed,
         sessions: updatedSessions,
       ));
+    } catch (e) {
+      emit(SessionErrorState(
+        errorMessage: 'Erreur: $e',
+        sessions: state.sessions,
+      ));
+    }
+  }
+
+  Future<void> _onUpdateNotes(
+      UpdateSessionNotesEvent event, Emitter<SessionState> emit) async {
+    try {
+      final response =
+          await _sessionService.updateNotes(event.sessionId, event.notes);
+      if (response.code == 200) {
+        emit(SessionNotesUpdatedState(
+          sessions: state.sessions,
+          selectedSession: state.selectedSession,
+        ));
+      } else {
+        emit(SessionErrorState(
+          errorMessage: response.message,
+          sessions: state.sessions,
+        ));
+      }
+    } catch (e) {
+      emit(SessionErrorState(
+        errorMessage: 'Erreur: $e',
+        sessions: state.sessions,
+      ));
+    }
+  }
+
+  Future<void> _onAddPhoto(
+      AddSessionPhotoEvent event, Emitter<SessionState> emit) async {
+    try {
+      final response =
+          await _sessionService.addPhoto(event.sessionId, event.photoUrl);
+      if (response.code == 200) {
+        emit(SessionPhotoAddedState(
+          photoUrl: event.photoUrl,
+          sessions: state.sessions,
+          selectedSession: state.selectedSession,
+        ));
+      } else {
+        emit(SessionErrorState(
+          errorMessage: response.message,
+          sessions: state.sessions,
+        ));
+      }
     } catch (e) {
       emit(SessionErrorState(
         errorMessage: 'Erreur: $e',

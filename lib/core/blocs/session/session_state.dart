@@ -120,6 +120,30 @@ class SessionErrorState extends SessionState {
   }) : super(isLoading: false);
 }
 
+/// Session notes updated
+class SessionNotesUpdatedState extends SessionState {
+  const SessionNotesUpdatedState({
+    super.sessions,
+    super.selectedSession,
+    super.isLoading,
+  });
+}
+
+/// Session photo added
+class SessionPhotoAddedState extends SessionState {
+  final String photoUrl;
+
+  const SessionPhotoAddedState({
+    required this.photoUrl,
+    super.sessions,
+    super.selectedSession,
+    super.isLoading,
+  });
+
+  @override
+  List<Object?> get props => [...super.props, photoUrl];
+}
+
 /// Session limit reached state (subscription limit)
 class SessionLimitReachedState extends SessionState {
   final int currentCount;

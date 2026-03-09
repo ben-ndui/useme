@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/pro_profile.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service pour gérer les profils professionnels (marketplace).
 class ProProfileService {
@@ -28,7 +28,7 @@ class ProProfileService {
         'proProfile': profileWithDate.toMap(),
       });
 
-      debugPrint('ProProfileService: profil pro active pour $userId');
+      appLog('ProProfileService: profil pro active pour $userId');
       return SmoothResponse(
         data: profileWithDate,
         message: 'Profil pro active',
@@ -108,7 +108,19 @@ class ProProfileService {
 
       return ProProfile.fromMap(data['proProfile'] as Map<String, dynamic>);
     } catch (e) {
-      debugPrint('ProProfileService: erreur getProProfile: $e');
+      appLog('ProProfileService: erreur getProProfile: $e');
+      return null;
+    }
+  }
+
+  /// Récupère un utilisateur par son ID (pro ou non).
+  Future<AppUser?> getUser(String userId) async {
+    try {
+      final doc = await _users.doc(userId).get();
+      if (!doc.exists || doc.data() == null) return null;
+      return AppUser.fromMap(doc.data()!, doc.id);
+    } catch (e) {
+      appLog('ProProfileService: erreur getUser: $e');
       return null;
     }
   }
@@ -123,7 +135,7 @@ class ProProfileService {
       if (!user.hasProProfile) return null;
       return user;
     } catch (e) {
-      debugPrint('ProProfileService: erreur getProUser: $e');
+      appLog('ProProfileService: erreur getProUser: $e');
       return null;
     }
   }
@@ -193,7 +205,7 @@ class ProProfileService {
 
       return results.take(limit).toList();
     } catch (e) {
-      debugPrint('ProProfileService: erreur searchPros: $e');
+      appLog('ProProfileService: erreur searchPros: $e');
       return [];
     }
   }

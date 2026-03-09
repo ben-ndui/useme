@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:useme/core/models/favorite.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service pour gérer les favoris dans Firestore.
 class FavoriteService {
@@ -12,13 +12,13 @@ class FavoriteService {
   /// Note: On évite orderBy pour ne pas nécessiter d'index composite.
   /// Le tri est fait côté client.
   Stream<List<Favorite>> streamFavorites(String userId) {
-    debugPrint('❤️ FavoriteService.streamFavorites called for userId: $userId');
+    appLog('❤️ FavoriteService.streamFavorites called for userId: $userId');
     return _firestore
         .collection(_collection)
         .where('userId', isEqualTo: userId)
         .snapshots()
         .map((s) {
-          debugPrint('❤️ streamFavorites received ${s.docs.length} docs');
+          appLog('❤️ streamFavorites received ${s.docs.length} docs');
           final favorites = s.docs.map((d) => Favorite.fromMap(d.data(), d.id)).toList();
           // Tri côté client (plus récent en premier)
           favorites.sort((a, b) => b.createdAt.compareTo(a.createdAt));
@@ -29,14 +29,14 @@ class FavoriteService {
   /// Stream des favoris par type.
   /// Note: On évite orderBy pour ne pas nécessiter d'index composite.
   Stream<List<Favorite>> streamFavoritesByType(String userId, FavoriteType type) {
-    debugPrint('❤️ FavoriteService.streamFavoritesByType called for userId: $userId, type: $type');
+    appLog('❤️ FavoriteService.streamFavoritesByType called for userId: $userId, type: $type');
     return _firestore
         .collection(_collection)
         .where('userId', isEqualTo: userId)
         .where('type', isEqualTo: type.name)
         .snapshots()
         .map((s) {
-          debugPrint('❤️ streamFavoritesByType received ${s.docs.length} docs');
+          appLog('❤️ streamFavoritesByType received ${s.docs.length} docs');
           final favorites = s.docs.map((d) => Favorite.fromMap(d.data(), d.id)).toList();
           favorites.sort((a, b) => b.createdAt.compareTo(a.createdAt));
           return favorites;
@@ -147,8 +147,8 @@ class FavoriteService {
     String? targetPhotoUrl,
     String? targetAddress,
   }) async {
-    debugPrint('❤️ FavoriteService.toggleFavorite called');
-    debugPrint('❤️ userId: $userId, targetId: $targetId, type: $type');
+    appLog('❤️ FavoriteService.toggleFavorite called');
+    appLog('❤️ userId: $userId, targetId: $targetId, type: $type');
 
     try {
       final query = await _firestore
@@ -158,17 +158,17 @@ class FavoriteService {
           .limit(1)
           .get();
 
-      debugPrint('❤️ Query returned ${query.docs.length} docs');
+      appLog('❤️ Query returned ${query.docs.length} docs');
 
       if (query.docs.isNotEmpty) {
         // Supprimer
-        debugPrint('❤️ Removing favorite...');
+        appLog('❤️ Removing favorite...');
         await query.docs.first.reference.delete();
-        debugPrint('❤️ Favorite removed successfully');
+        appLog('❤️ Favorite removed successfully');
         return SmoothResponse.success(data: false);
       } else {
         // Ajouter
-        debugPrint('❤️ Adding favorite...');
+        appLog('❤️ Adding favorite...');
         final result = await addFavorite(
           userId: userId,
           targetId: targetId,
@@ -177,11 +177,11 @@ class FavoriteService {
           targetPhotoUrl: targetPhotoUrl,
           targetAddress: targetAddress,
         );
-        debugPrint('❤️ Add result: ${result.isSuccess}, ${result.message}');
+        appLog('❤️ Add result: ${result.isSuccess}, ${result.message}');
         return SmoothResponse.success(data: true);
       }
     } catch (e) {
-      debugPrint('❤️ Error in toggleFavorite: $e');
+      appLog('❤️ Error in toggleFavorite: $e');
       return SmoothResponse.error(message: 'Erreur toggle favori: $e');
     }
   }

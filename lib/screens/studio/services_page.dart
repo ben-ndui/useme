@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/config/responsive_config.dart';
@@ -36,7 +37,12 @@ class ServicesPage extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
               child: RefreshIndicator(
                 onRefresh: () async {
-                  // TODO: Refresh services
+                  final authState = context.read<AuthBloc>().state;
+                  if (authState is AuthAuthenticatedState) {
+                    context.read<ServiceBloc>().add(
+                          LoadServicesEvent(studioId: authState.user.uid),
+                        );
+                  }
                 },
                 child: ListView.builder(
                   padding: const EdgeInsets.all(16),

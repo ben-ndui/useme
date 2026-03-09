@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/services/subscription_config_service.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service pour gérer l'équipe (ingénieurs) d'un studio
 class TeamService {
@@ -47,7 +47,7 @@ class TeamService {
         return AppUser.fromMap(data);
       }).toList();
     } catch (e) {
-      debugPrint('❌ TeamService.getTeamMembers error: $e');
+      appLog('❌ TeamService.getTeamMembers error: $e');
       return [];
     }
   }
@@ -120,7 +120,7 @@ class TeamService {
 
       return SmoothResponse(code: 200, message: 'Membre ajouté', data: true);
     } catch (e) {
-      debugPrint('Erreur addToTeam: $e');
+      appLog('Erreur addToTeam: $e');
       return SmoothResponse(code: 500, message: 'Erreur: $e', data: false);
     }
   }
@@ -135,7 +135,7 @@ class TeamService {
 
       return SmoothResponse(code: 200, message: 'Membre retiré', data: true);
     } catch (e) {
-      debugPrint('Erreur removeFromTeam: $e');
+      appLog('Erreur removeFromTeam: $e');
       return SmoothResponse(code: 500, message: 'Erreur: $e', data: false);
     }
   }
@@ -193,7 +193,7 @@ class TeamService {
       return SmoothResponse(
           code: 201, message: 'Invitation créée', data: invitation);
     } catch (e) {
-      debugPrint('Erreur createInvitation: $e');
+      appLog('Erreur createInvitation: $e');
       return SmoothResponse(code: 500, message: 'Erreur: $e', data: null);
     }
   }
@@ -254,7 +254,7 @@ class TeamService {
 
       return SmoothResponse(code: 200, message: 'Invitation acceptée', data: true);
     } catch (e) {
-      debugPrint('Erreur acceptInvitation: $e');
+      appLog('Erreur acceptInvitation: $e');
       return SmoothResponse(code: 500, message: 'Erreur: $e', data: false);
     }
   }
@@ -297,7 +297,7 @@ class TeamService {
           .where((inv) => !inv.isExpired)
           .toList();
     } catch (e) {
-      debugPrint('❌ TeamService.getMyPendingInvitations error: $e');
+      appLog('❌ TeamService.getMyPendingInvitations error: $e');
       return [];
     }
   }
@@ -311,7 +311,7 @@ class TeamService {
       });
       return SmoothResponse(code: 200, message: 'Invitation refusée', data: true);
     } catch (e) {
-      debugPrint('❌ TeamService.declineInvitation error: $e');
+      appLog('❌ TeamService.declineInvitation error: $e');
       return SmoothResponse(code: 500, message: 'Erreur: $e', data: false);
     }
   }

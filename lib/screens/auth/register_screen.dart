@@ -11,6 +11,7 @@ import 'package:useme/widgets/auth/auth_map_background.dart';
 import 'package:useme/widgets/auth/register_form_content.dart';
 import 'package:useme/widgets/common/smooth_draggable_widget.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Register screen with map background and draggable form overlay
 class RegisterScreen extends StatelessWidget {
@@ -132,7 +133,7 @@ class _RegisterScreenContentState extends State<_RegisterScreenContent> {
         );
       }
     } catch (e) {
-      debugPrint('Erreur auto-link invitations: $e');
+      appLog('Erreur auto-link invitations: $e');
     }
   }
 }

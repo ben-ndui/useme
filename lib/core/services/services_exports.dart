@@ -21,5 +21,8 @@ export 'subscription_config_service.dart';
 export 'stripe_config_service.dart';
 export 'stripe_service.dart';
 export 'iap_service.dart';
+export 'ai_conversation_service.dart';
+export 'ai_local_response_helper.dart';
+export 'ai_response_texts.dart';
 export 'chat_assistant_service.dart';
 export 'env_service.dart';

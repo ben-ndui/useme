@@ -10,6 +10,7 @@ import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/booking_acceptance_service.dart';
 import 'package:useme/core/services/payment_config_service.dart';
+import 'package:useme/core/services/service_catalog_service.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
@@ -352,9 +353,14 @@ class _ActionButtons extends StatelessWidget {
   }
 
   Future<void> _confirmAccept(BuildContext context) async {
-    // Calculer le montant total (basé sur la durée - à adapter selon ton modèle)
-    // TODO: Récupérer le tarif horaire du service sélectionné
-    final totalAmount = session.durationHours * 50.0; // Placeholder 50€/h
+    // Fetch hourly rate from studio services
+    final services = await ServiceCatalogService()
+        .getActiveServicesByStudioId(session.studioId);
+    final hourlyRate =
+        services.isNotEmpty ? services.first.hourlyRate : 0.0;
+    final totalAmount = session.durationHours * hourlyRate;
+
+    if (!context.mounted) return;
 
     // Afficher le bottom sheet de paiement
     final result = await AcceptBookingSheet.show(

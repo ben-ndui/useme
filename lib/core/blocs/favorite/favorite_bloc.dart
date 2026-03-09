@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/services/favorite_service.dart';
 import 'favorite_event.dart';
 import 'favorite_state.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// BLoC pour la gestion des favoris.
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
@@ -27,12 +27,12 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     LoadFavoritesEvent event,
     Emitter<FavoriteState> emit,
   ) async {
-    debugPrint('❤️ FavoriteBloc._onLoadFavorites called for userId: ${event.userId}');
-    debugPrint('❤️ Current userId: $_currentUserId, state: ${state.runtimeType}');
+    appLog('❤️ FavoriteBloc._onLoadFavorites called for userId: ${event.userId}');
+    appLog('❤️ Current userId: $_currentUserId, state: ${state.runtimeType}');
 
     // Éviter les rechargements inutiles seulement si vraiment déjà chargé
     if (_currentUserId == event.userId && state is FavoritesLoadedState && state.favorites.isNotEmpty) {
-      debugPrint('❤️ Skipping reload - already loaded with ${state.favorites.length} favorites');
+      appLog('❤️ Skipping reload - already loaded with ${state.favorites.length} favorites');
       return;
     }
 
@@ -44,11 +44,11 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         .streamFavorites(event.userId)
         .listen(
           (favorites) {
-            debugPrint('❤️ Stream emitted ${favorites.length} favorites');
+            appLog('❤️ Stream emitted ${favorites.length} favorites');
             add(FavoritesUpdatedEvent(favorites: favorites));
           },
           onError: (e) {
-            debugPrint('❤️ Stream error: $e');
+            appLog('❤️ Stream error: $e');
             add(const FavoritesUpdatedEvent(favorites: []));
           },
         );
@@ -74,7 +74,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     FavoritesUpdatedEvent event,
     Emitter<FavoriteState> emit,
   ) {
-    debugPrint('❤️ FavoriteBloc._onFavoritesUpdated with ${event.favorites.length} favorites');
+    appLog('❤️ FavoriteBloc._onFavoritesUpdated with ${event.favorites.length} favorites');
     emit(FavoritesLoadedState(favorites: event.favorites));
   }
 
@@ -82,8 +82,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     ToggleFavoriteEvent event,
     Emitter<FavoriteState> emit,
   ) async {
-    debugPrint('❤️ FavoriteBloc._onToggleFavorite called');
-    debugPrint('❤️ userId: ${event.userId}, targetId: ${event.targetId}, type: ${event.type}');
+    appLog('❤️ FavoriteBloc._onToggleFavorite called');
+    appLog('❤️ userId: ${event.userId}, targetId: ${event.targetId}, type: ${event.type}');
 
     final result = await _favoriteService.toggleFavorite(
       userId: event.userId,
@@ -94,11 +94,11 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       targetAddress: event.targetAddress,
     );
 
-    debugPrint('❤️ Toggle result: isSuccess=${result.isSuccess}, data=${result.data}, message=${result.message}');
+    appLog('❤️ Toggle result: isSuccess=${result.isSuccess}, data=${result.data}, message=${result.message}');
 
     if (result.isSuccess && result.data != null) {
       final isNowFavorite = result.data!;
-      debugPrint('❤️ Emitting FavoriteToggledState - isNowFavorite: $isNowFavorite');
+      appLog('❤️ Emitting FavoriteToggledState - isNowFavorite: $isNowFavorite');
 
       // Mettre à jour la liste localement en attendant le stream
       List<Favorite> updatedFavorites;
@@ -126,7 +126,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         favorites: updatedFavorites,
       ));
     } else {
-      debugPrint('❤️ Emitting FavoriteErrorState - message: ${result.message}');
+      appLog('❤️ Emitting FavoriteErrorState - message: ${result.message}');
       emit(FavoriteErrorState(
         errorMessage: result.message,
         favorites: state.favorites,
@@ -152,12 +152,12 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     ClearFavoritesEvent event,
     Emitter<FavoriteState> emit,
   ) async {
-    debugPrint('❤️ FavoriteBloc._onClear called');
+    appLog('❤️ FavoriteBloc._onClear called');
     await _favoritesSubscription?.cancel();
     _favoritesSubscription = null;
     _currentUserId = null;
     emit(const FavoriteInitialState());
-    debugPrint('❤️ Favorites cleared, state reset to FavoriteInitialState');
+    appLog('❤️ Favorites cleared, state reset to FavoriteInitialState');
   }
 
   @override

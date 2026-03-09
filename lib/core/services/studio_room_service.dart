@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:useme/core/models/studio_room.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service for managing studio rooms
 class StudioRoomService {
@@ -22,7 +22,7 @@ class StudioRoomService {
           .get();
       return snapshot.docs.map((doc) => StudioRoom.fromFirestore(doc)).toList();
     } catch (e) {
-      debugPrint('❌ StudioRoomService.getRoomsByStudio error: $e');
+      appLog('❌ StudioRoomService.getRoomsByStudio error: $e');
       return [];
     }
   }
@@ -37,7 +37,7 @@ class StudioRoomService {
           .get();
       return snapshot.docs.map((doc) => StudioRoom.fromFirestore(doc)).toList();
     } catch (e) {
-      debugPrint('❌ StudioRoomService.getActiveRoomsByStudio error: $e');
+      appLog('❌ StudioRoomService.getActiveRoomsByStudio error: $e');
       return [];
     }
   }
@@ -49,7 +49,7 @@ class StudioRoomService {
       if (!doc.exists) return null;
       return StudioRoom.fromFirestore(doc);
     } catch (e) {
-      debugPrint('❌ StudioRoomService.getRoomById error: $e');
+      appLog('❌ StudioRoomService.getRoomById error: $e');
       return null;
     }
   }
@@ -60,7 +60,7 @@ class StudioRoomService {
       final docRef = await _roomsRef.add(room.toFirestore());
       return room.copyWith(id: docRef.id);
     } catch (e) {
-      debugPrint('❌ StudioRoomService.createRoom error: $e');
+      appLog('❌ StudioRoomService.createRoom error: $e');
       return null;
     }
   }
@@ -74,7 +74,7 @@ class StudioRoomService {
       });
       return true;
     } catch (e) {
-      debugPrint('❌ StudioRoomService.updateRoom error: $e');
+      appLog('❌ StudioRoomService.updateRoom error: $e');
       return false;
     }
   }
@@ -85,7 +85,7 @@ class StudioRoomService {
       await _roomsRef.doc(roomId).delete();
       return true;
     } catch (e) {
-      debugPrint('❌ StudioRoomService.deleteRoom error: $e');
+      appLog('❌ StudioRoomService.deleteRoom error: $e');
       return false;
     }
   }
@@ -99,7 +99,7 @@ class StudioRoomService {
       });
       return true;
     } catch (e) {
-      debugPrint('❌ StudioRoomService.toggleRoomStatus error: $e');
+      appLog('❌ StudioRoomService.toggleRoomStatus error: $e');
       return false;
     }
   }

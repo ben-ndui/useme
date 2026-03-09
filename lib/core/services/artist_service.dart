@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Artist Service - CRUD operations for artists
 class ArtistService {
@@ -53,7 +53,7 @@ class ArtistService {
           );
       return snapshot.docs.map((doc) => Artist.fromMap({...doc.data(), 'id': doc.id})).toList();
     } catch (e) {
-      debugPrint('❌ ArtistService.getArtistsByStudioId error: $e');
+      appLog('❌ ArtistService.getArtistsByStudioId error: $e');
       return [];
     }
   }

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:useme/core/models/studio_invitation.dart';
 import 'package:useme/core/models/artist.dart';
 import 'package:useme/core/models/app_user.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service pour gérer les invitations studio → artiste
 class InvitationService {
@@ -277,7 +277,7 @@ class InvitationService {
         accepted++;
       } catch (e) {
         // Log l'erreur mais continue avec les autres invitations
-        debugPrint('Erreur auto-accept invitation ${invitation.id}: $e');
+        appLog('Erreur auto-accept invitation ${invitation.id}: $e');
       }
     }
 
@@ -290,7 +290,7 @@ class InvitationService {
           'updatedAt': DateTime.now().millisecondsSinceEpoch,
         });
       } catch (e) {
-        debugPrint('Erreur auto-link artist ${artist.id}: $e');
+        appLog('Erreur auto-link artist ${artist.id}: $e');
       }
     }
 

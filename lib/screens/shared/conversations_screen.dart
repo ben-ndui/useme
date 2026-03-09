@@ -6,6 +6,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
+import 'package:useme/core/services/block_service.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/messaging/new_conversation_bottom_sheet.dart';
 
@@ -20,6 +21,21 @@ class ConversationsScreen extends StatefulWidget {
 class _ConversationsScreenState extends State<ConversationsScreen> {
   final _searchController = TextEditingController();
   String _searchQuery = '';
+  List<String> _blockedUserIds = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBlockedUsers();
+  }
+
+  Future<void> _loadBlockedUsers() async {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticatedState) {
+      final blocked = await BlockService().getBlockedUserIds(authState.user.id);
+      if (mounted) setState(() => _blockedUserIds = blocked);
+    }
+  }
 
   @override
   void dispose() {
@@ -183,10 +199,15 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
-    // Filter conversations by search query
+    // Filter out conversations with blocked users, then by search query
+    final nonBlockedConversations = state.conversations.where((conv) {
+      final otherIds = conv.participantIds.where((id) => id != currentUserId);
+      return !otherIds.any((id) => _blockedUserIds.contains(id));
+    }).toList();
+
     final filteredConversations = _searchQuery.isEmpty
-        ? state.conversations
-        : state.conversations.where((conv) {
+        ? nonBlockedConversations
+        : nonBlockedConversations.where((conv) {
             final displayName = conv.getDisplayName(currentUserId).toLowerCase();
             return displayName.contains(_searchQuery);
           }).toList();

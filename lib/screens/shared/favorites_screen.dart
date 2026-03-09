@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/services/pro_profile_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
@@ -202,7 +203,14 @@ class _FavoriteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Card(
+    return BlocListener<MessagingBloc, MessagingState>(
+      listenWhen: (_, current) => current is ChatOpenState,
+      listener: (context, state) {
+        if (state is ChatOpenState) {
+          context.push('/conversations/${state.conversation.id}');
+        }
+      },
+      child: Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => _navigateToDetail(context),
@@ -266,6 +274,7 @@ class _FavoriteCard extends StatelessWidget {
           ),
         ),
       ),
+      ),
     );
   }
 
@@ -310,20 +319,30 @@ class _FavoriteCard extends StatelessWidget {
   }
 
   void _navigateToDetail(BuildContext context) {
-    // Navigation vers le détail selon le type
     switch (favorite.type) {
       case FavoriteType.studio:
-        context.push('/artist/request?studioId=${favorite.targetId}&studioName=${Uri.encodeComponent(favorite.targetName ?? '')}');
+        context.push(
+          '/artist/request?studioId=${favorite.targetId}'
+          '&studioName=${Uri.encodeComponent(favorite.targetName ?? '')}',
+        );
         break;
       case FavoriteType.engineer:
-        // TODO: Navigation vers profil ingénieur
-        break;
       case FavoriteType.artist:
-        // TODO: Navigation vers profil artiste
+        _navigateToUserProfile(context);
         break;
       case FavoriteType.pro:
         _navigateToProProfile(context);
         break;
+    }
+  }
+
+  Future<void> _navigateToUserProfile(BuildContext context) async {
+    final user = await ProProfileService().getUser(favorite.targetId);
+    if (user == null || !context.mounted) return;
+    if (user.hasProProfile) {
+      ProDetailBottomSheet.show(context, user);
+    } else {
+      _startConversation(context, user);
     }
   }
 
@@ -332,5 +351,27 @@ class _FavoriteCard extends StatelessWidget {
     if (user != null && context.mounted) {
       ProDetailBottomSheet.show(context, user);
     }
+  }
+
+  void _startConversation(BuildContext context, AppUser user) {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is! AuthAuthenticatedState) return;
+    final l10n = AppLocalizations.of(context)!;
+    final currentUser = authState.user as AppUser;
+    final currentUserInfo = ParticipantInfo(
+      name: currentUser.displayName ?? currentUser.name ?? l10n.user,
+      avatarUrl: currentUser.photoURL,
+      role: currentUser.role.useMeLabel,
+    );
+    final otherUserInfo = ParticipantInfo(
+      name: user.displayName ?? user.name ?? l10n.user,
+      avatarUrl: user.photoURL,
+      role: user.role.useMeLabel,
+    );
+    context.read<MessagingBloc>().add(StartPrivateConversationEvent(
+          otherUserId: user.uid,
+          otherUserInfo: otherUserInfo,
+          currentUserInfo: currentUserInfo,
+        ));
   }
 }

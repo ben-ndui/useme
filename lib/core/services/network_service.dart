@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/user_contact.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service for managing the user's professional network.
 class NetworkService {
@@ -143,7 +143,7 @@ class NetworkService {
       }
       return _searchByName(query);
     } catch (e) {
-      debugPrint('Error searching users: $e');
+      appLog('Error searching users: $e');
       return [];
     }
   }

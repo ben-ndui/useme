@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:useme/core/models/studio_claim.dart';
 import 'package:useme/core/models/studio_profile.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service pour gérer les demandes de revendication de studio (workflow admin)
 class StudioClaimApprovalService {
@@ -32,7 +32,7 @@ class StudioClaimApprovalService {
     );
 
     await docRef.set(claim.toMap());
-    debugPrint('✅ Demande de revendication créée: ${claim.id}');
+    appLog('✅ Demande de revendication créée: ${claim.id}');
     return claim;
   }
 
@@ -102,7 +102,7 @@ class StudioClaimApprovalService {
       'reviewedBy': reviewerId,
     });
 
-    debugPrint('✅ Demande approuvée: $claimId');
+    appLog('✅ Demande approuvée: $claimId');
   }
 
   /// Rejette une demande de revendication
@@ -118,13 +118,13 @@ class StudioClaimApprovalService {
       'rejectionReason': reason,
     });
 
-    debugPrint('❌ Demande rejetée: $claimId');
+    appLog('❌ Demande rejetée: $claimId');
   }
 
   /// Annule une demande (par l'utilisateur)
   Future<void> cancelClaim(String claimId) async {
     await _firestore.collection(_collection).doc(claimId).delete();
-    debugPrint('🗑️ Demande annulée: $claimId');
+    appLog('🗑️ Demande annulée: $claimId');
   }
 
   /// Compte les demandes en attente

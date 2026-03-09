@@ -41,6 +41,9 @@
   "languageSango": "Sängö",
   "languageSystem": "System",
   "languageSystemSubtitle": "Follows device settings",
+  "languageFrenchSubtitle": "French",
+  "languageEnglishSubtitle": "English",
+  "languageSangoSubtitle": "Central African Republic",
 
   "userGuide": "User guide",
   "tipsAndAdvice": "Tips and advice",
@@ -69,6 +72,7 @@
   "reportProblem": "Report a problem",
   "reportConfirmTitle": "Report",
   "reportConfirmMessage": "Why do you want to report this conversation?",
+  "reportReason": "Reason for reporting",
   "reportSent": "Report sent",
   "leaveConversation": "Leave conversation",
   "deleteFromList": "Remove from your list",
@@ -632,6 +636,10 @@
   "addSessionNotes": "Add notes about the session...",
   "photos": "Photos",
   "addPhoto": "Add a photo",
+  "sessionNotFound": "Session not found",
+  "notesSaved": "Notes saved",
+  "photoAdded": "Photo added",
+  "photoUploadError": "Error uploading photo",
   "arrivalCheckedSuccess": "Arrival checked!",
   "endSession": "End session?",
   "endSessionConfirm": "Do you want to check out and end this session?",
@@ -1625,5 +1633,40 @@
   "noEngineerInTeam": "No engineer in team",
   "statistics": "Statistics",
   "availabilities": "Availabilities",
-  "remote": "Remote"
+  "remote": "Remote",
+  "limitReached": "Limit reached",
+  "limitReachedMessage": "You have reached the limit of {max} {type} for the {tier} plan.",
+  "@limitReachedMessage": {
+    "placeholders": {
+      "max": {"type": "int"},
+      "type": {"type": "String"},
+      "tier": {"type": "String"}
+    }
+  },
+  "limitUsage": "{current} / {max} {type}",
+  "@limitUsage": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "max": {"type": "int"},
+      "type": {"type": "String"}
+    }
+  },
+  "upgradeToTier": "Upgrade to {tier} for {limit}",
+  "@upgradeToTier": {
+    "placeholders": {
+      "tier": {"type": "String"},
+      "limit": {"type": "String"}
+    }
+  },
+  "maybeLater": "Maybe later",
+  "upgrade": "Upgrade",
+  "tierFree": "Free",
+  "tierPro": "Pro",
+  "tierEnterprise": "Enterprise",
+  "unlimitedSessions": "unlimited sessions",
+  "tenRooms": "10 rooms",
+  "unlimitedServices": "unlimited services",
+  "tenEngineers": "10 engineers",
+  "unlimited": "unlimited",
+  "more": "more"
 }

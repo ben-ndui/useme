@@ -12,6 +12,7 @@ import 'package:useme/widgets/artist/engineer_selector_bottom_sheet.dart';
 import 'package:useme/widgets/artist/session_request/session_request_exports.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Session request form for artists to request new sessions
 class SessionRequestScreen extends StatefulWidget {
@@ -69,7 +70,7 @@ class _SessionRequestScreenState extends State<SessionRequestScreen> {
         }
       }
     } catch (e) {
-      debugPrint('Erreur chargement horaires studio: $e');
+      appLog('Erreur chargement horaires studio: $e');
     }
   }
 

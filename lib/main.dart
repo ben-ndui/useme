@@ -1,20 +1,22 @@
 import 'dart:async';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/useme_theme.dart';
-import 'package:useme/core/localization/sango_material_localizations.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/core/localization/sango_material_localizations.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/services/auth_service.dart';
-import 'package:useme/core/services/notification_service.dart';
-import 'package:useme/core/services/notification_navigation_service.dart';
 import 'package:useme/core/services/deep_link_service.dart';
+import 'package:useme/core/services/notification_navigation_service.dart';
+import 'package:useme/core/services/notification_service.dart';
+import 'package:useme/core/utils/app_logger.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/router.dart';
 
@@ -90,12 +92,12 @@ Future<void> _createDeviceSession(String userId) async {
       fcmToken: fcmToken,
       appVersion: '1.0.0',
     );
-    debugPrint('Device session created for user: $userId');
+    appLog('Device session created for user: $userId');
 
     // Start listening for session revocation
     _startSessionRevocationListener(session.id);
   } catch (e) {
-    debugPrint('Failed to create device session: $e');
+    appLog('Failed to create device session: $e');
   }
 }
 
@@ -108,11 +110,11 @@ void _startSessionRevocationListener(String sessionId) {
   _sessionRevocationSubscription = deviceSessionService.watchSessionRevoked(sessionId).listen(
     (isRevoked) {
       if (isRevoked) {
-        debugPrint('Session revoked remotely, forcing logout...');
+        appLog('Session revoked remotely, forcing logout...');
         _handleRemoteLogout();
       }
     },
-    onError: (e) => debugPrint('Session revocation listener error: $e'),
+    onError: (e) => appLog('Session revocation listener error: $e'),
   );
 }
 
@@ -141,7 +143,7 @@ Future<void> _initializeDeepLinks() async {
   try {
     // Set callback for calendar OAuth result
     deepLinkService.onCalendarCallback = (success, error) {
-      debugPrint('Calendar OAuth callback: success=$success, error=$error');
+      appLog('Calendar OAuth callback: success=$success, error=$error');
 
       if (success) {
         // Get current user ID and reload calendar status
@@ -155,7 +157,7 @@ Future<void> _initializeDeepLinks() async {
               );
             }
           } catch (e) {
-            debugPrint('Error reloading calendar status: $e');
+            appLog('Error reloading calendar status: $e');
           }
         }
       }
@@ -163,7 +165,7 @@ Future<void> _initializeDeepLinks() async {
 
     await deepLinkService.initialize();
   } catch (e) {
-    debugPrint('Deep link init error: $e');
+    appLog('Deep link init error: $e');
   }
 }
 
@@ -188,7 +190,7 @@ Future<void> _initializeNotificationListeners() async {
       },
     );
   } catch (e) {
-    debugPrint('Notification init error: $e');
+    appLog('Notification init error: $e');
   }
 }
 

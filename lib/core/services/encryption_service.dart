@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
-import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service de chiffrement AES-256 pour les données sensibles
 class EncryptionService {
@@ -65,7 +66,7 @@ class EncryptionService {
         value: _iv!.base64,
       );
     } catch (e) {
-      debugPrint('Erreur récupération clé: $e');
+      appLog('Erreur récupération clé: $e');
       // Fallback: générer une clé locale (moins sécurisé mais fonctionnel)
       _generateLocalKey(userId);
     }
@@ -89,7 +90,7 @@ class EncryptionService {
   String? encryptString(String? plainText) {
     if (plainText == null || plainText.isEmpty) return plainText;
     if (_encryptionKey == null || _iv == null) {
-      debugPrint('EncryptionService non initialisé');
+      appLog('EncryptionService non initialisé');
       return plainText;
     }
 
@@ -98,7 +99,7 @@ class EncryptionService {
       final encrypted = encrypter.encrypt(plainText, iv: _iv);
       return encrypted.base64;
     } catch (e) {
-      debugPrint('Erreur chiffrement: $e');
+      appLog('Erreur chiffrement: $e');
       return plainText;
     }
   }
@@ -107,7 +108,7 @@ class EncryptionService {
   String? decryptString(String? encryptedText) {
     if (encryptedText == null || encryptedText.isEmpty) return encryptedText;
     if (_encryptionKey == null || _iv == null) {
-      debugPrint('EncryptionService non initialisé');
+      appLog('EncryptionService non initialisé');
       return encryptedText;
     }
 
@@ -117,7 +118,7 @@ class EncryptionService {
       return decrypted;
     } catch (e) {
       // Probablement des données non chiffrées (migration)
-      debugPrint('Erreur déchiffrement (données non chiffrées?): $e');
+      appLog('Erreur déchiffrement (données non chiffrées?): $e');
       return encryptedText;
     }
   }

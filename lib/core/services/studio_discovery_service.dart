@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/discovered_studio.dart';
 import 'package:useme/core/services/env_service.dart';
 import 'package:useme/core/services/location_service.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service for discovering studios nearby using Google Places API + Firestore partners
 class StudioDiscoveryService {
@@ -85,7 +85,7 @@ class StudioDiscoveryService {
           radius,
         );
       } catch (e) {
-        debugPrint('⚠️ StudioDiscoveryService: merge failed, using Google Places only: $e');
+        appLog('⚠️ StudioDiscoveryService: merge failed, using Google Places only: $e');
         mergedStudios = googleStudios;
       }
 
@@ -94,8 +94,8 @@ class StudioDiscoveryService {
       _cachedPosition = position;
       return _updateDistances(mergedStudios, position);
     } catch (e, stackTrace) {
-      debugPrint('⚠️ StudioDiscoveryService: findNearbyStudios error: $e');
-      debugPrint('⚠️ StackTrace: $stackTrace');
+      appLog('⚠️ StudioDiscoveryService: findNearbyStudios error: $e');
+      appLog('⚠️ StackTrace: $stackTrace');
       // Return cached if available, otherwise empty list
       if (_cachedStudios != null) {
         return _updateDistances(_cachedStudios!, position);
@@ -141,7 +141,7 @@ class StudioDiscoveryService {
         .timeout(
           const Duration(seconds: 10),
           onTimeout: () {
-            debugPrint('⚠️ StudioDiscoveryService: Timeout fetching partners');
+            appLog('⚠️ StudioDiscoveryService: Timeout fetching partners');
             throw Exception('Timeout');
           },
         );
@@ -170,7 +170,7 @@ class StudioDiscoveryService {
           }
         }
       } catch (e) {
-        debugPrint('⚠️ StudioDiscoveryService: Error parsing partner ${doc.id}: $e');
+        appLog('⚠️ StudioDiscoveryService: Error parsing partner ${doc.id}: $e');
       }
     }
 
@@ -287,7 +287,7 @@ class StudioDiscoveryService {
         }
       }
     } catch (e) {
-      debugPrint('⚠️ Geocoding error: $e');
+      appLog('⚠️ Geocoding error: $e');
     }
 
     return null;

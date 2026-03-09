@@ -310,6 +310,24 @@ abstract class AppLocalizations {
   /// **'Suit les réglages de l\'appareil'**
   String get languageSystemSubtitle;
 
+  /// No description provided for @languageFrenchSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'French'**
+  String get languageFrenchSubtitle;
+
+  /// No description provided for @languageEnglishSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Anglais'**
+  String get languageEnglishSubtitle;
+
+  /// No description provided for @languageSangoSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Centrafrique'**
+  String get languageSangoSubtitle;
+
   /// No description provided for @userGuide.
   ///
   /// In fr, this message translates to:
@@ -459,6 +477,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Pourquoi souhaitez-vous signaler cette conversation ?'**
   String get reportConfirmMessage;
+
+  /// No description provided for @reportReason.
+  ///
+  /// In fr, this message translates to:
+  /// **'Raison du signalement'**
+  String get reportReason;
 
   /// No description provided for @reportSent.
   ///
@@ -3489,6 +3513,30 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ajouter une photo'**
   String get addPhoto;
+
+  /// No description provided for @sessionNotFound.
+  ///
+  /// In fr, this message translates to:
+  /// **'Session introuvable'**
+  String get sessionNotFound;
+
+  /// No description provided for @notesSaved.
+  ///
+  /// In fr, this message translates to:
+  /// **'Notes enregistrées'**
+  String get notesSaved;
+
+  /// No description provided for @photoAdded.
+  ///
+  /// In fr, this message translates to:
+  /// **'Photo ajoutée'**
+  String get photoAdded;
+
+  /// No description provided for @photoUploadError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur lors de l\'envoi de la photo'**
+  String get photoUploadError;
 
   /// No description provided for @arrivalCheckedSuccess.
   ///
@@ -6535,7 +6583,7 @@ abstract class AppLocalizations {
   /// No description provided for @unlimitedSessions.
   ///
   /// In fr, this message translates to:
-  /// **'Sessions illimitées'**
+  /// **'sessions illimitées'**
   String get unlimitedSessions;
 
   /// No description provided for @sessionsPerMonth.
@@ -6559,7 +6607,7 @@ abstract class AppLocalizations {
   /// No description provided for @unlimitedServices.
   ///
   /// In fr, this message translates to:
-  /// **'Services illimités'**
+  /// **'services illimités'**
   String get unlimitedServices;
 
   /// No description provided for @servicesCount.
@@ -7593,6 +7641,84 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Remote'**
   String get remote;
+
+  /// No description provided for @limitReached.
+  ///
+  /// In fr, this message translates to:
+  /// **'Limite atteinte'**
+  String get limitReached;
+
+  /// No description provided for @limitReachedMessage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vous avez atteint la limite de {max} {type} pour l\'\'abonnement {tier}.'**
+  String limitReachedMessage(int max, String type, String tier);
+
+  /// No description provided for @limitUsage.
+  ///
+  /// In fr, this message translates to:
+  /// **'{current} / {max} {type}'**
+  String limitUsage(int current, int max, String type);
+
+  /// No description provided for @upgradeToTier.
+  ///
+  /// In fr, this message translates to:
+  /// **'Passez à {tier} pour {limit}'**
+  String upgradeToTier(String tier, String limit);
+
+  /// No description provided for @maybeLater.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus tard'**
+  String get maybeLater;
+
+  /// No description provided for @upgrade.
+  ///
+  /// In fr, this message translates to:
+  /// **'Upgrade'**
+  String get upgrade;
+
+  /// No description provided for @tierFree.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gratuit'**
+  String get tierFree;
+
+  /// No description provided for @tierPro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pro'**
+  String get tierPro;
+
+  /// No description provided for @tierEnterprise.
+  ///
+  /// In fr, this message translates to:
+  /// **'Enterprise'**
+  String get tierEnterprise;
+
+  /// No description provided for @tenRooms.
+  ///
+  /// In fr, this message translates to:
+  /// **'10 salles'**
+  String get tenRooms;
+
+  /// No description provided for @tenEngineers.
+  ///
+  /// In fr, this message translates to:
+  /// **'10 ingénieurs'**
+  String get tenEngineers;
+
+  /// No description provided for @unlimited.
+  ///
+  /// In fr, this message translates to:
+  /// **'illimité'**
+  String get unlimited;
+
+  /// No description provided for @more.
+  ///
+  /// In fr, this message translates to:
+  /// **'plus'**
+  String get more;
 }
 
 class _AppLocalizationsDelegate

@@ -115,6 +115,15 @@ class AppLocalizationsSg extends AppLocalizations {
   String get languageSystemSubtitle => 'Tökua sêse tî téléphone';
 
   @override
+  String get languageFrenchSubtitle => 'French';
+
+  @override
+  String get languageEnglishSubtitle => 'Anglais';
+
+  @override
+  String get languageSangoSubtitle => 'Centrafrique';
+
+  @override
   String get userGuide => 'Ndiä tî sära na';
 
   @override
@@ -192,6 +201,9 @@ class AppLocalizationsSg extends AppLocalizations {
 
   @override
   String get reportConfirmMessage => 'Ngâ nî mo sü tene na ndâ tî bîanî sô?';
+
+  @override
+  String get reportReason => 'Ndâ tî tene na ndâ';
 
   @override
   String get reportSent => 'Mbëtï tî tene na ndâ a-tö awe';
@@ -1789,6 +1801,18 @@ class AppLocalizationsSg extends AppLocalizations {
 
   @override
   String get addPhoto => 'Bâa photo';
+
+  @override
+  String get sessionNotFound => 'Session introuvable';
+
+  @override
+  String get notesSaved => 'Notes enregistrées';
+
+  @override
+  String get photoAdded => 'Photo ajoutée';
+
+  @override
+  String get photoUploadError => 'Erreur lors de l\'envoi de la photo';
 
   @override
   String get arrivalCheckedSuccess => 'Arrivée a-pointer!';
@@ -3452,7 +3476,7 @@ class AppLocalizationsSg extends AppLocalizations {
   }
 
   @override
-  String get unlimitedSessions => 'Sessions na ndïä pëpe';
+  String get unlimitedSessions => 'sessions a-zîa pëpe';
 
   @override
   String sessionsPerMonth(int count) {
@@ -3468,7 +3492,7 @@ class AppLocalizationsSg extends AppLocalizations {
   }
 
   @override
-  String get unlimitedServices => 'Services na ndïä pëpe';
+  String get unlimitedServices => 'services a-zîa pëpe';
 
   @override
   String servicesCount(int count) {
@@ -4028,4 +4052,49 @@ class AppLocalizationsSg extends AppLocalizations {
 
   @override
   String get remote => 'Remote';
+
+  @override
+  String get limitReached => 'Kötä a-sï';
+
+  @override
+  String limitReachedMessage(int max, String type, String tier) {
+    return 'Mo sï na kötä tî $max $type na abonnement $tier.';
+  }
+
+  @override
+  String limitUsage(int current, int max, String type) {
+    return '$current / $max $type';
+  }
+
+  @override
+  String upgradeToTier(String tier, String limit) {
+    return 'Gä na $tier tî $limit';
+  }
+
+  @override
+  String get maybeLater => 'Na pekô';
+
+  @override
+  String get upgrade => 'Upgrade';
+
+  @override
+  String get tierFree => 'Gratuit';
+
+  @override
+  String get tierPro => 'Pro';
+
+  @override
+  String get tierEnterprise => 'Enterprise';
+
+  @override
+  String get tenRooms => '10 da';
+
+  @override
+  String get tenEngineers => '10 ingénieurs';
+
+  @override
+  String get unlimited => 'a-zîa pëpe';
+
+  @override
+  String get more => 'mbênî';
 }

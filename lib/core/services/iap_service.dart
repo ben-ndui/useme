@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 // Re-export les types du package pour simplifier les imports
 export 'package:smoothandesign_package/smoothandesign.dart'
@@ -92,7 +92,7 @@ class UseMeIAPService extends BaseIAPService {
         },
       });
     } catch (e) {
-      debugPrint('IAP deliverProduct failed for $userId: $e');
+      appLog('IAP deliverProduct failed for $userId: $e');
       rethrow;
     }
   }

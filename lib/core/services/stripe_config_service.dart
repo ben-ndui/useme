@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:useme/core/models/stripe_config.dart';
 import 'package:useme/core/services/encryption_service.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service de gestion de la configuration Stripe (DevMaster only)
 /// Collection Firestore: 'app_config' doc 'stripe'
@@ -59,7 +59,7 @@ class StripeConfigService {
 
       return _cachedConfig;
     } catch (e) {
-      debugPrint('Erreur récupération config Stripe: $e');
+      appLog('Erreur récupération config Stripe: $e');
       return _cachedConfig;
     }
   }
@@ -105,9 +105,9 @@ class StripeConfigService {
       _cachedConfig = null;
       _lastFetch = null;
 
-      debugPrint('Config Stripe sauvegardée');
+      appLog('Config Stripe sauvegardée');
     } catch (e) {
-      debugPrint('Erreur sauvegarde config Stripe: $e');
+      appLog('Erreur sauvegarde config Stripe: $e');
       rethrow;
     }
   }
@@ -127,7 +127,7 @@ class StripeConfigService {
       _cachedConfig = null;
       _lastFetch = null;
     } catch (e) {
-      debugPrint('Erreur mise à jour clé publique: $e');
+      appLog('Erreur mise à jour clé publique: $e');
       rethrow;
     }
   }
@@ -147,7 +147,7 @@ class StripeConfigService {
       _cachedConfig = null;
       _lastFetch = null;
     } catch (e) {
-      debugPrint('Erreur mise à jour mode: $e');
+      appLog('Erreur mise à jour mode: $e');
       rethrow;
     }
   }
@@ -167,7 +167,7 @@ class StripeConfigService {
       _cachedConfig = null;
       _lastFetch = null;
     } catch (e) {
-      debugPrint('Erreur mise à jour price IDs: $e');
+      appLog('Erreur mise à jour price IDs: $e');
       rethrow;
     }
   }
@@ -180,12 +180,12 @@ class StripeConfigService {
   }) async {
     // Vérification du format des clés
     if (!publishableKey.startsWith('pk_')) {
-      debugPrint('Format clé publique invalide');
+      appLog('Format clé publique invalide');
       return false;
     }
 
     if (!secretKey.startsWith('sk_')) {
-      debugPrint('Format clé secrète invalide');
+      appLog('Format clé secrète invalide');
       return false;
     }
 
@@ -194,7 +194,7 @@ class StripeConfigService {
     final isTestSecret = secretKey.startsWith('sk_test_');
 
     if (isTestPublishable != isTestSecret) {
-      debugPrint('Les clés doivent être toutes deux en mode test ou live');
+      appLog('Les clés doivent être toutes deux en mode test ou live');
       return false;
     }
 

@@ -38,6 +38,15 @@ void main() {
         .thenReturn(AuthAuthenticatedState(user: user));
   }
 
+  /// Sets a tall viewport so that responsive Center+ConstrainedBox
+  /// wrapping doesn't push form fields off-screen in tests.
+  void useTallViewport(WidgetTester tester) {
+    tester.view.physicalSize = const Size(2400, 3600);
+    tester.view.devicePixelRatio = 3.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+  }
+
   group('ProProfileSetupScreen - creation mode', () {
     setUp(() => setAuthState());
 
@@ -60,6 +69,7 @@ void main() {
     });
 
     testWidgets('shows form fields', (tester) async {
+      useTallViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 
@@ -67,6 +77,7 @@ void main() {
     });
 
     testWidgets('shows activate button', (tester) async {
+      useTallViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 
@@ -80,6 +91,7 @@ void main() {
 
     testWidgets('submit with empty name shows validation error',
         (tester) async {
+      useTallViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 
@@ -101,6 +113,7 @@ void main() {
 
     testWidgets('submit with valid data dispatches ActivateProProfileEvent',
         (tester) async {
+      useTallViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 
@@ -132,15 +145,15 @@ void main() {
       when(() => mockProProfileBloc.state)
           .thenReturn(const ProProfileState(isSaving: true));
 
+      useTallViewport(tester);
       await tester.pumpWidget(buildScreen());
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump();
 
-      await tester.scrollUntilVisible(
-        find.byType(CircularProgressIndicator),
-        100,
-        scrollable: find.byType(Scrollable).first,
+      expect(
+        find.byType(CircularProgressIndicator, skipOffstage: false),
+        findsOneWidget,
       );
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
   });
 
@@ -171,6 +184,7 @@ void main() {
     });
 
     testWidgets('pre-fills display name', (tester) async {
+      useTallViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 
@@ -178,6 +192,7 @@ void main() {
     });
 
     testWidgets('pre-fills bio', (tester) async {
+      useTallViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 
@@ -185,6 +200,7 @@ void main() {
     });
 
     testWidgets('pre-fills rate', (tester) async {
+      useTallViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 
@@ -192,6 +208,7 @@ void main() {
     });
 
     testWidgets('pre-fills city', (tester) async {
+      useTallViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 
@@ -199,6 +216,7 @@ void main() {
     });
 
     testWidgets('shows save button instead of activate', (tester) async {
+      useTallViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 
@@ -211,6 +229,7 @@ void main() {
     });
 
     testWidgets('submit dispatches UpdateProProfileEvent', (tester) async {
+      useTallViewport(tester);
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 

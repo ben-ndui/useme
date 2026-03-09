@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/core/models/session.dart';
 import 'package:useme/core/services/engineer_proposal_service.dart';
 import 'package:useme/core/services/payment_config_service.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service pour gérer l'acceptation des réservations
 class BookingAcceptanceService {
@@ -116,7 +116,7 @@ class BookingAcceptanceService {
         data: conversationId,
       );
     } catch (e) {
-      debugPrint('Erreur acceptBooking: $e');
+      appLog('Erreur acceptBooking: $e');
       return SmoothResponse(
         code: 500,
         message: 'Erreur: $e',
@@ -130,7 +130,7 @@ class BookingAcceptanceService {
       'status': status,
       'updatedAt': FieldValue.serverTimestamp(),
     });
-    debugPrint('✅ Session $sessionId status=$status');
+    appLog('✅ Session $sessionId status=$status');
   }
 
   Future<void> _updateSessionWithEngineer({
@@ -144,7 +144,7 @@ class BookingAcceptanceService {
       'engineerNames': FieldValue.arrayUnion([engineer.displayName ?? engineer.email]),
       'updatedAt': FieldValue.serverTimestamp(),
     });
-    debugPrint('✅ Ingénieur ${engineer.uid} assigné à session $sessionId');
+    appLog('✅ Ingénieur ${engineer.uid} assigné à session $sessionId');
   }
 
   Future<String> _getOrCreateConversation({
@@ -242,7 +242,7 @@ class BookingAcceptanceService {
       'unreadCounts.$recipientId': FieldValue.increment(1),
     });
 
-    debugPrint('✅ Message envoyé dans conversation $conversationId');
+    appLog('✅ Message envoyé dans conversation $conversationId');
   }
 
   Future<void> _sendNotification({
@@ -264,7 +264,7 @@ class BookingAcceptanceService {
       'isRead': false,
       'createdAt': FieldValue.serverTimestamp(),
     });
-    debugPrint('✅ Notification créée pour $userId');
+    appLog('✅ Notification créée pour $userId');
   }
 
   /// Envoie une notification à l'ingénieur assigné
@@ -288,7 +288,7 @@ class BookingAcceptanceService {
         'sessionDate': session.scheduledStart.toIso8601String(),
       },
     );
-    debugPrint('✅ Notification envoyée à l\'ingénieur ${engineer.uid}');
+    appLog('✅ Notification envoyée à l\'ingénieur ${engineer.uid}');
   }
 
   String _formatDate(DateTime date) {

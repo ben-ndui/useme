@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:useme/core/models/app_user.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service pour récupérer les contacts disponibles pour la messagerie.
 class ContactService {
@@ -12,8 +12,8 @@ class ContactService {
 
   /// Récupère les contacts selon le rôle de l'utilisateur.
   Future<List<AppUser>> getContacts(AppUser currentUser) async {
-    debugPrint('🔍 ContactService.getContacts - role: ${currentUser.role}, uid: ${currentUser.uid}');
-    debugPrint('🔍 isStudio: ${currentUser.isStudio}, isEngineer: ${currentUser.isEngineer}, isArtist: ${currentUser.isArtist}');
+    appLog('🔍 ContactService.getContacts - role: ${currentUser.role}, uid: ${currentUser.uid}');
+    appLog('🔍 isStudio: ${currentUser.isStudio}, isEngineer: ${currentUser.isEngineer}, isArtist: ${currentUser.isArtist}');
 
     List<AppUser> contacts;
     if (currentUser.isStudio) {
@@ -23,11 +23,11 @@ class ContactService {
     } else if (currentUser.isArtist) {
       contacts = await _getArtistContacts(currentUser);
     } else {
-      debugPrint('⚠️ Unknown role, returning empty contacts');
+      appLog('⚠️ Unknown role, returning empty contacts');
       contacts = [];
     }
 
-    debugPrint('✅ Found ${contacts.length} contacts');
+    appLog('✅ Found ${contacts.length} contacts');
     return contacts;
   }
 
@@ -66,7 +66,7 @@ class ContactService {
 
       return contacts;
     } catch (e) {
-      debugPrint('❌ ContactService._getStudioContacts error: $e');
+      appLog('❌ ContactService._getStudioContacts error: $e');
       return [];
     }
   }
@@ -107,7 +107,7 @@ class ContactService {
 
       return contacts;
     } catch (e) {
-      debugPrint('❌ ContactService._getEngineerContacts error: $e');
+      appLog('❌ ContactService._getEngineerContacts error: $e');
       return [];
     }
   }
@@ -136,7 +136,7 @@ class ContactService {
 
       return contacts;
     } catch (e) {
-      debugPrint('❌ ContactService._getArtistContacts error: $e');
+      appLog('❌ ContactService._getArtistContacts error: $e');
       return [];
     }
   }
@@ -200,10 +200,10 @@ class ContactService {
         }
       }
 
-      debugPrint('🔍 searchAllUsers("$query") found ${results.length} users');
+      appLog('🔍 searchAllUsers("$query") found ${results.length} users');
       return results.values.toList();
     } catch (e) {
-      debugPrint('❌ searchAllUsers error: $e');
+      appLog('❌ searchAllUsers error: $e');
       return [];
     }
   }

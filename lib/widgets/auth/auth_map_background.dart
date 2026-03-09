@@ -53,7 +53,9 @@ class _AuthMapBackgroundState extends State<AuthMapBackground> {
           if (mounted) {
             setState(() => _studioPins[studio.id] = pin);
           }
-        } catch (_) {}
+        } catch (_) {
+          // Pin image load failure - silently skip
+        }
       }
     }
   }

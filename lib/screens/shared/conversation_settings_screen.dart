@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/core/services/block_service.dart';
+import 'package:useme/core/services/report_service.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
@@ -57,6 +59,7 @@ class _ConversationSettingsScreenState
           );
         }
 
+        _isMuted = conversation.isMutedFor(currentUserId);
         final displayName = conversation.getDisplayName(currentUserId);
         final avatarUrl = conversation.getAvatarUrl(currentUserId);
         final isGroup = conversation.type == ConversationType.group;
@@ -123,7 +126,12 @@ class _ConversationSettingsScreenState
                 value: _isMuted,
                 onChanged: (value) {
                   setState(() => _isMuted = value);
-                  // TODO: Persist mute state
+                  context.read<MessagingBloc>().add(
+                        ToggleMuteConversationEvent(
+                          conversationId: widget.conversationId,
+                          muted: value,
+                        ),
+                      );
                 },
               ),
 
@@ -137,7 +145,8 @@ class _ConversationSettingsScreenState
                 title: l10n.block,
                 subtitle: l10n.blockContact,
                 isDestructive: true,
-                onTap: () => _showBlockDialog(l10n, displayName),
+                onTap: () => _showBlockDialog(
+                      l10n, displayName, conversation!, currentUserId),
               ),
               _buildTile(
                 context,
@@ -145,7 +154,8 @@ class _ConversationSettingsScreenState
                 title: l10n.report,
                 subtitle: l10n.reportProblem,
                 isDestructive: true,
-                onTap: () => _showReportDialog(l10n),
+                onTap: () => _showReportDialog(
+                      l10n, conversation!, currentUserId),
               ),
               _buildTile(
                 context,
@@ -286,7 +296,16 @@ class _ConversationSettingsScreenState
     context.push(AppRoutes.profile);
   }
 
-  void _showBlockDialog(AppLocalizations l10n, String name) {
+  void _showBlockDialog(
+    AppLocalizations l10n,
+    String name,
+    BaseConversation conversation,
+    String currentUserId,
+  ) {
+    final otherUserId = conversation.participantIds
+        .firstWhere((id) => id != currentUserId, orElse: () => '');
+    if (otherUserId.isEmpty) return;
+
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -298,10 +317,23 @@ class _ConversationSettingsScreenState
             child: Text(l10n.cancel),
           ),
           FilledButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(dialogContext);
-              // TODO: Implement block
-              AppSnackBar.success(context, l10n.blocked(name));
+              try {
+                await BlockService().blockUser(currentUserId, otherUserId);
+                if (!mounted) return;
+                context.read<MessagingBloc>().add(
+                      ToggleArchiveConversationEvent(
+                        conversationId: widget.conversationId,
+                        archived: true,
+                      ),
+                    );
+                context.go(AppRoutes.conversations);
+                AppSnackBar.success(context, l10n.blocked(name));
+              } catch (_) {
+                if (!mounted) return;
+                AppSnackBar.error(context, l10n.errorOccurred);
+              }
             },
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
             child: Text(l10n.block),
@@ -311,22 +343,57 @@ class _ConversationSettingsScreenState
     );
   }
 
-  void _showReportDialog(AppLocalizations l10n) {
+  void _showReportDialog(
+    AppLocalizations l10n,
+    BaseConversation conversation,
+    String currentUserId,
+  ) {
+    final otherUserId = conversation.participantIds
+        .firstWhere((id) => id != currentUserId, orElse: () => '');
+    if (otherUserId.isEmpty) return;
+
+    final reasonController = TextEditingController();
+
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text(l10n.reportConfirmTitle),
-        content: Text(l10n.reportConfirmMessage),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n.reportConfirmMessage),
+            const SizedBox(height: 16),
+            TextField(
+              controller: reasonController,
+              decoration: InputDecoration(
+                hintText: l10n.reportReason,
+                border: const OutlineInputBorder(),
+              ),
+              maxLines: 3,
+            ),
+          ],
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
             child: Text(l10n.cancel),
           ),
           FilledButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(dialogContext);
-              // TODO: Implement report
-              AppSnackBar.success(context, l10n.reportSent);
+              try {
+                await ReportService().reportUser(
+                  reporterId: currentUserId,
+                  reportedUserId: otherUserId,
+                  conversationId: widget.conversationId,
+                  reason: reasonController.text.trim(),
+                );
+                if (!mounted) return;
+                AppSnackBar.success(context, l10n.reportSent);
+              } catch (_) {
+                if (!mounted) return;
+                AppSnackBar.error(context, l10n.errorOccurred);
+              }
             },
             child: Text(l10n.report),
           ),

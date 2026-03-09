@@ -373,4 +373,79 @@ void main() {
       expect: () => [isA<SessionInitialState>()],
     );
   });
+
+  group('UpdateSessionNotesEvent', () {
+    blocTest<SessionBloc, SessionState>(
+      'emits [notesUpdated] on success',
+      build: () {
+        when(() => mockSessionService.updateNotes('session-1', 'Great session'))
+            .thenAnswer((_) async =>
+                const SmoothResponse(code: 200, message: 'OK', data: true));
+        return buildBloc();
+      },
+      seed: () => SessionsLoadedState(sessions: testSessions),
+      act: (bloc) => bloc.add(const UpdateSessionNotesEvent(
+        sessionId: 'session-1',
+        notes: 'Great session',
+      )),
+      expect: () => [isA<SessionNotesUpdatedState>()],
+    );
+
+    blocTest<SessionBloc, SessionState>(
+      'emits [error] when updateNotes fails',
+      build: () {
+        when(() => mockSessionService.updateNotes('session-1', 'notes'))
+            .thenThrow(Exception('Network error'));
+        return buildBloc();
+      },
+      seed: () => SessionsLoadedState(sessions: testSessions),
+      act: (bloc) => bloc.add(const UpdateSessionNotesEvent(
+        sessionId: 'session-1',
+        notes: 'notes',
+      )),
+      expect: () => [
+        isA<SessionErrorState>()
+            .having((s) => s.errorMessage, 'msg', contains('Network error')),
+      ],
+    );
+  });
+
+  group('AddSessionPhotoEvent', () {
+    blocTest<SessionBloc, SessionState>(
+      'emits [photoAdded] on success',
+      build: () {
+        when(() => mockSessionService.addPhoto('session-1', 'https://url.jpg'))
+            .thenAnswer((_) async =>
+                const SmoothResponse(code: 200, message: 'OK', data: true));
+        return buildBloc();
+      },
+      seed: () => SessionsLoadedState(sessions: testSessions),
+      act: (bloc) => bloc.add(const AddSessionPhotoEvent(
+        sessionId: 'session-1',
+        photoUrl: 'https://url.jpg',
+      )),
+      expect: () => [
+        isA<SessionPhotoAddedState>()
+            .having((s) => s.photoUrl, 'url', 'https://url.jpg'),
+      ],
+    );
+
+    blocTest<SessionBloc, SessionState>(
+      'emits [error] when addPhoto fails',
+      build: () {
+        when(() => mockSessionService.addPhoto('session-1', 'https://url.jpg'))
+            .thenThrow(Exception('Upload failed'));
+        return buildBloc();
+      },
+      seed: () => SessionsLoadedState(sessions: testSessions),
+      act: (bloc) => bloc.add(const AddSessionPhotoEvent(
+        sessionId: 'session-1',
+        photoUrl: 'https://url.jpg',
+      )),
+      expect: () => [
+        isA<SessionErrorState>()
+            .having((s) => s.errorMessage, 'msg', contains('Upload failed')),
+      ],
+    );
+  });
 }

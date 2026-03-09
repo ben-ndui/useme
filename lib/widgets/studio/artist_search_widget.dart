@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/services/invitation_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Widget de recherche d'artistes existants
 class ArtistSearchWidget extends StatefulWidget {
@@ -74,7 +75,7 @@ class _ArtistSearchWidgetState extends State<ArtistSearchWidget> {
 
       setState(() => _results = filtered);
     } catch (e) {
-      debugPrint('Erreur recherche: $e');
+      appLog('Erreur recherche: $e');
     } finally {
       setState(() => _isSearching = false);
     }

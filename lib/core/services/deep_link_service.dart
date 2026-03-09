@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:app_links/app_links.dart';
-import 'package:flutter/foundation.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service to handle deep links (OAuth callbacks, etc.)
 class DeepLinkService {
@@ -23,25 +23,25 @@ class DeepLinkService {
         _handleDeepLink(initialUri);
       }
     } catch (e) {
-      debugPrint('DeepLinkService: Error getting initial link: $e');
+      appLog('DeepLinkService: Error getting initial link: $e');
     }
 
     // Listen for subsequent links (app already running)
     _linkSubscription = _appLinks.uriLinkStream.listen(
       _handleDeepLink,
-      onError: (e) => debugPrint('DeepLinkService: Stream error: $e'),
+      onError: (e) => appLog('DeepLinkService: Stream error: $e'),
     );
   }
 
   void _handleDeepLink(Uri uri) {
-    debugPrint('DeepLinkService: Received deep link: $uri');
+    appLog('DeepLinkService: Received deep link: $uri');
 
     // Handle calendar OAuth callback
     if (uri.scheme == 'useme' && uri.host == 'calendar-callback') {
       final success = uri.queryParameters['success'] == 'true';
       final error = uri.queryParameters['error'];
 
-      debugPrint('DeepLinkService: Calendar callback - success: $success');
+      appLog('DeepLinkService: Calendar callback - success: $success');
 
       onCalendarCallback?.call(success, error);
     }

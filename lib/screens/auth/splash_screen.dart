@@ -6,6 +6,7 @@ import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/routing/router.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Splash screen shown on app launch
 class SplashScreen extends StatefulWidget {
@@ -80,18 +81,18 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     if (state is AuthAuthenticatedState) {
       final user = state.user as AppUser;
 
-      debugPrint('🚀 Splash: user.isFirstTime = ${user.isFirstTime}');
-      debugPrint('🚀 Splash: user.role = ${user.role}');
+      appLog('🚀 Splash: user.isFirstTime = ${user.isFirstTime}');
+      appLog('🚀 Splash: user.role = ${user.role}');
 
       // Check if first time user needs onboarding
       if (user.isFirstTime) {
         final roleParam = _getRoleParam(user);
-        debugPrint('🚀 Splash: Navigating to onboarding with role=$roleParam');
+        appLog('🚀 Splash: Navigating to onboarding with role=$roleParam');
         context.go('${AppRoutes.onboarding}?role=$roleParam');
       } else {
         // User is authenticated and not first-time → go home
         final route = AppRouter.getHomeRouteForUser(state.user);
-        debugPrint('🚀 Splash: Navigating to home: $route');
+        appLog('🚀 Splash: Navigating to home: $route');
         context.go(route);
       }
     } else {

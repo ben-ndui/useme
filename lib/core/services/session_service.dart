@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Session Service - CRUD operations for studio sessions
 class SessionService {
@@ -22,7 +22,7 @@ class SessionService {
           );
       return snapshot.docs.map((doc) => Session.fromMap({...doc.data(), 'id': doc.id})).toList();
     } catch (e) {
-      debugPrint('❌ SessionService.getSessions error: $e');
+      appLog('❌ SessionService.getSessions error: $e');
       return [];
     }
   }
@@ -181,9 +181,9 @@ class SessionService {
         'isRead': false,
         'createdAt': FieldValue.serverTimestamp(),
       });
-      debugPrint('✅ Notification créée pour $targetUserId');
+      appLog('✅ Notification créée pour $targetUserId');
     } catch (e) {
-      debugPrint('❌ Erreur création notification: $e');
+      appLog('❌ Erreur création notification: $e');
     }
   }
 
@@ -273,14 +273,14 @@ class SessionService {
           'createdAt': FieldValue.serverTimestamp(),
         });
       }
-      debugPrint('✅ Notifications envoyées aux artistes');
+      appLog('✅ Notifications envoyées aux artistes');
 
       // Notifier l'ingénieur si session confirmée et ingénieur assigné
       if (newStatus == SessionStatus.confirmed && session.hasEngineer) {
         await _notifyEngineerAssignment(session);
       }
     } catch (e) {
-      debugPrint('❌ Erreur notification statut: $e');
+      appLog('❌ Erreur notification statut: $e');
     }
   }
 
@@ -303,9 +303,9 @@ class SessionService {
         'isRead': false,
         'createdAt': FieldValue.serverTimestamp(),
       });
-      debugPrint('✅ Notification envoyée à l\'ingénieur ${session.engineerId}');
+      appLog('✅ Notification envoyée à l\'ingénieur ${session.engineerId}');
     } catch (e) {
-      debugPrint('❌ Erreur notification ingénieur: $e');
+      appLog('❌ Erreur notification ingénieur: $e');
     }
   }
 

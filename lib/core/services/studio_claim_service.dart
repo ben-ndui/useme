@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/discovered_studio.dart';
 import 'package:useme/core/models/studio_profile.dart';
 import 'studio_discovery_service.dart';
+import 'package:useme/core/utils/app_logger.dart';
 
 /// Service pour revendiquer/lier un studio Google à un compte admin
 class StudioClaimService {
@@ -174,7 +174,7 @@ class StudioClaimService {
           .where((user) => user.isStudio || user.isSuperAdmin)
           .toList();
     } catch (e) {
-      debugPrint('❌ StudioClaimService.getPartnerStudios error: $e');
+      appLog('❌ StudioClaimService.getPartnerStudios error: $e');
       return [];
     }
   }
