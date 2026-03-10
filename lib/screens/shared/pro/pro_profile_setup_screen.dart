@@ -8,7 +8,10 @@ import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:useme/widgets/pro/pro_payment_methods_form.dart';
+import 'package:useme/widgets/pro/pro_portfolio_picker.dart';
 import 'pro_type_selector.dart';
 import 'pro_profile_form_fields.dart';
 
@@ -37,6 +40,8 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
   bool _remote = false;
   bool _isAvailable = true;
   bool _isEditing = false;
+  List<String> _portfolioUrls = [];
+  List<PaymentMethod> _paymentMethods = [];
 
   @override
   void initState() {
@@ -77,6 +82,8 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
       _daws = List.from(profile.daws);
       _remote = profile.remote;
       _isAvailable = profile.isAvailable;
+      _portfolioUrls = List.from(profile.portfolioUrls);
+      _paymentMethods = List.from(profile.paymentMethods);
     });
   }
 
@@ -114,6 +121,10 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
             constraints: const BoxConstraints(maxWidth: Responsive.maxFormWidth),
             child: BlocBuilder<ProProfileBloc, ProProfileState>(
           builder: (context, state) {
+            final authState = context.read<AuthBloc>().state;
+            final userId = authState is AuthAuthenticatedState
+                ? authState.user.uid
+                : '';
             return Form(
               key: _formKey,
               child: ListView(
@@ -150,6 +161,19 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
                     onRemoteChanged: (v) => setState(() => _remote = v),
                     onAvailabilityChanged: (v) =>
                         setState(() => _isAvailable = v),
+                  ),
+                  const SizedBox(height: 24),
+                  ProPortfolioPicker(
+                    userId: userId,
+                    portfolioUrls: _portfolioUrls,
+                    onChanged: (urls) =>
+                        setState(() => _portfolioUrls = urls),
+                  ),
+                  const SizedBox(height: 24),
+                  ProPaymentMethodsForm(
+                    methods: _paymentMethods,
+                    onChanged: (methods) =>
+                        setState(() => _paymentMethods = methods),
                   ),
                   const SizedBox(height: 32),
                   _buildSubmitButton(state, l10n),
@@ -269,6 +293,8 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
           : _phoneController.text.trim(),
       remote: _remote,
       isAvailable: _isAvailable,
+      portfolioUrls: _portfolioUrls,
+      paymentMethods: _paymentMethods,
     );
 
     final bloc = context.read<ProProfileBloc>();

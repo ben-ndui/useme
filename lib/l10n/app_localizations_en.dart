@@ -1369,7 +1369,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get instructionsHint => 'Ex: Put the artist\'s name as reference';
 
   @override
-  String get paypalEmail => 'PayPal Email';
+  String get paypalEmail => 'PayPal email';
 
   @override
   String get cardInfo => 'Information';
@@ -1807,7 +1807,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get photos => 'Photos';
 
   @override
-  String get addPhoto => 'Add a photo';
+  String get addPhoto => 'Add';
 
   @override
   String get sessionNotFound => 'Session not found';
@@ -2224,7 +2224,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bic => 'BIC / SWIFT';
 
   @override
-  String get accountHolder => 'Account holder name';
+  String get accountHolder => 'Account holder';
 
   @override
   String get bankName => 'Bank name';
@@ -3139,6 +3139,30 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get proProfileAvailableDesc =>
       'Your profile is visible on the marketplace';
+
+  @override
+  String get proPortfolio => 'Portfolio';
+
+  @override
+  String get uploadError => 'Upload error';
+
+  @override
+  String get proPaymentMethods => 'Payment methods';
+
+  @override
+  String get proPaymentMethodsDesc => 'Indicate how your clients can pay you';
+
+  @override
+  String get paymentMethodName => 'Payment method name';
+
+  @override
+  String get paymentInstructions => 'Payment instructions';
+
+  @override
+  String get proDetailPortfolio => 'Portfolio';
+
+  @override
+  String get proDetailPaymentMethods => 'Accepted payment methods';
 
   @override
   String get requiredField => 'This field is required';

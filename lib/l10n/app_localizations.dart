@@ -3511,7 +3511,7 @@ abstract class AppLocalizations {
   /// No description provided for @addPhoto.
   ///
   /// In fr, this message translates to:
-  /// **'Ajouter une photo'**
+  /// **'Ajouter'**
   String get addPhoto;
 
   /// No description provided for @sessionNotFound.
@@ -5925,6 +5925,54 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Votre profil est visible sur la marketplace'**
   String get proProfileAvailableDesc;
+
+  /// No description provided for @proPortfolio.
+  ///
+  /// In fr, this message translates to:
+  /// **'Portfolio'**
+  String get proPortfolio;
+
+  /// No description provided for @uploadError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreur lors de l\'upload'**
+  String get uploadError;
+
+  /// No description provided for @proPaymentMethods.
+  ///
+  /// In fr, this message translates to:
+  /// **'Moyens de paiement'**
+  String get proPaymentMethods;
+
+  /// No description provided for @proPaymentMethodsDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Indiquez comment vos clients peuvent vous payer'**
+  String get proPaymentMethodsDesc;
+
+  /// No description provided for @paymentMethodName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom du moyen de paiement'**
+  String get paymentMethodName;
+
+  /// No description provided for @paymentInstructions.
+  ///
+  /// In fr, this message translates to:
+  /// **'Instructions de paiement'**
+  String get paymentInstructions;
+
+  /// No description provided for @proDetailPortfolio.
+  ///
+  /// In fr, this message translates to:
+  /// **'Portfolio'**
+  String get proDetailPortfolio;
+
+  /// No description provided for @proDetailPaymentMethods.
+  ///
+  /// In fr, this message translates to:
+  /// **'Moyens de paiement acceptes'**
+  String get proDetailPaymentMethods;
 
   /// No description provided for @requiredField.
   ///

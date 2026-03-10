@@ -11,12 +11,14 @@ class StudioBottomNav extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
   final AppLocalizations l10n;
+  final int pendingSessionCount;
 
   const StudioBottomNav({
     super.key,
     required this.currentIndex,
     required this.onTap,
     required this.l10n,
+    this.pendingSessionCount = 0,
   });
 
   @override
@@ -63,6 +65,7 @@ class StudioBottomNav extends StatelessWidget {
                   label: l10n.sessionsLabel,
                   isSelected: currentIndex == 1,
                   onTap: () => onTap(1),
+                  badgeCount: pendingSessionCount,
                 ),
                 _NavItem(
                   icon: FontAwesomeIcons.users,
@@ -82,6 +85,7 @@ class StudioBottomNav extends StatelessWidget {
                   label: l10n.settings,
                   isSelected: currentIndex == 4,
                   onTap: () => onTap(4),
+                  badgeCount: pendingSessionCount,
                 ),
               ],
             ),

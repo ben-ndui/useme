@@ -39,6 +39,8 @@ void main() {
     List<String> genres = const [],
     List<String> instruments = const [],
     List<String> daws = const [],
+    List<String> portfolioUrls = const [],
+    List<Map<String, dynamic>> paymentMethods = const [],
   }) {
     return AppUser.fromMap({
       'uid': 'u1',
@@ -60,6 +62,8 @@ void main() {
         'genres': genres,
         'instruments': instruments,
         'daws': daws,
+        'portfolioUrls': portfolioUrls,
+        'paymentMethods': paymentMethods,
       },
     });
   }
@@ -209,6 +213,52 @@ void main() {
       expect(find.text('Send request'), findsOneWidget);
       // Message icon button (outlined)
       expect(find.byType(IconButton), findsAtLeastNWidgets(1));
+    });
+
+    testWidgets('shows portfolio section when urls present', (tester) async {
+      await tester.pumpWidget(buildScreen(makeUser(
+        portfolioUrls: ['https://example.com/img1.jpg', 'https://example.com/img2.jpg'],
+      )));
+      await tester.pumpAndSettle();
+
+      await tester.scrollUntilVisible(
+        find.text('Portfolio'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.text('Portfolio'), findsOneWidget);
+    });
+
+    testWidgets('hides portfolio section when no urls', (tester) async {
+      await tester.pumpWidget(buildScreen(makeUser()));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Portfolio'), findsNothing);
+    });
+
+    testWidgets('shows payment methods section', (tester) async {
+      await tester.pumpWidget(buildScreen(makeUser(
+        paymentMethods: [
+          {'type': 'paypal', 'isEnabled': true, 'details': 'me@paypal.com'},
+          {'type': 'cash', 'isEnabled': true},
+        ],
+      )));
+      await tester.pumpAndSettle();
+
+      await tester.scrollUntilVisible(
+        find.text('Accepted payment methods'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.text('Accepted payment methods'), findsOneWidget);
+      expect(find.text('PayPal'), findsOneWidget);
+    });
+
+    testWidgets('hides payment methods when none', (tester) async {
+      await tester.pumpWidget(buildScreen(makeUser()));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Accepted payment methods'), findsNothing);
     });
 
     testWidgets('shows verified badge in AppBar when verified',

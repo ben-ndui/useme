@@ -80,7 +80,7 @@ class _ArtistMainScaffoldState extends State<ArtistMainScaffold> {
     }
   }
 
-  List<AppNavRailItem> _railItems(AppLocalizations l10n) => [
+  List<AppNavRailItem> _railItems(AppLocalizations l10n, {int pendingCount = 0}) => [
         AppNavRailItem(
           icon: FontAwesomeIcons.house,
           selectedIcon: FontAwesomeIcons.houseChimney,
@@ -90,6 +90,7 @@ class _ArtistMainScaffoldState extends State<ArtistMainScaffold> {
           icon: FontAwesomeIcons.calendarDays,
           selectedIcon: FontAwesomeIcons.calendarCheck,
           label: l10n.sessionsLabel,
+          badgeCount: pendingCount,
         ),
         AppNavRailItem(
           icon: FontAwesomeIcons.heart,
@@ -106,6 +107,7 @@ class _ArtistMainScaffoldState extends State<ArtistMainScaffold> {
           icon: FontAwesomeIcons.gear,
           selectedIcon: FontAwesomeIcons.gears,
           label: l10n.settings,
+          badgeCount: pendingCount,
         ),
       ];
 
@@ -127,16 +129,20 @@ class _ArtistMainScaffoldState extends State<ArtistMainScaffold> {
 
   Widget _buildWideScaffold(AppLocalizations l10n) {
     return Scaffold(
-      body: Row(
-        children: [
-          AppNavigationRail(
-            selectedIndex: _currentIndex,
-            onDestinationSelected: _onNavTapped,
-
-            items: _railItems(l10n),
-          ),
-          Expanded(child: _pages[_currentIndex]),
-        ],
+      body: BlocBuilder<SessionBloc, SessionState>(
+        buildWhen: (prev, curr) => prev.pendingCount != curr.pendingCount,
+        builder: (context, sessionState) {
+          return Row(
+            children: [
+              AppNavigationRail(
+                selectedIndex: _currentIndex,
+                onDestinationSelected: _onNavTapped,
+                items: _railItems(l10n, pendingCount: sessionState.pendingCount),
+              ),
+              Expanded(child: _pages[_currentIndex]),
+            ],
+          );
+        },
       ),
     );
   }
@@ -152,48 +158,55 @@ class _ArtistMainScaffoldState extends State<ArtistMainScaffold> {
             : const BouncingScrollPhysics(),
         children: _pages,
       ),
-      bottomNavigationBar: BlocBuilder<MessagingBloc, MessagingState>(
-        buildWhen: (previous, current) {
-          final prevCount = previous is ConversationsLoadedState ? previous.totalUnreadCount : 0;
-          final currCount = current is ConversationsLoadedState ? current.totalUnreadCount : 0;
-          return prevCount != currCount;
-        },
-        builder: (context, messagingState) {
-          final unreadCount = messagingState is ConversationsLoadedState
-              ? messagingState.totalUnreadCount
-              : 0;
+      bottomNavigationBar: BlocBuilder<SessionBloc, SessionState>(
+        buildWhen: (prev, curr) => prev.pendingCount != curr.pendingCount,
+        builder: (context, sessionState) {
+          return BlocBuilder<MessagingBloc, MessagingState>(
+            buildWhen: (previous, current) {
+              final prevCount = previous is ConversationsLoadedState ? previous.totalUnreadCount : 0;
+              final currCount = current is ConversationsLoadedState ? current.totalUnreadCount : 0;
+              return prevCount != currCount;
+            },
+            builder: (context, messagingState) {
+              final unreadCount = messagingState is ConversationsLoadedState
+                  ? messagingState.totalUnreadCount
+                  : 0;
 
-          return FloatingBottomNav(
-            currentIndex: _currentIndex,
-            onTap: _onNavTapped,
-            items: [
-              FloatingNavItem(
-                icon: FontAwesomeIcons.house,
-                selectedIcon: FontAwesomeIcons.houseChimney,
-                label: l10n.home,
-              ),
-              FloatingNavItem(
-                icon: FontAwesomeIcons.calendarDays,
-                selectedIcon: FontAwesomeIcons.calendarCheck,
-                label: l10n.sessionsLabel,
-              ),
-              FloatingNavItem(
-                icon: FontAwesomeIcons.heart,
-                selectedIcon: FontAwesomeIcons.solidHeart,
-                label: l10n.favorites,
-              ),
-              FloatingNavItem(
-                icon: FontAwesomeIcons.comment,
-                selectedIcon: FontAwesomeIcons.solidComment,
-                label: l10n.messages,
-                badgeCount: unreadCount,
-              ),
-              FloatingNavItem(
-                icon: FontAwesomeIcons.gear,
-                selectedIcon: FontAwesomeIcons.gears,
-                label: l10n.settings,
-              ),
-            ],
+              return FloatingBottomNav(
+                currentIndex: _currentIndex,
+                onTap: _onNavTapped,
+                items: [
+                  FloatingNavItem(
+                    icon: FontAwesomeIcons.house,
+                    selectedIcon: FontAwesomeIcons.houseChimney,
+                    label: l10n.home,
+                  ),
+                  FloatingNavItem(
+                    icon: FontAwesomeIcons.calendarDays,
+                    selectedIcon: FontAwesomeIcons.calendarCheck,
+                    label: l10n.sessionsLabel,
+                    badgeCount: sessionState.pendingCount,
+                  ),
+                  FloatingNavItem(
+                    icon: FontAwesomeIcons.heart,
+                    selectedIcon: FontAwesomeIcons.solidHeart,
+                    label: l10n.favorites,
+                  ),
+                  FloatingNavItem(
+                    icon: FontAwesomeIcons.comment,
+                    selectedIcon: FontAwesomeIcons.solidComment,
+                    label: l10n.messages,
+                    badgeCount: unreadCount,
+                  ),
+                  FloatingNavItem(
+                    icon: FontAwesomeIcons.gear,
+                    selectedIcon: FontAwesomeIcons.gears,
+                    label: l10n.settings,
+                    badgeCount: sessionState.pendingCount,
+                  ),
+                ],
+              );
+            },
           );
         },
       ),

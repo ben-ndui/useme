@@ -9,12 +9,14 @@ class AppNavRailItem {
   final IconData selectedIcon;
   final String label;
   final bool isMessages;
+  final int badgeCount;
 
   const AppNavRailItem({
     required this.icon,
     required this.selectedIcon,
     required this.label,
     this.isMessages = false,
+    this.badgeCount = 0,
   });
 }
 
@@ -64,12 +66,31 @@ class AppNavigationRail extends StatelessWidget {
       ),
       destinations: items.map((item) {
         if (item.isMessages) return _buildMessagesDestination(item);
+        if (item.badgeCount > 0) return _buildBadgeDestination(item);
         return NavigationRailDestination(
           icon: FaIcon(item.icon, size: 18),
           selectedIcon: FaIcon(item.selectedIcon, size: 18),
           label: Text(item.label),
         );
       }).toList(),
+    );
+  }
+
+  NavigationRailDestination _buildBadgeDestination(AppNavRailItem item) {
+    return NavigationRailDestination(
+      icon: Badge(
+        isLabelVisible: item.badgeCount > 0,
+        label: Text(
+            item.badgeCount > 99 ? '99+' : item.badgeCount.toString()),
+        child: FaIcon(item.icon, size: 18),
+      ),
+      selectedIcon: Badge(
+        isLabelVisible: item.badgeCount > 0,
+        label: Text(
+            item.badgeCount > 99 ? '99+' : item.badgeCount.toString()),
+        child: FaIcon(item.selectedIcon, size: 18),
+      ),
+      label: Text(item.label),
     );
   }
 

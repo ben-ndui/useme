@@ -1819,7 +1819,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get photos => 'Photos';
 
   @override
-  String get addPhoto => 'Ajouter une photo';
+  String get addPhoto => 'Ajouter';
 
   @override
   String get sessionNotFound => 'Session introuvable';
@@ -3165,6 +3165,31 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get proProfileAvailableDesc =>
       'Votre profil est visible sur la marketplace';
+
+  @override
+  String get proPortfolio => 'Portfolio';
+
+  @override
+  String get uploadError => 'Erreur lors de l\'upload';
+
+  @override
+  String get proPaymentMethods => 'Moyens de paiement';
+
+  @override
+  String get proPaymentMethodsDesc =>
+      'Indiquez comment vos clients peuvent vous payer';
+
+  @override
+  String get paymentMethodName => 'Nom du moyen de paiement';
+
+  @override
+  String get paymentInstructions => 'Instructions de paiement';
+
+  @override
+  String get proDetailPortfolio => 'Portfolio';
+
+  @override
+  String get proDetailPaymentMethods => 'Moyens de paiement acceptes';
 
   @override
   String get requiredField => 'Ce champ est requis';

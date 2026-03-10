@@ -15,6 +15,10 @@ class SessionState extends Equatable {
     this.errorMessage,
   });
 
+  /// Number of pending (unprocessed) session requests
+  int get pendingCount =>
+      sessions.where((s) => s.status == SessionStatus.pending).length;
+
   @override
   List<Object?> get props => [sessions, selectedSession, isLoading, errorMessage];
 

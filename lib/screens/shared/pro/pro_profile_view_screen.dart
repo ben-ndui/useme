@@ -5,6 +5,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/favorite.dart';
+import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/screens/shared/pro/pro_booking_screen.dart';
@@ -64,6 +65,10 @@ class ProProfileViewScreen extends StatelessWidget {
             _buildTagsSection(theme, l10n.proDetailInstruments, _profile.instruments),
           if (_profile.daws.isNotEmpty)
             _buildTagsSection(theme, l10n.proDetailDaws, _profile.daws),
+          if (_profile.portfolioUrls.isNotEmpty)
+            _buildPortfolioSection(theme, l10n),
+          if (_profile.hasPaymentMethods)
+            _buildPaymentMethodsSection(theme, l10n),
         ],
       ),
         ),
@@ -257,6 +262,90 @@ class ProProfileViewScreen extends StatelessWidget {
                 .toList(),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildPortfolioSection(ThemeData theme, AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.proDetailPortfolio,
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 120,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: _profile.portfolioUrls.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 8),
+              itemBuilder: (_, i) => ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  _profile.portfolioUrls[i],
+                  width: 120,
+                  height: 120,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Container(
+                    width: 120,
+                    height: 120,
+                    color: theme.colorScheme.surfaceContainerHighest,
+                    child: const Icon(Icons.broken_image, size: 32),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPaymentMethodsSection(
+      ThemeData theme, AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.proDetailPaymentMethods,
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: _profile.enabledPaymentMethods
+                .map((m) => _paymentBadge(theme, m))
+                .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _paymentBadge(ThemeData theme, PaymentMethod method) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.tertiaryContainer.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Text(
+        method.type.label,
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: theme.colorScheme.tertiary,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }

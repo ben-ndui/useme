@@ -135,53 +135,60 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
     final days = List.generate(7, (i) => _weekStart.add(Duration(days: i)));
     final monthFormat = DateFormat('MMMM yyyy', locale);
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocBuilder<SessionBloc, SessionState>(
+      buildWhen: (prev, curr) => prev.sessions != curr.sessions,
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+          child: Column(
             children: [
-              IconButton(
-                onPressed: () => setState(() {
-                  _weekStart = _weekStart.subtract(const Duration(days: 7));
-                  _selectedDate = _weekStart;
-                }),
-                icon: FaIcon(FontAwesomeIcons.chevronLeft, size: 14, color: colorScheme.onSurfaceVariant),
-                style: IconButton.styleFrom(backgroundColor: colorScheme.surfaceContainerHighest),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () => setState(() {
+                      _weekStart = _weekStart.subtract(const Duration(days: 7));
+                      _selectedDate = _weekStart;
+                    }),
+                    icon: FaIcon(FontAwesomeIcons.chevronLeft, size: 14, color: colorScheme.onSurfaceVariant),
+                    style: IconButton.styleFrom(backgroundColor: colorScheme.surfaceContainerHighest),
+                  ),
+                  Text(
+                    monthFormat.format(_selectedDate).toUpperCase(),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: colorScheme.onSurfaceVariant, letterSpacing: 1),
+                  ),
+                  IconButton(
+                    onPressed: () => setState(() {
+                      _weekStart = _weekStart.add(const Duration(days: 7));
+                      _selectedDate = _weekStart;
+                    }),
+                    icon: FaIcon(FontAwesomeIcons.chevronRight, size: 14, color: colorScheme.onSurfaceVariant),
+                    style: IconButton.styleFrom(backgroundColor: colorScheme.surfaceContainerHighest),
+                  ),
+                ],
               ),
-              Text(
-                monthFormat.format(_selectedDate).toUpperCase(),
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: colorScheme.onSurfaceVariant, letterSpacing: 1),
-              ),
-              IconButton(
-                onPressed: () => setState(() {
-                  _weekStart = _weekStart.add(const Duration(days: 7));
-                  _selectedDate = _weekStart;
-                }),
-                icon: FaIcon(FontAwesomeIcons.chevronRight, size: 14, color: colorScheme.onSurfaceVariant),
-                style: IconButton.styleFrom(backgroundColor: colorScheme.surfaceContainerHighest),
-              ),
+              const SizedBox(height: 16),
+              Row(children: days.map((day) => Expanded(child: _buildDayCell(colorScheme, day, locale, sessions: state.sessions))).toList()),
             ],
           ),
-          const SizedBox(height: 16),
-          Row(children: days.map((day) => Expanded(child: _buildDayCell(colorScheme, day, locale))).toList()),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildDayCell(ColorScheme colorScheme, DateTime day, String locale) {
+  Widget _buildDayCell(ColorScheme colorScheme, DateTime day, String locale, {List<Session> sessions = const []}) {
     final dayFormat = DateFormat('E', locale);
     final isSelected = _isSameDay(day, _selectedDate);
     final isToday = _isSameDay(day, DateTime.now());
+    final hasPending = sessions.any((s) => s.status == SessionStatus.pending && _isSameDay(s.scheduledStart, day));
+    final hasSession = sessions.any((s) => _isSameDay(s.scheduledStart, day));
 
     return GestureDetector(
       onTap: () => setState(() => _selectedDate = day),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         margin: const EdgeInsets.symmetric(horizontal: 3),
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           color: isSelected ? colorScheme.primary : (isToday ? colorScheme.primaryContainer.withValues(alpha: 0.5) : Colors.transparent),
           borderRadius: BorderRadius.circular(12),
@@ -197,6 +204,33 @@ class _EngineerSessionsPageState extends State<EngineerSessionsPage> {
             Text(
               '${day.day}',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: isSelected ? colorScheme.onPrimary : (isToday ? colorScheme.primary : colorScheme.onSurface)),
+            ),
+            const SizedBox(height: 4),
+            SizedBox(
+              height: 8,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (hasPending)
+                    Container(
+                      width: 7,
+                      height: 7,
+                      decoration: BoxDecoration(
+                        color: isSelected ? Colors.orange.shade200 : Colors.orange,
+                        shape: BoxShape.circle,
+                      ),
+                    )
+                  else if (hasSession)
+                    Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: isSelected ? colorScheme.onPrimary.withValues(alpha: 0.7) : colorScheme.primary,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ],
         ),

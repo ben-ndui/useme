@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:smoothandesign_package/core/models/working_hours.dart';
+import 'package:useme/core/models/payment_method.dart';
 
 /// Types de professionnels pouvant proposer leurs services
 enum ProType {
@@ -102,6 +103,9 @@ class ProProfile extends Equatable {
   /// Date d'activation du profil pro
   final DateTime? activatedAt;
 
+  /// Moyens de paiement acceptés par le pro
+  final List<PaymentMethod> paymentMethods;
+
   const ProProfile({
     required this.displayName,
     this.proTypes = const [],
@@ -124,6 +128,7 @@ class ProProfile extends Equatable {
     this.isVerified = false,
     this.isAvailable = true,
     this.activatedAt,
+    this.paymentMethods = const [],
   });
 
   factory ProProfile.fromMap(Map<String, dynamic> map) {
@@ -171,6 +176,10 @@ class ProProfile extends Equatable {
               ? (map['activatedAt'] as Timestamp).toDate()
               : DateTime.tryParse(map['activatedAt'].toString()))
           : null,
+      paymentMethods: (map['paymentMethods'] as List<dynamic>?)
+              ?.map((m) => PaymentMethod.fromMap(m as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
   }
 
@@ -198,6 +207,7 @@ class ProProfile extends Equatable {
       'isAvailable': isAvailable,
       'activatedAt':
           activatedAt != null ? Timestamp.fromDate(activatedAt!) : null,
+      'paymentMethods': paymentMethods.map((m) => m.toMap()).toList(),
     };
   }
 
@@ -223,6 +233,7 @@ class ProProfile extends Equatable {
     bool? isVerified,
     bool? isAvailable,
     DateTime? activatedAt,
+    List<PaymentMethod>? paymentMethods,
   }) {
     return ProProfile(
       displayName: displayName ?? this.displayName,
@@ -246,6 +257,7 @@ class ProProfile extends Equatable {
       isVerified: isVerified ?? this.isVerified,
       isAvailable: isAvailable ?? this.isAvailable,
       activatedAt: activatedAt ?? this.activatedAt,
+      paymentMethods: paymentMethods ?? this.paymentMethods,
     );
   }
 
@@ -274,6 +286,13 @@ class ProProfile extends Equatable {
   /// Vérifie si le pro a un tarif défini
   bool get hasRate => hourlyRate != null && hourlyRate! > 0;
 
+  /// Moyens de paiement activés
+  List<PaymentMethod> get enabledPaymentMethods =>
+      paymentMethods.where((m) => m.isEnabled).toList();
+
+  /// Vérifie si le pro a configuré des moyens de paiement
+  bool get hasPaymentMethods => enabledPaymentMethods.isNotEmpty;
+
   /// Label combiné des types (ex: "Musicien, Ingenieur son")
   String get proTypesLabel => proTypes.map((t) => t.label).join(', ');
 
@@ -300,5 +319,6 @@ class ProProfile extends Equatable {
         rating,
         isVerified,
         isAvailable,
+        paymentMethods,
       ];
 }

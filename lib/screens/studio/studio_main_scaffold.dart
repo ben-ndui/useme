@@ -81,7 +81,7 @@ class _StudioMainScaffoldState extends State<StudioMainScaffold> {
     }
   }
 
-  List<AppNavRailItem> _railItems(AppLocalizations l10n) => [
+  List<AppNavRailItem> _railItems(AppLocalizations l10n, {int pendingCount = 0}) => [
         AppNavRailItem(
           icon: FontAwesomeIcons.house,
           selectedIcon: FontAwesomeIcons.houseChimney,
@@ -91,6 +91,7 @@ class _StudioMainScaffoldState extends State<StudioMainScaffold> {
           icon: FontAwesomeIcons.calendar,
           selectedIcon: FontAwesomeIcons.solidCalendar,
           label: l10n.sessionsLabel,
+          badgeCount: pendingCount,
         ),
         AppNavRailItem(
           icon: FontAwesomeIcons.users,
@@ -107,6 +108,7 @@ class _StudioMainScaffoldState extends State<StudioMainScaffold> {
           icon: FontAwesomeIcons.gear,
           selectedIcon: FontAwesomeIcons.gear,
           label: l10n.settings,
+          badgeCount: pendingCount,
         ),
       ];
 
@@ -128,16 +130,20 @@ class _StudioMainScaffoldState extends State<StudioMainScaffold> {
 
   Widget _buildWideScaffold(AppLocalizations l10n) {
     return Scaffold(
-      body: Row(
-        children: [
-          AppNavigationRail(
-            selectedIndex: _currentIndex,
-            onDestinationSelected: _onNavTap,
-
-            items: _railItems(l10n),
-          ),
-          Expanded(child: _pages[_currentIndex]),
-        ],
+      body: BlocBuilder<SessionBloc, SessionState>(
+        buildWhen: (prev, curr) => prev.pendingCount != curr.pendingCount,
+        builder: (context, sessionState) {
+          return Row(
+            children: [
+              AppNavigationRail(
+                selectedIndex: _currentIndex,
+                onDestinationSelected: _onNavTap,
+                items: _railItems(l10n, pendingCount: sessionState.pendingCount),
+              ),
+              Expanded(child: _pages[_currentIndex]),
+            ],
+          );
+        },
       ),
     );
   }
@@ -151,10 +157,16 @@ class _StudioMainScaffoldState extends State<StudioMainScaffold> {
         children: _pages,
       ),
       extendBody: true,
-      bottomNavigationBar: StudioBottomNav(
-        currentIndex: _currentIndex,
-        onTap: _onNavTap,
-        l10n: l10n,
+      bottomNavigationBar: BlocBuilder<SessionBloc, SessionState>(
+        buildWhen: (prev, curr) => prev.pendingCount != curr.pendingCount,
+        builder: (context, sessionState) {
+          return StudioBottomNav(
+            currentIndex: _currentIndex,
+            onTap: _onNavTap,
+            l10n: l10n,
+            pendingSessionCount: sessionState.pendingCount,
+          );
+        },
       ),
     );
   }

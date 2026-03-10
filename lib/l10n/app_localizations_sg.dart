@@ -1800,7 +1800,7 @@ class AppLocalizationsSg extends AppLocalizations {
   String get photos => 'Photos';
 
   @override
-  String get addPhoto => 'Bâa photo';
+  String get addPhoto => 'Bâa';
 
   @override
   String get sessionNotFound => 'Session introuvable';
@@ -2214,7 +2214,7 @@ class AppLocalizationsSg extends AppLocalizations {
   String get bic => 'BIC / SWIFT';
 
   @override
-  String get accountHolder => 'Zo tî kömändë';
+  String get accountHolder => 'Ïrï tî compte';
 
   @override
   String get bankName => 'Ïrï tî banque';
@@ -3123,6 +3123,31 @@ class AppLocalizationsSg extends AppLocalizations {
 
   @override
   String get proProfileAvailableDesc => 'Profîli tî mo a-pandöö na marketplace';
+
+  @override
+  String get proPortfolio => 'Portfolio';
+
+  @override
+  String get uploadError => 'Problème tî upload';
+
+  @override
+  String get proPaymentMethods => 'Lêgë tî fûta';
+
+  @override
+  String get proPaymentMethodsDesc =>
+      'Tene ndâ tî clients tî mo lîngbi fûta mo';
+
+  @override
+  String get paymentMethodName => 'Ïrï tî lêgë tî fûta';
+
+  @override
+  String get paymentInstructions => 'Instructions tî fûta';
+
+  @override
+  String get proDetailPortfolio => 'Portfolio';
+
+  @override
+  String get proDetailPaymentMethods => 'Lêgë tî fûta tî sï';
 
   @override
   String get requiredField => 'Ndö sô a-lîngbi';

@@ -127,6 +127,7 @@ class ArtistMonthCalendar extends StatelessWidget {
     final isSelected = _isSameDay(date, selectedDate);
     final isToday = _isSameDay(date, DateTime.now());
     final sessionCount = _getSessionCountForDay(date);
+    final hasPending = sessions.any((s) => s.status == SessionStatus.pending && _isSameDay(s.scheduledStart, date));
 
     return GestureDetector(
       onTap: () => onDateSelected(date),
@@ -158,7 +159,9 @@ class ArtistMonthCalendar extends StatelessWidget {
                   width: 6,
                   height: 6,
                   decoration: BoxDecoration(
-                    color: isSelected ? colorScheme.onPrimary : colorScheme.primary,
+                    color: hasPending
+                        ? (isSelected ? Colors.orange.shade200 : Colors.orange)
+                        : (isSelected ? colorScheme.onPrimary : colorScheme.primary),
                     shape: BoxShape.circle,
                   ),
                 ),

@@ -25,34 +25,63 @@ class SettingsProBookingsTile extends StatelessWidget {
         final user = state.user as AppUser;
         if (!user.isPro) return const SizedBox.shrink();
 
-        return ListTile(
-          leading: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.tertiary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: FaIcon(
-                FontAwesomeIcons.calendarCheck,
-                size: 18,
-                color: theme.colorScheme.tertiary,
+        return BlocBuilder<SessionBloc, SessionState>(
+          buildWhen: (prev, curr) => prev.pendingCount != curr.pendingCount,
+          builder: (context, sessionState) {
+            final pendingCount = sessionState.pendingCount;
+
+            return ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.tertiary.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.calendarCheck,
+                    size: 18,
+                    color: theme.colorScheme.tertiary,
+                  ),
+                ),
               ),
-            ),
-          ),
-          title: Text(l10n.proBookingsReceived),
-          subtitle: Text(
-            l10n.proBookingsReceivedDesc,
-            style: theme.textTheme.bodySmall,
-          ),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () {
-            // Load pro sessions before navigating
-            context.read<SessionBloc>().add(
-                  LoadProSessionsEvent(proId: user.uid),
-                );
-            context.push(AppRoutes.proBookingsReceived);
+              title: Text(l10n.proBookingsReceived),
+              subtitle: Text(
+                l10n.proBookingsReceivedDesc,
+                style: theme.textTheme.bodySmall,
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (pendingCount > 0)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        pendingCount > 99 ? '99+' : '$pendingCount',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  const SizedBox(width: 4),
+                  const Icon(Icons.chevron_right),
+                ],
+              ),
+              onTap: () {
+                // Load pro sessions before navigating
+                context.read<SessionBloc>().add(
+                      LoadProSessionsEvent(proId: user.uid),
+                    );
+                context.push(AppRoutes.proBookingsReceived);
+              },
+            );
           },
         );
       },

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/core/models/pro_profile.dart';
 
 void main() {
@@ -44,6 +45,7 @@ void main() {
         expect(minimalProfile.genres, isEmpty);
         expect(minimalProfile.daws, isEmpty);
         expect(minimalProfile.portfolioUrls, isEmpty);
+        expect(minimalProfile.paymentMethods, isEmpty);
         expect(minimalProfile.currency, 'EUR');
         expect(minimalProfile.remote, isFalse);
         expect(minimalProfile.isVerified, isFalse);
@@ -307,6 +309,94 @@ void main() {
       });
     });
 
+    group('paymentMethods', () {
+      test('hasPaymentMethods is false when empty', () {
+        expect(minimalProfile.hasPaymentMethods, isFalse);
+      });
+
+      test('hasPaymentMethods is true with enabled methods', () {
+        const profile = ProProfile(
+          displayName: 'X',
+          paymentMethods: [
+            PaymentMethod(type: PaymentMethodType.paypal, isEnabled: true),
+          ],
+        );
+        expect(profile.hasPaymentMethods, isTrue);
+      });
+
+      test('enabledPaymentMethods filters disabled', () {
+        const profile = ProProfile(
+          displayName: 'X',
+          paymentMethods: [
+            PaymentMethod(type: PaymentMethodType.paypal, isEnabled: true),
+            PaymentMethod(type: PaymentMethodType.cash, isEnabled: false),
+            PaymentMethod(type: PaymentMethodType.bankTransfer, isEnabled: true, details: 'FR76...'),
+          ],
+        );
+        expect(profile.enabledPaymentMethods, hasLength(2));
+        expect(profile.enabledPaymentMethods.map((m) => m.type),
+            containsAll([PaymentMethodType.paypal, PaymentMethodType.bankTransfer]));
+      });
+
+      test('fromMap parses paymentMethods', () {
+        final profile = ProProfile.fromMap({
+          'displayName': 'X',
+          'paymentMethods': [
+            {'type': 'paypal', 'isEnabled': true, 'details': 'me@paypal.com'},
+            {'type': 'bankTransfer', 'isEnabled': true, 'details': 'FR76123', 'bic': 'BNPAFRPP'},
+          ],
+        });
+        expect(profile.paymentMethods, hasLength(2));
+        expect(profile.paymentMethods[0].type, PaymentMethodType.paypal);
+        expect(profile.paymentMethods[0].details, 'me@paypal.com');
+        expect(profile.paymentMethods[1].bic, 'BNPAFRPP');
+      });
+
+      test('toMap serializes paymentMethods', () {
+        const profile = ProProfile(
+          displayName: 'X',
+          paymentMethods: [
+            PaymentMethod(type: PaymentMethodType.cash, isEnabled: true),
+          ],
+        );
+        final map = profile.toMap();
+        expect(map['paymentMethods'], isList);
+        expect((map['paymentMethods'] as List).first['type'], 'cash');
+      });
+
+      test('copyWith updates paymentMethods', () {
+        const methods = [
+          PaymentMethod(type: PaymentMethodType.card, isEnabled: true),
+        ];
+        final updated = minimalProfile.copyWith(paymentMethods: methods);
+        expect(updated.paymentMethods, hasLength(1));
+        expect(updated.paymentMethods.first.type, PaymentMethodType.card);
+        expect(updated.displayName, 'DJ Test');
+      });
+
+      test('round-trip preserves paymentMethods', () {
+        const original = ProProfile(
+          displayName: 'X',
+          paymentMethods: [
+            PaymentMethod(
+              type: PaymentMethodType.bankTransfer,
+              isEnabled: true,
+              details: 'FR7612345',
+              bic: 'BNPAFRPP',
+              accountHolder: 'Jean Pro',
+            ),
+          ],
+        );
+        final map = original.toMap();
+        map.remove('activatedAt');
+        final restored = ProProfile.fromMap(map);
+        expect(restored.paymentMethods, hasLength(1));
+        expect(restored.paymentMethods.first.details, 'FR7612345');
+        expect(restored.paymentMethods.first.bic, 'BNPAFRPP');
+        expect(restored.paymentMethods.first.accountHolder, 'Jean Pro');
+      });
+    });
+
     group('equality', () {
       test('equal profiles are equal', () {
         const a = ProProfile(
@@ -323,6 +413,15 @@ void main() {
       test('different profiles are not equal', () {
         const a = ProProfile(displayName: 'Pro A');
         const b = ProProfile(displayName: 'Pro B');
+        expect(a, isNot(equals(b)));
+      });
+
+      test('different paymentMethods make profiles unequal', () {
+        const a = ProProfile(
+          displayName: 'Pro',
+          paymentMethods: [PaymentMethod(type: PaymentMethodType.cash)],
+        );
+        const b = ProProfile(displayName: 'Pro');
         expect(a, isNot(equals(b)));
       });
     });

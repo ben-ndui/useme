@@ -10,11 +10,11 @@ import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/artist/sessions/artist_sessions_exports.dart';
-import 'package:useme/widgets/artist/sessions/artist_session_filter_sheet.dart';
 import 'package:useme/widgets/artist/sessions/artist_month_calendar.dart';
+import 'package:useme/widgets/artist/sessions/artist_session_filter_sheet.dart';
+import 'package:useme/widgets/artist/sessions/artist_sessions_exports.dart';
 import 'package:useme/widgets/artist/studio_selector_bottom_sheet.dart';
+import 'package:useme/widgets/common/app_loader.dart';
 
 /// View mode for artist sessions page
 enum _ViewMode { week, month, list }
@@ -164,86 +164,163 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
     final locale = intlLocale(context);
     final monthFormat = DateFormat('MMMM yyyy', locale);
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocBuilder<SessionBloc, SessionState>(
+      buildWhen: (prev, curr) => prev.sessions != curr.sessions,
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+          child: Column(
             children: [
-              IconButton(
-                onPressed: () => setState(() {
-                  _weekStart = _weekStart.subtract(const Duration(days: 7));
-                  _selectedDate = _weekStart;
-                }),
-                icon: FaIcon(FontAwesomeIcons.chevronLeft, size: 14, color: colorScheme.onSurfaceVariant),
-                style: IconButton.styleFrom(backgroundColor: colorScheme.surfaceContainerHighest),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () =>
+                        setState(() {
+                          _weekStart = _weekStart.subtract(const Duration(days: 7));
+                          _selectedDate = _weekStart;
+                        }),
+                    icon: FaIcon(FontAwesomeIcons.chevronLeft, size: 14, color: colorScheme.onSurfaceVariant),
+                    style: IconButton.styleFrom(backgroundColor: colorScheme.surfaceContainerHighest),
+                  ),
+                  Text(
+                    monthFormat.format(_selectedDate).toUpperCase(),
+                    style: TextStyle(fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: colorScheme.onSurfaceVariant,
+                        letterSpacing: 1),
+                  ),
+                  IconButton(
+                    onPressed: () =>
+                        setState(() {
+                          _weekStart = _weekStart.add(const Duration(days: 7));
+                          _selectedDate = _weekStart;
+                        }),
+                    icon: FaIcon(FontAwesomeIcons.chevronRight, size: 14, color: colorScheme.onSurfaceVariant),
+                    style: IconButton.styleFrom(backgroundColor: colorScheme.surfaceContainerHighest),
+                  ),
+                ],
               ),
-              Text(
-                monthFormat.format(_selectedDate).toUpperCase(),
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: colorScheme.onSurfaceVariant, letterSpacing: 1),
-              ),
-              IconButton(
-                onPressed: () => setState(() {
-                  _weekStart = _weekStart.add(const Duration(days: 7));
-                  _selectedDate = _weekStart;
-                }),
-                icon: FaIcon(FontAwesomeIcons.chevronRight, size: 14, color: colorScheme.onSurfaceVariant),
-                style: IconButton.styleFrom(backgroundColor: colorScheme.surfaceContainerHighest),
-              ),
+              const SizedBox(height: 16),
+              Row(children: days.map((day) =>
+                  Expanded(child: _buildDayCell(colorScheme, day, sessions: state.sessions))).toList()),
             ],
           ),
-          const SizedBox(height: 16),
-          Row(children: days.map((day) => Expanded(child: _buildDayCell(colorScheme, day))).toList()),
-        ],
-      ),
+        );
+      },
     );
   }
 
   Widget _buildMonthView(ColorScheme colorScheme, AppLocalizations l10n) {
     return BlocBuilder<SessionBloc, SessionState>(
       builder: (context, state) {
-        final sessions = _applyFilters(state.sessions);
+        if (state.isLoading) return const AppLoader.compact();
 
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
-              child: ArtistMonthCalendar(
-                selectedDate: _selectedDate,
-                displayedMonth: _displayedMonth,
-                sessions: sessions,
-                onDateSelected: (date) => setState(() {
-                  _selectedDate = date;
-                  _displayedMonth = DateTime(date.year, date.month);
-                }),
-                onPreviousMonth: () => setState(() {
-                  _displayedMonth = DateTime(_displayedMonth.year, _displayedMonth.month - 1);
-                }),
-                onNextMonth: () => setState(() {
-                  _displayedMonth = DateTime(_displayedMonth.year, _displayedMonth.month + 1);
-                }),
+        final sessions = _applyFilters(state.sessions);
+        final daySessions = _getSessionsForDay(sessions, _selectedDate);
+        final locale = intlLocale(context);
+        final dateFormat = DateFormat('EEEE d MMMM', locale);
+
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            // Calendar takes ~350px, the session container must fill the rest
+            const calendarEstimate = 350.0;
+            final minContainerHeight = constraints.maxHeight - calendarEstimate;
+
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: ArtistMonthCalendar(
+                      selectedDate: _selectedDate,
+                      displayedMonth: _displayedMonth,
+                      sessions: sessions,
+                      onDateSelected: (date) =>
+                          setState(() {
+                            _selectedDate = date;
+                            _displayedMonth = DateTime(date.year, date.month);
+                          }),
+                      onPreviousMonth: () =>
+                          setState(() {
+                            _displayedMonth = DateTime(_displayedMonth.year, _displayedMonth.month - 1);
+                          }),
+                      onNextMonth: () =>
+                          setState(() {
+                            _displayedMonth = DateTime(_displayedMonth.year, _displayedMonth.month + 1);
+                          }),
+                    ),
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: minContainerHeight),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.only(bottom: 150),
+                      decoration: BoxDecoration(
+                        color: colorScheme.surfaceContainerHighest,
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+                            child: Text(dateFormat.format(_selectedDate),
+                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
+                          ),
+                          if (daySessions.isEmpty)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 40),
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    FaIcon(FontAwesomeIcons.mugHot, size: 28,
+                                        color: colorScheme.onSurfaceVariant.withValues(alpha: 0.4)),
+                                    const SizedBox(height: 12),
+                                    Text(l10n.noSession, style: TextStyle(fontSize: 14, color: colorScheme.onSurfaceVariant)),
+                                  ],
+                                ),
+                              ),
+                            )
+                          else
+                            ...daySessions.map((s) =>
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  child: ArtistSessionTile(
+                                    session: s,
+                                    onTap: () => context.push('/artist/sessions/${s.id}'),
+                                  ),
+                                )),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Expanded(child: _buildSessionsList(colorScheme, l10n)),
-          ],
+            );
+          },
         );
       },
     );
   }
 
-  Widget _buildDayCell(ColorScheme colorScheme, DateTime day) {
+  Widget _buildDayCell(ColorScheme colorScheme, DateTime day, {List<Session> sessions = const []}) {
     final locale = intlLocale(context);
     final dayFormat = DateFormat('E', locale);
     final isSelected = _isSameDay(day, _selectedDate);
     final isToday = _isSameDay(day, DateTime.now());
+    final pendingCount = sessions
+        .where((s) => s.status == SessionStatus.pending && _isSameDay(s.scheduledStart, day))
+        .length;
+    final hasSession = sessions.any((s) => _isSameDay(s.scheduledStart, day));
 
     return GestureDetector(
       onTap: () => setState(() => _selectedDate = day),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         margin: const EdgeInsets.symmetric(horizontal: 3),
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           color: isSelected ? colorScheme.primary : (isToday ? colorScheme.primaryContainer.withValues(alpha: 0.5) : Colors.transparent),
           borderRadius: BorderRadius.circular(12),
@@ -259,6 +336,34 @@ class _ArtistSessionsPageState extends State<ArtistSessionsPage> {
             Text(
               '${day.day}',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: isSelected ? colorScheme.onPrimary : (isToday ? colorScheme.primary : colorScheme.onSurface)),
+            ),
+            const SizedBox(height: 4),
+            SizedBox(
+              height: 8,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (pendingCount > 0)
+                    Container(
+                      width: 7,
+                      height: 7,
+                      decoration: BoxDecoration(
+                        color: isSelected ? Colors.orange.shade200 : Colors.orange,
+                        shape: BoxShape.circle,
+                      ),
+                    )
+                  else
+                    if (hasSession)
+                      Container(
+                        width: 6,
+                        height: 6,
+                        decoration: BoxDecoration(
+                          color: isSelected ? colorScheme.onPrimary.withValues(alpha: 0.7) : colorScheme.primary,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                ],
+              ),
             ),
           ],
         ),

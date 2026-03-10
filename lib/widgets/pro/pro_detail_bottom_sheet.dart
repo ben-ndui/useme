@@ -8,10 +8,10 @@ import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/favorite/favorite_button.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/screens/shared/pro/pro_booking_screen.dart';
 import 'package:useme/screens/shared/pro/pro_profile_view_screen.dart';
+import 'package:useme/widgets/favorite/favorite_button.dart';
 
 /// Bottom sheet showing detailed pro profile info.
 class ProDetailBottomSheet extends StatelessWidget {
@@ -71,6 +71,8 @@ class ProDetailBottomSheet extends StatelessWidget {
             if (_profile.bio != null) _buildBio(theme),
             _buildStats(theme, l10n),
             _buildTags(theme, l10n),
+            if (_profile.portfolioUrls.isNotEmpty) _buildPortfolio(theme, l10n),
+            if (_profile.hasPaymentMethods) _buildPaymentMethods(theme, l10n),
             _buildActions(context, theme, l10n),
             SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
           ],
@@ -239,9 +241,10 @@ class ProDetailBottomSheet extends StatelessWidget {
 
   Widget _buildTags(ThemeData theme, AppLocalizations l10n) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.all(8.0),
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.start,
+        spacing: 8,
         children: [
           if (_profile.specialties.isNotEmpty)
             _tagSection(theme, l10n.proDetailSpecialties, _profile.specialties),
@@ -287,6 +290,89 @@ class ProDetailBottomSheet extends StatelessWidget {
                         tag,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ))
+                .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPortfolio(ThemeData theme, AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.proDetailPortfolio,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: theme.colorScheme.outline,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 80,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: _profile.portfolioUrls.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 6),
+              itemBuilder: (_, i) => ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  _profile.portfolioUrls[i],
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Container(
+                    width: 80,
+                    height: 80,
+                    color: theme.colorScheme.surfaceContainerHighest,
+                    child: const Icon(Icons.broken_image, size: 20),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPaymentMethods(ThemeData theme, AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.proDetailPaymentMethods,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: theme.colorScheme.outline,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: _profile.enabledPaymentMethods
+                .map((m) => Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.tertiaryContainer
+                            .withValues(alpha: 0.5),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        m.type.label,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.tertiary,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

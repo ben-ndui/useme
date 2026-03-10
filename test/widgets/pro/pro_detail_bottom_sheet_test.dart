@@ -41,6 +41,8 @@ void main() {
     List<String> genres = const [],
     List<String> instruments = const [],
     List<String> daws = const [],
+    List<String> portfolioUrls = const [],
+    List<Map<String, dynamic>> paymentMethods = const [],
   }) {
     return AppUser.fromMap({
       'uid': 'u1',
@@ -62,6 +64,8 @@ void main() {
         'genres': genres,
         'instruments': instruments,
         'daws': daws,
+        'portfolioUrls': portfolioUrls,
+        'paymentMethods': paymentMethods,
       },
     });
   }
@@ -165,6 +169,43 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('DJ Test'), findsOneWidget);
+    });
+
+    testWidgets('shows portfolio section when urls present', (tester) async {
+      await tester.pumpWidget(buildSheet(makeUser(
+        portfolioUrls: ['https://example.com/img1.jpg'],
+      )));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Portfolio'), findsOneWidget);
+    });
+
+    testWidgets('hides portfolio section when no urls', (tester) async {
+      await tester.pumpWidget(buildSheet(makeUser()));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Portfolio'), findsNothing);
+    });
+
+    testWidgets('shows payment methods when present', (tester) async {
+      await tester.pumpWidget(buildSheet(makeUser(
+        paymentMethods: [
+          {'type': 'paypal', 'isEnabled': true},
+          {'type': 'bankTransfer', 'isEnabled': true},
+        ],
+      )));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Accepted payment methods'), findsOneWidget);
+      expect(find.text('PayPal'), findsOneWidget);
+      expect(find.text('Virement bancaire'), findsOneWidget);
+    });
+
+    testWidgets('hides payment methods when none', (tester) async {
+      await tester.pumpWidget(buildSheet(makeUser()));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Accepted payment methods'), findsNothing);
     });
   });
 }
