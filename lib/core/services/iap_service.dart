@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/utils/app_logger.dart';
 
@@ -21,7 +22,7 @@ const _useMeIAPConfig = IAPServiceConfig(
     'com.smoothandesign.useme.enterprise.monthly',
     'com.smoothandesign.useme.enterprise.yearly',
   ],
-  consumableProductIds: [], // Pas de consommables pour Use Me
+  consumableProductIds: [],
 );
 
 /// Service IAP spécifique à Use Me
@@ -33,7 +34,7 @@ class UseMeIAPService extends BaseIAPService {
 
   UseMeIAPService._internal() : super(config: _useMeIAPConfig);
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFunctions _functions = FirebaseFunctions.instance;
 
   /// Product IDs par tier
   static const Map<String, List<String>> tierProductIds = {
@@ -67,34 +68,38 @@ class UseMeIAPService extends BaseIAPService {
   }
 
   @override
-  Future<void> deliverProduct(PurchaseDetails purchase) async {
-    final tierId = getTierIdFromProduct(purchase.productID);
-    if (tierId == null) {
-      throw Exception('Tier inconnu pour le produit: ${purchase.productID}');
-    }
-
-    final userId = _currentUserId;
-    if (userId == null) {
-      throw Exception('Utilisateur non connecté');
-    }
+  Future<bool> verifyPurchase(PurchaseDetails purchase) async {
+    if (_currentUserId == null) return false;
 
     try {
-      await _firestore.collection('users').doc(userId).update({
-        'subscription': {
-          'tierId': tierId,
-          'startedAt': FieldValue.serverTimestamp(),
-          'expiresAt': null,
-          'appleProductId': purchase.productID,
-          'appleTransactionId': purchase.purchaseID,
-          'purchaseSource': 'apple_iap',
-          'sessionsThisMonth': 0,
-          'sessionsResetAt': FieldValue.serverTimestamp(),
-        },
+      final callable = _functions.httpsCallable('verifyAppleReceipt');
+      final result = await callable.call<Map<String, dynamic>>({
+        'userId': _currentUserId,
+        'productId': purchase.productID,
+        'transactionId': purchase.purchaseID,
+        'receiptData': purchase.verificationData.serverVerificationData,
       });
+
+      final success = result.data['success'] == true;
+      if (success) {
+        appLog('IAP receipt verified for $_currentUserId');
+      }
+      return success;
     } catch (e) {
-      appLog('IAP deliverProduct failed for $userId: $e');
-      rethrow;
+      appLog('IAP receipt verification error: $e');
+      // Cloud Function handled the Firestore update — if it fails,
+      // don't deliver locally to avoid double-write
+      return false;
     }
+  }
+
+  @override
+  Future<void> deliverProduct(PurchaseDetails purchase) async {
+    // The Cloud Function in verifyPurchase already wrote the subscription
+    // to Firestore. This method is called after verify returns true.
+    // We only log here — no duplicate Firestore write needed.
+    final tierId = getTierIdFromProduct(purchase.productID);
+    appLog('IAP product delivered: $tierId for $_currentUserId');
   }
 
   /// UserId courant (à définir avant les achats)
@@ -107,7 +112,8 @@ class UseMeIAPService extends BaseIAPService {
 
   /// Vérifie si l'utilisateur a un abonnement actif via Apple
   Future<bool> hasActiveAppleSubscription(String userId) async {
-    final userDoc = await _firestore.collection('users').doc(userId).get();
+    final db = FirebaseFirestore.instance;
+    final userDoc = await db.collection('users').doc(userId).get();
     if (!userDoc.exists) return false;
 
     final data = userDoc.data();

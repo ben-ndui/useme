@@ -81,19 +81,21 @@ class StudioSubscription extends Equatable {
     if (map == null) return const StudioSubscription();
     return StudioSubscription(
       tierId: map['tierId'] ?? 'free',
-      startedAt: map['startedAt'] != null
-          ? (map['startedAt'] as Timestamp).toDate()
-          : null,
-      expiresAt: map['expiresAt'] != null
-          ? (map['expiresAt'] as Timestamp).toDate()
-          : null,
+      startedAt: _parseDate(map['startedAt']),
+      expiresAt: _parseDate(map['expiresAt']),
       stripeSubscriptionId: map['stripeSubscriptionId'],
       stripeCustomerId: map['stripeCustomerId'],
       sessionsThisMonth: map['sessionsThisMonth'] ?? 0,
-      sessionsResetAt: map['sessionsResetAt'] != null
-          ? (map['sessionsResetAt'] as Timestamp).toDate()
-          : null,
+      sessionsResetAt: _parseDate(map['sessionsResetAt']),
     );
+  }
+
+  /// Parse a date from Firestore Timestamp or ISO 8601 String
+  static DateTime? _parseDate(dynamic value) {
+    if (value == null) return null;
+    if (value is Timestamp) return value.toDate();
+    if (value is String) return DateTime.tryParse(value);
+    return null;
   }
 
   Map<String, dynamic> toMap() => {

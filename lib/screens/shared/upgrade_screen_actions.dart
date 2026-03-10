@@ -9,6 +9,7 @@ import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/subscription_tier_config.dart';
 import 'package:useme/core/services/iap_service.dart';
 import 'package:useme/core/services/stripe_service.dart';
+import 'package:useme/core/utils/app_logger.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
@@ -145,8 +146,14 @@ mixin UpgradeScreenActions<T extends StatefulWidget> on State<T> {
 
     setLoading(true);
     try {
-      await iapService.buyProduct(product);
+      final started = await iapService.buyProduct(product);
+      if (!started && mounted) {
+        setLoading(false);
+        AppSnackBar.error(
+            context, AppLocalizations.of(context)!.productNotAvailable);
+      }
     } catch (e) {
+      appLog('IAP purchase error: $e');
       if (mounted) {
         setLoading(false);
         AppSnackBar.error(

@@ -1,14 +1,15 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/subscription_tier_config.dart';
 import 'package:useme/core/services/subscription_config_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/studio/settings/subscription_widgets.dart';
 
 /// Section affichant les informations d'abonnement dans les settings
 /// Récupère les configs depuis Firestore
@@ -52,17 +53,30 @@ class _SubscriptionSectionState extends State<SubscriptionSection> {
     }
   }
 
+  bool get _isApplePlatform =>
+      !kIsWeb && (Platform.isIOS || Platform.isMacOS);
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final tierId = widget.user?.subscriptionTierId ?? 'free';
-    final tierStyle = _getTierStyle(tierId);
+    final tierStyle = TierStyle.forTier(tierId);
+    final config = _tierConfig ?? getDefaultTierConfig(tierId);
 
-    // Utiliser la config Firestore ou les valeurs par défaut
-    final config = _tierConfig ?? _getDefaultConfig(tierId);
+    final content = _buildContent(theme, l10n, tierStyle, config);
 
-    final content = Container(
+    if (!widget.showComingSoonOverlay) return content;
+    return ComingSoonOverlay(child: content);
+  }
+
+  Widget _buildContent(
+    ThemeData theme,
+    AppLocalizations l10n,
+    TierStyle tierStyle,
+    SubscriptionTierConfig config,
+  ) {
+    return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -82,187 +96,89 @@ class _SubscriptionSectionState extends State<SubscriptionSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header with badge
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: tierStyle.color.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: FaIcon(tierStyle.icon, size: 20, color: tierStyle.color),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Plan ${config.name}',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      config.description,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-
-          // Usage stats (for limited tiers)
+          _buildHeader(theme, tierStyle, config),
           if (!config.isUnlimited(config.maxSessions)) ...[
             const SizedBox(height: 16),
-            _buildUsageBar(
-              context,
+            SubscriptionUsageBar(
               label: 'Sessions ce mois',
               current: widget.user?.sessionsThisMonth ?? 0,
               max: config.maxSessions,
               color: tierStyle.color,
             ),
           ],
-
-          // Manage on website button (Android & Web only — iOS App Store policy)
-          if (!_isApplePlatform) ...[
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                onPressed: () => launchUrl(
-                  Uri.parse('https://uzme.app/admin/subscription'),
-                  mode: LaunchMode.externalApplication,
-                ),
-                icon: const FaIcon(
-                  FontAwesomeIcons.arrowUpRightFromSquare,
-                  size: 14,
-                ),
-                label: Text(l10n.manageSubscription),
-                style: FilledButton.styleFrom(
-                  backgroundColor: tierStyle.color,
-                ),
-              ),
-            ),
-          ],
+          const SizedBox(height: 16),
+          _buildActionButton(l10n, tierStyle),
         ],
       ),
     );
+  }
 
-    if (!widget.showComingSoonOverlay) return content;
-
-    return Stack(
+  Widget _buildHeader(
+    ThemeData theme,
+    TierStyle tierStyle,
+    SubscriptionTierConfig config,
+  ) {
+    return Row(
       children: [
-        content,
-        Positioned.fill(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surface.withValues(alpha: 0.7),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.clockRotateLeft,
-                        size: 32,
-                        color: theme.colorScheme.primary,
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        l10n.comingSoon,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                    ],
-                  ),
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: tierStyle.color.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: FaIcon(tierStyle.icon, size: 20, color: tierStyle.color),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Plan ${config.name}',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
+              Text(
+                config.description,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
           ),
         ),
       ],
     );
   }
 
-  Widget _buildUsageBar(
-    BuildContext context, {
-    required String label,
-    required int current,
-    required int max,
-    required Color color,
-  }) {
-    final theme = Theme.of(context);
-    final percentage = (current / max).clamp(0.0, 1.0);
-    final isNearLimit = percentage >= 0.8;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(label, style: theme.textTheme.bodySmall),
-            Text(
-              '$current / $max',
-              style: theme.textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: isNearLimit ? Colors.orange : null,
+  Widget _buildActionButton(AppLocalizations l10n, TierStyle tierStyle) {
+    return SizedBox(
+      width: double.infinity,
+      child: _isApplePlatform
+          ? FilledButton.icon(
+              onPressed: () => context.push('/upgrade'),
+              icon: const FaIcon(FontAwesomeIcons.gem, size: 14),
+              label: Text(l10n.viewPlans),
+              style: FilledButton.styleFrom(
+                backgroundColor: tierStyle.color,
+              ),
+            )
+          : FilledButton.icon(
+              onPressed: () => launchUrl(
+                Uri.parse('https://uzme.app/admin/subscription'),
+                mode: LaunchMode.externalApplication,
+              ),
+              icon: const FaIcon(
+                FontAwesomeIcons.arrowUpRightFromSquare,
+                size: 14,
+              ),
+              label: Text(l10n.manageSubscription),
+              style: FilledButton.styleFrom(
+                backgroundColor: tierStyle.color,
               ),
             ),
-          ],
-        ),
-        const SizedBox(height: 6),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: LinearProgressIndicator(
-            value: percentage,
-            minHeight: 6,
-            backgroundColor: theme.colorScheme.surfaceContainerHighest,
-            valueColor: AlwaysStoppedAnimation(
-              isNearLimit ? Colors.orange : color,
-            ),
-          ),
-        ),
-      ],
     );
   }
 
-  bool get _isApplePlatform =>
-      !kIsWeb && (Platform.isIOS || Platform.isMacOS);
-
-  SubscriptionTierConfig _getDefaultConfig(String tierId) {
-    return switch (tierId) {
-      'pro' => SubscriptionTierConfig.defaultPro,
-      'enterprise' => SubscriptionTierConfig.defaultEnterprise,
-      _ => SubscriptionTierConfig.defaultFree,
-    };
-  }
-
-  _TierStyle _getTierStyle(String tierId) {
-    return switch (tierId) {
-      'pro' => _TierStyle(icon: FontAwesomeIcons.gem, color: Colors.blue),
-      'enterprise' => _TierStyle(icon: FontAwesomeIcons.crown, color: Colors.purple),
-      _ => _TierStyle(icon: FontAwesomeIcons.star, color: Colors.grey),
-    };
-  }
-}
-
-class _TierStyle {
-  final IconData icon;
-  final Color color;
-
-  _TierStyle({required this.icon, required this.color});
 }

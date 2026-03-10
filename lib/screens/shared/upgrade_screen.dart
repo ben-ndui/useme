@@ -60,11 +60,14 @@ class _UpgradeScreenState extends State<UpgradeScreen>
         iapService.setCurrentUser(userId);
       }
 
-      await iapService.initialize();
+      // Set callbacks BEFORE initialize so pending purchases are caught
       iapService.onPurchaseCompleted = _onIAPPurchaseCompleted;
       iapService.onPurchaseError = _onIAPPurchaseError;
 
+      await iapService.initialize();
+
       final products = await iapService.getSubscriptions();
+
       final productMap = <String, ProductDetails>{};
       for (final product in products) {
         productMap[product.id] = product;
@@ -77,7 +80,7 @@ class _UpgradeScreenState extends State<UpgradeScreen>
         });
       }
     } catch (e) {
-      appLog('Erreur init IAP: $e');
+      appLog('IAP init error: $e');
       if (mounted) setLoading(false);
     }
   }
@@ -103,9 +106,11 @@ class _UpgradeScreenState extends State<UpgradeScreen>
 
   @override
   void dispose() {
-    if (Platform.isIOS) {
-      iapService.dispose();
-    }
+    // Don't dispose the singleton IAP service — it must keep listening
+    // to the purchase stream across the app lifecycle.
+    // Only clear the callbacks to avoid calling setState on a dead widget.
+    iapService.onPurchaseCompleted = null;
+    iapService.onPurchaseError = null;
     super.dispose();
   }
 
@@ -162,7 +167,7 @@ class _UpgradeScreenState extends State<UpgradeScreen>
 
             return Column(
               children: [
-                _buildPeriodToggle(theme, l10n),
+                _buildPeriodToggle(l10n),
                 Expanded(
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -191,13 +196,13 @@ class _UpgradeScreenState extends State<UpgradeScreen>
     );
   }
 
-  Widget _buildPeriodToggle(ThemeData theme, AppLocalizations l10n) {
+  Widget _buildPeriodToggle(AppLocalizations l10n) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceContainerHighest,
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(

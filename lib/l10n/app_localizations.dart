@@ -6412,6 +6412,12 @@ abstract class AppLocalizations {
   /// **'Gérer mon abonnement'**
   String get manageSubscription;
 
+  /// No description provided for @viewPlans.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir les offres'**
+  String get viewPlans;
+
   /// No description provided for @noSubscriptionAvailable.
   ///
   /// In fr, this message translates to:

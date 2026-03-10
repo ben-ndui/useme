@@ -3399,6 +3399,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get manageSubscription => 'Manage my subscription';
 
   @override
+  String get viewPlans => 'View plans';
+
+  @override
   String get noSubscriptionAvailable => 'No subscription available';
 
   @override

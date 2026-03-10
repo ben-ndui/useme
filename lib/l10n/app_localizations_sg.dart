@@ -3381,6 +3381,9 @@ class AppLocalizationsSg extends AppLocalizations {
   String get manageSubscription => 'Kämä abonnement tî mbi';
 
   @override
+  String get viewPlans => 'Bâa offres';
+
+  @override
   String get noSubscriptionAvailable => 'Abonnement pëpe a-duti';
 
   @override

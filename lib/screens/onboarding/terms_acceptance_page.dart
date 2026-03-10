@@ -204,15 +204,16 @@ class _TermsAcceptancePageState extends State<TermsAcceptancePage>
   }
 
   Widget _buildLinks(AppLocalizations l10n) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 16,
+      runSpacing: 8,
       children: [
         _GlassLinkButton(
           icon: FontAwesomeIcons.fileLines,
           label: l10n.onboardingTermsLink,
           onTap: () => _launchUrl(_termsUrl),
         ),
-        const SizedBox(width: 16),
         _GlassLinkButton(
           icon: FontAwesomeIcons.shield,
           label: l10n.onboardingPrivacyLink,
