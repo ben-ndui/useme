@@ -7,7 +7,7 @@ import '../../helpers/test_factories.dart';
 import '../../helpers/widget_test_helpers.dart';
 
 void main() {
-  Session _makeSession({
+  Session makeSession({
     PaymentStatus paymentStatus = PaymentStatus.depositPending,
     double? totalAmount = 200,
     double? depositAmount = 60,
@@ -52,7 +52,7 @@ void main() {
 
   group('PaymentTrackingCard', () {
     testWidgets('hidden when no payment tracking', (tester) async {
-      final session = _makeSession(paymentStatus: PaymentStatus.none);
+      final session = makeSession(paymentStatus: PaymentStatus.none);
       await tester.pumpWidget(buildCard(session: session));
       await tester.pumpAndSettle();
 
@@ -61,7 +61,7 @@ void main() {
 
     testWidgets('shows header and status badge for depositPending',
         (tester) async {
-      final session = _makeSession();
+      final session = makeSession();
       await tester.pumpWidget(buildCard(session: session));
       await tester.pumpAndSettle();
 
@@ -70,7 +70,7 @@ void main() {
     });
 
     testWidgets('shows total amount', (tester) async {
-      final session = _makeSession(totalAmount: 200);
+      final session = makeSession(totalAmount: 200);
       await tester.pumpWidget(buildCard(session: session));
       await tester.pumpAndSettle();
 
@@ -78,7 +78,7 @@ void main() {
     });
 
     testWidgets('shows deposit amount', (tester) async {
-      final session = _makeSession(depositAmount: 60);
+      final session = makeSession(depositAmount: 60);
       await tester.pumpWidget(buildCard(session: session));
       await tester.pumpAndSettle();
 
@@ -86,7 +86,7 @@ void main() {
     });
 
     testWidgets('shows payment method', (tester) async {
-      final session = _makeSession(paymentMethodLabel: 'Virement');
+      final session = makeSession(paymentMethodLabel: 'Virement');
       await tester.pumpWidget(buildCard(session: session));
       await tester.pumpAndSettle();
 
@@ -94,7 +94,7 @@ void main() {
     });
 
     testWidgets('shows remaining amount when deposit paid', (tester) async {
-      final session = _makeSession(
+      final session = makeSession(
         paymentStatus: PaymentStatus.depositPaid,
         totalAmount: 200,
         depositAmount: 60,
@@ -109,7 +109,7 @@ void main() {
 
     testWidgets('shows "Mark deposit received" button when canManage and depositPending',
         (tester) async {
-      final session = _makeSession(paymentStatus: PaymentStatus.depositPending);
+      final session = makeSession(paymentStatus: PaymentStatus.depositPending);
       await tester.pumpWidget(buildCard(
         session: session,
         canManage: true,
@@ -122,7 +122,7 @@ void main() {
 
     testWidgets('shows "Mark fully paid" button when canManage and depositPaid',
         (tester) async {
-      final session = _makeSession(
+      final session = makeSession(
         paymentStatus: PaymentStatus.depositPaid,
         depositPaidAt: DateTime(2026, 5, 2),
       );
@@ -138,7 +138,7 @@ void main() {
 
     testWidgets('hides action buttons when canManage is false',
         (tester) async {
-      final session = _makeSession(paymentStatus: PaymentStatus.depositPending);
+      final session = makeSession(paymentStatus: PaymentStatus.depositPending);
       await tester.pumpWidget(buildCard(session: session, canManage: false));
       await tester.pumpAndSettle();
 
@@ -147,7 +147,7 @@ void main() {
     });
 
     testWidgets('hides action buttons when fully paid', (tester) async {
-      final session = _makeSession(
+      final session = makeSession(
         paymentStatus: PaymentStatus.fullyPaid,
         depositPaidAt: DateTime(2026, 5, 2),
         fullyPaidAt: DateTime(2026, 5, 5),
@@ -165,7 +165,7 @@ void main() {
     testWidgets('calls onMarkDepositReceived when button tapped',
         (tester) async {
       var called = false;
-      final session = _makeSession(paymentStatus: PaymentStatus.depositPending);
+      final session = makeSession(paymentStatus: PaymentStatus.depositPending);
       await tester.pumpWidget(buildCard(
         session: session,
         canManage: true,
@@ -179,7 +179,7 @@ void main() {
 
     testWidgets('calls onMarkFullyPaid when button tapped', (tester) async {
       var called = false;
-      final session = _makeSession(
+      final session = makeSession(
         paymentStatus: PaymentStatus.depositPaid,
         depositPaidAt: DateTime(2026, 5, 2),
       );
@@ -195,7 +195,7 @@ void main() {
     });
 
     testWidgets('shows fullyPaid badge in green', (tester) async {
-      final session = _makeSession(
+      final session = makeSession(
         paymentStatus: PaymentStatus.fullyPaid,
         depositPaidAt: DateTime(2026, 5, 2),
         fullyPaidAt: DateTime(2026, 5, 5),

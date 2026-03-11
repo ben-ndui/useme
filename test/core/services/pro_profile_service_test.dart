@@ -4,14 +4,21 @@ import 'package:mocktail/mocktail.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/core/services/pro_profile_service.dart';
+import 'package:useme/core/services/studio_discovery_service.dart';
 
 class MockFirestore extends Mock implements FirebaseFirestore {}
+
+class MockStudioDiscoveryService extends Mock
+    implements StudioDiscoveryService {}
 
 void main() {
   late ProProfileService service;
 
   setUp(() {
-    service = ProProfileService(firestore: MockFirestore());
+    service = ProProfileService(
+      firestore: MockFirestore(),
+      discoveryService: MockStudioDiscoveryService(),
+    );
   });
 
   AppUser makeProUser({
