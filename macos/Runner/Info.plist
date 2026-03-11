@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>UZME</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconFile</key>
@@ -13,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>UZME</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -28,5 +30,44 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>UZME needs access to your camera to take photos for your profile or conversations.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>UZME needs access to your microphone to record voice messages in conversations.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>UZME needs access to your contacts to help you find and invite your music collaborators.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>UZME needs access to your calendar to import your events and avoid booking conflicts.</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>UZME needs full access to your calendar to import your events and avoid booking conflicts.</string>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>UZME can add your studio sessions to your calendar automatically.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>UZME needs your location to find nearby recording studios on the map.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1053737369070-akmcqtcto4449fq8s1l8oke6r486gfp1</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>calendar-callback</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>useme</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
