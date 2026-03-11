@@ -155,7 +155,9 @@ class _TimelineSessionCard extends StatelessWidget {
                   ],
                 ),
               ),
-              DashboardStatusBadge(status: session.displayStatus, l10n: l10n),
+              Flexible(
+                child: DashboardStatusBadge(status: session.displayStatus, l10n: l10n),
+              ),
             ],
           ),
         ),

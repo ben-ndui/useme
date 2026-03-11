@@ -32,6 +32,7 @@ class DashboardStatusBadge extends StatelessWidget {
       ),
       child: Text(
         label,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,

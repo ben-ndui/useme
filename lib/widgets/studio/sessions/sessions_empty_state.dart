@@ -18,43 +18,45 @@ class SessionsEmptyDay extends StatelessWidget {
     final isToday = isSameDay(selectedDay, DateTime.now());
 
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest,
-              shape: BoxShape.circle,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHighest,
+                shape: BoxShape.circle,
+              ),
+              child: FaIcon(
+                FontAwesomeIcons.calendarCheck,
+                size: 28,
+                color: theme.colorScheme.outline,
+              ),
             ),
-            child: FaIcon(
-              FontAwesomeIcons.calendarCheck,
-              size: 28,
-              color: theme.colorScheme.outline,
+            const SizedBox(height: 16),
+            Text(
+              isToday ? l10n.freeDay : l10n.noSessions,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            isToday ? l10n.freeDay : l10n.noSessions,
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
+            const SizedBox(height: 4),
+            Text(
+              isToday
+                  ? l10n.noSessionTodayScheduled
+                  : l10n.noSessionThisDay,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.outline,
+              ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            isToday
-                ? l10n.noSessionTodayScheduled
-                : l10n.noSessionThisDay,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.outline,
+            const SizedBox(height: 20),
+            FilledButton.tonal(
+              onPressed: () => context.push(AppRoutes.sessionAdd),
+              child: Text(l10n.scheduleSession),
             ),
-          ),
-          const SizedBox(height: 20),
-          FilledButton.tonal(
-            onPressed: () => context.push(AppRoutes.sessionAdd),
-            child: Text(l10n.scheduleSession),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
