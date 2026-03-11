@@ -41,7 +41,7 @@ void main() {
   /// Sets a tall viewport so that responsive Center+ConstrainedBox
   /// wrapping doesn't push form fields off-screen in tests.
   void useTallViewport(WidgetTester tester) {
-    tester.view.physicalSize = const Size(2400, 6000);
+    tester.view.physicalSize = const Size(2400, 9000);
     tester.view.devicePixelRatio = 3.0;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);

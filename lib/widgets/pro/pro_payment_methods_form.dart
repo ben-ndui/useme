@@ -7,11 +7,15 @@ import 'package:useme/l10n/app_localizations.dart';
 class ProPaymentMethodsForm extends StatelessWidget {
   final List<PaymentMethod> methods;
   final ValueChanged<List<PaymentMethod>> onChanged;
+  final double depositPercent;
+  final ValueChanged<double>? onDepositChanged;
 
   const ProPaymentMethodsForm({
     super.key,
     required this.methods,
     required this.onChanged,
+    this.depositPercent = 30,
+    this.onDepositChanged,
   });
 
   static const _availableTypes = [
@@ -70,6 +74,59 @@ class ProPaymentMethodsForm extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         ..._availableTypes.map((type) => _buildMethodTile(theme, l10n, type)),
+        if (methods.any((m) => m.isEnabled)) ...[
+          const SizedBox(height: 24),
+          _buildDepositSection(theme, l10n),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildDepositSection(ThemeData theme, AppLocalizations l10n) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.defaultDeposit, style: theme.textTheme.titleSmall),
+        const SizedBox(height: 4),
+        Text(
+          l10n.depositPercentDescription,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+              child: Slider(
+                value: depositPercent,
+                min: 0,
+                max: 100,
+                divisions: 20,
+                label: '${depositPercent.toInt()}%',
+                onChanged: onDepositChanged != null
+                    ? (v) => onDepositChanged!(v)
+                    : null,
+              ),
+            ),
+            Container(
+              width: 52,
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                '${depositPercent.toInt()}%',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: theme.colorScheme.onPrimaryContainer,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

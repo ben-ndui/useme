@@ -6,15 +6,16 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/widgets/pro/pro_payment_methods_form.dart';
 import 'package:useme/widgets/pro/pro_portfolio_picker.dart';
 import 'package:useme/widgets/pro/pro_profile_photo_picker.dart';
-import 'pro_type_selector.dart';
+
 import 'pro_profile_form_fields.dart';
+import 'pro_type_selector.dart';
 
 /// Ecran de création / édition du profil pro.
 class ProProfileSetupScreen extends StatefulWidget {
@@ -43,6 +44,7 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
   bool _isEditing = false;
   List<String> _portfolioUrls = [];
   List<PaymentMethod> _paymentMethods = [];
+  double _defaultDepositPercent = 30;
   String? _profilePhotoUrl;
 
   String? get _accountPhotoUrl {
@@ -94,6 +96,7 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
       _isAvailable = profile.isAvailable;
       _portfolioUrls = List.from(profile.portfolioUrls);
       _paymentMethods = List.from(profile.paymentMethods);
+      _defaultDepositPercent = profile.defaultDepositPercent ?? 30;
       _profilePhotoUrl = profile.profilePhotoUrl;
     });
   }
@@ -202,6 +205,9 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
                     methods: _paymentMethods,
                     onChanged: (methods) =>
                         setState(() => _paymentMethods = methods),
+                    depositPercent: _defaultDepositPercent,
+                    onDepositChanged: (v) =>
+                        setState(() => _defaultDepositPercent = v),
                   ),
                   const SizedBox(height: 32),
                   _buildSubmitButton(state, l10n),
@@ -324,6 +330,7 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
       profilePhotoUrl: _profilePhotoUrl,
       portfolioUrls: _portfolioUrls,
       paymentMethods: _paymentMethods,
+      defaultDepositPercent: _defaultDepositPercent,
     );
 
     final bloc = context.read<ProProfileBloc>();
