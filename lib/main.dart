@@ -16,6 +16,7 @@ import 'package:useme/core/services/auth_service.dart';
 import 'package:useme/core/services/deep_link_service.dart';
 import 'package:useme/core/services/notification_navigation_service.dart';
 import 'package:useme/core/services/notification_service.dart';
+import 'package:useme/core/services/recent_accounts_service.dart';
 import 'package:useme/core/utils/app_logger.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/router.dart';
@@ -28,6 +29,9 @@ final useMeAuthService = UseMeAuthService();
 
 /// Service de préférences global.
 final preferencesService = BasePreferencesService();
+
+/// Service de comptes récents global.
+final recentAccountsService = RecentAccountsService();
 
 /// Service de notifications global.
 final notificationService = UseMeNotificationService.instance;
@@ -67,6 +71,9 @@ void main() async {
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]);
+
+  // Load recent accounts
+  await recentAccountsService.load();
 
   // Initialize CalendarBloc globally
   globalCalendarBloc = CalendarBloc();

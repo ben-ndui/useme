@@ -1608,6 +1608,15 @@
 
   "welcomeBack": "Content de te revoir !",
   "useAnotherAccount": "Utiliser un autre compte",
+  "chooseAccount": "Choisir un compte",
+  "enterPasswordFor": "Entrez le mot de passe pour {name}",
+  "@enterPasswordFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "rememberMe": "Se souvenir de moi",
 
   "tipQuickLoginTitle": "Connexion rapide",

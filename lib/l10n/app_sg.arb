@@ -1598,6 +1598,15 @@
 
   "welcomeBack": "Balao na mo ngâ!",
   "useAnotherAccount": "Sâra na kua-compte ôko",
+  "chooseAccount": "Sö compte ôko",
+  "enterPasswordFor": "Sü mot de passe tî {name}",
+  "@enterPasswordFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "rememberMe": "Bâa mbi",
 
   "tipQuickLoginTitle": "Connexion vîte",

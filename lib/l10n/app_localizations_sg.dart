@@ -3647,6 +3647,14 @@ class AppLocalizationsSg extends AppLocalizations {
   String get useAnotherAccount => 'Sâra na kua-compte ôko';
 
   @override
+  String get chooseAccount => 'Sö compte ôko';
+
+  @override
+  String enterPasswordFor(String name) {
+    return 'Sü mot de passe tî $name';
+  }
+
+  @override
   String get rememberMe => 'Bâa mbi';
 
   @override

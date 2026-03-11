@@ -1416,6 +1416,15 @@
 
   "welcomeBack": "Welcome back!",
   "useAnotherAccount": "Use another account",
+  "chooseAccount": "Choose an account",
+  "enterPasswordFor": "Enter password for {name}",
+  "@enterPasswordFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "rememberMe": "Remember me",
 
   "tipQuickLoginTitle": "Quick login",

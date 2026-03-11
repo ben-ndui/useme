@@ -6892,6 +6892,18 @@ abstract class AppLocalizations {
   /// **'Utiliser un autre compte'**
   String get useAnotherAccount;
 
+  /// No description provided for @chooseAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisir un compte'**
+  String get chooseAccount;
+
+  /// No description provided for @enterPasswordFor.
+  ///
+  /// In fr, this message translates to:
+  /// **'Entrez le mot de passe pour {name}'**
+  String enterPasswordFor(String name);
+
   /// No description provided for @rememberMe.
   ///
   /// In fr, this message translates to:

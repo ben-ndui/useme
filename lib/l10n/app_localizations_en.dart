@@ -3665,6 +3665,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get useAnotherAccount => 'Use another account';
 
   @override
+  String get chooseAccount => 'Choose an account';
+
+  @override
+  String enterPasswordFor(String name) {
+    return 'Enter password for $name';
+  }
+
+  @override
   String get rememberMe => 'Remember me';
 
   @override
