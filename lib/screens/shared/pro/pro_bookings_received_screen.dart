@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/session.dart';
+import 'package:useme/core/services/booking_acceptance_service.dart';
+import 'package:useme/core/services/pro_profile_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:useme/widgets/pro/accept_pro_booking_sheet.dart';
 
 /// Screen showing booking requests received by a pro.
 class ProBookingsReceivedScreen extends StatelessWidget {
@@ -183,7 +188,7 @@ class _BookingCard extends StatelessWidget {
       children: [
         Expanded(
           child: OutlinedButton.icon(
-            onPressed: () => _updateStatus(context, SessionStatus.cancelled),
+            onPressed: () => _decline(context),
             icon: const FaIcon(FontAwesomeIcons.xmark, size: 14),
             label: Text(l10n.proBookingDecline),
             style: OutlinedButton.styleFrom(
@@ -198,7 +203,7 @@ class _BookingCard extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: FilledButton.icon(
-            onPressed: () => _updateStatus(context, SessionStatus.confirmed),
+            onPressed: () => _accept(context),
             icon: const FaIcon(FontAwesomeIcons.check, size: 14),
             label: Text(l10n.proBookingAccept),
             style: FilledButton.styleFrom(
@@ -212,11 +217,77 @@ class _BookingCard extends StatelessWidget {
     );
   }
 
-  void _updateStatus(BuildContext context, SessionStatus status) {
+  void _decline(BuildContext context) {
     context.read<SessionBloc>().add(UpdateSessionStatusEvent(
           sessionId: session.id,
-          status: status,
+          status: SessionStatus.cancelled,
         ));
+  }
+
+  Future<void> _accept(BuildContext context) async {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is! AuthAuthenticatedState) return;
+    final user = authState.user as AppUser;
+    final profile = user.proProfile;
+    if (profile == null) return;
+
+    final rate = profile.hourlyRate ?? 0;
+    final totalAmount = rate * (session.durationMinutes / 60);
+
+    // Si le pro n'a pas de méthode de paiement, accepter directement
+    if (profile.enabledPaymentMethods.isEmpty) {
+      if (!context.mounted) return;
+      context.read<SessionBloc>().add(UpdateSessionStatusEvent(
+            sessionId: session.id,
+            status: SessionStatus.confirmed,
+          ));
+      return;
+    }
+
+    final result = await AcceptProBookingSheet.show(
+      context,
+      session: session,
+      profile: profile,
+      totalAmount: totalAmount,
+    );
+    if (result == null || !context.mounted) return;
+
+    // Sauvegarder le pourcentage par défaut si demandé
+    if (result.saveAsDefault) {
+      final depositPercent =
+          (result.depositAmount / result.totalAmount * 100).round().toDouble();
+      await ProProfileService().updateProProfile(
+        userId: user.uid,
+        profile: profile.copyWith(defaultDepositPercent: depositPercent),
+      );
+    }
+
+    // Accepter la booking et envoyer le message de paiement
+    final artistId = session.artistIds.isNotEmpty
+        ? session.artistIds.first
+        : '';
+    if (artistId.isEmpty) return;
+
+    final service = BookingAcceptanceService();
+    await service.acceptProBooking(
+      session: session,
+      proUser: user,
+      artistId: artistId,
+      paymentMethod: result.paymentMethod,
+      totalAmount: result.totalAmount,
+      depositAmount: result.depositAmount,
+      customMessage: result.customMessage,
+    );
+
+    if (!context.mounted) return;
+    // Recharger les sessions pour refléter le changement
+    context.read<SessionBloc>().add(
+          LoadProSessionsEvent(proId: user.uid),
+        );
+    AppSnackBar.success(
+      context,
+      AppLocalizations.of(context)!.proBookingAccepted,
+    );
   }
 }
 

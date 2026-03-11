@@ -109,6 +109,9 @@ class ProProfile extends Equatable {
   /// Moyens de paiement acceptés par le pro
   final List<PaymentMethod> paymentMethods;
 
+  /// Pourcentage d'acompte par défaut (0-100)
+  final double? defaultDepositPercent;
+
   const ProProfile({
     required this.displayName,
     this.proTypes = const [],
@@ -133,6 +136,7 @@ class ProProfile extends Equatable {
     this.isAvailable = true,
     this.activatedAt,
     this.paymentMethods = const [],
+    this.defaultDepositPercent,
   });
 
   factory ProProfile.fromMap(Map<String, dynamic> map) {
@@ -185,6 +189,8 @@ class ProProfile extends Equatable {
               ?.map((m) => PaymentMethod.fromMap(m as Map<String, dynamic>))
               .toList() ??
           [],
+      defaultDepositPercent:
+          (map['defaultDepositPercent'] as num?)?.toDouble(),
     );
   }
 
@@ -214,6 +220,7 @@ class ProProfile extends Equatable {
       'activatedAt':
           activatedAt != null ? Timestamp.fromDate(activatedAt!) : null,
       'paymentMethods': paymentMethods.map((m) => m.toMap()).toList(),
+      'defaultDepositPercent': defaultDepositPercent,
     };
   }
 
@@ -241,6 +248,7 @@ class ProProfile extends Equatable {
     bool? isAvailable,
     DateTime? activatedAt,
     List<PaymentMethod>? paymentMethods,
+    double? defaultDepositPercent,
   }) {
     return ProProfile(
       displayName: displayName ?? this.displayName,
@@ -266,6 +274,8 @@ class ProProfile extends Equatable {
       isAvailable: isAvailable ?? this.isAvailable,
       activatedAt: activatedAt ?? this.activatedAt,
       paymentMethods: paymentMethods ?? this.paymentMethods,
+      defaultDepositPercent:
+          defaultDepositPercent ?? this.defaultDepositPercent,
     );
   }
 
@@ -329,5 +339,6 @@ class ProProfile extends Equatable {
         isVerified,
         isAvailable,
         paymentMethods,
+        defaultDepositPercent,
       ];
 }

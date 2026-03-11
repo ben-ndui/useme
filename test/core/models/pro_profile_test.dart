@@ -447,6 +447,36 @@ void main() {
       });
     });
 
+    group('defaultDepositPercent', () {
+      test('defaults to null', () {
+        expect(minimalProfile.defaultDepositPercent, isNull);
+      });
+
+      test('fromMap parses defaultDepositPercent', () {
+        final profile = ProProfile.fromMap({
+          'displayName': 'X',
+          'defaultDepositPercent': 50.0,
+        });
+        expect(profile.defaultDepositPercent, 50.0);
+      });
+
+      test('toMap serializes defaultDepositPercent', () {
+        const profile = ProProfile(
+          displayName: 'X',
+          defaultDepositPercent: 40,
+        );
+        final map = profile.toMap();
+        expect(map['defaultDepositPercent'], 40);
+      });
+
+      test('copyWith updates defaultDepositPercent', () {
+        final updated =
+            minimalProfile.copyWith(defaultDepositPercent: 25);
+        expect(updated.defaultDepositPercent, 25);
+        expect(updated.displayName, 'DJ Test');
+      });
+    });
+
     group('equality', () {
       test('equal profiles are equal', () {
         const a = ProProfile(

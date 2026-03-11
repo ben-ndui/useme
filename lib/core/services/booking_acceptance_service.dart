@@ -125,6 +125,79 @@ class BookingAcceptanceService {
     }
   }
 
+  /// Accepte une demande de booking pro et envoie les infos de paiement.
+  Future<SmoothResponse<String>> acceptProBooking({
+    required Session session,
+    required AppUser proUser,
+    required String artistId,
+    required PaymentMethod paymentMethod,
+    required double totalAmount,
+    required double depositAmount,
+    String? customMessage,
+  }) async {
+    try {
+      // 1. Mettre à jour le statut de la session
+      await _updateSessionStatus(session.id, 'confirmed');
+
+      // 2. Créer ou récupérer la conversation
+      final proName = proUser.proProfile?.displayName ??
+          proUser.displayName ??
+          'Pro';
+      final conversationId = await _getOrCreateConversation(
+        studioId: proUser.uid,
+        studioName: proName,
+        studioPhoto: proUser.displayPhotoUrl,
+        artistId: artistId,
+      );
+
+      // 3. Générer le message de paiement
+      final sessionTitle =
+          '${session.typeLabel} - ${session.artistNames.join(", ")}';
+      final paymentMessage = _paymentService.generatePaymentMessageLocal(
+        sessionTitle: sessionTitle,
+        sessionDate: session.scheduledStart,
+        totalAmount: totalAmount,
+        depositAmount: depositAmount,
+        paymentMethod: paymentMethod,
+        studioName: proName,
+      );
+
+      final fullMessage = customMessage != null && customMessage.isNotEmpty
+          ? '$paymentMessage\n---\n$customMessage'
+          : paymentMessage;
+
+      await _sendMessage(
+        conversationId: conversationId,
+        senderId: proUser.uid,
+        senderName: proName,
+        message: fullMessage,
+        recipientId: artistId,
+      );
+
+      // 4. Notification push à l'artiste
+      await _sendNotification(
+        userId: artistId,
+        title: 'Demande acceptée ! 🎉',
+        body: 'Votre demande "$sessionTitle" a été confirmée. '
+            'Vérifiez les infos de paiement.',
+        data: {
+          'type': 'pro_booking_accepted',
+          'sessionId': session.id,
+          'conversationId': conversationId,
+        },
+      );
+
+      return SmoothResponse(
+        code: 200,
+        message: 'Demande acceptée',
+        data: conversationId,
+      );
+    } catch (e) {
+      appLog('Erreur acceptProBooking: $e');
+      return SmoothResponse(code: 500, message: 'Erreur: $e', data: null);
+    }
+  }
+
   Future<void> _updateSessionStatus(String sessionId, String status) async {
     await _firestore.collection('useme_sessions').doc(sessionId).update({
       'status': status,
