@@ -35,6 +35,7 @@ class _StudioMapViewState extends State<StudioMapView> {
   // Cached custom pins
   BitmapDescriptor? _partnerPin;
   BitmapDescriptor? _defaultPin;
+  BitmapDescriptor? _proPin;
   final Map<String, BitmapDescriptor> _studioPins = {};
 
   @override
@@ -82,6 +83,10 @@ class _StudioMapViewState extends State<StudioMapView> {
     _defaultPin = await CustomStudioPin.createPinWithImage(
       imageUrl: null,
       pinColor: UseMeTheme.primaryColor,
+    );
+    _proPin = await CustomStudioPin.createPinWithImage(
+      imageUrl: null,
+      pinColor: UseMeTheme.accentColor,
     );
     if (mounted) setState(() {});
   }
@@ -175,13 +180,19 @@ class _StudioMapViewState extends State<StudioMapView> {
     );
   }
 
+  Color _pinColor(DiscoveredStudio studio) {
+    if (studio.isPro) return UseMeTheme.accentColor;
+    if (studio.isPartner) return Colors.green;
+    return UseMeTheme.primaryColor;
+  }
+
   Future<void> _loadStudioPins(List<DiscoveredStudio> studios) async {
     for (final studio in studios) {
       if (!_studioPins.containsKey(studio.id) && studio.photoUrl != null) {
         try {
           final pin = await CustomStudioPin.createPinWithImage(
             imageUrl: studio.photoUrl,
-            pinColor: studio.isPartner ? Colors.green : UseMeTheme.primaryColor,
+            pinColor: _pinColor(studio),
           );
           if (mounted) {
             setState(() {
@@ -251,14 +262,18 @@ class _StudioMapViewState extends State<StudioMapView> {
       BitmapDescriptor icon;
       if (_studioPins.containsKey(studio.id)) {
         icon = _studioPins[studio.id]!;
+      } else if (studio.isPro && _proPin != null) {
+        icon = _proPin!;
       } else if (studio.isPartner && _partnerPin != null) {
         icon = _partnerPin!;
       } else if (_defaultPin != null) {
         icon = _defaultPin!;
       } else {
-        icon = studio.isPartner
-            ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)
-            : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure);
+        icon = studio.isPro
+            ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)
+            : studio.isPartner
+                ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)
+                : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure);
       }
 
       markers.add(
@@ -267,7 +282,9 @@ class _StudioMapViewState extends State<StudioMapView> {
           position: studio.position,
           infoWindow: InfoWindow(
             title: studio.name,
-            snippet: '${studio.formattedDistance}${studio.isPartner ? ' • ${AppLocalizations.of(context)!.partnerLabel}' : ''}',
+            snippet: studio.isPro
+                ? '${studio.formattedDistance} • Pro'
+                : '${studio.formattedDistance}${studio.isPartner ? ' • ${AppLocalizations.of(context)!.partnerLabel}' : ''}',
           ),
           icon: icon,
           onTap: () {

@@ -71,6 +71,12 @@ class MapState {
     );
   }
 
+  static double _markerHue(DiscoveredStudio studio) {
+    if (studio.isPro) return BitmapDescriptor.hueOrange;
+    if (studio.isPartner) return BitmapDescriptor.hueGreen;
+    return BitmapDescriptor.hueAzure;
+  }
+
   /// Get markers for the map
   Set<Marker> get markers {
     final Set<Marker> markerSet = {};
@@ -84,9 +90,7 @@ class MapState {
             title: studio.name,
             snippet: studio.formattedDistance,
           ),
-          icon: studio.isPartner
-              ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)
-              : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+          icon: BitmapDescriptor.defaultMarkerWithHue(_markerHue(studio)),
         ),
       );
     }
@@ -103,6 +107,9 @@ class MapState {
     if (!hasActiveFilters) return nearbyStudios;
 
     return nearbyStudios.where((studio) {
+      // Pros are always shown (not affected by studio-specific filters)
+      if (studio.isPro) return true;
+
       // Partner filter
       if (partnerOnly && !studio.isPartner) return false;
 
@@ -132,9 +139,7 @@ class MapState {
             title: studio.name,
             snippet: studio.formattedDistance,
           ),
-          icon: studio.isPartner
-              ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)
-              : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+          icon: BitmapDescriptor.defaultMarkerWithHue(_markerHue(studio)),
         ),
       );
     }

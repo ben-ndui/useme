@@ -5839,8 +5839,14 @@ abstract class AppLocalizations {
   /// No description provided for @proProfileCity.
   ///
   /// In fr, this message translates to:
-  /// **'Ville'**
+  /// **'Ville / Adresse'**
   String get proProfileCity;
+
+  /// No description provided for @proProfileCityHelper.
+  ///
+  /// In fr, this message translates to:
+  /// **'Utilisee pour vous positionner sur la carte'**
+  String get proProfileCityHelper;
 
   /// No description provided for @proProfileWebsite.
   ///

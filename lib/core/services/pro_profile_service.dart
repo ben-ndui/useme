@@ -2,17 +2,40 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/pro_profile.dart';
+import 'package:useme/core/services/studio_discovery_service.dart';
 import 'package:useme/core/utils/app_logger.dart';
 
 /// Service pour gérer les profils professionnels (marketplace).
 class ProProfileService {
   final FirebaseFirestore _firestore;
+  final StudioDiscoveryService _discoveryService;
 
-  ProProfileService({FirebaseFirestore? firestore})
-      : _firestore = firestore ?? FirebaseFirestore.instance;
+  ProProfileService({
+    FirebaseFirestore? firestore,
+    StudioDiscoveryService? discoveryService,
+  })  : _firestore = firestore ?? FirebaseFirestore.instance,
+        _discoveryService = discoveryService ?? StudioDiscoveryService();
 
   CollectionReference<Map<String, dynamic>> get _users =>
       _firestore.collection('users');
+
+  /// Geocode la ville du profil pour obtenir les coordonnées GPS.
+  Future<ProProfile> _geocodeCity(ProProfile profile) async {
+    final city = profile.city;
+    if (city == null || city.isEmpty) return profile;
+
+    try {
+      final latLng = await _discoveryService.geocodeAddress(city);
+      if (latLng != null) {
+        return profile.copyWith(
+          location: GeoPoint(latLng.latitude, latLng.longitude),
+        );
+      }
+    } catch (e) {
+      appLog('ProProfileService: geocoding failed for "$city": $e');
+    }
+    return profile;
+  }
 
   /// Active un profil pro pour un utilisateur.
   Future<SmoothResponse<ProProfile>> activateProProfile({
@@ -20,17 +43,19 @@ class ProProfileService {
     required ProProfile profile,
   }) async {
     try {
-      final profileWithDate = profile.activatedAt != null
+      var finalProfile = profile.activatedAt != null
           ? profile
           : profile.copyWith(activatedAt: DateTime.now());
 
+      finalProfile = await _geocodeCity(finalProfile);
+
       await _users.doc(userId).update({
-        'proProfile': profileWithDate.toMap(),
+        'proProfile': finalProfile.toMap(),
       });
 
       appLog('ProProfileService: profil pro active pour $userId');
       return SmoothResponse(
-        data: profileWithDate,
+        data: finalProfile,
         message: 'Profil pro active',
         code: 200,
       );
@@ -49,8 +74,9 @@ class ProProfileService {
     required ProProfile profile,
   }) async {
     try {
+      final finalProfile = await _geocodeCity(profile);
       await _users.doc(userId).update({
-        'proProfile': profile.toMap(),
+        'proProfile': finalProfile.toMap(),
       });
       return SmoothResponse(data: true, message: 'Profil mis a jour', code: 200);
     } catch (e) {

@@ -1,4 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/studio_profile.dart';
 import 'package:useme/core/services/env_service.dart';
 
@@ -15,6 +16,7 @@ class DiscoveredStudio {
   final String? website;
   final bool isPartner; // Studio registered on Use Me
   final bool isVerified; // Studio verified by Use Me team
+  final bool isPro; // Professional profile (not a studio)
   final List<String> services;
   final double? distanceMeters;
   final StudioType studioType;
@@ -31,6 +33,7 @@ class DiscoveredStudio {
     this.website,
     this.isPartner = false,
     this.isVerified = false,
+    this.isPro = false,
     this.services = const [],
     this.distanceMeters,
     this.studioType = StudioType.independent,
@@ -86,6 +89,30 @@ class DiscoveredStudio {
     );
   }
 
+  /// Create from AppUser with ProProfile (for map display)
+  factory DiscoveredStudio.fromProUser(AppUser user) {
+    final profile = user.proProfile!;
+    final loc = profile.location!;
+    return DiscoveredStudio(
+      id: 'pro_${user.uid}',
+      name: profile.displayName,
+      address: profile.city,
+      position: LatLng(loc.latitude, loc.longitude),
+      rating: profile.rating,
+      reviewCount: profile.reviewCount,
+      photoUrl: user.displayPhotoUrl,
+      phoneNumber: profile.phone,
+      website: profile.website,
+      isPartner: false,
+      isVerified: profile.isVerified,
+      isPro: true,
+      services: profile.proTypes.map((t) => t.label).toList(),
+    );
+  }
+
+  /// The userId behind a pro marker (strips 'pro_' prefix)
+  String? get proUserId => isPro ? id.replaceFirst('pro_', '') : null;
+
   /// Copy with distance
   DiscoveredStudio copyWithDistance(double distance) {
     return DiscoveredStudio(
@@ -100,6 +127,7 @@ class DiscoveredStudio {
       website: website,
       isPartner: isPartner,
       isVerified: isVerified,
+      isPro: isPro,
       services: services,
       distanceMeters: distance,
       studioType: studioType,

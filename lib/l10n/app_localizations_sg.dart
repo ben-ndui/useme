@@ -3080,7 +3080,10 @@ class AppLocalizationsSg extends AppLocalizations {
   String get proProfileRate => 'Tarif na ngâ';
 
   @override
-  String get proProfileCity => 'Ködörö';
+  String get proProfileCity => 'Ködörö / Adêrêsi';
+
+  @override
+  String get proProfileCityHelper => 'Fa tî hînga mô na carte';
 
   @override
   String get proProfileWebsite => 'Site web';

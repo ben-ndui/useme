@@ -110,6 +110,7 @@ class ProProfileFormFields extends StatelessWidget {
                 controller: cityController,
                 decoration: InputDecoration(
                   labelText: l10n.proProfileCity,
+                  helperText: l10n.proProfileCityHelper,
                   prefixIcon: const Icon(Icons.location_city),
                 ),
               ),

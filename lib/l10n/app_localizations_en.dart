@@ -3095,7 +3095,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get proProfileRate => 'Hourly rate';
 
   @override
-  String get proProfileCity => 'City';
+  String get proProfileCity => 'City / Address';
+
+  @override
+  String get proProfileCityHelper => 'Used to position you on the map';
 
   @override
   String get proProfileWebsite => 'Website';

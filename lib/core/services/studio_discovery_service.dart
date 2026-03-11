@@ -174,13 +174,50 @@ class StudioDiscoveryService {
       }
     }
 
+    // Fetch pro profiles with location
+    final proStudios = await _fetchNearbyPros(position, radius);
+
     // Filter out Google studios that are claimed
     final filteredGoogle = googleStudios
         .where((s) => !claimedGooglePlaceIds.contains(s.id))
         .toList();
 
-    // Partner studios first, then remaining Google studios
-    return [...partnerStudios, ...filteredGoogle];
+    // Partner studios first, then pros, then remaining Google studios
+    return [...partnerStudios, ...proStudios, ...filteredGoogle];
+  }
+
+  /// Fetch available pro profiles with a location within radius.
+  Future<List<DiscoveredStudio>> _fetchNearbyPros(
+    LatLng position,
+    int radius,
+  ) async {
+    try {
+      final query = await _firestore
+          .collection('users')
+          .where('proProfile.isAvailable', isEqualTo: true)
+          .get()
+          .timeout(const Duration(seconds: 10));
+
+      final pros = <DiscoveredStudio>[];
+      for (final doc in query.docs) {
+        try {
+          final user = AppUser.fromMap(doc.data(), doc.id);
+          if (!user.hasProProfile || !user.proProfile!.hasLocation) continue;
+
+          final studio = DiscoveredStudio.fromProUser(user);
+          final distance = _locationService.distanceBetween(position, studio.position);
+          if (distance <= radius) {
+            pros.add(studio);
+          }
+        } catch (e) {
+          appLog('⚠️ StudioDiscoveryService: Error parsing pro ${doc.id}: $e');
+        }
+      }
+      return pros;
+    } catch (e) {
+      appLog('⚠️ StudioDiscoveryService: Error fetching pros: $e');
+      return [];
+    }
   }
 
   Future<List<DiscoveredStudio>> _searchGooglePlaces(

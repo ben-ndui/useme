@@ -3121,7 +3121,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get proProfileRate => 'Tarif horaire';
 
   @override
-  String get proProfileCity => 'Ville';
+  String get proProfileCity => 'Ville / Adresse';
+
+  @override
+  String get proProfileCityHelper =>
+      'Utilisee pour vous positionner sur la carte';
 
   @override
   String get proProfileWebsite => 'Site web';

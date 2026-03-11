@@ -227,6 +227,15 @@ void main() {
   });
 
   group('MapState.filteredStudios', () {
+    final proStudio = DiscoveredStudio(
+      id: 'pro_user-1',
+      name: 'DJ Pro',
+      position: parisPosition,
+      isPro: true,
+      services: const ['Musicien'],
+      distanceMeters: 800,
+    );
+
     test('returns all studios when no filters', () {
       final state = MapState(nearbyStudios: [testStudio, nonPartnerStudio]);
       expect(state.filteredStudios.length, 2);
@@ -260,6 +269,18 @@ void main() {
       expect(state.filteredStudios.first.id, 'studio-1');
     });
 
+    test('pros always pass filters', () {
+      final state = MapState(
+        nearbyStudios: [testStudio, nonPartnerStudio, proStudio],
+        partnerOnly: true,
+        serviceFilters: const {'recording'},
+      );
+      // Only partner studio with Recording + pro (always passes)
+      expect(state.filteredStudios.length, 2);
+      expect(state.filteredStudios.any((s) => s.isPro), true);
+      expect(state.filteredStudios.any((s) => s.id == 'studio-1'), true);
+    });
+
     test('hasStudios and hasError helpers', () {
       expect(const MapState().hasStudios, false);
       expect(const MapState().hasError, false);
@@ -271,6 +292,50 @@ void main() {
         const MapState(error: 'oops').hasError,
         true,
       );
+    });
+  });
+
+  group('DiscoveredStudio.isPro', () {
+    test('isPro defaults to false', () {
+      expect(testStudio.isPro, false);
+    });
+
+    test('proUserId extracts user id from pro marker', () {
+      const pro = DiscoveredStudio(
+        id: 'pro_user-123',
+        name: 'DJ',
+        position: parisPosition,
+        isPro: true,
+      );
+      expect(pro.proUserId, 'user-123');
+    });
+
+    test('proUserId is null for non-pro', () {
+      expect(testStudio.proUserId, isNull);
+    });
+
+    test('copyWithDistance preserves isPro', () {
+      const pro = DiscoveredStudio(
+        id: 'pro_1',
+        name: 'Pro',
+        position: parisPosition,
+        isPro: true,
+      );
+      final copy = pro.copyWithDistance(500);
+      expect(copy.isPro, true);
+      expect(copy.distanceMeters, 500);
+    });
+
+    test('pro marker appears in markers set', () {
+      const pro = DiscoveredStudio(
+        id: 'pro_1',
+        name: 'Pro',
+        position: parisPosition,
+        isPro: true,
+      );
+      final state = MapState(nearbyStudios: [pro]);
+      expect(state.markers.length, 1);
+      expect(state.markers.first.markerId.value, 'pro_1');
     });
   });
 }
