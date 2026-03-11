@@ -164,6 +164,20 @@ class AddSessionPhotoEvent extends SessionEvent {
   List<Object?> get props => [sessionId, photoUrl];
 }
 
+/// Update payment status on a session
+class UpdatePaymentStatusEvent extends SessionEvent {
+  final String sessionId;
+  final PaymentStatus paymentStatus;
+
+  const UpdatePaymentStatusEvent({
+    required this.sessionId,
+    required this.paymentStatus,
+  });
+
+  @override
+  List<Object?> get props => [sessionId, paymentStatus];
+}
+
 /// Clear all sessions (used on logout)
 class ClearSessionsEvent extends SessionEvent {
   const ClearSessionsEvent();

@@ -14,6 +14,7 @@ import 'package:useme/core/services/service_catalog_service.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/common/payment_tracking_card.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/widgets/studio/accept_booking_sheet.dart';
 
@@ -56,6 +57,11 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> {
               AppSnackBar.success(context, message);
               context.pop();
             }
+          } else if (state is PaymentStatusUpdatedState) {
+            final msg = state.newPaymentStatus == PaymentStatus.depositPaid
+                ? l10n.depositReceivedSuccess
+                : l10n.fullyPaidSuccess;
+            AppSnackBar.success(context, msg);
           } else if (state is SessionErrorState) {
             AppSnackBar.error(context, state.errorMessage ?? l10n.errorOccurred);
           }
@@ -173,6 +179,27 @@ class _SessionDetailContent extends StatelessWidget {
               value: session.notes!,
               theme: theme,
             ),
+
+          // Payment tracking
+          if (session.hasPaymentTracking) ...[
+            const SizedBox(height: 16),
+            PaymentTrackingCard(
+              session: session,
+              canManage: true,
+              onMarkDepositReceived: () => context
+                  .read<SessionBloc>()
+                  .add(UpdatePaymentStatusEvent(
+                    sessionId: session.id,
+                    paymentStatus: PaymentStatus.depositPaid,
+                  )),
+              onMarkFullyPaid: () => context
+                  .read<SessionBloc>()
+                  .add(UpdatePaymentStatusEvent(
+                    sessionId: session.id,
+                    paymentStatus: PaymentStatus.fullyPaid,
+                  )),
+            ),
+          ],
 
           const SizedBox(height: 24),
 

@@ -7791,6 +7791,78 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'plus'**
   String get more;
+
+  /// No description provided for @paymentStatusNone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun suivi'**
+  String get paymentStatusNone;
+
+  /// No description provided for @paymentStatusDepositPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'Acompte en attente'**
+  String get paymentStatusDepositPending;
+
+  /// No description provided for @paymentStatusDepositPaid.
+  ///
+  /// In fr, this message translates to:
+  /// **'Acompte reçu'**
+  String get paymentStatusDepositPaid;
+
+  /// No description provided for @paymentStatusFullyPaid.
+  ///
+  /// In fr, this message translates to:
+  /// **'Payé en totalité'**
+  String get paymentStatusFullyPaid;
+
+  /// No description provided for @markDepositReceived.
+  ///
+  /// In fr, this message translates to:
+  /// **'Marquer l\'acompte reçu'**
+  String get markDepositReceived;
+
+  /// No description provided for @markFullyPaid.
+  ///
+  /// In fr, this message translates to:
+  /// **'Marquer payé en totalité'**
+  String get markFullyPaid;
+
+  /// No description provided for @depositReceivedSuccess.
+  ///
+  /// In fr, this message translates to:
+  /// **'Acompte marqué comme reçu'**
+  String get depositReceivedSuccess;
+
+  /// No description provided for @fullyPaidSuccess.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiement complet confirmé'**
+  String get fullyPaidSuccess;
+
+  /// No description provided for @paymentTracking.
+  ///
+  /// In fr, this message translates to:
+  /// **'Suivi de paiement'**
+  String get paymentTracking;
+
+  /// No description provided for @depositOf.
+  ///
+  /// In fr, this message translates to:
+  /// **'Acompte de {amount}'**
+  String depositOf(String amount);
+
+  /// No description provided for @remainingToPay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Reste à régler : {amount}'**
+  String remainingToPay(String amount);
+
+  /// No description provided for @paidOn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Reçu le {date}'**
+  String paidOn(String date);
 }
 
 class _AppLocalizationsDelegate

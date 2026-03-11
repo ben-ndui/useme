@@ -148,6 +148,21 @@ class SessionPhotoAddedState extends SessionState {
   List<Object?> get props => [...super.props, photoUrl];
 }
 
+/// Payment status updated
+class PaymentStatusUpdatedState extends SessionState {
+  final String sessionId;
+  final PaymentStatus newPaymentStatus;
+
+  const PaymentStatusUpdatedState({
+    required this.sessionId,
+    required this.newPaymentStatus,
+    required super.sessions,
+  }) : super(isLoading: false);
+
+  @override
+  List<Object?> get props => [sessionId, newPaymentStatus, sessions];
+}
+
 /// Session limit reached state (subscription limit)
 class SessionLimitReachedState extends SessionState {
   final int currentCount;

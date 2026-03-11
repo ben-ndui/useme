@@ -1876,5 +1876,32 @@
   "unlimitedServices": "services illimités",
   "tenEngineers": "10 ingénieurs",
   "unlimited": "illimité",
-  "more": "plus"
+  "more": "plus",
+  "paymentStatusNone": "Aucun suivi",
+  "paymentStatusDepositPending": "Acompte en attente",
+  "paymentStatusDepositPaid": "Acompte reçu",
+  "paymentStatusFullyPaid": "Payé en totalité",
+  "markDepositReceived": "Marquer l'acompte reçu",
+  "markFullyPaid": "Marquer payé en totalité",
+  "depositReceivedSuccess": "Acompte marqué comme reçu",
+  "fullyPaidSuccess": "Paiement complet confirmé",
+  "paymentTracking": "Suivi de paiement",
+  "depositOf": "Acompte de {amount}",
+  "@depositOf": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "remainingToPay": "Reste à régler : {amount}",
+  "@remainingToPay": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "paidOn": "Reçu le {date}",
+  "@paidOn": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  }
 }

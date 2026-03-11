@@ -4134,4 +4134,46 @@ class AppLocalizationsSg extends AppLocalizations {
 
   @override
   String get more => 'mbênî';
+
+  @override
+  String get paymentStatusNone => 'Suivi pëpe';
+
+  @override
+  String get paymentStatusDepositPending => 'Acompte a-tära';
+
+  @override
+  String get paymentStatusDepositPaid => 'Acompte a-sï';
+
+  @override
+  String get paymentStatusFullyPaid => 'A-fûta ôke';
+
+  @override
+  String get markDepositReceived => 'Bâa acompte a-sï';
+
+  @override
+  String get markFullyPaid => 'Bâa a-fûta ôke';
+
+  @override
+  String get depositReceivedSuccess => 'Acompte a-bâa';
+
+  @override
+  String get fullyPaidSuccess => 'Fûta ôke a-sï';
+
+  @override
+  String get paymentTracking => 'Suivi tî fûta';
+
+  @override
+  String depositOf(String amount) {
+    return 'Acompte tî $amount';
+  }
+
+  @override
+  String remainingToPay(String amount) {
+    return 'A-tîgî : $amount';
+  }
+
+  @override
+  String paidOn(String date) {
+    return 'A-sï na $date';
+  }
 }

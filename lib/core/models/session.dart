@@ -81,6 +81,29 @@ extension SessionTypeExtension on SessionType {
   }
 }
 
+/// Payment tracking status for session deposits and full payments.
+enum PaymentStatus {
+  none,
+  depositPending,
+  depositPaid,
+  fullyPaid,
+}
+
+extension PaymentStatusExtension on PaymentStatus {
+  static PaymentStatus fromString(String? value) {
+    switch (value) {
+      case 'depositPending':
+        return PaymentStatus.depositPending;
+      case 'depositPaid':
+        return PaymentStatus.depositPaid;
+      case 'fullyPaid':
+        return PaymentStatus.fullyPaid;
+      default:
+        return PaymentStatus.none;
+    }
+  }
+}
+
 /// Session status enum
 enum SessionStatus {
   pending,
@@ -228,6 +251,14 @@ class Session {
   final DateTime createdAt;
   final DateTime? updatedAt;
 
+  // Payment tracking
+  final PaymentStatus paymentStatus;
+  final double? totalAmount;
+  final double? depositAmount;
+  final String? paymentMethodLabel;
+  final DateTime? depositPaidAt;
+  final DateTime? fullyPaidAt;
+
   Session({
     required this.id,
     required this.studioId,
@@ -252,6 +283,12 @@ class Session {
     SessionIntervention? intervention,
     required this.createdAt,
     this.updatedAt,
+    this.paymentStatus = PaymentStatus.none,
+    this.totalAmount,
+    this.depositAmount,
+    this.paymentMethodLabel,
+    this.depositPaidAt,
+    this.fullyPaidAt,
   })  : types = types ?? (type != null ? [type] : [SessionType.other]),
         type = type ?? (types?.isNotEmpty == true ? types!.first : SessionType.other),
         intervention = intervention ?? const SessionIntervention();
@@ -281,6 +318,12 @@ class Session {
     SessionIntervention? intervention,
     required DateTime createdAt,
     DateTime? updatedAt,
+    PaymentStatus paymentStatus = PaymentStatus.none,
+    double? totalAmount,
+    double? depositAmount,
+    String? paymentMethodLabel,
+    DateTime? depositPaidAt,
+    DateTime? fullyPaidAt,
   }) {
     return Session(
       id: id,
@@ -306,6 +349,12 @@ class Session {
       intervention: intervention,
       createdAt: createdAt,
       updatedAt: updatedAt,
+      paymentStatus: paymentStatus,
+      totalAmount: totalAmount,
+      depositAmount: depositAmount,
+      paymentMethodLabel: paymentMethodLabel,
+      depositPaidAt: depositPaidAt,
+      fullyPaidAt: fullyPaidAt,
     );
   }
 
@@ -364,6 +413,12 @@ class Session {
           map['intervention'] as Map<String, dynamic>?),
       createdAt: _parseDateTime(map['createdAt']) ?? DateTime.now(),
       updatedAt: _parseDateTime(map['updatedAt']),
+      paymentStatus: PaymentStatusExtension.fromString(map['paymentStatus']?.toString()),
+      totalAmount: (map['totalAmount'] as num?)?.toDouble(),
+      depositAmount: (map['depositAmount'] as num?)?.toDouble(),
+      paymentMethodLabel: map['paymentMethodLabel']?.toString(),
+      depositPaidAt: _parseDateTime(map['depositPaidAt']),
+      fullyPaidAt: _parseDateTime(map['fullyPaidAt']),
     );
   }
 
@@ -398,6 +453,12 @@ class Session {
         'intervention': intervention.toMap(),
         'createdAt': createdAt.millisecondsSinceEpoch,
         'updatedAt': updatedAt?.millisecondsSinceEpoch,
+        'paymentStatus': paymentStatus.name,
+        'totalAmount': totalAmount,
+        'depositAmount': depositAmount,
+        'paymentMethodLabel': paymentMethodLabel,
+        'depositPaidAt': depositPaidAt?.millisecondsSinceEpoch,
+        'fullyPaidAt': fullyPaidAt?.millisecondsSinceEpoch,
       };
 
   Session copyWith({
@@ -424,6 +485,12 @@ class Session {
     SessionIntervention? intervention,
     DateTime? createdAt,
     DateTime? updatedAt,
+    PaymentStatus? paymentStatus,
+    double? totalAmount,
+    double? depositAmount,
+    String? paymentMethodLabel,
+    DateTime? depositPaidAt,
+    DateTime? fullyPaidAt,
   }) =>
       Session(
         id: id ?? this.id,
@@ -449,6 +516,12 @@ class Session {
         intervention: intervention ?? this.intervention,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
+        paymentStatus: paymentStatus ?? this.paymentStatus,
+        totalAmount: totalAmount ?? this.totalAmount,
+        depositAmount: depositAmount ?? this.depositAmount,
+        paymentMethodLabel: paymentMethodLabel ?? this.paymentMethodLabel,
+        depositPaidAt: depositPaidAt ?? this.depositPaidAt,
+        fullyPaidAt: fullyPaidAt ?? this.fullyPaidAt,
       );
 
   // Helper getters
@@ -562,6 +635,25 @@ class Session {
 
   /// Vérifie si un ingénieur a reçu une proposition pour cette session
   bool isEngineerProposed(String engId) => proposedEngineerIds.contains(engId);
+
+  /// Whether payment tracking is active (deposit was requested)
+  bool get hasPaymentTracking => paymentStatus != PaymentStatus.none;
+
+  /// Whether the deposit has been marked as received
+  bool get isDepositPaid =>
+      paymentStatus == PaymentStatus.depositPaid ||
+      paymentStatus == PaymentStatus.fullyPaid;
+
+  /// Whether the session is fully paid
+  bool get isFullyPaid => paymentStatus == PaymentStatus.fullyPaid;
+
+  /// Remaining amount after deposit
+  double get remainingAmount {
+    if (totalAmount == null) return 0;
+    if (isFullyPaid) return 0;
+    if (isDepositPaid) return totalAmount! - (depositAmount ?? 0);
+    return totalAmount!;
+  }
 
   bool isOnDate(DateTime date) =>
       scheduledStart.year == date.year &&

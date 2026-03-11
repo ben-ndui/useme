@@ -10,6 +10,7 @@ import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/common/payment_tracking_card.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Session detail screen for artists to view their booked sessions
@@ -129,6 +130,11 @@ class _ArtistSessionDetailContent extends StatelessWidget {
               value: session.notes!,
               theme: theme,
             ),
+          // Payment tracking (read-only for artists)
+          if (session.hasPaymentTracking) ...[
+            const SizedBox(height: 16),
+            PaymentTrackingCard(session: session),
+          ],
           const SizedBox(height: 24),
           _AddToCalendarButton(session: session, l10n: l10n),
           const SizedBox(height: 12),

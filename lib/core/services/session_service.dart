@@ -422,6 +422,78 @@ class SessionService {
     }
   }
 
+  /// Update payment status on a session and notify the artist.
+  Future<SmoothResponse<bool>> updatePaymentStatus(
+      String sessionId, PaymentStatus paymentStatus) async {
+    try {
+      final now = DateTime.now().millisecondsSinceEpoch;
+      final updates = <String, dynamic>{
+        'paymentStatus': paymentStatus.name,
+        'updatedAt': now,
+      };
+      if (paymentStatus == PaymentStatus.depositPaid) {
+        updates['depositPaidAt'] = now;
+      } else if (paymentStatus == PaymentStatus.fullyPaid) {
+        updates['fullyPaidAt'] = now;
+      }
+
+      await _firestore.collection(_collection).doc(sessionId).update(updates);
+
+      // Notify artist
+      final session = await getSession(sessionId);
+      if (session != null) {
+        await _createPaymentNotification(session, paymentStatus);
+      }
+
+      appLog('✅ Payment status updated: $sessionId → ${paymentStatus.name}');
+      return SmoothResponse(
+          code: 200, message: 'Statut de paiement mis à jour', data: true);
+    } catch (e) {
+      return SmoothResponse(code: 500, message: 'Erreur: $e', data: false);
+    }
+  }
+
+  /// Notify artist when payment status changes
+  Future<void> _createPaymentNotification(
+      Session session, PaymentStatus paymentStatus) async {
+    final artistIds = session.artistIds;
+    if (artistIds.isEmpty) return;
+
+    String title;
+    String body;
+    final sessionTitle =
+        '${session.typeLabel} - ${session.artistNames.join(", ")}';
+
+    switch (paymentStatus) {
+      case PaymentStatus.depositPaid:
+        title = 'Acompte confirmé ✅';
+        body = 'Votre acompte pour "$sessionTitle" a été reçu.';
+      case PaymentStatus.fullyPaid:
+        title = 'Paiement complet ✅';
+        body = 'Le paiement total pour "$sessionTitle" a été confirmé.';
+      default:
+        return;
+    }
+
+    for (final artistId in artistIds) {
+      final notifRef = _firestore.collection('user_notifications').doc();
+      await notifRef.set({
+        'id': notifRef.id,
+        'userId': artistId,
+        'type': 'payment_status_updated',
+        'title': title,
+        'body': body,
+        'data': {
+          'type': 'payment_status_updated',
+          'sessionId': session.id,
+          'paymentStatus': paymentStatus.name,
+        },
+        'isRead': false,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    }
+  }
+
   /// Update session notes
   Future<SmoothResponse<bool>> updateNotes(String sessionId, String notes) async {
     try {

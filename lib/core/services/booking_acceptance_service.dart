@@ -42,8 +42,13 @@ class BookingAcceptanceService {
       final engineers = assignedEngineer != null ? [assignedEngineer] : selectedEngineers;
       final shouldPropose = proposeToEngineers || (assignedEngineer == null && engineers.isNotEmpty);
 
-      // 1. Mettre à jour la session
-      await _updateSessionStatus(session.id, 'confirmed');
+      // 1. Mettre à jour la session avec statut + infos paiement
+      await _updateSessionWithPayment(
+        sessionId: session.id,
+        totalAmount: totalAmount,
+        depositAmount: depositAmount,
+        paymentMethodLabel: paymentMethod.type.label,
+      );
 
       // 2. Si mode proposition avec ingénieurs sélectionnés
       if (shouldPropose && engineers.isNotEmpty) {
@@ -136,8 +141,13 @@ class BookingAcceptanceService {
     String? customMessage,
   }) async {
     try {
-      // 1. Mettre à jour le statut de la session
-      await _updateSessionStatus(session.id, 'confirmed');
+      // 1. Mettre à jour la session avec statut + infos paiement
+      await _updateSessionWithPayment(
+        sessionId: session.id,
+        totalAmount: totalAmount,
+        depositAmount: depositAmount,
+        paymentMethodLabel: paymentMethod.type.label,
+      );
 
       // 2. Créer ou récupérer la conversation
       final proName = proUser.proProfile?.displayName ??
@@ -198,12 +208,22 @@ class BookingAcceptanceService {
     }
   }
 
-  Future<void> _updateSessionStatus(String sessionId, String status) async {
+  /// Updates session status to confirmed and stores payment tracking info.
+  Future<void> _updateSessionWithPayment({
+    required String sessionId,
+    required double totalAmount,
+    required double depositAmount,
+    required String paymentMethodLabel,
+  }) async {
     await _firestore.collection('useme_sessions').doc(sessionId).update({
-      'status': status,
+      'status': 'confirmed',
+      'paymentStatus': 'depositPending',
+      'totalAmount': totalAmount,
+      'depositAmount': depositAmount,
+      'paymentMethodLabel': paymentMethodLabel,
       'updatedAt': FieldValue.serverTimestamp(),
     });
-    appLog('✅ Session $sessionId status=$status');
+    appLog('✅ Session $sessionId confirmed with payment tracking');
   }
 
   Future<void> _updateSessionWithEngineer({

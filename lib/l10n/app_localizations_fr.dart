@@ -4188,4 +4188,46 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get more => 'plus';
+
+  @override
+  String get paymentStatusNone => 'Aucun suivi';
+
+  @override
+  String get paymentStatusDepositPending => 'Acompte en attente';
+
+  @override
+  String get paymentStatusDepositPaid => 'Acompte reçu';
+
+  @override
+  String get paymentStatusFullyPaid => 'Payé en totalité';
+
+  @override
+  String get markDepositReceived => 'Marquer l\'acompte reçu';
+
+  @override
+  String get markFullyPaid => 'Marquer payé en totalité';
+
+  @override
+  String get depositReceivedSuccess => 'Acompte marqué comme reçu';
+
+  @override
+  String get fullyPaidSuccess => 'Paiement complet confirmé';
+
+  @override
+  String get paymentTracking => 'Suivi de paiement';
+
+  @override
+  String depositOf(String amount) {
+    return 'Acompte de $amount';
+  }
+
+  @override
+  String remainingToPay(String amount) {
+    return 'Reste à régler : $amount';
+  }
+
+  @override
+  String paidOn(String date) {
+    return 'Reçu le $date';
+  }
 }

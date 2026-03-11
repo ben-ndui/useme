@@ -50,13 +50,9 @@ class ProProfileFormFields extends StatelessWidget {
     required this.onAvailabilityChanged,
   });
 
-  bool get _showInstruments =>
-      selectedTypes.contains(ProType.musician) ||
-      selectedTypes.contains(ProType.composer);
+  bool get _showInstruments => selectedTypes.contains(ProType.musician) || selectedTypes.contains(ProType.composer);
 
-  bool get _showDaws =>
-      selectedTypes.contains(ProType.soundEngineer) ||
-      selectedTypes.contains(ProType.producer);
+  bool get _showDaws => selectedTypes.contains(ProType.soundEngineer) || selectedTypes.contains(ProType.producer);
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +68,7 @@ class ProProfileFormFields extends StatelessWidget {
             labelText: l10n.proProfileDisplayName,
             prefixIcon: const Icon(Icons.badge_outlined),
           ),
-          validator: (v) =>
-              v == null || v.trim().isEmpty ? l10n.requiredField : null,
+          validator: (v) => v == null || v.trim().isEmpty ? l10n.requiredField : null,
         ),
         const SizedBox(height: 16),
 
@@ -90,32 +85,23 @@ class ProProfileFormFields extends StatelessWidget {
         const SizedBox(height: 8),
 
         // Tarif + Ville (row)
-        Row(
-          children: [
-            Expanded(
-              child: TextFormField(
-                controller: hourlyRateController,
-                decoration: InputDecoration(
-                  labelText: l10n.proProfileRate,
-                  prefixIcon:
-                      const FaIcon(FontAwesomeIcons.euroSign, size: 16),
-                  suffixText: '/h',
-                ),
-                keyboardType: TextInputType.number,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: TextFormField(
-                controller: cityController,
-                decoration: InputDecoration(
-                  labelText: l10n.proProfileCity,
-                  helperText: l10n.proProfileCityHelper,
-                  prefixIcon: const Icon(Icons.location_city),
-                ),
-              ),
-            ),
-          ],
+        TextFormField(
+          controller: hourlyRateController,
+          decoration: InputDecoration(
+            labelText: l10n.proProfileRate,
+            prefixIcon: const FaIcon(FontAwesomeIcons.euroSign, size: 16),
+            suffixText: '/h',
+          ),
+          keyboardType: TextInputType.number,
+        ),
+        const SizedBox(height: 16),
+        TextFormField(
+          controller: cityController,
+          decoration: InputDecoration(
+            labelText: l10n.proProfileCity,
+            helperText: l10n.proProfileCityHelper,
+            prefixIcon: const Icon(Icons.location_city),
+          ),
         ),
         const SizedBox(height: 16),
 
@@ -167,19 +153,13 @@ class ProProfileFormFields extends StatelessWidget {
         // Website + Phone
         TextFormField(
           controller: websiteController,
-          decoration: InputDecoration(
-            labelText: l10n.proProfileWebsite,
-            prefixIcon: const Icon(Icons.language),
-          ),
+          decoration: InputDecoration(labelText: l10n.proProfileWebsite, prefixIcon: const Icon(Icons.language)),
           keyboardType: TextInputType.url,
         ),
         const SizedBox(height: 16),
         TextFormField(
           controller: phoneController,
-          decoration: InputDecoration(
-            labelText: l10n.proProfilePhone,
-            prefixIcon: const Icon(Icons.phone_outlined),
-          ),
+          decoration: InputDecoration(labelText: l10n.proProfilePhone, prefixIcon: const Icon(Icons.phone_outlined)),
           keyboardType: TextInputType.phone,
         ),
         const SizedBox(height: 16),
@@ -251,12 +231,7 @@ class _TagFieldState extends State<_TagField> {
           children: [
             FaIcon(widget.icon, size: 14, color: theme.colorScheme.primary),
             const SizedBox(width: 8),
-            Text(
-              widget.label,
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            Text(widget.label, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
           ],
         ),
         const SizedBox(height: 8),
@@ -268,10 +243,7 @@ class _TagFieldState extends State<_TagField> {
                 decoration: InputDecoration(
                   hintText: widget.hint,
                   isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 10,
-                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 ),
                 onSubmitted: (_) => _addTag(),
               ),
@@ -295,9 +267,7 @@ class _TagFieldState extends State<_TagField> {
                 label: Text(tag, style: const TextStyle(fontSize: 13)),
                 deleteIcon: const Icon(Icons.close, size: 16),
                 onDeleted: () {
-                  widget.onChanged(
-                    widget.values.where((t) => t != tag).toList(),
-                  );
+                  widget.onChanged(widget.values.where((t) => t != tag).toList());
                 },
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 visualDensity: VisualDensity.compact,

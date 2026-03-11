@@ -5,6 +5,7 @@ import 'package:useme/core/blocs/session/session_state.dart';
 import 'package:useme/core/models/session.dart';
 import 'package:useme/screens/shared/pro/pro_bookings_received_screen.dart';
 import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/common/payment_tracking_card.dart';
 
 import '../../../helpers/test_factories.dart';
 import '../../../helpers/widget_test_helpers.dart';
@@ -165,6 +166,51 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Requests received'), findsOneWidget);
+    });
+
+    testWidgets('shows PaymentTrackingCard for confirmed session with payment',
+        (tester) async {
+      final session = makeProSession(status: SessionStatus.confirmed).copyWith(
+        paymentStatus: PaymentStatus.depositPending,
+        totalAmount: 200,
+        depositAmount: 60,
+        paymentMethodLabel: 'Virement',
+      );
+      when(() => mockSessionBloc.state)
+          .thenReturn(SessionsLoadedState(sessions: [session]));
+      await tester.pumpWidget(buildScreen());
+      await tester.pumpAndSettle();
+
+      expect(find.byType(PaymentTrackingCard), findsOneWidget);
+      expect(find.text('Mark deposit received'), findsOneWidget);
+    });
+
+    testWidgets('hides PaymentTrackingCard when no payment tracking',
+        (tester) async {
+      final session = makeProSession(status: SessionStatus.confirmed);
+      when(() => mockSessionBloc.state)
+          .thenReturn(SessionsLoadedState(sessions: [session]));
+      await tester.pumpWidget(buildScreen());
+      await tester.pumpAndSettle();
+
+      expect(find.byType(PaymentTrackingCard), findsNothing);
+    });
+
+    testWidgets('shows "Mark fully paid" when deposit already paid',
+        (tester) async {
+      final session = makeProSession(status: SessionStatus.confirmed).copyWith(
+        paymentStatus: PaymentStatus.depositPaid,
+        totalAmount: 200,
+        depositAmount: 60,
+        depositPaidAt: DateTime(2026, 5, 2),
+      );
+      when(() => mockSessionBloc.state)
+          .thenReturn(SessionsLoadedState(sessions: [session]));
+      await tester.pumpWidget(buildScreen());
+      await tester.pumpAndSettle();
+
+      expect(find.text('Mark fully paid'), findsOneWidget);
+      expect(find.text('Mark deposit received'), findsNothing);
     });
   });
 }

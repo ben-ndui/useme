@@ -10,6 +10,7 @@ import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/core/models/session.dart';
 import 'package:useme/core/services/session_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/artist/session_request/session_type_selector.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Screen to book a pro's services.
@@ -26,6 +27,7 @@ class _ProBookingScreenState extends State<ProBookingScreen> {
   final _notesController = TextEditingController();
   final _sessionService = SessionService();
 
+  final Set<SessionType> _selectedTypes = {SessionType.recording};
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
   int _durationHours = 2;
@@ -58,6 +60,15 @@ class _ProBookingScreenState extends State<ProBookingScreen> {
           _buildProHeader(theme),
           const SizedBox(height: 24),
           _buildInfoCard(theme, l10n),
+          const SizedBox(height: 24),
+          _sectionTitle(theme, l10n.sessionType),
+          const SizedBox(height: 8),
+          SessionTypeSelector(
+            selectedTypes: _selectedTypes,
+            onTypesChanged: (types) => setState(() => _selectedTypes
+              ..clear()
+              ..addAll(types)),
+          ),
           const SizedBox(height: 24),
           _buildDatePicker(theme, l10n),
           const SizedBox(height: 24),
@@ -436,7 +447,7 @@ class _ProBookingScreenState extends State<ProBookingScreen> {
         proName: _profile.displayName,
         artistIds: [authState.user.uid],
         artistNames: [authState.user.name ?? 'Artist'],
-        types: [SessionType.other],
+        types: _selectedTypes.toList(),
         status: SessionStatus.pending,
         scheduledStart: start,
         scheduledEnd: end,

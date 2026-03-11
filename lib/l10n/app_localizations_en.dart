@@ -4151,4 +4151,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get more => 'more';
+
+  @override
+  String get paymentStatusNone => 'No tracking';
+
+  @override
+  String get paymentStatusDepositPending => 'Deposit pending';
+
+  @override
+  String get paymentStatusDepositPaid => 'Deposit received';
+
+  @override
+  String get paymentStatusFullyPaid => 'Fully paid';
+
+  @override
+  String get markDepositReceived => 'Mark deposit received';
+
+  @override
+  String get markFullyPaid => 'Mark fully paid';
+
+  @override
+  String get depositReceivedSuccess => 'Deposit marked as received';
+
+  @override
+  String get fullyPaidSuccess => 'Full payment confirmed';
+
+  @override
+  String get paymentTracking => 'Payment tracking';
+
+  @override
+  String depositOf(String amount) {
+    return 'Deposit of $amount';
+  }
+
+  @override
+  String remainingToPay(String amount) {
+    return 'Remaining: $amount';
+  }
+
+  @override
+  String paidOn(String date) {
+    return 'Received on $date';
+  }
 }

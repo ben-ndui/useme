@@ -1866,5 +1866,32 @@
   "unlimitedServices": "services a-zîa pëpe",
   "tenEngineers": "10 ingénieurs",
   "unlimited": "a-zîa pëpe",
-  "more": "mbênî"
+  "more": "mbênî",
+  "paymentStatusNone": "Suivi pëpe",
+  "paymentStatusDepositPending": "Acompte a-tära",
+  "paymentStatusDepositPaid": "Acompte a-sï",
+  "paymentStatusFullyPaid": "A-fûta ôke",
+  "markDepositReceived": "Bâa acompte a-sï",
+  "markFullyPaid": "Bâa a-fûta ôke",
+  "depositReceivedSuccess": "Acompte a-bâa",
+  "fullyPaidSuccess": "Fûta ôke a-sï",
+  "paymentTracking": "Suivi tî fûta",
+  "depositOf": "Acompte tî {amount}",
+  "@depositOf": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "remainingToPay": "A-tîgî : {amount}",
+  "@remainingToPay": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "paidOn": "A-sï na {date}",
+  "@paidOn": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  }
 }

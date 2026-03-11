@@ -11,6 +11,7 @@ import 'package:useme/core/services/booking_acceptance_service.dart';
 import 'package:useme/core/services/pro_profile_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/widgets/common/payment_tracking_card.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/widgets/pro/accept_pro_booking_sheet.dart';
 
@@ -28,12 +29,19 @@ class ProBookingsReceivedScreen extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
           child: BlocConsumer<SessionBloc, SessionState>(
-        listenWhen: (prev, curr) => curr is SessionStatusUpdatedState,
+        listenWhen: (prev, curr) =>
+            curr is SessionStatusUpdatedState ||
+            curr is PaymentStatusUpdatedState,
         listener: (context, state) {
           if (state is SessionStatusUpdatedState) {
             final msg = state.newStatus == SessionStatus.confirmed
                 ? l10n.proBookingAccepted
                 : l10n.proBookingDeclined;
+            AppSnackBar.success(context, msg);
+          } else if (state is PaymentStatusUpdatedState) {
+            final msg = state.newPaymentStatus == PaymentStatus.depositPaid
+                ? l10n.depositReceivedSuccess
+                : l10n.fullyPaidSuccess;
             AppSnackBar.success(context, msg);
           }
         },
@@ -156,6 +164,17 @@ class _BookingCard extends StatelessWidget {
                 session.notes!,
               ),
             ],
+            if (session.hasPaymentTracking) ...[
+              const SizedBox(height: 12),
+              PaymentTrackingCard(
+                session: session,
+                canManage: true,
+                onMarkDepositReceived: () =>
+                    _updatePayment(context, PaymentStatus.depositPaid),
+                onMarkFullyPaid: () =>
+                    _updatePayment(context, PaymentStatus.fullyPaid),
+              ),
+            ],
             if (session.isPending) ...[
               const SizedBox(height: 16),
               _buildActions(context, l10n),
@@ -215,6 +234,13 @@ class _BookingCard extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _updatePayment(BuildContext context, PaymentStatus status) {
+    context.read<SessionBloc>().add(UpdatePaymentStatusEvent(
+          sessionId: session.id,
+          paymentStatus: status,
+        ));
   }
 
   void _decline(BuildContext context) {

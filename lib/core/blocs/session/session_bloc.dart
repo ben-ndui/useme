@@ -30,6 +30,7 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
     on<LoadProSessionsEvent>(_onLoadProSessions);
     on<UpdateSessionNotesEvent>(_onUpdateNotes);
     on<AddSessionPhotoEvent>(_onAddPhoto);
+    on<UpdatePaymentStatusEvent>(_onUpdatePaymentStatus);
     on<ClearSessionsEvent>(_onClearSessions);
   }
 
@@ -331,6 +332,39 @@ class SessionBloc extends Bloc<SessionEvent, SessionState> {
         emit(SessionErrorState(
           errorMessage: response.message,
           sessions: state.sessions,
+        ));
+      }
+    } catch (e) {
+      emit(SessionErrorState(
+        errorMessage: 'Erreur: $e',
+        sessions: state.sessions,
+      ));
+    }
+  }
+
+  Future<void> _onUpdatePaymentStatus(UpdatePaymentStatusEvent event, Emitter<SessionState> emit) async {
+    try {
+      final response = await _sessionService.updatePaymentStatus(
+        event.sessionId,
+        event.paymentStatus,
+      );
+      if (response.code == 200) {
+        final updatedSessions = state.sessions.map((s) {
+          if (s.id != event.sessionId) return s;
+          return s.copyWith(
+            paymentStatus: event.paymentStatus,
+            depositPaidAt: event.paymentStatus == PaymentStatus.depositPaid
+                ? DateTime.now()
+                : s.depositPaidAt,
+            fullyPaidAt: event.paymentStatus == PaymentStatus.fullyPaid
+                ? DateTime.now()
+                : s.fullyPaidAt,
+          );
+        }).toList();
+        emit(PaymentStatusUpdatedState(
+          sessionId: event.sessionId,
+          newPaymentStatus: event.paymentStatus,
+          sessions: updatedSessions,
         ));
       }
     } catch (e) {

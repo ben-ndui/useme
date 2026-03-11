@@ -109,11 +109,14 @@ class _ModernSessionCardState extends State<ModernSessionCard> {
                               color: Colors.white.withValues(alpha: 0.5),
                             ),
                             const SizedBox(width: 6),
-                            Text(
-                              '${dateFormat.format(widget.session.scheduledStart)} • ${timeFormat.format(widget.session.scheduledStart)}',
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.white.withValues(alpha: 0.6),
+                            Flexible(
+                              child: Text(
+                                '${dateFormat.format(widget.session.scheduledStart)} • ${timeFormat.format(widget.session.scheduledStart)}',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white.withValues(alpha: 0.6),
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
@@ -121,7 +124,11 @@ class _ModernSessionCardState extends State<ModernSessionCard> {
                       ],
                     ),
                   ),
-                  SessionStatusChip(status: widget.session.displayStatus, l10n: l10n),
+                  SessionStatusChip(
+                    status: widget.session.displayStatus,
+                    paymentStatus: widget.session.paymentStatus,
+                    l10n: l10n,
+                  ),
                 ],
               ),
             ),

@@ -1684,5 +1684,32 @@
   "unlimitedServices": "unlimited services",
   "tenEngineers": "10 engineers",
   "unlimited": "unlimited",
-  "more": "more"
+  "more": "more",
+  "paymentStatusNone": "No tracking",
+  "paymentStatusDepositPending": "Deposit pending",
+  "paymentStatusDepositPaid": "Deposit received",
+  "paymentStatusFullyPaid": "Fully paid",
+  "markDepositReceived": "Mark deposit received",
+  "markFullyPaid": "Mark fully paid",
+  "depositReceivedSuccess": "Deposit marked as received",
+  "fullyPaidSuccess": "Full payment confirmed",
+  "paymentTracking": "Payment tracking",
+  "depositOf": "Deposit of {amount}",
+  "@depositOf": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "remainingToPay": "Remaining: {amount}",
+  "@remainingToPay": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "paidOn": "Received on {date}",
+  "@paidOn": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  }
 }
