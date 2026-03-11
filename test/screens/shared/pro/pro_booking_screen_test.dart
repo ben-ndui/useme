@@ -121,6 +121,11 @@ void main() {
           .pumpWidget(buildScreen(makeProUser(remote: true)));
       await tester.pumpAndSettle();
 
+      await tester.scrollUntilVisible(
+        find.byType(SwitchListTile),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.byType(SwitchListTile), findsOneWidget);
     });
 
@@ -137,6 +142,11 @@ void main() {
       await tester.pumpWidget(buildScreen(makeProUser()));
       await tester.pumpAndSettle();
 
+      await tester.scrollUntilVisible(
+        find.byType(TextFormField),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.byType(TextFormField), findsOneWidget);
     });
 
@@ -161,10 +171,15 @@ void main() {
     });
 
     testWidgets('can change duration selection', (tester) async {
+      tester.view.physicalSize = const Size(1200, 2400);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
       await tester.pumpWidget(buildScreen(makeProUser()));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('4h'));
+      await tester.tap(find.widgetWithText(ChoiceChip, '4h'));
       await tester.pumpAndSettle();
 
       final chip = tester.widget<ChoiceChip>(

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:useme/core/services/pro_profile_service.dart';
+import 'package:useme/core/services/studio_discovery_service.dart';
 import 'pro_profile_event.dart';
 import 'pro_profile_state.dart';
 
@@ -45,6 +46,7 @@ class ProProfileBloc extends Bloc<ProProfileEvent, ProProfileState> {
     );
 
     if (result.code == 200) {
+      StudioDiscoveryService().clearCache();
       emit(state.copyWith(
         profile: result.data,
         isSaving: false,
@@ -70,6 +72,7 @@ class ProProfileBloc extends Bloc<ProProfileEvent, ProProfileState> {
     );
 
     if (result.data == true) {
+      StudioDiscoveryService().clearCache();
       emit(state.copyWith(
         profile: event.profile,
         isSaving: false,
@@ -93,6 +96,7 @@ class ProProfileBloc extends Bloc<ProProfileEvent, ProProfileState> {
     );
 
     if (result.data == true && state.profile != null) {
+      StudioDiscoveryService().clearCache();
       emit(state.copyWith(
         profile: state.profile!.copyWith(isAvailable: event.isAvailable),
       ));
