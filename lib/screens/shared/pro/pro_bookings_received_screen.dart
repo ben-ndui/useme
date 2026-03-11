@@ -34,9 +34,12 @@ class ProBookingsReceivedScreen extends StatelessWidget {
             curr is PaymentStatusUpdatedState,
         listener: (context, state) {
           if (state is SessionStatusUpdatedState) {
-            final msg = state.newStatus == SessionStatus.confirmed
-                ? l10n.proBookingAccepted
-                : l10n.proBookingDeclined;
+            final String msg;
+            if (state.newStatus == SessionStatus.confirmed) {
+              msg = l10n.proBookingAccepted;
+            } else {
+              msg = l10n.proBookingStatusCancelled;
+            }
             AppSnackBar.success(context, msg);
           } else if (state is PaymentStatusUpdatedState) {
             final msg = state.newPaymentStatus == PaymentStatus.depositPaid
@@ -179,6 +182,10 @@ class _BookingCard extends StatelessWidget {
               const SizedBox(height: 16),
               _buildActions(context, l10n),
             ],
+            if (session.isConfirmed && session.canBeCancelled) ...[
+              const SizedBox(height: 16),
+              _buildCancelButton(context, l10n),
+            ],
           ],
         ),
       ),
@@ -233,6 +240,53 @@ class _BookingCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildCancelButton(BuildContext context, AppLocalizations l10n) {
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: () => _confirmCancel(context, l10n),
+        icon: const FaIcon(FontAwesomeIcons.ban, size: 14),
+        label: Text(l10n.cancelSession),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: Colors.red,
+          side: const BorderSide(color: Colors.red),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _confirmCancel(BuildContext context, AppLocalizations l10n) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.cancelSession),
+        content: Text(l10n.confirmCancelSession),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              context.read<SessionBloc>().add(UpdateSessionStatusEvent(
+                    sessionId: session.id,
+                    status: SessionStatus.cancelled,
+                  ));
+            },
+            child: Text(
+              l10n.confirm,
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
