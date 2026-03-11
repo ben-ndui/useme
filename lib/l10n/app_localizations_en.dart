@@ -3159,6 +3159,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paymentInstructions => 'Payment instructions';
 
   @override
+  String get proProfilePhoto => 'Profile photo';
+
+  @override
+  String get proProfilePhotoDesc =>
+      'Choose the photo displayed on your pro profile';
+
+  @override
   String get proDetailPortfolio => 'Portfolio';
 
   @override

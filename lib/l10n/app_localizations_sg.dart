@@ -3144,6 +3144,12 @@ class AppLocalizationsSg extends AppLocalizations {
   String get paymentInstructions => 'Instructions tî fûta';
 
   @override
+  String get proProfilePhoto => 'Photo tî profîli';
+
+  @override
+  String get proProfilePhotoDesc => 'Lêkë photo tî pandöö na profîli pro tî mo';
+
+  @override
   String get proDetailPortfolio => 'Portfolio';
 
   @override

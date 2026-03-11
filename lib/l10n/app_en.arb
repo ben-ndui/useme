@@ -1155,6 +1155,8 @@
   "paypalEmail": "PayPal email",
   "paymentMethodName": "Payment method name",
   "paymentInstructions": "Payment instructions",
+  "proProfilePhoto": "Profile photo",
+  "proProfilePhotoDesc": "Choose the photo displayed on your pro profile",
   "proDetailPortfolio": "Portfolio",
   "proDetailPaymentMethods": "Accepted payment methods",
   "requiredField": "This field is required",

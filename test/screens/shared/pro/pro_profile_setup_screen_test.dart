@@ -41,7 +41,7 @@ void main() {
   /// Sets a tall viewport so that responsive Center+ConstrainedBox
   /// wrapping doesn't push form fields off-screen in tests.
   void useTallViewport(WidgetTester tester) {
-    tester.view.physicalSize = const Size(2400, 3600);
+    tester.view.physicalSize = const Size(2400, 6000);
     tester.view.devicePixelRatio = 3.0;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
@@ -102,12 +102,20 @@ void main() {
       // Scroll to and tap submit
       await tester.scrollUntilVisible(
         find.text('Activate my pro profile'),
-        100,
+        200,
         scrollable: find.byType(Scrollable).first,
+        maxScrolls: 50,
       );
       await tester.tap(find.text('Activate my pro profile'));
       await tester.pumpAndSettle();
 
+      // Scroll back up to see the validation error
+      await tester.scrollUntilVisible(
+        find.text('This field is required'),
+        -200,
+        scrollable: find.byType(Scrollable).first,
+        maxScrolls: 50,
+      );
       expect(find.text('This field is required'), findsOneWidget);
     });
 
@@ -130,8 +138,9 @@ void main() {
       // Scroll to and tap submit
       await tester.scrollUntilVisible(
         find.text('Activate my pro profile'),
-        100,
+        200,
         scrollable: find.byType(Scrollable).first,
+        maxScrolls: 50,
       );
       await tester.tap(find.text('Activate my pro profile'));
       await tester.pumpAndSettle();
@@ -150,6 +159,7 @@ void main() {
       await tester.pump();
       await tester.pump();
 
+      // The CircularProgressIndicator is in the submit button (offstage)
       expect(
         find.byType(CircularProgressIndicator, skipOffstage: false),
         findsOneWidget,

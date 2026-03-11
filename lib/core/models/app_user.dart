@@ -265,6 +265,14 @@ class AppUser extends BaseUser {
   /// Vérifie si l'utilisateur propose des services pro
   bool get isPro => hasProProfile && proProfile!.isAvailable;
 
+  /// Photo à afficher : profilePhotoUrl pro > photoURL > première image portfolio > null
+  String? get displayPhotoUrl =>
+      proProfile?.profilePhotoUrl ??
+      photoURL ??
+      (proProfile != null && proProfile!.portfolioUrls.isNotEmpty
+          ? proProfile!.portfolioUrls.first
+          : null);
+
   /// Nom du studio pour affichage
   String get studioDisplayName =>
       studioProfile?.name ?? displayName ?? name ?? 'Studio';

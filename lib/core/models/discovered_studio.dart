@@ -74,7 +74,9 @@ class DiscoveredStudio {
       ),
       rating: json['rating']?.toDouble(),
       reviewCount: json['reviewCount'],
-      photoUrl: json['photoURL'] ?? json['photoUrl'],
+      photoUrl: json['photoURL'] ??
+          json['photoUrl'] ??
+          _firstPhoto(json['studioProfile']),
       phoneNumber: json['phoneNumber'],
       website: json['website'],
       isPartner: true,
@@ -111,6 +113,16 @@ class DiscoveredStudio {
       return '${distanceMeters!.round()} m';
     }
     return '${(distanceMeters! / 1000).toStringAsFixed(1)} km';
+  }
+
+  static String? _firstPhoto(dynamic studioProfile) {
+    if (studioProfile is Map) {
+      final photos = studioProfile['photos'];
+      if (photos is List && photos.isNotEmpty) {
+        return photos.first?.toString();
+      }
+    }
+    return null;
   }
 
   static String _buildPhotoUrl(String photoReference) {

@@ -5962,6 +5962,18 @@ abstract class AppLocalizations {
   /// **'Instructions de paiement'**
   String get paymentInstructions;
 
+  /// No description provided for @proProfilePhoto.
+  ///
+  /// In fr, this message translates to:
+  /// **'Photo de profil'**
+  String get proProfilePhoto;
+
+  /// No description provided for @proProfilePhotoDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisissez la photo affichee sur votre profil pro'**
+  String get proProfilePhotoDesc;
+
   /// No description provided for @proDetailPortfolio.
   ///
   /// In fr, this message translates to:

@@ -391,6 +391,53 @@ void main() {
     });
   });
 
+  group('displayPhotoUrl', () {
+    test('returns profilePhotoUrl when set on proProfile', () {
+      final user = artistUser.copyWith(
+        proProfile: const ProProfile(
+          displayName: 'X',
+          profilePhotoUrl: 'https://example.com/chosen.jpg',
+          portfolioUrls: ['https://example.com/p1.jpg'],
+        ),
+      );
+      expect(user.displayPhotoUrl, 'https://example.com/chosen.jpg');
+    });
+
+    test('returns photoURL when no profilePhotoUrl', () {
+      const user = AppUser(
+        uid: 'u',
+        email: 'e',
+        photoURL: 'https://example.com/account.jpg',
+        proProfile: ProProfile(
+          displayName: 'X',
+          portfolioUrls: ['https://example.com/p1.jpg'],
+        ),
+      );
+      expect(user.displayPhotoUrl, 'https://example.com/account.jpg');
+    });
+
+    test('returns first portfolio url when no photoURL or profilePhotoUrl', () {
+      const user = AppUser(
+        uid: 'u',
+        email: 'e',
+        proProfile: ProProfile(
+          displayName: 'X',
+          portfolioUrls: ['https://example.com/p1.jpg', 'https://example.com/p2.jpg'],
+        ),
+      );
+      expect(user.displayPhotoUrl, 'https://example.com/p1.jpg');
+    });
+
+    test('returns null when no photos at all', () {
+      expect(artistUser.displayPhotoUrl, isNull);
+    });
+
+    test('returns null when no proProfile and no photoURL', () {
+      const user = AppUser(uid: 'u', email: 'e');
+      expect(user.displayPhotoUrl, isNull);
+    });
+  });
+
   group('hasDevMasterAccess', () {
     test('true when superAdmin with isDevMaster flag', () {
       expect(superAdmin.hasDevMasterAccess, isTrue);

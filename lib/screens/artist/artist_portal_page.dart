@@ -74,7 +74,7 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
                 floatingBottomPadding: bottomPadding,
                 floatButtons: [
                   Container(
-                    margin: EdgeInsets.only(bottom: isWide ? 8 : 30),
+                    margin: EdgeInsets.only(bottom: isWide ? 8 : 10),
                     child: FloatingActionButton.extended(
                       heroTag: 'book',
                       onPressed: () =>

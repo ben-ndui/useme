@@ -76,6 +76,9 @@ class ProProfile extends Equatable {
   /// Position GPS
   final GeoPoint? location;
 
+  /// Photo de profil choisie (parmi portfolio ou photo de compte)
+  final String? profilePhotoUrl;
+
   /// Photos / portfolio
   final List<String> portfolioUrls;
 
@@ -119,6 +122,7 @@ class ProProfile extends Equatable {
     this.remote = false,
     this.city,
     this.location,
+    this.profilePhotoUrl,
     this.portfolioUrls = const [],
     this.website,
     this.phone,
@@ -161,6 +165,7 @@ class ProProfile extends Equatable {
       remote: map['remote'] ?? false,
       city: map['city'],
       location: loc,
+      profilePhotoUrl: map['profilePhotoUrl'],
       portfolioUrls: List<String>.from(map['portfolioUrls'] ?? []),
       website: map['website'],
       phone: map['phone'],
@@ -197,6 +202,7 @@ class ProProfile extends Equatable {
       'remote': remote,
       'city': city,
       'location': location,
+      'profilePhotoUrl': profilePhotoUrl,
       'portfolioUrls': portfolioUrls,
       'website': website,
       'phone': phone,
@@ -224,6 +230,7 @@ class ProProfile extends Equatable {
     bool? remote,
     String? city,
     GeoPoint? location,
+    String? profilePhotoUrl,
     List<String>? portfolioUrls,
     String? website,
     String? phone,
@@ -248,6 +255,7 @@ class ProProfile extends Equatable {
       remote: remote ?? this.remote,
       city: city ?? this.city,
       location: location ?? this.location,
+      profilePhotoUrl: profilePhotoUrl ?? this.profilePhotoUrl,
       portfolioUrls: portfolioUrls ?? this.portfolioUrls,
       website: website ?? this.website,
       phone: phone ?? this.phone,
@@ -315,6 +323,7 @@ class ProProfile extends Equatable {
         remote,
         city,
         location,
+        profilePhotoUrl,
         portfolioUrls,
         rating,
         isVerified,

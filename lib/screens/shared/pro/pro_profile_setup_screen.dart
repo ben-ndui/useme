@@ -12,6 +12,7 @@ import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/widgets/pro/pro_payment_methods_form.dart';
 import 'package:useme/widgets/pro/pro_portfolio_picker.dart';
+import 'package:useme/widgets/pro/pro_profile_photo_picker.dart';
 import 'pro_type_selector.dart';
 import 'pro_profile_form_fields.dart';
 
@@ -42,6 +43,15 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
   bool _isEditing = false;
   List<String> _portfolioUrls = [];
   List<PaymentMethod> _paymentMethods = [];
+  String? _profilePhotoUrl;
+
+  String? get _accountPhotoUrl {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticatedState) {
+      return authState.user.photoURL;
+    }
+    return null;
+  }
 
   @override
   void initState() {
@@ -84,6 +94,7 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
       _isAvailable = profile.isAvailable;
       _portfolioUrls = List.from(profile.portfolioUrls);
       _paymentMethods = List.from(profile.paymentMethods);
+      _profilePhotoUrl = profile.profilePhotoUrl;
     });
   }
 
@@ -166,8 +177,25 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
                   ProPortfolioPicker(
                     userId: userId,
                     portfolioUrls: _portfolioUrls,
-                    onChanged: (urls) =>
-                        setState(() => _portfolioUrls = urls),
+                    onChanged: (urls) {
+                      setState(() {
+                        _portfolioUrls = urls;
+                        // Reset profile photo if the selected one was removed
+                        if (_profilePhotoUrl != null &&
+                            !urls.contains(_profilePhotoUrl) &&
+                            _profilePhotoUrl != _accountPhotoUrl) {
+                          _profilePhotoUrl = null;
+                        }
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 24),
+                  ProProfilePhotoPicker(
+                    accountPhotoUrl: _accountPhotoUrl,
+                    portfolioUrls: _portfolioUrls,
+                    selectedUrl: _profilePhotoUrl,
+                    onChanged: (url) =>
+                        setState(() => _profilePhotoUrl = url),
                   ),
                   const SizedBox(height: 24),
                   ProPaymentMethodsForm(
@@ -293,6 +321,7 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
           : _phoneController.text.trim(),
       remote: _remote,
       isAvailable: _isAvailable,
+      profilePhotoUrl: _profilePhotoUrl,
       portfolioUrls: _portfolioUrls,
       paymentMethods: _paymentMethods,
     );

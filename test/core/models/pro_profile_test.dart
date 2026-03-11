@@ -46,6 +46,7 @@ void main() {
         expect(minimalProfile.daws, isEmpty);
         expect(minimalProfile.portfolioUrls, isEmpty);
         expect(minimalProfile.paymentMethods, isEmpty);
+        expect(minimalProfile.profilePhotoUrl, isNull);
         expect(minimalProfile.currency, 'EUR');
         expect(minimalProfile.remote, isFalse);
         expect(minimalProfile.isVerified, isFalse);
@@ -394,6 +395,55 @@ void main() {
         expect(restored.paymentMethods.first.details, 'FR7612345');
         expect(restored.paymentMethods.first.bic, 'BNPAFRPP');
         expect(restored.paymentMethods.first.accountHolder, 'Jean Pro');
+      });
+    });
+
+    group('profilePhotoUrl', () {
+      test('defaults to null', () {
+        expect(minimalProfile.profilePhotoUrl, isNull);
+      });
+
+      test('fromMap parses profilePhotoUrl', () {
+        final profile = ProProfile.fromMap({
+          'displayName': 'X',
+          'profilePhotoUrl': 'https://example.com/photo.jpg',
+        });
+        expect(profile.profilePhotoUrl, 'https://example.com/photo.jpg');
+      });
+
+      test('toMap serializes profilePhotoUrl', () {
+        const profile = ProProfile(
+          displayName: 'X',
+          profilePhotoUrl: 'https://example.com/photo.jpg',
+        );
+        final map = profile.toMap();
+        expect(map['profilePhotoUrl'], 'https://example.com/photo.jpg');
+      });
+
+      test('toMap serializes null profilePhotoUrl', () {
+        const profile = ProProfile(displayName: 'X');
+        final map = profile.toMap();
+        expect(map['profilePhotoUrl'], isNull);
+      });
+
+      test('copyWith updates profilePhotoUrl', () {
+        final updated = minimalProfile.copyWith(
+          profilePhotoUrl: 'https://example.com/new.jpg',
+        );
+        expect(updated.profilePhotoUrl, 'https://example.com/new.jpg');
+        expect(updated.displayName, 'DJ Test');
+      });
+
+      test('round-trip preserves profilePhotoUrl', () {
+        const original = ProProfile(
+          displayName: 'X',
+          profilePhotoUrl: 'https://example.com/photo.jpg',
+          portfolioUrls: ['https://example.com/p1.jpg'],
+        );
+        final map = original.toMap();
+        map.remove('activatedAt');
+        final restored = ProProfile.fromMap(map);
+        expect(restored.profilePhotoUrl, 'https://example.com/photo.jpg');
       });
     });
 

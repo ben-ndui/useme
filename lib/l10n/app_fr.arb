@@ -1347,6 +1347,8 @@
   "paypalEmail": "Email PayPal",
   "paymentMethodName": "Nom du moyen de paiement",
   "paymentInstructions": "Instructions de paiement",
+  "proProfilePhoto": "Photo de profil",
+  "proProfilePhotoDesc": "Choisissez la photo affichee sur votre profil pro",
   "proDetailPortfolio": "Portfolio",
   "proDetailPaymentMethods": "Moyens de paiement acceptes",
   "requiredField": "Ce champ est requis",

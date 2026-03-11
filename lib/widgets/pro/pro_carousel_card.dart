@@ -48,9 +48,9 @@ class ProCarouselCard extends StatelessWidget {
   }
 
   Widget _buildBackground(dynamic profile) {
-    if (user.photoURL != null) {
+    if (user.displayPhotoUrl != null) {
       return Image.network(
-        user.photoURL!,
+        user.displayPhotoUrl!,
         fit: BoxFit.cover,
         errorBuilder: (_, __, ___) => _buildPlaceholder(profile),
       );
@@ -198,7 +198,7 @@ class ProCarouselCard extends StatelessWidget {
               targetId: user.uid,
               type: FavoriteType.pro,
               targetName: user.proProfile!.displayName,
-              targetPhotoUrl: user.photoURL,
+              targetPhotoUrl: user.displayPhotoUrl,
               targetAddress: user.proProfile!.city,
               size: 16,
             ),

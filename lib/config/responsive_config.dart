@@ -96,7 +96,7 @@ class Responsive {
 
   /// Padding pour les FAB au-dessus de la navbar flottante
   /// = floatingNavHeight + 8px de marge de securite
-  static const double fabBottomOffset = 80;
+  static const double fabBottomOffset = 100;
 }
 
 /// Widget builder responsive

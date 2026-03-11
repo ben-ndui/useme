@@ -1338,6 +1338,8 @@
   "paypalEmail": "Email PayPal",
   "paymentMethodName": "Ïrï tî lêgë tî fûta",
   "paymentInstructions": "Instructions tî fûta",
+  "proProfilePhoto": "Photo tî profîli",
+  "proProfilePhotoDesc": "Lêkë photo tî pandöö na profîli pro tî mo",
   "proDetailPortfolio": "Portfolio",
   "proDetailPaymentMethods": "Lêgë tî fûta tî sï",
   "requiredField": "Ndö sô a-lîngbi",

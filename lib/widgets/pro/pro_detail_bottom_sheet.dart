@@ -129,7 +129,7 @@ class ProDetailBottomSheet extends StatelessWidget {
                       targetId: user.uid,
                       type: FavoriteType.pro,
                       targetName: _profile.displayName,
-                      targetPhotoUrl: user.photoURL,
+                      targetPhotoUrl: user.displayPhotoUrl,
                       targetAddress: _profile.city,
                     ),
                   ],
@@ -178,9 +178,9 @@ class ProDetailBottomSheet extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: theme.colorScheme.primaryContainer,
-        image: user.photoURL != null
+        image: user.displayPhotoUrl != null
             ? DecorationImage(
-                image: NetworkImage(user.photoURL!),
+                image: NetworkImage(user.displayPhotoUrl!),
                 fit: BoxFit.cover,
                 onError: (_, __) {},
               )
@@ -470,7 +470,7 @@ class ProDetailBottomSheet extends StatelessWidget {
 
     final otherUserInfo = ParticipantInfo(
       name: _profile.displayName,
-      avatarUrl: user.photoURL,
+      avatarUrl: user.displayPhotoUrl,
       role: user.role.useMeLabel,
     );
 
