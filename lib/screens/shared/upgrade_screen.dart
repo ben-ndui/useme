@@ -12,6 +12,7 @@ import 'package:useme/screens/shared/upgrade_screen_actions.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/widgets/studio/upgrade/period_button.dart';
+import 'package:useme/widgets/studio/upgrade/subscription_legal_footer.dart';
 import 'package:useme/widgets/studio/upgrade/tier_pricing_card.dart';
 import 'package:useme/core/utils/app_logger.dart';
 
@@ -171,16 +172,21 @@ class _UpgradeScreenState extends State<UpgradeScreen>
                 Expanded(
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: tiers.length,
-                    itemBuilder: (ctx, i) => TierPricingCard(
-                      tier: tiers[i],
-                      isYearly: _showYearly,
-                      isCurrentTier: isCurrentTier(tiers[i].id),
-                      isRecommended: tiers[i].id == 'pro',
-                      iapPrice: getIAPPrice(tiers[i].id),
-                      onSelect:
-                          _isLoading ? null : () => selectTier(tiers[i]),
-                    ),
+                    itemCount: tiers.length + 1,
+                    itemBuilder: (ctx, i) {
+                      if (i < tiers.length) {
+                        return TierPricingCard(
+                          tier: tiers[i],
+                          isYearly: _showYearly,
+                          isCurrentTier: isCurrentTier(tiers[i].id),
+                          isRecommended: tiers[i].id == 'pro',
+                          iapPrice: getIAPPrice(tiers[i].id),
+                          onSelect:
+                              _isLoading ? null : () => selectTier(tiers[i]),
+                        );
+                      }
+                      return const SubscriptionLegalFooter();
+                    },
                   ),
                 ),
               ],

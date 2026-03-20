@@ -16,11 +16,11 @@ class StudioDetailBottomSheet extends StatelessWidget {
 
   const StudioDetailBottomSheet({super.key, required this.studio});
 
-  static void show(BuildContext context, DiscoveredStudio studio) {
+  static Future<void> show(BuildContext context, DiscoveredStudio studio) {
     final authBloc = context.read<AuthBloc>();
     final favoriteBloc = context.read<FavoriteBloc>();
 
-    showModalBottomSheet(
+    return showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:useme/core/blocs/map/map_event.dart';
 import 'package:useme/core/blocs/map/map_state.dart';
+import 'package:useme/core/models/discovered_studio.dart';
 import 'package:useme/core/services/location_service.dart';
 import 'package:useme/core/services/studio_discovery_service.dart';
 
@@ -102,6 +103,27 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     add(LoadNearbyStudiosEvent(position: state.userLocation));
   }
 
+  /// Try to find a studio matching the query by name in already-loaded studios.
+  DiscoveredStudio? _findStudioByName(String query) {
+    final q = query.toLowerCase().trim();
+    if (q.isEmpty) return null;
+
+    // Exact match first
+    for (final studio in state.nearbyStudios) {
+      if (studio.name.toLowerCase() == q) return studio;
+    }
+
+    // Then contains match
+    for (final studio in state.nearbyStudios) {
+      if (studio.name.toLowerCase().contains(q) ||
+          q.contains(studio.name.toLowerCase())) {
+        return studio;
+      }
+    }
+
+    return null;
+  }
+
   Future<void> _onSearchByAddress(
     SearchByAddressEvent event,
     Emitter<MapState> emit,
@@ -111,6 +133,18 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       clearError: true,
       searchQuery: event.address,
     ));
+
+    // Check if query matches a studio already on the map
+    final matchedStudio = _findStudioByName(event.address);
+    if (matchedStudio != null) {
+      emit(state.copyWith(
+        isSearchingAddress: false,
+        searchCenter: matchedStudio.position,
+        selectedStudio: matchedStudio,
+        hasCameraMoved: false,
+      ));
+      return;
+    }
 
     try {
       final position = await _studioService.geocodeAddress(event.address);

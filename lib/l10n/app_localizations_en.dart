@@ -4201,4 +4201,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String paidOn(String date) {
     return 'Received on $date';
   }
+
+  @override
+  String get subscriptionAutoRenewNotice =>
+      'Subscriptions auto-renew. You can cancel at any time.';
+
+  @override
+  String get subscriptionLegalFooter =>
+      'By subscribing, you agree to our Terms of Use and Privacy Policy.';
 }

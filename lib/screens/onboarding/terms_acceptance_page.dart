@@ -21,8 +21,8 @@ class TermsAcceptancePage extends StatefulWidget {
 
 class _TermsAcceptancePageState extends State<TermsAcceptancePage>
     with SingleTickerProviderStateMixin {
-  static const String _termsUrl = 'https://useme.app/terms';
-  static const String _privacyUrl = 'https://useme.app/privacy';
+  static const String _termsUrl = 'https://uzme.app/terms';
+  static const String _privacyUrl = 'https://uzme.app/privacy';
 
   late AnimationController _floatController;
 

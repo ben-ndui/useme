@@ -36,12 +36,24 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
     _loadArtistData();
   }
 
+  void _openStudioDetail(BuildContext ctx, DiscoveredStudio studio) async {
+    if (studio.isPro) {
+      await _showProDetail(ctx, studio);
+    } else {
+      await StudioDetailBottomSheet.show(ctx, studio);
+    }
+    // Deselect so the same studio can be tapped/searched again
+    if (ctx.mounted) {
+      ctx.read<MapBloc>().add(const DeselectStudioEvent());
+    }
+  }
+
   Future<void> _showProDetail(BuildContext ctx, DiscoveredStudio studio) async {
     final userId = studio.proUserId;
     if (userId == null) return;
     final user = await ProProfileService().getProUser(userId);
     if (user != null && ctx.mounted) {
-      ProDetailBottomSheet.show(ctx, user);
+      await ProDetailBottomSheet.show(ctx, user);
     }
   }
 
@@ -65,21 +77,20 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
 
     return BlocProvider(
       create: (context) => MapBloc(),
-      child: Scaffold(
+      child: BlocListener<MapBloc, MapState>(
+        listenWhen: (prev, curr) =>
+            prev.selectedStudio != curr.selectedStudio &&
+            curr.selectedStudio != null,
+        listener: (context, state) {
+          _openStudioDetail(context, state.selectedStudio!);
+        },
+        child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: _buildAppBar(theme, l10n, context),
         body: Stack(
           children: [
             Positioned.fill(
-              child: StudioMapView(
-                onStudioTap: (studio) {
-                  if (studio.isPro) {
-                    _showProDetail(context, studio);
-                  } else {
-                    StudioDetailBottomSheet.show(context, studio);
-                  }
-                },
-              ),
+              child: const StudioMapView(),
             ),
             SlideInUp(
               duration: const Duration(milliseconds: 600),
@@ -107,6 +118,7 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
             ),
           ],
         ),
+      ),
       ),
     );
   }

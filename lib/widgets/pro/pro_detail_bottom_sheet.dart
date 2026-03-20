@@ -21,12 +21,12 @@ class ProDetailBottomSheet extends StatelessWidget {
 
   ProProfile get _profile => user.proProfile!;
 
-  static void show(BuildContext context, AppUser user) {
+  static Future<void> show(BuildContext context, AppUser user) {
     final authBloc = context.read<AuthBloc>();
     final messagingBloc = context.read<MessagingBloc>();
     final favoriteBloc = context.read<FavoriteBloc>();
 
-    showModalBottomSheet(
+    return showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,

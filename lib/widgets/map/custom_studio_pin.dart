@@ -8,17 +8,46 @@ import 'package:useme/config/useme_theme.dart';
 /// Custom map pin generator for studios - adapted from Viba
 class CustomStudioPin {
   /// Create a pin with studio image
+  ///
+  /// When [isSelected] is true, the pin is drawn larger with a bright
+  /// glow ring to highlight it on the map.
   static Future<BitmapDescriptor> createPinWithImage({
     required String? imageUrl,
     Color pinColor = UseMeTheme.primaryColor,
     double size = 80,
+    bool isSelected = false,
   }) async {
+    // Selected pins are 30% larger with a glow ring
+    final double effectiveSize = isSelected ? size * 1.3 : size;
+    final double glowPadding = isSelected ? effectiveSize * 0.12 : 0;
+    final double totalSize = effectiveSize + glowPadding * 2;
+
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
-    final double shadowWidth = size / 20;
-    final double pinWidth = size * 0.8;
-    final double pinHeight = size;
-    final double imageSize = size * 0.55;
+
+    // Offset drawing to leave room for the glow
+    if (isSelected) canvas.translate(glowPadding, glowPadding);
+
+    final double shadowWidth = effectiveSize / 20;
+    final double pinWidth = effectiveSize * 0.8;
+    final double pinHeight = effectiveSize;
+    final double imageSize = effectiveSize * 0.55;
+
+    // Draw glow ring behind pin when selected
+    if (isSelected) {
+      final Paint glowPaint = Paint()
+        ..color = Colors.white.withValues(alpha: 0.7)
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, glowPadding);
+
+      final Path glowPath = Path()
+        ..addRRect(RRect.fromRectAndRadius(
+          Rect.fromLTWH(-glowPadding / 2, -glowPadding / 2,
+              pinWidth + glowPadding, pinHeight * 0.75 + glowPadding),
+          Radius.circular(pinWidth * 0.25),
+        ));
+
+      canvas.drawPath(glowPath, glowPaint);
+    }
 
     // Draw shadow
     final Paint shadowPaint = Paint()
@@ -138,9 +167,10 @@ class CustomStudioPin {
     }
 
     // Convert to image
+    final int canvasSize = totalSize.toInt();
     final ui.Image finalImage = await pictureRecorder.endRecording().toImage(
-          size.toInt(),
-          size.toInt(),
+          canvasSize,
+          canvasSize,
         );
 
     final ByteData? byteData =

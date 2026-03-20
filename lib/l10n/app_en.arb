@@ -1720,5 +1720,8 @@
     "placeholders": {
       "date": {"type": "String"}
     }
-  }
+  },
+
+  "subscriptionAutoRenewNotice": "Subscriptions auto-renew. You can cancel at any time.",
+  "subscriptionLegalFooter": "By subscribing, you agree to our Terms of Use and Privacy Policy."
 }

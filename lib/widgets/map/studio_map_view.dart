@@ -38,6 +38,10 @@ class _StudioMapViewState extends State<StudioMapView> {
   BitmapDescriptor? _proPin;
   final Map<String, BitmapDescriptor> _studioPins = {};
 
+  // Selected studio pin (regenerated on selection change)
+  String? _selectedStudioId;
+  BitmapDescriptor? _selectedStudioPin;
+
   @override
   void initState() {
     super.initState();
@@ -111,16 +115,22 @@ class _StudioMapViewState extends State<StudioMapView> {
         final studiosLoaded = previous.isLoading && !current.isLoading;
         // Or when new studios are available
         final newStudios = previous.nearbyStudios.length != current.nearbyStudios.length;
-        return searchCompleted || studiosLoaded || newStudios;
+        // Or when selected studio changes (select or deselect)
+        final selectionChanged =
+            previous.selectedStudio != current.selectedStudio;
+        return searchCompleted || studiosLoaded || newStudios || selectionChanged;
       },
       listener: (context, state) {
         // Avoid using controller after widget is disposed
         if (!mounted || _isControllerDisposed) return;
 
-        // Animate to search center when a search completes
         if (_mapController != null && !state.isSearchingAddress) {
-          _safeAnimateCamera(state.searchCenter, 13);
+          // Zoom tighter on selected studio, wider on area search
+          final zoom = state.selectedStudio != null ? 16.0 : 13.0;
+          _safeAnimateCamera(state.searchCenter, zoom);
         }
+        // Update highlighted pin for selected / deselected studio
+        _updateSelectedPin(state.selectedStudio);
         // Load custom pins for new studios
         if (mounted) _loadStudioPins(state.nearbyStudios);
       },
@@ -184,6 +194,32 @@ class _StudioMapViewState extends State<StudioMapView> {
     if (studio.isPro) return UseMeTheme.accentColor;
     if (studio.isPartner) return Colors.green;
     return UseMeTheme.primaryColor;
+  }
+
+  /// Generate a highlighted pin for the selected studio.
+  Future<void> _updateSelectedPin(DiscoveredStudio? studio) async {
+    if (studio == null) {
+      if (_selectedStudioId != null) {
+        setState(() {
+          _selectedStudioId = null;
+          _selectedStudioPin = null;
+        });
+      }
+      return;
+    }
+    if (studio.id == _selectedStudioId) return;
+
+    final pin = await CustomStudioPin.createPinWithImage(
+      imageUrl: studio.photoUrl,
+      pinColor: _pinColor(studio),
+      isSelected: true,
+    );
+    if (mounted) {
+      setState(() {
+        _selectedStudioId = studio.id;
+        _selectedStudioPin = pin;
+      });
+    }
   }
 
   Future<void> _loadStudioPins(List<DiscoveredStudio> studios) async {
@@ -258,9 +294,12 @@ class _StudioMapViewState extends State<StudioMapView> {
     final markers = <Marker>{};
 
     for (final studio in state.filteredStudios) {
-      // Get custom pin or fallback to cached default
+      // Use highlighted pin for the selected studio
+      final isSelected = studio.id == _selectedStudioId;
       BitmapDescriptor icon;
-      if (_studioPins.containsKey(studio.id)) {
+      if (isSelected && _selectedStudioPin != null) {
+        icon = _selectedStudioPin!;
+      } else if (_studioPins.containsKey(studio.id)) {
         icon = _studioPins[studio.id]!;
       } else if (studio.isPro && _proPin != null) {
         icon = _proPin!;

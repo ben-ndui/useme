@@ -4184,4 +4184,12 @@ class AppLocalizationsSg extends AppLocalizations {
   String paidOn(String date) {
     return 'A-sï na $date';
   }
+
+  @override
+  String get subscriptionAutoRenewNotice =>
+      'Les abonnements se renouvellent automatiquement. Vous pouvez annuler à tout moment.';
+
+  @override
+  String get subscriptionLegalFooter =>
+      'En vous abonnant, vous acceptez nos Conditions d\'utilisation et notre Politique de confidentialité.';
 }

@@ -7875,6 +7875,18 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Reçu le {date}'**
   String paidOn(String date);
+
+  /// No description provided for @subscriptionAutoRenewNotice.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les abonnements se renouvellent automatiquement. Vous pouvez annuler à tout moment.'**
+  String get subscriptionAutoRenewNotice;
+
+  /// No description provided for @subscriptionLegalFooter.
+  ///
+  /// In fr, this message translates to:
+  /// **'En vous abonnant, vous acceptez nos Conditions d\'utilisation et notre Politique de confidentialité.'**
+  String get subscriptionLegalFooter;
 }
 
 class _AppLocalizationsDelegate

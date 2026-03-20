@@ -1912,5 +1912,8 @@
     "placeholders": {
       "date": {"type": "String"}
     }
-  }
+  },
+
+  "subscriptionAutoRenewNotice": "Les abonnements se renouvellent automatiquement. Vous pouvez annuler à tout moment.",
+  "subscriptionLegalFooter": "En vous abonnant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité."
 }

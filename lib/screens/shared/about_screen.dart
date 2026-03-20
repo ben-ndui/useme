@@ -105,19 +105,19 @@ class _AboutScreenState extends State<AboutScreen> {
             context,
             icon: FontAwesomeIcons.fileContract,
             title: l10n.termsOfService,
-            onTap: () => _openUrl('https://useme.app/terms'),
+            onTap: () => _openUrl('https://uzme.app/terms'),
           ),
           _buildTile(
             context,
             icon: FontAwesomeIcons.shieldHalved,
             title: l10n.privacyPolicy,
-            onTap: () => _openUrl('https://useme.app/privacy'),
+            onTap: () => _openUrl('https://uzme.app/privacy'),
           ),
           _buildTile(
             context,
             icon: FontAwesomeIcons.scaleBalanced,
             title: l10n.legalNotices,
-            onTap: () => _openUrl('https://useme.app/legal'),
+            onTap: () => _openUrl('https://uzme.app/legal'),
           ),
 
           const Divider(height: 32),
@@ -128,7 +128,7 @@ class _AboutScreenState extends State<AboutScreen> {
             context,
             icon: FontAwesomeIcons.circleQuestion,
             title: l10n.helpCenter,
-            onTap: () => _openUrl('https://useme.app/help'),
+            onTap: () => _openUrl('https://uzme.app/help'),
           ),
           _buildTile(
             context,
