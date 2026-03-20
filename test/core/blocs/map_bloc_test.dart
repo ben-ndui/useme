@@ -147,6 +147,91 @@ void main() {
     );
   });
 
+  group('SearchByAddressEvent - studio name match', () {
+    blocTest<MapBloc, MapState>(
+      'matches exact studio name without geocoding',
+      build: buildBloc,
+      seed: () => MapState(nearbyStudios: [testStudio, nonPartnerStudio]),
+      act: (bloc) =>
+          bloc.add(const SearchByAddressEvent(address: 'Cool Studio')),
+      expect: () => [
+        // Searching
+        isA<MapState>()
+            .having((s) => s.isSearchingAddress, 'searching', true)
+            .having((s) => s.searchQuery, 'query', 'Cool Studio'),
+        // Matched studio directly — no geocoding needed
+        isA<MapState>()
+            .having((s) => s.isSearchingAddress, 'done', false)
+            .having((s) => s.selectedStudio?.id, 'selected', 'studio-1')
+            .having(
+                (s) => s.searchCenter, 'center', testStudio.position),
+      ],
+      verify: (_) {
+        // geocodeAddress should NOT have been called
+        verifyNever(() => mockStudioService.geocodeAddress(any()));
+      },
+    );
+
+    blocTest<MapBloc, MapState>(
+      'matches studio name with partial/contains query',
+      build: buildBloc,
+      seed: () => MapState(nearbyStudios: [testStudio, nonPartnerStudio]),
+      act: (bloc) =>
+          bloc.add(const SearchByAddressEvent(address: 'Cool')),
+      expect: () => [
+        isA<MapState>().having((s) => s.isSearchingAddress, 'searching', true),
+        isA<MapState>()
+            .having((s) => s.isSearchingAddress, 'done', false)
+            .having((s) => s.selectedStudio?.id, 'selected', 'studio-1'),
+      ],
+      verify: (_) {
+        verifyNever(() => mockStudioService.geocodeAddress(any()));
+      },
+    );
+
+    blocTest<MapBloc, MapState>(
+      'falls back to geocoding when no studio name matches',
+      build: () {
+        when(() => mockStudioService.geocodeAddress('Marseille'))
+            .thenAnswer((_) async => lyonPosition);
+        when(() => mockStudioService.findNearbyStudios(
+              any(),
+              radius: any(named: 'radius'),
+            )).thenAnswer((_) async => [testStudio]);
+        return buildBloc();
+      },
+      seed: () => MapState(nearbyStudios: [testStudio]),
+      act: (bloc) =>
+          bloc.add(const SearchByAddressEvent(address: 'Marseille')),
+      wait: const Duration(milliseconds: 100),
+      expect: () => [
+        isA<MapState>().having((s) => s.isSearchingAddress, 'searching', true),
+        // Geocoded result (not a name match)
+        isA<MapState>()
+            .having((s) => s.isSearchingAddress, 'done', false)
+            .having((s) => s.searchCenter, 'center', lyonPosition),
+        isA<MapState>().having((s) => s.isLoading, 'loading', true),
+        isA<MapState>().having((s) => s.isLoading, 'done', false),
+      ],
+      verify: (_) {
+        verify(() => mockStudioService.geocodeAddress('Marseille')).called(1);
+      },
+    );
+
+    blocTest<MapBloc, MapState>(
+      'name match is case-insensitive',
+      build: buildBloc,
+      seed: () => MapState(nearbyStudios: [testStudio]),
+      act: (bloc) =>
+          bloc.add(const SearchByAddressEvent(address: 'cool studio')),
+      expect: () => [
+        isA<MapState>().having((s) => s.isSearchingAddress, 'searching', true),
+        isA<MapState>()
+            .having((s) => s.selectedStudio?.id, 'selected', 'studio-1'),
+      ],
+    );
+  });
+
   group('UpdateSearchCenterEvent', () {
     blocTest<MapBloc, MapState>(
       'detects camera moved when position changes',

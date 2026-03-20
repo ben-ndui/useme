@@ -8,17 +8,20 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **Discover map for Studio & Engineer** — "Explorez la carte" button on dashboards opens shared map view (`/discover`)
 - Studio name search on map — matches loaded studios before geocoding
 - Selected studio highlighted on map with larger pin + glow ring
 - `SubscriptionLegalFooter` widget (Apple App Store compliance 3.1.2)
 - Auto-renew notice + Terms/Privacy links on upgrade screen
 - Localization strings: `subscriptionAutoRenewNotice`, `subscriptionLegalFooter` (EN/FR/SG)
+- Tests for studio name search matching (exact, partial, case-insensitive, fallback to geocoding)
 
 ### Changed
 - `StudioDetailBottomSheet.show()` and `ProDetailBottomSheet.show()` now return `Future<void>`
 - Artist portal opens studio detail via `BlocListener` (supports search-triggered selection)
 - Map zooms to 16 on selected studio, 13 on area search
 - Custom pin deselects visually when tapping elsewhere on the map
+- Studio quick access: replaced "Stats" (no-op) with "Explorez la carte"
 
 ### Fixed
 - Legal URLs corrected from `useme.app` to `uzme.app` (terms, privacy, legal, help)

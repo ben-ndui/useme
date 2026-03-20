@@ -32,9 +32,9 @@ class StudioQuickAccess extends StatelessWidget {
         onTap: () => context.push(AppRoutes.sessions),
       ),
       DashboardQuickPill(
-        icon: FontAwesomeIcons.chartLine,
-        label: l10n.stats,
-        onTap: () {},
+        icon: FontAwesomeIcons.mapLocationDot,
+        label: l10n.exploreStudiosTitle,
+        onTap: () => context.push(AppRoutes.discoverMap),
       ),
     ];
 

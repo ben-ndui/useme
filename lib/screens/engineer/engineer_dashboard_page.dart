@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/routing/app_routes.dart';
+import 'package:useme/widgets/common/dashboard/dashboard_exports.dart';
 import 'package:useme/widgets/engineer/dashboard/engineer_dashboard_exports.dart';
 
 /// Engineer dashboard - Clean dashboard with today's sessions
@@ -40,6 +44,16 @@ class EngineerDashboardPage extends StatelessWidget {
               slivers: [
                 EngineerHeader(l10n: l10n, locale: locale),
                 SliverToBoxAdapter(child: EngineerStatsRow(l10n: l10n)),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(padding, spacing, padding, 0),
+                    child: DashboardQuickPill(
+                      icon: FontAwesomeIcons.mapLocationDot,
+                      label: l10n.exploreStudiosTitle,
+                      onTap: () => context.push(AppRoutes.discoverMap),
+                    ),
+                  ),
+                ),
                 EngineerProposedSection(l10n: l10n, locale: locale),
                 SliverToBoxAdapter(
                   child: Padding(

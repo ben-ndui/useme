@@ -104,6 +104,9 @@ class AppRoutes {
   static const String proBooking = '/pro/book';
   static const String proBookingsReceived = '/pro/bookings';
 
+  // Discover map (shared)
+  static const String discoverMap = '/discover';
+
   // Network
   static const String network = '/network';
 
