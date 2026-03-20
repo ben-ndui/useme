@@ -1902,5 +1902,15 @@
     "placeholders": {
       "date": {"type": "String"}
     }
-  }
+  },
+
+  "languageEnglishSubtitle": "Anglëe",
+  "languageFrenchSubtitle": "Farânzi",
+  "languageSangoSubtitle": "Bêafrîka",
+  "notesSaved": "Notes a-bâa na ndö",
+  "photoAdded": "Photo a-äpe",
+  "photoUploadError": "Problème na tëngö tî photo",
+  "sessionNotFound": "Session a-düngö pëpe",
+  "subscriptionAutoRenewNotice": "Abonnement a-kîri ngbanga tî yê mängö. Mo sï lä na mbâgé ôse.",
+  "subscriptionLegalFooter": "Na abonnement, mo tëne êe na Conditions tî sâra na Politique tî confidentialité."
 }
