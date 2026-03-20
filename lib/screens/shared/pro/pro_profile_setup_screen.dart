@@ -119,6 +119,8 @@ class _ProProfileSetupScreenState extends State<ProProfileSetupScreen> {
     return BlocListener<ProProfileBloc, ProProfileState>(
       listener: (context, state) {
         if (state.successMessage != null) {
+          // Refresh AuthBloc so photo/profile changes propagate everywhere
+          context.read<AuthBloc>().add(const ReloadUserEvent());
           AppSnackBar.success(context, state.successMessage!);
           context.pop();
         }

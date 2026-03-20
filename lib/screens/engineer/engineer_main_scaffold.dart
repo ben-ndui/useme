@@ -50,15 +50,17 @@ class _EngineerMainScaffoldState extends State<EngineerMainScaffold> {
       final user = authState.user;
       context.read<SessionBloc>().add(LoadEngineerSessionsEvent(engineerId: user.uid));
       context.read<FavoriteBloc>().add(LoadFavoritesEvent(userId: user.uid));
-
-      final messagingBloc = context.read<MessagingBloc>();
-      messagingBloc.setCurrentUser(
-        userId: user.uid,
-        userName: user.displayName ?? user.name ?? 'Ingénieur',
-        avatarUrl: user.photoURL,
-      );
-      messagingBloc.add(LoadConversationsEvent(userId: user.uid));
+      _syncMessagingUser(user);
+      context.read<MessagingBloc>().add(LoadConversationsEvent(userId: user.uid));
     }
+  }
+
+  void _syncMessagingUser(BaseUser user) {
+    context.read<MessagingBloc>().setCurrentUser(
+      userId: user.uid,
+      userName: user.displayName ?? user.name ?? 'Ingénieur',
+      avatarUrl: user.photoURL,
+    );
   }
 
   @override
@@ -120,9 +122,20 @@ class _EngineerMainScaffoldState extends State<EngineerMainScaffold> {
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop && _currentIndex != 0) _onNavTapped(0);
       },
-      child: isWide
-          ? _buildWideScaffold(l10n)
-          : _buildMobileScaffold(l10n),
+      child: BlocListener<AuthBloc, AuthState>(
+        listenWhen: (prev, curr) =>
+            prev is AuthAuthenticatedState &&
+            curr is AuthAuthenticatedState &&
+            prev.user.photoURL != curr.user.photoURL,
+        listener: (context, state) {
+          if (state is AuthAuthenticatedState) {
+            _syncMessagingUser(state.user);
+          }
+        },
+        child: isWide
+            ? _buildWideScaffold(l10n)
+            : _buildMobileScaffold(l10n),
+      ),
     );
   }
 

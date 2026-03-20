@@ -30,7 +30,7 @@ class _ArtistMainScaffoldState extends State<ArtistMainScaffold> {
   final List<Widget> _pages = const [
     ArtistPortalPage(),
     ArtistSessionsPage(),
-    FavoritesScreen(),
+    FavoritesScreen(), 
     ConversationsScreen(),
     ArtistSettingsPage(),
   ];
@@ -51,15 +51,17 @@ class _ArtistMainScaffoldState extends State<ArtistMainScaffold> {
       context.read<SessionBloc>().add(LoadArtistSessionsEvent(artistId: user.uid));
       context.read<FavoriteBloc>().add(LoadFavoritesEvent(userId: user.uid));
       context.read<NetworkBloc>().add(LoadContactsEvent(userId: user.uid));
-
-      final messagingBloc = context.read<MessagingBloc>();
-      messagingBloc.setCurrentUser(
-        userId: user.uid,
-        userName: user.displayName ?? user.name ?? 'Artiste',
-        avatarUrl: user.photoURL,
-      );
-      messagingBloc.add(LoadConversationsEvent(userId: user.uid));
+      _syncMessagingUser(user);
+      context.read<MessagingBloc>().add(LoadConversationsEvent(userId: user.uid));
     }
+  }
+
+  void _syncMessagingUser(BaseUser user) {
+    context.read<MessagingBloc>().setCurrentUser(
+      userId: user.uid,
+      userName: user.displayName ?? user.name ?? 'Artiste',
+      avatarUrl: user.photoURL,
+    );
   }
 
   @override
@@ -121,9 +123,20 @@ class _ArtistMainScaffoldState extends State<ArtistMainScaffold> {
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop && _currentIndex != 0) _onNavTapped(0);
       },
-      child: isWide
-          ? _buildWideScaffold(l10n)
-          : _buildMobileScaffold(l10n),
+      child: BlocListener<AuthBloc, AuthState>(
+        listenWhen: (prev, curr) =>
+            prev is AuthAuthenticatedState &&
+            curr is AuthAuthenticatedState &&
+            prev.user.photoURL != curr.user.photoURL,
+        listener: (context, state) {
+          if (state is AuthAuthenticatedState) {
+            _syncMessagingUser(state.user);
+          }
+        },
+        child: isWide
+            ? _buildWideScaffold(l10n)
+            : _buildMobileScaffold(l10n),
+      ),
     );
   }
 
