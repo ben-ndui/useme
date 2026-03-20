@@ -1912,5 +1912,32 @@
   "photoUploadError": "Problème na tëngö tî photo",
   "sessionNotFound": "Session a-düngö pëpe",
   "subscriptionAutoRenewNotice": "Abonnement a-kîri ngbanga tî yê mängö. Mo sï lä na mbâgé ôse.",
-  "subscriptionLegalFooter": "Na abonnement, mo tëne êe na Conditions tî sâra na Politique tî confidentialité."
+  "subscriptionLegalFooter": "Na abonnement, mo tëne êe na Conditions tî sâra na Politique tî confidentialité.",
+
+  "payDepositAmount": "Fütä acompte ({amount})",
+  "@payDepositAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "payRemainingAmount": "Fütä solde ({amount})",
+  "@payRemainingAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "paymentSuccessful": "Fütä a-yeke nzönî !",
+  "paymentFailed": "Fütä a-gä pëpe",
+  "paymentCancelled": "Fütä a-lä",
+  "stripeConnect": "Fütä na internet",
+  "stripeConnectSubtitle": "Kängö compte Stripe tî mo ngbanga tî bâa môlengê na nzönî",
+  "stripeConnected": "Compte Stripe a-kängö",
+  "stripeNotConnected": "A-kängö pëpe",
+  "connectStripe": "Kängö Stripe",
+  "stripeConnectPending": "Onboarding a-yeke...",
+  "stripePaymentsEnabled": "Fütä na carte a-duti",
+  "stripePayoutsEnabled": "Virements a-duti",
+  "securePayment": "Fütä na sêkûrîte na Stripe",
+  "platformFeeNotice": "Commission tî 15% a-yeke na yâ tî fütä ôko ôko",
+  "refresh": "Kîri yângâ"
 }

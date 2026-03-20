@@ -19,3 +19,4 @@ export 'ai_message.dart';
 export 'chat_assistant_response.dart';
 export 'studio_ai_settings.dart';
 export 'onboarding_page.dart';
+export 'session_payment_intent.dart';

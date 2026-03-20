@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/localization/intl_locale.dart';
@@ -11,6 +12,7 @@ import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/payment_tracking_card.dart';
+import 'package:useme/widgets/common/session_pay_button.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Session detail screen for artists to view their booked sessions
@@ -130,10 +132,21 @@ class _ArtistSessionDetailContent extends StatelessWidget {
               value: session.notes!,
               theme: theme,
             ),
-          // Payment tracking (read-only for artists)
+          // Payment tracking + pay button
           if (session.hasPaymentTracking) ...[
             const SizedBox(height: 16),
             PaymentTrackingCard(session: session),
+            const SizedBox(height: 12),
+            Builder(builder: (ctx) {
+              final authState = ctx.read<AuthBloc>().state;
+              if (authState is! AuthAuthenticatedState) {
+                return const SizedBox.shrink();
+              }
+              return SessionPayButton(
+                session: session,
+                userId: authState.user.uid,
+              );
+            }),
           ],
           const SizedBox(height: 24),
           _AddToCalendarButton(session: session, l10n: l10n),

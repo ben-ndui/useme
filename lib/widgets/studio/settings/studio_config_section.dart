@@ -50,6 +50,12 @@ class StudioConfigSection extends StatelessWidget {
           onTap: () => context.push(AppRoutes.paymentMethods),
         ),
         SettingsTile(
+          icon: FontAwesomeIcons.stripe,
+          title: l10n.stripeConnect,
+          subtitle: l10n.stripeConnectSubtitle,
+          onTap: () => context.push(AppRoutes.stripeConnect),
+        ),
+        SettingsTile(
           icon: FontAwesomeIcons.robot,
           title: l10n.aiAssistant,
           subtitle: l10n.aiSettingsSubtitle,

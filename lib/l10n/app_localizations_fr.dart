@@ -4246,4 +4246,58 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get subscriptionLegalFooter =>
       'En vous abonnant, vous acceptez nos Conditions d\'utilisation et notre Politique de confidentialité.';
+
+  @override
+  String payDepositAmount(String amount) {
+    return 'Payer l\'acompte ($amount)';
+  }
+
+  @override
+  String payRemainingAmount(String amount) {
+    return 'Payer le solde ($amount)';
+  }
+
+  @override
+  String get paymentSuccessful => 'Paiement effectué avec succès !';
+
+  @override
+  String get paymentFailed => 'Le paiement a échoué';
+
+  @override
+  String get paymentCancelled => 'Paiement annulé';
+
+  @override
+  String get stripeConnect => 'Paiements en ligne';
+
+  @override
+  String get stripeConnectSubtitle =>
+      'Connectez votre compte Stripe pour recevoir les paiements directement';
+
+  @override
+  String get stripeConnected => 'Compte Stripe connecté';
+
+  @override
+  String get stripeNotConnected => 'Non connecté';
+
+  @override
+  String get connectStripe => 'Connecter Stripe';
+
+  @override
+  String get stripeConnectPending => 'Onboarding en cours...';
+
+  @override
+  String get stripePaymentsEnabled => 'Paiements par carte activés';
+
+  @override
+  String get stripePayoutsEnabled => 'Virements activés';
+
+  @override
+  String get securePayment => 'Paiement sécurisé via Stripe';
+
+  @override
+  String get platformFeeNotice =>
+      'Une commission de 15% est appliquée par la plateforme sur chaque paiement';
+
+  @override
+  String get refresh => 'Actualiser';
 }

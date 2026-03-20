@@ -7887,6 +7887,102 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'En vous abonnant, vous acceptez nos Conditions d\'utilisation et notre Politique de confidentialité.'**
   String get subscriptionLegalFooter;
+
+  /// No description provided for @payDepositAmount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Payer l\'acompte ({amount})'**
+  String payDepositAmount(String amount);
+
+  /// No description provided for @payRemainingAmount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Payer le solde ({amount})'**
+  String payRemainingAmount(String amount);
+
+  /// No description provided for @paymentSuccessful.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiement effectué avec succès !'**
+  String get paymentSuccessful;
+
+  /// No description provided for @paymentFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le paiement a échoué'**
+  String get paymentFailed;
+
+  /// No description provided for @paymentCancelled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiement annulé'**
+  String get paymentCancelled;
+
+  /// No description provided for @stripeConnect.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiements en ligne'**
+  String get stripeConnect;
+
+  /// No description provided for @stripeConnectSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connectez votre compte Stripe pour recevoir les paiements directement'**
+  String get stripeConnectSubtitle;
+
+  /// No description provided for @stripeConnected.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compte Stripe connecté'**
+  String get stripeConnected;
+
+  /// No description provided for @stripeNotConnected.
+  ///
+  /// In fr, this message translates to:
+  /// **'Non connecté'**
+  String get stripeNotConnected;
+
+  /// No description provided for @connectStripe.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connecter Stripe'**
+  String get connectStripe;
+
+  /// No description provided for @stripeConnectPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'Onboarding en cours...'**
+  String get stripeConnectPending;
+
+  /// No description provided for @stripePaymentsEnabled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiements par carte activés'**
+  String get stripePaymentsEnabled;
+
+  /// No description provided for @stripePayoutsEnabled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Virements activés'**
+  String get stripePayoutsEnabled;
+
+  /// No description provided for @securePayment.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiement sécurisé via Stripe'**
+  String get securePayment;
+
+  /// No description provided for @platformFeeNotice.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une commission de 15% est appliquée par la plateforme sur chaque paiement'**
+  String get platformFeeNotice;
+
+  /// No description provided for @refresh.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actualiser'**
+  String get refresh;
 }
 
 class _AppLocalizationsDelegate

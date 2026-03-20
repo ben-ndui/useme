@@ -115,13 +115,13 @@ class AppLocalizationsSg extends AppLocalizations {
   String get languageSystemSubtitle => 'Tökua sêse tî téléphone';
 
   @override
-  String get languageFrenchSubtitle => 'French';
+  String get languageFrenchSubtitle => 'Farânzi';
 
   @override
-  String get languageEnglishSubtitle => 'Anglais';
+  String get languageEnglishSubtitle => 'Anglëe';
 
   @override
-  String get languageSangoSubtitle => 'Centrafrique';
+  String get languageSangoSubtitle => 'Bêafrîka';
 
   @override
   String get userGuide => 'Ndiä tî sära na';
@@ -1803,16 +1803,16 @@ class AppLocalizationsSg extends AppLocalizations {
   String get addPhoto => 'Bâa';
 
   @override
-  String get sessionNotFound => 'Session introuvable';
+  String get sessionNotFound => 'Session a-düngö pëpe';
 
   @override
-  String get notesSaved => 'Notes enregistrées';
+  String get notesSaved => 'Notes a-bâa na ndö';
 
   @override
-  String get photoAdded => 'Photo ajoutée';
+  String get photoAdded => 'Photo a-äpe';
 
   @override
-  String get photoUploadError => 'Erreur lors de l\'envoi de la photo';
+  String get photoUploadError => 'Problème na tëngö tî photo';
 
   @override
   String get arrivalCheckedSuccess => 'Arrivée a-pointer!';
@@ -4187,9 +4187,63 @@ class AppLocalizationsSg extends AppLocalizations {
 
   @override
   String get subscriptionAutoRenewNotice =>
-      'Les abonnements se renouvellent automatiquement. Vous pouvez annuler à tout moment.';
+      'Abonnement a-kîri ngbanga tî yê mängö. Mo sï lä na mbâgé ôse.';
 
   @override
   String get subscriptionLegalFooter =>
-      'En vous abonnant, vous acceptez nos Conditions d\'utilisation et notre Politique de confidentialité.';
+      'Na abonnement, mo tëne êe na Conditions tî sâra na Politique tî confidentialité.';
+
+  @override
+  String payDepositAmount(String amount) {
+    return 'Fütä acompte ($amount)';
+  }
+
+  @override
+  String payRemainingAmount(String amount) {
+    return 'Fütä solde ($amount)';
+  }
+
+  @override
+  String get paymentSuccessful => 'Fütä a-yeke nzönî !';
+
+  @override
+  String get paymentFailed => 'Fütä a-gä pëpe';
+
+  @override
+  String get paymentCancelled => 'Fütä a-lä';
+
+  @override
+  String get stripeConnect => 'Fütä na internet';
+
+  @override
+  String get stripeConnectSubtitle =>
+      'Kängö compte Stripe tî mo ngbanga tî bâa môlengê na nzönî';
+
+  @override
+  String get stripeConnected => 'Compte Stripe a-kängö';
+
+  @override
+  String get stripeNotConnected => 'A-kängö pëpe';
+
+  @override
+  String get connectStripe => 'Kängö Stripe';
+
+  @override
+  String get stripeConnectPending => 'Onboarding a-yeke...';
+
+  @override
+  String get stripePaymentsEnabled => 'Fütä na carte a-duti';
+
+  @override
+  String get stripePayoutsEnabled => 'Virements a-duti';
+
+  @override
+  String get securePayment => 'Fütä na sêkûrîte na Stripe';
+
+  @override
+  String get platformFeeNotice =>
+      'Commission tî 15% a-yeke na yâ tî fütä ôko ôko';
+
+  @override
+  String get refresh => 'Kîri yângâ';
 }

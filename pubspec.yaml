@@ -72,6 +72,9 @@ dependencies:
   pdf: ^3.11.1
   printing: ^5.13.4
 
+  # Stripe
+  flutter_stripe: ^12.1.0
+
   # HTTP
   http: ^1.2.2
 

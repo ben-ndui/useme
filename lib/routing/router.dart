@@ -51,6 +51,7 @@ import 'package:useme/screens/shared/device_sessions_screen.dart';
 import 'package:useme/screens/shared/pro/pro_profile_setup_screen.dart';
 import 'package:useme/screens/shared/pro/pro_bookings_received_screen.dart';
 import 'package:useme/screens/shared/pro/pro_discovery_screen.dart';
+import 'package:useme/screens/studio/stripe_connect_screen.dart';
 import 'app_routes.dart';
 
 /// GoRouter configuration for Use Me
@@ -350,6 +351,12 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.favorites,
           builder: (context, state) => const FavoritesScreen(),
+        ),
+
+        // Stripe Connect onboarding (Studio)
+        GoRoute(
+          path: AppRoutes.stripeConnect,
+          builder: (context, state) => const StripeConnectScreen(),
         ),
 
         // Discover map (Studio & Engineer)

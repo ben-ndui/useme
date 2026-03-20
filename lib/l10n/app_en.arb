@@ -1723,5 +1723,32 @@
   },
 
   "subscriptionAutoRenewNotice": "Subscriptions auto-renew. You can cancel at any time.",
-  "subscriptionLegalFooter": "By subscribing, you agree to our Terms of Use and Privacy Policy."
+  "subscriptionLegalFooter": "By subscribing, you agree to our Terms of Use and Privacy Policy.",
+
+  "payDepositAmount": "Pay deposit ({amount})",
+  "@payDepositAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "payRemainingAmount": "Pay remaining ({amount})",
+  "@payRemainingAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "paymentSuccessful": "Payment successful!",
+  "paymentFailed": "Payment failed",
+  "paymentCancelled": "Payment cancelled",
+  "stripeConnect": "Online payments",
+  "stripeConnectSubtitle": "Connect your Stripe account to receive payments directly",
+  "stripeConnected": "Stripe account connected",
+  "stripeNotConnected": "Not connected",
+  "connectStripe": "Connect Stripe",
+  "stripeConnectPending": "Onboarding in progress...",
+  "stripePaymentsEnabled": "Card payments enabled",
+  "stripePayoutsEnabled": "Payouts enabled",
+  "securePayment": "Secure payment via Stripe",
+  "platformFeeNotice": "A 15% platform fee is applied on each payment",
+  "refresh": "Refresh"
 }

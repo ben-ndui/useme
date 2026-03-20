@@ -258,6 +258,8 @@ class Session {
   final String? paymentMethodLabel;
   final DateTime? depositPaidAt;
   final DateTime? fullyPaidAt;
+  final String? stripePaymentIntentId;
+  final String? stripeDepositIntentId;
 
   Session({
     required this.id,
@@ -289,6 +291,8 @@ class Session {
     this.paymentMethodLabel,
     this.depositPaidAt,
     this.fullyPaidAt,
+    this.stripePaymentIntentId,
+    this.stripeDepositIntentId,
   })  : types = types ?? (type != null ? [type] : [SessionType.other]),
         type = type ?? (types?.isNotEmpty == true ? types!.first : SessionType.other),
         intervention = intervention ?? const SessionIntervention();
@@ -324,6 +328,8 @@ class Session {
     String? paymentMethodLabel,
     DateTime? depositPaidAt,
     DateTime? fullyPaidAt,
+    String? stripePaymentIntentId,
+    String? stripeDepositIntentId,
   }) {
     return Session(
       id: id,
@@ -355,6 +361,8 @@ class Session {
       paymentMethodLabel: paymentMethodLabel,
       depositPaidAt: depositPaidAt,
       fullyPaidAt: fullyPaidAt,
+      stripePaymentIntentId: stripePaymentIntentId,
+      stripeDepositIntentId: stripeDepositIntentId,
     );
   }
 
@@ -419,6 +427,8 @@ class Session {
       paymentMethodLabel: map['paymentMethodLabel']?.toString(),
       depositPaidAt: _parseDateTime(map['depositPaidAt']),
       fullyPaidAt: _parseDateTime(map['fullyPaidAt']),
+      stripePaymentIntentId: map['stripePaymentIntentId']?.toString(),
+      stripeDepositIntentId: map['stripeDepositIntentId']?.toString(),
     );
   }
 
@@ -459,6 +469,8 @@ class Session {
         'paymentMethodLabel': paymentMethodLabel,
         'depositPaidAt': depositPaidAt?.millisecondsSinceEpoch,
         'fullyPaidAt': fullyPaidAt?.millisecondsSinceEpoch,
+        'stripePaymentIntentId': stripePaymentIntentId,
+        'stripeDepositIntentId': stripeDepositIntentId,
       };
 
   Session copyWith({
@@ -491,6 +503,8 @@ class Session {
     String? paymentMethodLabel,
     DateTime? depositPaidAt,
     DateTime? fullyPaidAt,
+    String? stripePaymentIntentId,
+    String? stripeDepositIntentId,
   }) =>
       Session(
         id: id ?? this.id,
@@ -522,6 +536,10 @@ class Session {
         paymentMethodLabel: paymentMethodLabel ?? this.paymentMethodLabel,
         depositPaidAt: depositPaidAt ?? this.depositPaidAt,
         fullyPaidAt: fullyPaidAt ?? this.fullyPaidAt,
+        stripePaymentIntentId:
+            stripePaymentIntentId ?? this.stripePaymentIntentId,
+        stripeDepositIntentId:
+            stripeDepositIntentId ?? this.stripeDepositIntentId,
       );
 
   // Helper getters
@@ -646,6 +664,21 @@ class Session {
 
   /// Whether the session is fully paid
   bool get isFullyPaid => paymentStatus == PaymentStatus.fullyPaid;
+
+  /// Whether an artist can pay the deposit via Stripe
+  bool get canPayDeposit =>
+      paymentStatus == PaymentStatus.depositPending &&
+      totalAmount != null &&
+      depositAmount != null &&
+      depositAmount! > 0 &&
+      status == SessionStatus.confirmed;
+
+  /// Whether an artist can pay the remaining balance via Stripe
+  bool get canPayRemaining =>
+      paymentStatus == PaymentStatus.depositPaid &&
+      !isFullyPaid &&
+      totalAmount != null &&
+      remainingAmount > 0;
 
   /// Remaining amount after deposit
   double get remainingAmount {

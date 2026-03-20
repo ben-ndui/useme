@@ -1915,5 +1915,32 @@
   },
 
   "subscriptionAutoRenewNotice": "Les abonnements se renouvellent automatiquement. Vous pouvez annuler à tout moment.",
-  "subscriptionLegalFooter": "En vous abonnant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité."
+  "subscriptionLegalFooter": "En vous abonnant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
+
+  "payDepositAmount": "Payer l'acompte ({amount})",
+  "@payDepositAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "payRemainingAmount": "Payer le solde ({amount})",
+  "@payRemainingAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "paymentSuccessful": "Paiement effectué avec succès !",
+  "paymentFailed": "Le paiement a échoué",
+  "paymentCancelled": "Paiement annulé",
+  "stripeConnect": "Paiements en ligne",
+  "stripeConnectSubtitle": "Connectez votre compte Stripe pour recevoir les paiements directement",
+  "stripeConnected": "Compte Stripe connecté",
+  "stripeNotConnected": "Non connecté",
+  "connectStripe": "Connecter Stripe",
+  "stripeConnectPending": "Onboarding en cours...",
+  "stripePaymentsEnabled": "Paiements par carte activés",
+  "stripePayoutsEnabled": "Virements activés",
+  "securePayment": "Paiement sécurisé via Stripe",
+  "platformFeeNotice": "Une commission de 15% est appliquée par la plateforme sur chaque paiement",
+  "refresh": "Actualiser"
 }

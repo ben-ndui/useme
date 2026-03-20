@@ -104,6 +104,9 @@ class AppRoutes {
   static const String proBooking = '/pro/book';
   static const String proBookingsReceived = '/pro/bookings';
 
+  // Stripe Connect onboarding (studio)
+  static const String stripeConnect = '/studio/stripe-connect';
+
   // Discover map (shared)
   static const String discoverMap = '/discover';
 

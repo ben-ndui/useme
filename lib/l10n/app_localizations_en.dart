@@ -4209,4 +4209,58 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get subscriptionLegalFooter =>
       'By subscribing, you agree to our Terms of Use and Privacy Policy.';
+
+  @override
+  String payDepositAmount(String amount) {
+    return 'Pay deposit ($amount)';
+  }
+
+  @override
+  String payRemainingAmount(String amount) {
+    return 'Pay remaining ($amount)';
+  }
+
+  @override
+  String get paymentSuccessful => 'Payment successful!';
+
+  @override
+  String get paymentFailed => 'Payment failed';
+
+  @override
+  String get paymentCancelled => 'Payment cancelled';
+
+  @override
+  String get stripeConnect => 'Online payments';
+
+  @override
+  String get stripeConnectSubtitle =>
+      'Connect your Stripe account to receive payments directly';
+
+  @override
+  String get stripeConnected => 'Stripe account connected';
+
+  @override
+  String get stripeNotConnected => 'Not connected';
+
+  @override
+  String get connectStripe => 'Connect Stripe';
+
+  @override
+  String get stripeConnectPending => 'Onboarding in progress...';
+
+  @override
+  String get stripePaymentsEnabled => 'Card payments enabled';
+
+  @override
+  String get stripePayoutsEnabled => 'Payouts enabled';
+
+  @override
+  String get securePayment => 'Secure payment via Stripe';
+
+  @override
+  String get platformFeeNotice =>
+      'A 15% platform fee is applied on each payment';
+
+  @override
+  String get refresh => 'Refresh';
 }

@@ -668,7 +668,7 @@ packages:
     source: hosted
     version: "3.1.2"
   flutter_stripe:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_stripe
       sha256: a5cbf9416ed20aa27633d106082f6711f3b1cc13f33aa72870531fb522db3fbe
