@@ -28,12 +28,13 @@ class ChatPaymentBanner extends StatelessWidget {
         .toList();
     if (otherIds.isEmpty) return const SizedBox.shrink();
 
-    // Query sessions where artist is participant — filter studio client-side
-    // (Firestore doesn't support arrayContains + multiple whereIn)
+    // Query sessions where artist is participant and payment is pending
+    // (arrayContains + single whereIn is supported by Firestore)
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('useme_sessions')
           .where('artistIds', arrayContains: currentUserId)
+          .where('status', isEqualTo: 'confirmed')
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox.shrink();

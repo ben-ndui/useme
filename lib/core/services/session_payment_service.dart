@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -69,9 +70,9 @@ class SessionPaymentService {
         customerEphemeralKeySecret: intent.ephemeralKey,
         customerId: intent.customerId,
         merchantDisplayName: 'UZME',
-        googlePay: const PaymentSheetGooglePay(
+        googlePay: PaymentSheetGooglePay(
           merchantCountryCode: 'FR',
-          testEnv: true,
+          testEnv: !kReleaseMode,
         ),
         style: ThemeMode.system,
       ),
@@ -141,9 +142,22 @@ class SessionPaymentService {
     Map<String, dynamic> body,
   ) async {
     final uri = Uri.parse('$_apiBaseUrl$path');
+
+    // Get Firebase Auth token for authenticated requests
+    final headers = <String, String>{
+      'Content-Type': 'application/json',
+    };
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final token = await user.getIdToken();
+      if (token != null) {
+        headers['Authorization'] = 'Bearer $token';
+      }
+    }
+
     final response = await _client.post(
       uri,
-      headers: {'Content-Type': 'application/json'},
+      headers: headers,
       body: jsonEncode(body),
     );
 
