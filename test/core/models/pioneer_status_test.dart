@@ -86,7 +86,8 @@ void main() {
       expect(map['isPioneer'], true);
       expect(map['pioneerNumber'], 5);
       expect(map['pioneerType'], 'pro');
-      expect(map['grantedBy'], 'admin123');
+      // grantedBy is omitted from toMap (security: avoids admin UID leak)
+      expect(map.containsKey('grantedBy'), false);
     });
 
     test('copyWith preserves unchanged values', () {
