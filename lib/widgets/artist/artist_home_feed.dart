@@ -20,6 +20,7 @@ class ArtistHomeFeed extends StatelessWidget {
       children: [
         WelcomeHeader(isWideLayout: isWideLayout),
         SizedBox(height: spacing),
+        PendingPaymentBanner(isWideLayout: isWideLayout),
         NearbyStudiosCarousel(
           onStudioTap: (studio) => StudioDetailBottomSheet.show(context, studio),
           isWideLayout: isWideLayout,

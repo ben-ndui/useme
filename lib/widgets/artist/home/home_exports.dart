@@ -1,3 +1,4 @@
+export 'pending_payment_banner.dart';
 export 'quick_actions_section.dart';
 export 'recent_activity_section.dart';
 export 'upcoming_sessions_section.dart';

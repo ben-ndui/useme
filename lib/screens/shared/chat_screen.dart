@@ -11,6 +11,7 @@ import '../../widgets/common/app_loader.dart';
 import '../../widgets/common/permission_dialog.dart';
 import '../../widgets/common/snackbar/app_snackbar.dart';
 import '../../l10n/app_localizations.dart';
+import '../../widgets/messaging/chat_payment_banner.dart';
 import '../../widgets/messaging/messaging_widgets_exports.dart';
 import '../../core/blocs/session/session_bloc.dart';
 import '../../core/blocs/booking/booking_exports.dart';
@@ -106,7 +107,13 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: Responsive.maxContentWidth),
-          child: ChatView(
+          child: Column(
+            children: [
+              ChatPaymentBanner(
+                currentUserId: _currentUserId,
+                participantIds: state.conversation.participantIds,
+              ),
+              Expanded(child: ChatView(
         conversation: state.conversation,
         messages: state.messages,
         currentUserId: _currentUserId,
@@ -145,7 +152,9 @@ class _ChatScreenState extends State<ChatScreen> {
         onReactionTap: (message, emoji) {
           context.read<MessagingBloc>().add(ToggleReactionEvent(messageId: message.id, emoji: emoji));
         },
-      ),
+      )),
+            ],
+          ),
         ),
       ),
     );
