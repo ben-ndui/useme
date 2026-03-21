@@ -86,18 +86,11 @@ class _PayButtonBody extends StatelessWidget {
         } else if (state is SessionPaymentSuccessState) {
           AppSnackBar.success(context, l10n.paymentSuccessful);
           // Confirm payment via backend (updates Firestore server-side)
+          // The StreamBuilder on the detail screen will auto-refresh
           SessionPaymentService().confirmPayment(
             sessionId: state.sessionId,
             isDeposit: state.isDeposit,
           );
-          // Reload session after backend update
-          Future.delayed(const Duration(seconds: 2), () {
-            if (context.mounted) {
-              context.read<SessionBloc>().add(
-                    LoadSessionByIdEvent(sessionId: session.id),
-                  );
-            }
-          });
         } else if (state is SessionPaymentFailedState) {
           AppSnackBar.error(context, state.errorMessage);
         } else if (state is SessionPaymentCancelledState) {

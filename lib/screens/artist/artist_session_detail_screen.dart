@@ -1,4 +1,5 @@
 import 'package:add_2_calendar/add_2_calendar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,12 +28,6 @@ class ArtistSessionDetailScreen extends StatefulWidget {
 
 class _ArtistSessionDetailScreenState extends State<ArtistSessionDetailScreen> {
   @override
-  void initState() {
-    super.initState();
-    context.read<SessionBloc>().add(LoadSessionByIdEvent(sessionId: widget.sessionId));
-  }
-
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
@@ -42,16 +37,26 @@ class _ArtistSessionDetailScreenState extends State<ArtistSessionDetailScreen> {
         title: Text(l10n.sessionDetails),
         backgroundColor: theme.colorScheme.surface,
       ),
-      body: BlocBuilder<SessionBloc, SessionState>(
-        builder: (context, state) {
-          if (state.isLoading) {
+      // Stream from Firestore for real-time payment status updates
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('useme_sessions')
+            .doc(widget.sessionId)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const AppLoader();
           }
 
-          final session = state.selectedSession;
-          if (session == null) {
-            return Center(child: Text(l10n.noSession, style: theme.textTheme.bodyLarge));
+          if (!snapshot.hasData || !snapshot.data!.exists) {
+            return Center(
+              child: Text(l10n.noSession, style: theme.textTheme.bodyLarge),
+            );
           }
+
+          final data = snapshot.data!.data() as Map<String, dynamic>;
+          data['id'] = snapshot.data!.id;
+          final session = Session.fromMap(data);
 
           return _ArtistSessionDetailContent(session: session, l10n: l10n);
         },
