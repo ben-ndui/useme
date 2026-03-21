@@ -8,10 +8,11 @@ import 'package:useme/core/services/session_payment_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
-/// Pay button shown on artist session detail when a deposit or
-/// remaining amount can be paid via Stripe.
+/// Pay buttons shown on artist session detail when payment is due.
 ///
-/// Not shown on web (PaymentSheet unsupported) or when no payment is due.
+/// When deposit is pending: shows "Pay deposit" + "Pay full amount".
+/// When deposit is paid: shows "Pay remaining".
+/// Not shown on web or when studio didn't choose stripeInApp.
 class SessionPayButton extends StatelessWidget {
   final Session session;
   final String userId;
@@ -24,10 +25,8 @@ class SessionPayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // PaymentSheet not available on web
     if (kIsWeb) return const SizedBox.shrink();
 
-    // Only show if studio chose "Paiement via l'app" (Stripe in-app)
     if (session.paymentMethodLabel != PaymentMethodType.stripeInApp.label) {
       return const SizedBox.shrink();
     }
@@ -35,25 +34,9 @@ class SessionPayButton extends StatelessWidget {
     final canPay = session.canPayDeposit || session.canPayRemaining;
     if (!canPay) return const SizedBox.shrink();
 
-    final l10n = AppLocalizations.of(context)!;
-    final isDeposit = session.canPayDeposit;
-    final amountEur = isDeposit
-        ? session.depositAmount!
-        : session.remainingAmount;
-    final amountCents = (amountEur * 100).round();
-    final label = isDeposit
-        ? l10n.payDepositAmount('${amountEur.toStringAsFixed(2)} €')
-        : l10n.payRemainingAmount('${amountEur.toStringAsFixed(2)} €');
-
     return BlocProvider(
       create: (_) => SessionPaymentBloc(),
-      child: _PayButtonBody(
-        session: session,
-        userId: userId,
-        label: label,
-        amountCents: amountCents,
-        isDeposit: isDeposit,
-      ),
+      child: _PayButtonBody(session: session, userId: userId),
     );
   }
 }
@@ -61,21 +44,13 @@ class SessionPayButton extends StatelessWidget {
 class _PayButtonBody extends StatelessWidget {
   final Session session;
   final String userId;
-  final String label;
-  final int amountCents;
-  final bool isDeposit;
 
-  const _PayButtonBody({
-    required this.session,
-    required this.userId,
-    required this.label,
-    required this.amountCents,
-    required this.isDeposit,
-  });
+  const _PayButtonBody({required this.session, required this.userId});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return BlocListener<SessionPaymentBloc, SessionPaymentState>(
       listener: (context, state) {
@@ -85,8 +60,6 @@ class _PayButtonBody extends StatelessWidget {
               );
         } else if (state is SessionPaymentSuccessState) {
           AppSnackBar.success(context, l10n.paymentSuccessful);
-          // Confirm payment via backend (updates Firestore server-side)
-          // The StreamBuilder on the detail screen will auto-refresh
           SessionPaymentService().confirmPayment(
             sessionId: state.sessionId,
             isDeposit: state.isDeposit,
@@ -103,37 +76,55 @@ class _PayButtonBody extends StatelessWidget {
 
           return Column(
             children: [
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton.icon(
-                  onPressed: isLoading
-                      ? null
-                      : () => _initPayment(context),
-                  icon: isLoading
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : const FaIcon(FontAwesomeIcons.creditCard, size: 16),
-                  label: Text(label),
-                  style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+              if (session.canPayDeposit) ...[
+                // Primary: pay deposit
+                _PayAction(
+                  label: l10n.payDepositAmount(
+                    '${session.depositAmount!.toStringAsFixed(2)} €',
+                  ),
+                  isLoading: isLoading,
+                  isPrimary: true,
+                  onPressed: () => _pay(
+                    context,
+                    amountCents: (session.depositAmount! * 100).round(),
+                    isDeposit: true,
                   ),
                 ),
-              ),
+                const SizedBox(height: 10),
+                // Secondary: pay full amount
+                _PayAction(
+                  label: l10n.payRemainingAmount(
+                    '${session.totalAmount!.toStringAsFixed(2)} €',
+                  ),
+                  isLoading: isLoading,
+                  isPrimary: false,
+                  onPressed: () => _pay(
+                    context,
+                    amountCents: (session.totalAmount! * 100).round(),
+                    isDeposit: false,
+                  ),
+                ),
+              ] else if (session.canPayRemaining) ...[
+                // Pay remaining balance
+                _PayAction(
+                  label: l10n.payRemainingAmount(
+                    '${session.remainingAmount.toStringAsFixed(2)} €',
+                  ),
+                  isLoading: isLoading,
+                  isPrimary: true,
+                  onPressed: () => _pay(
+                    context,
+                    amountCents: (session.remainingAmount * 100).round(),
+                    isDeposit: false,
+                  ),
+                ),
+              ],
               const SizedBox(height: 6),
               Text(
                 l10n.securePayment,
                 style: TextStyle(
                   fontSize: 11,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
             ],
@@ -143,7 +134,11 @@ class _PayButtonBody extends StatelessWidget {
     );
   }
 
-  void _initPayment(BuildContext context) {
+  void _pay(
+    BuildContext context, {
+    required int amountCents,
+    required bool isDeposit,
+  }) {
     context.read<SessionPaymentBloc>().add(
           InitiateSessionPaymentEvent(
             sessionId: session.id,
@@ -153,5 +148,63 @@ class _PayButtonBody extends StatelessWidget {
             isDeposit: isDeposit,
           ),
         );
+  }
+}
+
+class _PayAction extends StatelessWidget {
+  final String label;
+  final bool isLoading;
+  final bool isPrimary;
+  final VoidCallback onPressed;
+
+  const _PayAction({
+    required this.label,
+    required this.isLoading,
+    required this.isPrimary,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (isPrimary) {
+      return SizedBox(
+        width: double.infinity,
+        child: FilledButton.icon(
+          onPressed: isLoading ? null : onPressed,
+          icon: isLoading
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+              : const FaIcon(FontAwesomeIcons.creditCard, size: 16),
+          label: Text(label),
+          style: FilledButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: isLoading ? null : onPressed,
+        icon: const FaIcon(FontAwesomeIcons.creditCard, size: 16),
+        label: Text(label),
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+    );
   }
 }
