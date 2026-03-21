@@ -26,6 +26,11 @@ class SessionPayButton extends StatelessWidget {
     // PaymentSheet not available on web
     if (kIsWeb) return const SizedBox.shrink();
 
+    // Only show if studio chose "Paiement via l'app" (Stripe in-app)
+    if (session.paymentMethodLabel != PaymentMethodType.stripeInApp.label) {
+      return const SizedBox.shrink();
+    }
+
     final canPay = session.canPayDeposit || session.canPayRemaining;
     if (!canPay) return const SizedBox.shrink();
 

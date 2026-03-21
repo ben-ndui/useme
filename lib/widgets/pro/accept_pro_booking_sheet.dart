@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/core/models/session.dart';
+import 'package:useme/core/services/session_payment_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/studio/booking/booking_payment_selector.dart';
 
@@ -59,17 +62,49 @@ class AcceptProBookingSheet extends StatefulWidget {
 }
 
 class _AcceptProBookingSheetState extends State<AcceptProBookingSheet> {
+  final SessionPaymentService _stripeService = SessionPaymentService();
   PaymentMethod? _selectedMethod;
   double _depositPercent = 30;
   bool _saveAsDefault = false;
+  bool _stripeConnectActive = false;
+  bool _isLoading = true;
   final _messageController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    final methods = widget.profile.enabledPaymentMethods;
-    _selectedMethod = methods.isNotEmpty ? methods.first : null;
     _depositPercent = widget.profile.defaultDepositPercent ?? 30;
+    _loadConnectStatus();
+  }
+
+  Future<void> _loadConnectStatus() async {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticatedState) {
+      try {
+        final status = await _stripeService.getConnectStatus(
+          userId: authState.user.uid,
+        );
+        _stripeConnectActive = status.isFullyActive;
+      } catch (_) {
+        _stripeConnectActive = false;
+      }
+    }
+    final methods = _enabledMethodsWithStripe;
+    _selectedMethod = methods.isNotEmpty ? methods.first : null;
+    if (mounted) setState(() => _isLoading = false);
+  }
+
+  List<PaymentMethod> get _enabledMethodsWithStripe {
+    final methods = List<PaymentMethod>.from(
+      widget.profile.enabledPaymentMethods,
+    );
+    if (_stripeConnectActive) {
+      methods.insert(
+        0,
+        const PaymentMethod(type: PaymentMethodType.stripeInApp),
+      );
+    }
+    return methods;
   }
 
   @override
@@ -97,7 +132,12 @@ class _AcceptProBookingSheetState extends State<AcceptProBookingSheet> {
         borderRadius:
             const BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      child: SingleChildScrollView(
+      child: _isLoading
+          ? const Padding(
+              padding: EdgeInsets.all(48),
+              child: Center(child: CircularProgressIndicator()),
+            )
+          : SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -106,7 +146,7 @@ class _AcceptProBookingSheetState extends State<AcceptProBookingSheet> {
             _buildHeader(theme, l10n),
             const SizedBox(height: 24),
             BookingPaymentSelector(
-              enabledMethods: widget.profile.enabledPaymentMethods,
+              enabledMethods: _enabledMethodsWithStripe,
               selectedMethod: _selectedMethod,
               depositPercent: _depositPercent,
               totalAmount: widget.totalAmount,

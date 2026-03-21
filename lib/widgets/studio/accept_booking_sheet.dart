@@ -6,6 +6,7 @@ import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/core/models/session.dart';
 import 'package:useme/core/services/engineer_availability_service.dart';
 import 'package:useme/core/services/payment_config_service.dart';
+import 'package:useme/core/services/session_payment_service.dart';
 import 'package:useme/widgets/studio/booking/booking_exports.dart';
 
 /// Résultat de l'acceptation d'une réservation
@@ -62,6 +63,7 @@ class AcceptBookingSheet extends StatefulWidget {
 class _AcceptBookingSheetState extends State<AcceptBookingSheet> {
   final PaymentConfigService _paymentService = PaymentConfigService();
   final EngineerAvailabilityService _engineerService = EngineerAvailabilityService();
+  final SessionPaymentService _stripeService = SessionPaymentService();
 
   StudioPaymentConfig? _config;
   PaymentMethod? _selectedMethod;
@@ -69,6 +71,7 @@ class _AcceptBookingSheetState extends State<AcceptBookingSheet> {
   bool _isLoading = true;
   bool _saveAsDefault = false;
   final _customMessageController = TextEditingController();
+  bool _stripeConnectActive = false;
 
   List<AvailableEngineer> _availableEngineers = [];
   final Set<String> _selectedEngineerIds = {};
@@ -105,6 +108,16 @@ class _AcceptBookingSheetState extends State<AcceptBookingSheet> {
       _availableEngineers = engineers;
     }
 
+    // Check Stripe Connect status to show "Paiement via l'app" option
+    try {
+      final connectStatus = await _stripeService.getConnectStatus(
+        userId: studioId,
+      );
+      _stripeConnectActive = connectStatus.isFullyActive;
+    } catch (_) {
+      _stripeConnectActive = false;
+    }
+
     setState(() {
       _config = config;
       _depositPercent = config.defaultDepositPercent ?? 30;
@@ -114,6 +127,15 @@ class _AcceptBookingSheetState extends State<AcceptBookingSheet> {
   }
 
   double get _depositAmount => widget.totalAmount * (_depositPercent / 100);
+
+  /// Payment methods list with Stripe in-app option if Connect is active.
+  List<PaymentMethod> get _enabledMethodsWithStripe {
+    final methods = List<PaymentMethod>.from(_config?.enabledMethods ?? []);
+    if (_stripeConnectActive) {
+      methods.insert(0, const PaymentMethod(type: PaymentMethodType.stripeInApp));
+    }
+    return methods;
+  }
 
   List<AppUser> get _selectedEngineers => _availableEngineers
       .where((e) => _selectedEngineerIds.contains(e.user.uid))
@@ -172,7 +194,7 @@ class _AcceptBookingSheetState extends State<AcceptBookingSheet> {
                   ],
                   const SizedBox(height: 24),
                   BookingPaymentSelector(
-                    enabledMethods: _config?.enabledMethods ?? [],
+                    enabledMethods: _enabledMethodsWithStripe,
                     selectedMethod: _selectedMethod,
                     depositPercent: _depositPercent,
                     totalAmount: widget.totalAmount,

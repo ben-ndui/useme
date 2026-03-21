@@ -6,6 +6,7 @@ enum PaymentMethodType {
   bankTransfer,
   paypal,
   card,
+  stripeInApp,
   other;
 
   String get label {
@@ -18,6 +19,8 @@ enum PaymentMethodType {
         return 'PayPal';
       case PaymentMethodType.card:
         return 'Carte bancaire';
+      case PaymentMethodType.stripeInApp:
+        return 'Paiement via l\'app';
       case PaymentMethodType.other:
         return 'Autre';
     }
@@ -33,6 +36,8 @@ enum PaymentMethodType {
         return 'paypal';
       case PaymentMethodType.card:
         return 'creditCard';
+      case PaymentMethodType.stripeInApp:
+        return 'stripe';
       case PaymentMethodType.other:
         return 'ellipsis';
     }
