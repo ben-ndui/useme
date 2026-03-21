@@ -1,5 +1,6 @@
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:smoothandesign_package/core/models/calendar_connection.dart';
+import 'pioneer_status.dart';
 import 'pro_profile.dart';
 import 'studio_profile.dart';
 import 'studio_subscription.dart';
@@ -93,6 +94,9 @@ class AppUser extends BaseUser {
   /// Profil professionnel (marketplace de services).
   final ProProfile? proProfile;
 
+  /// Pioneer status (first 5 studios + first 5 pros).
+  final PioneerStatus? pioneer;
+
   /// DevMaster a accès à la config Stripe et système.
   final bool isDevMaster;
 
@@ -121,6 +125,7 @@ class AppUser extends BaseUser {
     this.studioProfile,
     this.subscription,
     this.proProfile,
+    this.pioneer,
     this.isDevMaster = false,
   });
 
@@ -159,6 +164,9 @@ class AppUser extends BaseUser {
       proProfile: map['proProfile'] != null
           ? ProProfile.fromMap(map['proProfile'] as Map<String, dynamic>)
           : null,
+      pioneer: map['pioneer'] != null
+          ? PioneerStatus.fromMap(map['pioneer'] as Map<String, dynamic>)
+          : null,
       isDevMaster: map['isDevMaster'] ?? false,
     );
   }
@@ -179,6 +187,7 @@ class AppUser extends BaseUser {
       'studioProfile': studioProfile?.toMap(),
       'subscription': subscription?.toMap(),
       'proProfile': proProfile?.toMap(),
+      'pioneer': pioneer?.toMap(),
       'isDevMaster': isDevMaster,
     };
   }
@@ -209,6 +218,7 @@ class AppUser extends BaseUser {
     StudioProfile? studioProfile,
     StudioSubscription? subscription,
     ProProfile? proProfile,
+    PioneerStatus? pioneer,
     bool? isDevMaster,
   }) {
     return AppUser(
@@ -236,6 +246,7 @@ class AppUser extends BaseUser {
       studioProfile: studioProfile ?? this.studioProfile,
       subscription: subscription ?? this.subscription,
       proProfile: proProfile ?? this.proProfile,
+      pioneer: pioneer ?? this.pioneer,
       isDevMaster: isDevMaster ?? this.isDevMaster,
     );
   }
@@ -293,6 +304,20 @@ class AppUser extends BaseUser {
   /// Nombre de sessions ce mois
   int get sessionsThisMonth => subscription?.sessionsThisMonth ?? 0;
 
+  /// Whether this user is a Pioneer.
+  bool get isPioneer => pioneer?.isPioneer ?? false;
+
+  /// Pioneer number (1-5) or null.
+  int? get pioneerNumber => pioneer?.pioneerNumber;
+
+  /// Whether Pioneer free subscription is still active.
+  bool get hasPioneerFreeSubscription =>
+      pioneer?.isFreeSubscriptionActive ?? false;
+
+  /// Whether Pioneer 0% commission is still active.
+  bool get hasPioneerCommissionExempt =>
+      pioneer?.isCommissionExempt ?? false;
+
   @override
   List<Object?> get props => [
         ...super.props,
@@ -305,6 +330,7 @@ class AppUser extends BaseUser {
         studioProfile,
         subscription,
         proProfile,
+        pioneer,
         isDevMaster,
       ];
 }
