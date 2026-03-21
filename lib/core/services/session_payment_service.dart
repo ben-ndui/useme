@@ -32,7 +32,7 @@ class SessionPaymentService {
     required bool isDeposit,
     String currency = 'eur',
   }) async {
-    final response = await _post('/stripe/useme/session-payment', {
+    final response = await _post('/api/stripe/useme/session-payment', {
       'userId': userId,
       'sessionId': sessionId,
       'amount': amountCents,
@@ -90,23 +90,31 @@ class SessionPaymentService {
     String? returnUrl,
     String? refreshUrl,
   }) async {
-    final response = await _post('/stripe/useme/connect-onboard', {
+    debugPrint('[StripeConnect] calling /api/stripe/useme/connect-onboard...');
+    final response = await _post('/api/stripe/useme/connect-onboard', {
       'userId': userId,
-      'returnUrl': returnUrl ?? 'useme://connect/return',
-      'refreshUrl': refreshUrl ?? 'useme://connect/refresh',
+      'returnUrl': returnUrl ?? 'https://uzme.app/connect/return',
+      'refreshUrl': refreshUrl ?? 'https://uzme.app/connect/refresh',
     });
+    debugPrint('[StripeConnect] response: $response');
     return response['url'] as String;
   }
 
   /// Opens the onboarding URL in an external browser.
   Future<void> launchOnboarding({required String userId}) async {
+    debugPrint('[StripeConnect] launchOnboarding userId=$userId');
     final url = await createConnectOnboardingUrl(userId: userId);
-    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    debugPrint('[StripeConnect] onboarding URL received: $url');
+    final launched = await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalApplication,
+    );
+    debugPrint('[StripeConnect] launchUrl result: $launched');
   }
 
   /// Returns the current Stripe Connect status for a studio.
   Future<ConnectStatus> getConnectStatus({required String userId}) async {
-    final response = await _post('/stripe/useme/connect-status', {
+    final response = await _post('/api/stripe/useme/connect-status', {
       'userId': userId,
     });
     return ConnectStatus.fromMap(response);
@@ -121,15 +129,19 @@ class SessionPaymentService {
     Map<String, dynamic> body,
   ) async {
     final uri = Uri.parse('$_apiBaseUrl$path');
+    debugPrint('[StripeService] POST $uri');
     final response = await _client.post(
       uri,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
     );
+    debugPrint('[StripeService] ${response.statusCode} ${response.body.length > 200 ? response.body.substring(0, 200) : response.body}');
 
     if (response.statusCode != 200) {
       final error = jsonDecode(response.body);
-      throw Exception(error['error'] ?? 'Erreur serveur (${response.statusCode})');
+      final msg = error['error'] ?? 'Erreur serveur (${response.statusCode})';
+      debugPrint('[StripeService] ERROR: $msg');
+      throw Exception(msg);
     }
 
     return jsonDecode(response.body) as Map<String, dynamic>;
