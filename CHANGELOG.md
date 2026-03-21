@@ -8,6 +8,17 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **Stripe session payment** — Artists can pay deposits and remaining balances directly in-app via Stripe PaymentSheet (Apple Pay, Google Pay, Card)
+- **Stripe Connect for studios** — Studios can connect their Stripe account to receive payments directly (Express accounts, 15% platform commission)
+- **Stripe Connect onboarding screen** — `/studio/stripe-connect` with status indicators and onboarding flow
+- **"Paiement via l'app" payment method** — New `stripeInApp` option in booking acceptance; only shows when studio has Stripe Connect active
+- **SessionPayButton widget** — Contextual pay button on artist session detail (deposit or remaining)
+- **SessionPaymentBloc** — Full BLoC with payment intent creation, PaymentSheet presentation, and Connect status checking
+- Backend: 3 new Cloud Function endpoints (`session-payment`, `connect-onboard`, `connect-status`) + webhook handler
+- Session model: `stripePaymentIntentId`, `stripeDepositIntentId`, `canPayDeposit`, `canPayRemaining` helpers
+- Website: `/connect/return` and `/connect/refresh` pages for Stripe onboarding redirect
+- 8 unit tests (SessionPaymentIntent model + SessionPaymentBloc)
+- Localization: 15 new payment strings (FR/EN/SG)
 - **Discover map for Studio & Engineer** — "Explorez la carte" button on dashboards opens shared map view (`/discover`)
 - Studio name search on map — matches loaded studios before geocoding
 - Selected studio highlighted on map with larger pin + glow ring
