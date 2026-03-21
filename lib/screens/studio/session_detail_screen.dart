@@ -432,6 +432,10 @@ class _ActionButtons extends StatelessWidget {
 
     if (response.isSuccess) {
       AppSnackBar.success(context, l10n.sessionAccepted);
+      // Reload sessions so dashboard reflects the change
+      context.read<SessionBloc>().add(
+            LoadSessionsEvent(studioId: studioId),
+          );
       // Ouvrir la conversation créée
       if (response.data != null) {
         context.push('/conversations/${response.data}');
