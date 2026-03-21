@@ -330,17 +330,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
 
     final user = authState.user as AppUser;
+    debugPrint('[Photo] uploading for userId=${user.uid}, file=${imageFile.path}');
     final uploadResult = await _photoService.uploadProfilePhoto(
       userId: user.uid,
       imageFile: imageFile,
     );
+    debugPrint('[Photo] upload result: code=${uploadResult.code} msg=${uploadResult.message} url=${uploadResult.data}');
 
     if (!mounted) return;
 
     if (uploadResult.code == 200 && (uploadResult.data?.isNotEmpty ?? false)) {
       // Update user with new photo URL
       final updatedUser = user.copyWith(photoURL: uploadResult.data);
+      debugPrint('[Photo] updating user profile with new URL...');
       final updateResult = await useMeAuthService.updateUserProfile(updatedUser);
+      debugPrint('[Photo] update result: code=${updateResult.code} msg=${updateResult.message}');
 
       if (!mounted) return;
       setState(() => _isUploadingPhoto = false);

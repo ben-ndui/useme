@@ -187,7 +187,7 @@ class AppUser extends BaseUser {
       'studioProfile': studioProfile?.toMap(),
       'subscription': subscription?.toMap(),
       'proProfile': proProfile?.toMap(),
-      'pioneer': pioneer?.toMap(),
+      if (pioneer != null) 'pioneer': pioneer!.toMap(),
       'isDevMaster': isDevMaster,
     };
   }
