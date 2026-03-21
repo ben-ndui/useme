@@ -24,6 +24,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - 8 unit tests (SessionPaymentIntent model + SessionPaymentBloc)
 - Localization: 15 new payment strings (FR/EN/SG)
 - Production checklist: `docs/stripe-payment-prod-checklist.md`
+- **Pioneer badge system** — First 5 studios + first 5 pro profiles get lifetime "Pioneer #X" gold badge
+- **Pioneer benefits** — 6 months free Pro subscription + 0% platform commission for Pioneers
+- **PioneerBadge widget** — Gold gradient glassmorphism with crown icon (compact + full modes)
+- **PioneerSection in settings** — Shows badge, benefits status, countdown timer
+- **Pioneer auto-assignment** — Firestore trigger assigns Pioneer when studio/pro activates (transaction-based counter)
+- **Pioneer on map** — Gold pins for Pioneer studios, sorted first in discovery
+- **Pioneer on detail screens** — Badge shown on studio and pro detail bottom sheets
+- **Payment banners** — Glassmorphism amber banners on artist feed and chat for pending payments
 - **Discover map for Studio & Engineer** — "Explorez la carte" button on dashboards opens shared map view (`/discover`)
 - Studio name search on map — matches loaded studios before geocoding
 - Selected studio highlighted on map with larger pin + glow ring
@@ -33,6 +41,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - Tests for studio name search matching (exact, partial, case-insensitive, fallback to geocoding)
 
 ### Changed
+- Subscription header shows "Plan Pro — Pioneer" with crown icon for Pioneer users
+- Discovery sort: Pioneers first, then Partners, then by distance
+- Pioneer badge replaces Partner badge visually (higher rank)
 - `StudioDetailBottomSheet.show()` and `ProDetailBottomSheet.show()` now return `Future<void>`
 - Artist portal opens studio detail via `BlocListener` (supports search-triggered selection)
 - Map zooms to 16 on selected studio, 13 on area search
@@ -45,6 +56,19 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - 9 missing Sango translations added
 - Stripe config decryption crash on corrupted/unencrypted data (now tolerant)
 - Non-exhaustive switch statements after adding `stripeInApp` payment type
+- Studio dashboard auto-refreshes after accepting a booking
+
+### Security
+- Firebase Auth middleware on all Stripe backend routes
+- IDOR protection (verifyUserMatch) on authenticated endpoints
+- Rate limiting (20 req/min) on payment endpoints
+- Webhook signature verification enforced (no more bypass)
+- Server-side amount validation against Firestore session data
+- Idempotency key on PaymentIntent creation (prevents duplicates)
+- confirm-payment verifies PaymentIntent status with Stripe before updating
+- Hardcoded publishable key removed from backend
+- Debug logs removed from production code
+- User-friendly error messages (no internal details leaked)
 
 ---
 
