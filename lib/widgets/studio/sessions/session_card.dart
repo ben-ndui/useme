@@ -82,9 +82,11 @@ class SessionCard extends StatelessWidget {
             children: [
               FaIcon(_getTypeIcon(session.types.firstOrNull ?? SessionType.other), size: 11, color: theme.colorScheme.outline),
               const SizedBox(width: 6),
-              Text(
-                session.typeLabel,
-                style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
+              Flexible(
+                child: Text(
+                  session.typeLabel,
+                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
+                ),
               ),
             ],
           ),
