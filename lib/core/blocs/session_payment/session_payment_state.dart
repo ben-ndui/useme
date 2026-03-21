@@ -30,15 +30,17 @@ class SessionPaymentReadyState extends SessionPaymentState {
 
 class SessionPaymentSuccessState extends SessionPaymentState {
   final String sessionId;
+  final String paymentIntentId;
   final bool isDeposit;
 
   const SessionPaymentSuccessState({
     required this.sessionId,
+    required this.paymentIntentId,
     required this.isDeposit,
   });
 
   @override
-  List<Object?> get props => [sessionId, isDeposit];
+  List<Object?> get props => [sessionId, paymentIntentId, isDeposit];
 }
 
 class SessionPaymentFailedState extends SessionPaymentState {

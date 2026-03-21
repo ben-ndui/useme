@@ -20,7 +20,7 @@ class SubscriptionSection extends StatefulWidget {
   const SubscriptionSection({
     super.key,
     this.user,
-    this.showComingSoonOverlay = true,
+    this.showComingSoonOverlay = false,
   });
 
   @override

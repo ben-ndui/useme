@@ -62,6 +62,7 @@ class _PayButtonBody extends StatelessWidget {
           AppSnackBar.success(context, l10n.paymentSuccessful);
           SessionPaymentService().confirmPayment(
             sessionId: state.sessionId,
+            paymentIntentId: state.paymentIntentId,
             isDeposit: state.isDeposit,
           );
         } else if (state is SessionPaymentFailedState) {

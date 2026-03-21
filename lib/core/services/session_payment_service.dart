@@ -58,14 +58,11 @@ class SessionPaymentService {
       );
     }
 
-    // Set the publishable key before initialising PaymentSheet
     if (intent.publishableKey != null) {
       Stripe.publishableKey = intent.publishableKey!;
       await Stripe.instance.applySettings();
-      debugPrint('[StripeService] publishableKey set & applied');
     }
 
-    debugPrint('[StripeService] initPaymentSheet...');
     await Stripe.instance.initPaymentSheet(
       paymentSheetParameters: SetupPaymentSheetParameters(
         paymentIntentClientSecret: intent.clientSecret,
@@ -80,9 +77,7 @@ class SessionPaymentService {
       ),
     );
 
-    debugPrint('[StripeService] initPaymentSheet OK, presenting...');
     await Stripe.instance.presentPaymentSheet();
-    debugPrint('[StripeService] presentPaymentSheet OK');
     return true;
   }
 
@@ -91,13 +86,15 @@ class SessionPaymentService {
   // ------------------------------------------------------------------ //
 
   /// Confirms a successful payment by updating the session status
-  /// via the backend (bypasses Firestore security rules).
+  /// via the backend. The backend verifies the PaymentIntent with Stripe.
   Future<void> confirmPayment({
     required String sessionId,
+    required String paymentIntentId,
     required bool isDeposit,
   }) async {
     await _post('/api/stripe/useme/confirm-payment', {
       'sessionId': sessionId,
+      'paymentIntentId': paymentIntentId,
       'isDeposit': isDeposit,
     });
   }
@@ -113,26 +110,18 @@ class SessionPaymentService {
     String? returnUrl,
     String? refreshUrl,
   }) async {
-    debugPrint('[StripeConnect] calling /api/stripe/useme/connect-onboard...');
     final response = await _post('/api/stripe/useme/connect-onboard', {
       'userId': userId,
       'returnUrl': returnUrl ?? 'https://uzme.app/connect/return',
       'refreshUrl': refreshUrl ?? 'https://uzme.app/connect/refresh',
     });
-    debugPrint('[StripeConnect] response: $response');
     return response['url'] as String;
   }
 
   /// Opens the onboarding URL in an external browser.
   Future<void> launchOnboarding({required String userId}) async {
-    debugPrint('[StripeConnect] launchOnboarding userId=$userId');
     final url = await createConnectOnboardingUrl(userId: userId);
-    debugPrint('[StripeConnect] onboarding URL received: $url');
-    final launched = await launchUrl(
-      Uri.parse(url),
-      mode: LaunchMode.externalApplication,
-    );
-    debugPrint('[StripeConnect] launchUrl result: $launched');
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }
 
   /// Returns the current Stripe Connect status for a studio.
@@ -152,19 +141,17 @@ class SessionPaymentService {
     Map<String, dynamic> body,
   ) async {
     final uri = Uri.parse('$_apiBaseUrl$path');
-    debugPrint('[StripeService] POST $uri');
     final response = await _client.post(
       uri,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
     );
-    debugPrint('[StripeService] ${response.statusCode} ${response.body.length > 200 ? response.body.substring(0, 200) : response.body}');
 
     if (response.statusCode != 200) {
       final error = jsonDecode(response.body);
-      final msg = error['error'] ?? 'Erreur serveur (${response.statusCode})';
-      debugPrint('[StripeService] ERROR: $msg');
-      throw Exception(msg);
+      throw Exception(
+        error['error'] ?? 'Erreur serveur (${response.statusCode})',
+      );
     }
 
     return jsonDecode(response.body) as Map<String, dynamic>;
