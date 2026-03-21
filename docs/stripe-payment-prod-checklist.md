@@ -5,15 +5,35 @@
 - [x] Backend: endpoints `session-payment`, `connect-onboard`, `connect-status`, `confirm-payment`
 - [x] Backend: webhook handler pour `payment_intent.succeeded` avec metadata `useme_session_payment`
 - [x] Backend: vérification `charges_enabled` avant `transfer_data` (fallback sans split)
+- [x] Backend: Firebase Auth middleware sur toutes les routes Stripe (sauf webhook)
+- [x] Backend: IDOR protection (verifyUserMatch)
+- [x] Backend: Rate limiting 20 req/min sur endpoints paiement
+- [x] Backend: Webhook signature verification (raw body + constructEvent)
+- [x] Backend: Validation montant côté serveur (session Firestore vs client)
+- [x] Backend: Idempotency key sur PaymentIntent creation
+- [x] Backend: confirm-payment vérifie le PaymentIntent chez Stripe
+- [x] Backend: Mode reset test supprimé
+- [x] Backend: Publishable key hardcodée retirée (config Firestore uniquement)
 - [x] Flutter: `SessionPaymentBloc` + `SessionPaymentService` + `SessionPaymentIntent` model
 - [x] Flutter: `SessionPayButton` avec choix acompte / totalité / solde
 - [x] Flutter: `StripeConnectScreen` avec onboarding + auto-refresh au retour dans l'app
 - [x] Flutter: `stripeInApp` dans `PaymentMethodType` — option visible uniquement si Connect actif
 - [x] Flutter: Real-time Firestore stream sur session detail (mise à jour instantanée)
+- [x] Flutter: Payment banners glassmorphism ambre (feed artiste + chat)
+- [x] Flutter: Deep link handling `useme://connect/return`
+- [x] Flutter: Firebase Auth token envoyé avec chaque requête API
+- [x] Flutter: Google Pay testEnv dynamique (kReleaseMode)
+- [x] Flutter: Messages d'erreur user-friendly (pas de leak interne)
+- [x] Flutter: Debug logs supprimés
 - [x] Flutter: 3 locales (FR/EN/SG)
 - [x] Flutter: 8 tests (model + bloc)
 - [x] Website: pages `/connect/return` et `/connect/refresh` sur uzme.app
-- [x] Cloud Functions déployées
+- [x] Cloud Functions déployées (avec sécu)
+- [x] Firestore index `useme_sessions (artistIds + status)` déployé
+- [x] Code pushé sur origin/master
+- [x] Security review: 14/14 findings traités
+- [x] Compliance review: Apple + Google conforme
+- [x] Analyze: 0 erreurs, 0 warnings
 
 ---
 
@@ -70,14 +90,7 @@
 - [ ] Passer le `merchantIdentifier` dans `Stripe.instance.applySettings()`
 - [ ] Réactiver `PaymentSheetApplePay` dans `session_payment_service.dart`
 
-### 4. Sécurité (recommandé)
-
-- [ ] **Webhook signature verification** : corriger le parsing du raw body dans `stripe_controller.js` (actuellement skipé en mode parsed body)
-- [ ] **Endpoint `confirm-payment`** : ajouter une vérification que le PaymentIntent existe réellement chez Stripe avant de confirmer (éviter les appels frauduleux)
-- [ ] **Retirer le mode `reset`** de l'endpoint `confirm-payment` (c'est un outil de test uniquement)
-- [ ] **Firestore Security Rules** : vérifier que les artistes ne peuvent pas modifier `paymentStatus` directement
-
-### 5. Test end-to-end en mode Live
+### 4. Test end-to-end en mode Live
 
 - [ ] Un studio connecte son compte Stripe (vrai KYC)
 - [ ] Vérifier `chargesEnabled: true` et `payoutsEnabled: true`
@@ -88,68 +101,4 @@
 - [ ] Vérifier le split 85/15 dans Stripe (si Connect actif)
 - [ ] Un artiste paie le solde restant
 - [ ] Vérifier le status `fullyPaid` dans Firestore
-
-### 6. Debug logs à retirer
-
-- [ ] `session_payment_service.dart` : retirer les `debugPrint('[StripeService]...')` et `debugPrint('[StripeConnect]...')`
-- [ ] `session_payment_bloc.dart` : retirer les `debugPrint('[PaymentBloc]...')`
-
----
-
-## Architecture du flow
-
-```
-Studio accepte booking → Choisit "Paiement via l'app"
-    │
-    ▼
-Session Firestore: paymentStatus = "depositPending"
-    │
-    ▼
-Artiste ouvre session detail (StreamBuilder temps réel)
-    ├── Bouton "Payer l'acompte (XX €)"
-    └── Bouton "Payer le solde (total €)"
-    │
-    ▼
-Artiste tape "Payer" → SessionPaymentBloc
-    │
-    ├── 1. POST /api/stripe/useme/session-payment
-    │      → PaymentIntent créé (+ transfer_data si Connect actif)
-    │      → clientSecret + ephemeralKey retournés
-    │
-    ├── 2. Stripe.publishableKey = pk_...
-    │      → Stripe.initPaymentSheet(clientSecret, ephemeralKey)
-    │      → Stripe.presentPaymentSheet()
-    │
-    ├── 3. Paiement réussi
-    │      → POST /api/stripe/useme/confirm-payment
-    │      → Firestore: paymentStatus = "depositPaid" ou "fullyPaid"
-    │
-    └── 4. StreamBuilder détecte le changement → UI refresh instantané
-            → Bouton disparaît ou passe à "Payer le solde"
-
-    (En parallèle, si webhook configuré)
-    Stripe webhook → payment_intent.succeeded
-        → Met à jour Firestore + crée notification studio
-```
-
-## Endpoints backend
-
-| Route | Méthode | Description |
-|-------|---------|-------------|
-| `/api/stripe/useme/session-payment` | POST | Crée PaymentIntent + ephemeral key |
-| `/api/stripe/useme/confirm-payment` | POST | Met à jour paymentStatus dans Firestore |
-| `/api/stripe/useme/connect-onboard` | POST | Crée compte Connect Express + lien onboarding |
-| `/api/stripe/useme/connect-status` | POST | Vérifie chargesEnabled, payoutsEnabled |
-| `/api/stripe/webhook` | POST | Webhook Stripe (payment events) |
-
-## Fichiers clés
-
-| Fichier | Rôle |
-|---------|------|
-| `lib/core/services/session_payment_service.dart` | HTTP + PaymentSheet + Connect |
-| `lib/core/blocs/session_payment/` | BLoC complet (events, states, bloc) |
-| `lib/widgets/common/session_pay_button.dart` | Boutons paiement (acompte/total/solde) |
-| `lib/screens/studio/stripe_connect_screen.dart` | Onboarding Stripe Connect |
-| `lib/screens/artist/artist_session_detail_screen.dart` | StreamBuilder temps réel |
-| `smoothbackend/functions/controllers/stripe_controller.js` | Tous les endpoints |
-| `smoothbackend/functions/routes/stripe_routes.js` | Routage Express |
+- [ ] Vérifier les banners disparaissent après paiement
