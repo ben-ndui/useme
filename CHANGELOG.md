@@ -5,7 +5,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
-## [Unreleased]
+## [1.1.0] - 2026-03-21
 
 ### Added
 - **Stripe session payment** — Artists can pay deposits and remaining balances directly in-app via Stripe PaymentSheet (Apple Pay, Google Pay, Card)
