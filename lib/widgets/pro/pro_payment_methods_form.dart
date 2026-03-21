@@ -207,6 +207,8 @@ class ProPaymentMethodsForm extends StatelessWidget {
         return FontAwesomeIcons.moneyBill;
       case PaymentMethodType.card:
         return FontAwesomeIcons.creditCard;
+      case PaymentMethodType.stripeInApp:
+        return FontAwesomeIcons.stripe;
       case PaymentMethodType.other:
         return FontAwesomeIcons.ellipsis;
     }

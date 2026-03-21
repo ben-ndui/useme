@@ -381,6 +381,8 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
         return FontAwesomeIcons.paypal;
       case PaymentMethodType.card:
         return FontAwesomeIcons.creditCard;
+      case PaymentMethodType.stripeInApp:
+        return FontAwesomeIcons.stripe;
       case PaymentMethodType.other:
         return FontAwesomeIcons.ellipsis;
     }
