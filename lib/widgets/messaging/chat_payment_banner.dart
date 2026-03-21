@@ -28,14 +28,12 @@ class ChatPaymentBanner extends StatelessWidget {
         .toList();
     if (otherIds.isEmpty) return const SizedBox.shrink();
 
-    // Query sessions where artist is participant and studio is the other
+    // Query sessions where artist is participant — filter studio client-side
+    // (Firestore doesn't support arrayContains + multiple whereIn)
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('useme_sessions')
           .where('artistIds', arrayContains: currentUserId)
-          .where('studioId', whereIn: otherIds)
-          .where('paymentStatus',
-              whereIn: ['depositPending', 'depositPaid'])
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox.shrink();
@@ -47,7 +45,10 @@ class ChatPaymentBanner extends StatelessWidget {
         }).where((s) {
           final isStripe =
               s.paymentMethodLabel == PaymentMethodType.stripeInApp.label;
-          return isStripe && (s.canPayDeposit || s.canPayRemaining);
+          final isForThisConversation = otherIds.contains(s.studioId);
+          return isForThisConversation &&
+              isStripe &&
+              (s.canPayDeposit || s.canPayRemaining);
         }).toList();
 
         if (sessions.isEmpty) return const SizedBox.shrink();
