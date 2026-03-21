@@ -17,6 +17,8 @@ class DiscoveredStudio {
   final bool isPartner; // Studio registered on Use Me
   final bool isVerified; // Studio verified by Use Me team
   final bool isPro; // Professional profile (not a studio)
+  final bool isPioneer;
+  final int? pioneerNumber;
   final List<String> services;
   final double? distanceMeters;
   final StudioType studioType;
@@ -34,6 +36,8 @@ class DiscoveredStudio {
     this.isPartner = false,
     this.isVerified = false,
     this.isPro = false,
+    this.isPioneer = false,
+    this.pioneerNumber,
     this.services = const [],
     this.distanceMeters,
     this.studioType = StudioType.independent,
@@ -84,6 +88,11 @@ class DiscoveredStudio {
       website: json['website'],
       isPartner: true,
       isVerified: json['isVerified'] ?? false,
+      isPioneer: json['pioneer'] != null &&
+          (json['pioneer'] as Map)['isPioneer'] == true,
+      pioneerNumber: json['pioneer'] != null
+          ? (json['pioneer'] as Map)['pioneerNumber'] as int?
+          : null,
       services: List<String>.from(json['services'] ?? []),
       studioType: StudioType.fromString(json['studioType'] as String?),
     );
@@ -106,6 +115,8 @@ class DiscoveredStudio {
       isPartner: false,
       isVerified: profile.isVerified,
       isPro: true,
+      isPioneer: user.isPioneer,
+      pioneerNumber: user.pioneerNumber,
       services: profile.proTypes.map((t) => t.label).toList(),
     );
   }
@@ -128,6 +139,8 @@ class DiscoveredStudio {
       isPartner: isPartner,
       isVerified: isVerified,
       isPro: isPro,
+      isPioneer: isPioneer,
+      pioneerNumber: pioneerNumber,
       services: services,
       distanceMeters: distance,
       studioType: studioType,

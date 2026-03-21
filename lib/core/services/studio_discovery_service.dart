@@ -259,7 +259,10 @@ class StudioDiscoveryService {
       return studio.copyWithDistance(distance);
     }).toList()
       ..sort((a, b) {
-        // Partenaires en premier
+        // Pioneers en premier
+        if (a.isPioneer && !b.isPioneer) return -1;
+        if (!a.isPioneer && b.isPioneer) return 1;
+        // Puis partenaires
         if (a.isPartner && !b.isPartner) return -1;
         if (!a.isPartner && b.isPartner) return 1;
         // Puis tri par distance croissante

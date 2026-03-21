@@ -191,6 +191,7 @@ class _StudioMapViewState extends State<StudioMapView> {
   }
 
   Color _pinColor(DiscoveredStudio studio) {
+    if (studio.isPioneer) return const Color(0xFFFFD700); // Gold
     if (studio.isPro) return UseMeTheme.accentColor;
     if (studio.isPartner) return Colors.green;
     return UseMeTheme.primaryColor;

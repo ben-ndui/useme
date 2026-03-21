@@ -6,6 +6,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/favorite.dart';
+import 'package:useme/widgets/common/badges/pioneer_badge.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
@@ -147,6 +148,11 @@ class ProDetailBottomSheet extends StatelessWidget {
                   spacing: 8,
                   runSpacing: 6,
                   children: [
+                    if (user.isPioneer && user.pioneerNumber != null)
+                      PioneerBadge(
+                        pioneerNumber: user.pioneerNumber!,
+                        compact: true,
+                      ),
                     if (_profile.city != null)
                       _badge(
                         theme,

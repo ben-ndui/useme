@@ -8,6 +8,7 @@ import 'package:useme/core/models/discovered_studio.dart';
 import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/models/studio_profile.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/common/badges/pioneer_badge.dart';
 import 'package:useme/widgets/favorite/favorite_button.dart';
 
 /// Bottom sheet showing studio details for authenticated artists
@@ -116,8 +117,14 @@ class StudioDetailBottomSheet extends StatelessWidget {
                   spacing: 8,
                   runSpacing: 8,
                   children: [
+                    if (studio.isPioneer && studio.pioneerNumber != null)
+                      PioneerBadge(
+                        pioneerNumber: studio.pioneerNumber!,
+                        compact: true,
+                      ),
                     if (studio.isVerified) _buildVerifiedBadge(theme, l10n),
-                    if (studio.isPartner) _buildPartnerBadge(theme, l10n),
+                    if (studio.isPartner && !studio.isPioneer)
+                      _buildPartnerBadge(theme, l10n),
                     _buildStudioTypeBadge(theme, l10n),
                   ],
                 ),
