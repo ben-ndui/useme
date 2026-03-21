@@ -14,11 +14,16 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - **"Paiement via l'app" payment method** — New `stripeInApp` option in booking acceptance; only shows when studio has Stripe Connect active
 - **SessionPayButton widget** — Contextual pay button on artist session detail (deposit or remaining)
 - **SessionPaymentBloc** — Full BLoC with payment intent creation, PaymentSheet presentation, and Connect status checking
-- Backend: 3 new Cloud Function endpoints (`session-payment`, `connect-onboard`, `connect-status`) + webhook handler
+- **Dual pay buttons** — Artist can choose to pay deposit only or full amount upfront; after deposit, "Pay remaining" button appears
+- **Real-time session detail** — Firestore StreamBuilder on artist session detail for instant payment status updates
+- **Confirm payment endpoint** — Backend `confirm-payment` updates Firestore server-side after PaymentSheet success
+- Backend: 4 Cloud Function endpoints (`session-payment`, `connect-onboard`, `connect-status`, `confirm-payment`) + webhook handler
 - Session model: `stripePaymentIntentId`, `stripeDepositIntentId`, `canPayDeposit`, `canPayRemaining` helpers
 - Website: `/connect/return` and `/connect/refresh` pages for Stripe onboarding redirect
+- Deep link handling for `useme://connect/return` with auto-refresh on app resume
 - 8 unit tests (SessionPaymentIntent model + SessionPaymentBloc)
 - Localization: 15 new payment strings (FR/EN/SG)
+- Production checklist: `docs/stripe-payment-prod-checklist.md`
 - **Discover map for Studio & Engineer** — "Explorez la carte" button on dashboards opens shared map view (`/discover`)
 - Studio name search on map — matches loaded studios before geocoding
 - Selected studio highlighted on map with larger pin + glow ring
@@ -36,6 +41,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Fixed
 - Legal URLs corrected from `useme.app` to `uzme.app` (terms, privacy, legal, help)
+- Profile photo sync in messaging — changes propagate in real-time across all roles
+- 9 missing Sango translations added
+- Stripe config decryption crash on corrupted/unencrypted data (now tolerant)
+- Non-exhaustive switch statements after adding `stripeInApp` payment type
 
 ---
 
