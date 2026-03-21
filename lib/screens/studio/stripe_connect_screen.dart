@@ -176,8 +176,9 @@ class _ConnectStatusView extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 32),
-          // Status indicators
-          if (isConnected) ...[
+          // Status indicators — only show when not fully active yet
+          // (avoids confusing red crosses in test mode when detailsSubmitted)
+          if (isConnected && !isActive) ...[
             _StatusRow(
               label: l10n.stripePaymentsEnabled,
               enabled: status.chargesEnabled,

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:useme/core/services/session_payment_service.dart';
@@ -45,12 +46,15 @@ class SessionPaymentBloc
   ) async {
     emit(const SessionPaymentLoadingState());
     try {
+      debugPrint('[PaymentBloc] presentPaymentSheet...');
       await _service.presentPaymentSheet(event.paymentIntent);
+      debugPrint('[PaymentBloc] payment SUCCESS');
       emit(SessionPaymentSuccessState(
         sessionId: event.paymentIntent.sessionId,
         isDeposit: event.paymentIntent.isDeposit,
       ));
     } on StripeException catch (e) {
+      debugPrint('[PaymentBloc] StripeException: ${e.error.code} - ${e.error.localizedMessage} - ${e.error.message}');
       if (e.error.code == FailureCode.Canceled) {
         emit(const SessionPaymentCancelledState());
       } else {
@@ -59,6 +63,7 @@ class SessionPaymentBloc
         ));
       }
     } catch (e) {
+      debugPrint('[PaymentBloc] Error: $e');
       emit(SessionPaymentFailedState(errorMessage: e.toString()));
     }
   }

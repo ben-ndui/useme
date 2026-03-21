@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
+import 'package:useme/core/services/session_payment_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
@@ -84,10 +85,19 @@ class _PayButtonBody extends StatelessWidget {
               );
         } else if (state is SessionPaymentSuccessState) {
           AppSnackBar.success(context, l10n.paymentSuccessful);
-          // Reload session to get updated payment status from Firestore
-          context.read<SessionBloc>().add(
-                LoadSessionByIdEvent(sessionId: session.id),
-              );
+          // Confirm payment via backend (updates Firestore server-side)
+          SessionPaymentService().confirmPayment(
+            sessionId: state.sessionId,
+            isDeposit: state.isDeposit,
+          );
+          // Reload session after backend update
+          Future.delayed(const Duration(seconds: 2), () {
+            if (context.mounted) {
+              context.read<SessionBloc>().add(
+                    LoadSessionByIdEvent(sessionId: session.id),
+                  );
+            }
+          });
         } else if (state is SessionPaymentFailedState) {
           AppSnackBar.error(context, state.errorMessage);
         } else if (state is SessionPaymentCancelledState) {

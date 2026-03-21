@@ -209,22 +209,31 @@ class StripeConfigService {
     return config?.isConfigured ?? false;
   }
 
-  /// Déchiffre les clés sensibles de la config
+  /// Déchiffre les clés sensibles de la config.
+  /// Tolère les données non chiffrées ou corrompues (les garde telles quelles).
   StripeConfig _decryptConfig(StripeConfig config) {
     String? decryptedSecretKey;
     String? decryptedWebhookSecret;
 
     if (config.encryptedSecretKey.isNotEmpty) {
-      decryptedSecretKey = _encryption.decryptString(config.encryptedSecretKey);
+      try {
+        decryptedSecretKey =
+            _encryption.decryptString(config.encryptedSecretKey);
+      } catch (_) {
+        // Data is not encrypted or corrupted — keep as-is
+        decryptedSecretKey = null;
+      }
     }
 
     if (config.encryptedWebhookSecret.isNotEmpty) {
-      decryptedWebhookSecret =
-          _encryption.decryptString(config.encryptedWebhookSecret);
+      try {
+        decryptedWebhookSecret =
+            _encryption.decryptString(config.encryptedWebhookSecret);
+      } catch (_) {
+        decryptedWebhookSecret = null;
+      }
     }
 
-    // Note: On retourne la config avec les clés déchiffrées en mémoire
-    // mais on ne stocke jamais les clés déchiffrées
     return config.copyWith(
       encryptedSecretKey: decryptedSecretKey ?? config.encryptedSecretKey,
       encryptedWebhookSecret:

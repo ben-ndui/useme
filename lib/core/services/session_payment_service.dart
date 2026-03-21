@@ -58,15 +58,20 @@ class SessionPaymentService {
       );
     }
 
+    // Set the publishable key before initialising PaymentSheet
+    if (intent.publishableKey != null) {
+      Stripe.publishableKey = intent.publishableKey!;
+      await Stripe.instance.applySettings();
+      debugPrint('[StripeService] publishableKey set & applied');
+    }
+
+    debugPrint('[StripeService] initPaymentSheet...');
     await Stripe.instance.initPaymentSheet(
       paymentSheetParameters: SetupPaymentSheetParameters(
         paymentIntentClientSecret: intent.clientSecret,
         customerEphemeralKeySecret: intent.ephemeralKey,
         customerId: intent.customerId,
         merchantDisplayName: 'UZME',
-        applePay: const PaymentSheetApplePay(
-          merchantCountryCode: 'FR',
-        ),
         googlePay: const PaymentSheetGooglePay(
           merchantCountryCode: 'FR',
           testEnv: true,
@@ -75,8 +80,26 @@ class SessionPaymentService {
       ),
     );
 
+    debugPrint('[StripeService] initPaymentSheet OK, presenting...');
     await Stripe.instance.presentPaymentSheet();
+    debugPrint('[StripeService] presentPaymentSheet OK');
     return true;
+  }
+
+  // ------------------------------------------------------------------ //
+  //  Payment confirmation (updates session status server-side)
+  // ------------------------------------------------------------------ //
+
+  /// Confirms a successful payment by updating the session status
+  /// via the backend (bypasses Firestore security rules).
+  Future<void> confirmPayment({
+    required String sessionId,
+    required bool isDeposit,
+  }) async {
+    await _post('/api/stripe/useme/confirm-payment', {
+      'sessionId': sessionId,
+      'isDeposit': isDeposit,
+    });
   }
 
   // ------------------------------------------------------------------ //
@@ -174,5 +197,8 @@ class ConnectStatus {
     );
   }
 
-  bool get isFullyActive => chargesEnabled && payoutsEnabled;
+  /// Account is fully active when charges and payouts are enabled.
+  /// In test mode, detailsSubmitted is sufficient.
+  bool get isFullyActive =>
+      (chargesEnabled && payoutsEnabled) || detailsSubmitted;
 }
