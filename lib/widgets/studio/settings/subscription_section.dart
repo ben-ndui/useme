@@ -118,15 +118,26 @@ class _SubscriptionSectionState extends State<SubscriptionSection> {
     TierStyle tierStyle,
     SubscriptionTierConfig config,
   ) {
+    final isPioneerGrant = widget.user?.hasPioneerFreeSubscription ?? false;
+
     return Row(
       children: [
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: tierStyle.color.withValues(alpha: 0.2),
+            color: (isPioneerGrant
+                    ? const Color(0xFFFFD700)
+                    : tierStyle.color)
+                .withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: FaIcon(tierStyle.icon, size: 20, color: tierStyle.color),
+          child: FaIcon(
+            isPioneerGrant ? FontAwesomeIcons.crown : tierStyle.icon,
+            size: 20,
+            color: isPioneerGrant
+                ? const Color(0xFFFFD700)
+                : tierStyle.color,
+          ),
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -134,13 +145,13 @@ class _SubscriptionSectionState extends State<SubscriptionSection> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Plan ${config.name}',
+                isPioneerGrant ? 'Plan Pro — Pioneer' : 'Plan ${config.name}',
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                config.description,
+                isPioneerGrant ? 'Offert avec le statut Pioneer' : config.description,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),

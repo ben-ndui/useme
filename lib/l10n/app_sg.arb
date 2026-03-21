@@ -1939,5 +1939,16 @@
   "stripePayoutsEnabled": "Virements a-duti",
   "securePayment": "Fütä na sêkûrîte na Stripe",
   "platformFeeNotice": "Commission tî 15% a-yeke na yâ tî fütä ôko ôko",
-  "refresh": "Kîri yângâ"
+  "refresh": "Kîri yângâ",
+
+  "pioneerFreeSubscription": "Abonnement Pro na cadeau",
+  "pioneerNoCommission": "0% tî commission",
+  "pioneerBadgePermanent": "Badge Pioneer na sâra ôse",
+  "pioneerDaysRemaining": "{days} lâ a-töngana",
+  "@pioneerDaysRemaining": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "pioneerNormalRates": "Tarif normal a-gï sô. Badge Pioneer tî mo a-dûru na sâra ôse."
 }

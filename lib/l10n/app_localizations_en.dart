@@ -4263,4 +4263,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get refresh => 'Refresh';
+
+  @override
+  String get pioneerFreeSubscription => 'Free Pro subscription';
+
+  @override
+  String get pioneerNoCommission => '0% commission';
+
+  @override
+  String get pioneerBadgePermanent => 'Permanent Pioneer badge';
+
+  @override
+  String pioneerDaysRemaining(String days) {
+    return '$days days remaining';
+  }
+
+  @override
+  String get pioneerNormalRates =>
+      'Standard rates now apply. Your Pioneer badge is permanent.';
 }

@@ -4246,4 +4246,22 @@ class AppLocalizationsSg extends AppLocalizations {
 
   @override
   String get refresh => 'Kîri yângâ';
+
+  @override
+  String get pioneerFreeSubscription => 'Abonnement Pro na cadeau';
+
+  @override
+  String get pioneerNoCommission => '0% tî commission';
+
+  @override
+  String get pioneerBadgePermanent => 'Badge Pioneer na sâra ôse';
+
+  @override
+  String pioneerDaysRemaining(String days) {
+    return '$days lâ a-töngana';
+  }
+
+  @override
+  String get pioneerNormalRates =>
+      'Tarif normal a-gï sô. Badge Pioneer tî mo a-dûru na sâra ôse.';
 }

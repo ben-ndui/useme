@@ -79,6 +79,9 @@ class _StudioSettingsPageState extends State<StudioSettingsPage> {
           AppSettingsSection(userId: _userId),
           const Divider(height: 32),
 
+          // Pioneer (if applicable)
+          PioneerSection(user: _currentUser),
+
           // Subscription
           const SettingsSectionHeader(title: 'Abonnement'),
           SubscriptionSection(

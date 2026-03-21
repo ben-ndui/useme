@@ -7983,6 +7983,36 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Actualiser'**
   String get refresh;
+
+  /// No description provided for @pioneerFreeSubscription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Abonnement Pro offert'**
+  String get pioneerFreeSubscription;
+
+  /// No description provided for @pioneerNoCommission.
+  ///
+  /// In fr, this message translates to:
+  /// **'0% de commission'**
+  String get pioneerNoCommission;
+
+  /// No description provided for @pioneerBadgePermanent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Badge Pioneer permanent'**
+  String get pioneerBadgePermanent;
+
+  /// No description provided for @pioneerDaysRemaining.
+  ///
+  /// In fr, this message translates to:
+  /// **'{days} jours restants'**
+  String pioneerDaysRemaining(String days);
+
+  /// No description provided for @pioneerNormalRates.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les tarifs standards s\'appliquent désormais. Votre badge Pioneer reste permanent.'**
+  String get pioneerNormalRates;
 }
 
 class _AppLocalizationsDelegate

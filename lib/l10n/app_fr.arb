@@ -1942,5 +1942,16 @@
   "stripePayoutsEnabled": "Virements activés",
   "securePayment": "Paiement sécurisé via Stripe",
   "platformFeeNotice": "Une commission de 15% est appliquée par la plateforme sur chaque paiement",
-  "refresh": "Actualiser"
+  "refresh": "Actualiser",
+
+  "pioneerFreeSubscription": "Abonnement Pro offert",
+  "pioneerNoCommission": "0% de commission",
+  "pioneerBadgePermanent": "Badge Pioneer permanent",
+  "pioneerDaysRemaining": "{days} jours restants",
+  "@pioneerDaysRemaining": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "pioneerNormalRates": "Les tarifs standards s'appliquent désormais. Votre badge Pioneer reste permanent."
 }
