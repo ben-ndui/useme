@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:useme/core/services/session_payment_service.dart';
@@ -34,9 +35,10 @@ class SessionPaymentBloc
         isDeposit: event.isDeposit,
       );
       emit(SessionPaymentReadyState(paymentIntent: intent));
-    } catch (_) {
-      emit(const SessionPaymentFailedState(
-        errorMessage: 'Impossible de préparer le paiement. Réessayez.',
+    } catch (e) {
+      debugPrint('[PaymentBloc] initiate error: $e');
+      emit(SessionPaymentFailedState(
+        errorMessage: e.toString(),
       ));
     }
   }
@@ -47,23 +49,27 @@ class SessionPaymentBloc
   ) async {
     emit(const SessionPaymentLoadingState());
     try {
+      debugPrint('[PaymentBloc] presentPaymentSheet...');
       await _service.presentPaymentSheet(event.paymentIntent);
+      debugPrint('[PaymentBloc] payment SUCCESS');
       emit(SessionPaymentSuccessState(
         sessionId: event.paymentIntent.sessionId,
         paymentIntentId: event.paymentIntent.paymentIntentId,
         isDeposit: event.paymentIntent.isDeposit,
       ));
     } on StripeException catch (e) {
+      debugPrint('[PaymentBloc] StripeException: ${e.error.code} - ${e.error.localizedMessage}');
       if (e.error.code == FailureCode.Canceled) {
         emit(const SessionPaymentCancelledState());
       } else {
-        emit(const SessionPaymentFailedState(
-          errorMessage: 'Le paiement a échoué. Réessayez.',
+        emit(SessionPaymentFailedState(
+          errorMessage: e.error.localizedMessage ?? 'Erreur Stripe',
         ));
       }
-    } catch (_) {
-      emit(const SessionPaymentFailedState(
-        errorMessage: 'Une erreur est survenue. Réessayez.',
+    } catch (e) {
+      debugPrint('[PaymentBloc] error: $e');
+      emit(SessionPaymentFailedState(
+        errorMessage: e.toString(),
       ));
     }
   }

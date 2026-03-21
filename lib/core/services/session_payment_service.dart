@@ -111,6 +111,7 @@ class SessionPaymentService {
     String? returnUrl,
     String? refreshUrl,
   }) async {
+    debugPrint('[StripeConnect] connect-onboard userId=$userId');
     final response = await _post('/api/stripe/useme/connect-onboard', {
       'userId': userId,
       'returnUrl': returnUrl ?? 'https://uzme.app/connect/return',
@@ -121,12 +122,15 @@ class SessionPaymentService {
 
   /// Opens the onboarding URL in an external browser.
   Future<void> launchOnboarding({required String userId}) async {
+    debugPrint('[StripeConnect] launchOnboarding userId=$userId');
     final url = await createConnectOnboardingUrl(userId: userId);
+    debugPrint('[StripeConnect] onboarding URL: $url');
     await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }
 
   /// Returns the current Stripe Connect status for a studio.
   Future<ConnectStatus> getConnectStatus({required String userId}) async {
+    debugPrint('[StripeConnect] connect-status userId=$userId');
     final response = await _post('/api/stripe/useme/connect-status', {
       'userId': userId,
     });
@@ -161,11 +165,13 @@ class SessionPaymentService {
       body: jsonEncode(body),
     );
 
+    debugPrint('[StripeService] ${response.statusCode} ${response.body.length > 300 ? response.body.substring(0, 300) : response.body}');
+
     if (response.statusCode != 200) {
       final error = jsonDecode(response.body);
-      throw Exception(
-        error['error'] ?? 'Erreur serveur (${response.statusCode})',
-      );
+      final msg = error['error'] ?? 'Erreur serveur (${response.statusCode})';
+      debugPrint('[StripeService] ERROR: $msg');
+      throw Exception(msg);
     }
 
     return jsonDecode(response.body) as Map<String, dynamic>;
