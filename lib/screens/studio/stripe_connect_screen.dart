@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/core/services/deep_link_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
@@ -27,11 +28,43 @@ class _StripeConnectBody extends StatefulWidget {
   State<_StripeConnectBody> createState() => _StripeConnectBodyState();
 }
 
-class _StripeConnectBodyState extends State<_StripeConnectBody> {
+class _StripeConnectBodyState extends State<_StripeConnectBody>
+    with WidgetsBindingObserver {
+  bool _waitingForOnboarding = false;
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _checkStatus();
+    // Listen for deep link return from Stripe onboarding
+    DeepLinkService().onStripeConnectCallback = (completed) {
+      if (mounted) {
+        _checkStatus();
+        if (completed) {
+          AppSnackBar.success(
+            context,
+            AppLocalizations.of(context)!.stripeConnected,
+          );
+        }
+      }
+    };
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    DeepLinkService().onStripeConnectCallback = null;
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Auto-refresh when user returns to app after onboarding in browser
+    if (state == AppLifecycleState.resumed && _waitingForOnboarding) {
+      _waitingForOnboarding = false;
+      _checkStatus();
+    }
   }
 
   void _checkStatus() {
@@ -87,6 +120,7 @@ class _StripeConnectBodyState extends State<_StripeConnectBody> {
   void _startOnboarding() {
     final authState = context.read<AuthBloc>().state;
     if (authState is AuthAuthenticatedState) {
+      _waitingForOnboarding = true;
       context.read<SessionPaymentBloc>().add(
             InitiateConnectOnboardingEvent(userId: authState.user.uid),
           );

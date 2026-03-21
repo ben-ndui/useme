@@ -14,6 +14,9 @@ class DeepLinkService {
   /// Callback for calendar OAuth result
   void Function(bool success, String? error)? onCalendarCallback;
 
+  /// Callback for Stripe Connect return (onboarding completed or refreshed)
+  void Function(bool completed)? onStripeConnectCallback;
+
   /// Initialize deep link listener
   Future<void> initialize() async {
     // Handle initial link (app opened via deep link)
@@ -44,6 +47,14 @@ class DeepLinkService {
       appLog('DeepLinkService: Calendar callback - success: $success');
 
       onCalendarCallback?.call(success, error);
+    }
+
+    // Handle Stripe Connect return/refresh
+    if (uri.scheme == 'useme' && uri.host == 'connect') {
+      final path = uri.pathSegments.firstOrNull;
+      final completed = path == 'return';
+      appLog('DeepLinkService: Stripe Connect callback - completed: $completed');
+      onStripeConnectCallback?.call(completed);
     }
   }
 
