@@ -1941,6 +1941,12 @@
   "platformFeeNotice": "Commission tî 15% a-yeke na yâ tî fütä ôko ôko",
   "refresh": "Kîri yângâ",
 
+  "pioneerBadgeLabel": "Pioneer #{number}",
+  "@pioneerBadgeLabel": {
+    "placeholders": {
+      "number": {"type": "String"}
+    }
+  },
   "pioneerFreeSubscription": "Abonnement Pro na cadeau",
   "pioneerNoCommission": "0% tî commission",
   "pioneerBadgePermanent": "Badge Pioneer na sâra ôse",

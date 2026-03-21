@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:useme/l10n/app_localizations.dart';
 
 /// Gold glassmorphism badge for Pioneer users (#1 to #5).
 /// Use [compact] mode for map pins and lists, full mode for detail screens.
@@ -20,11 +21,14 @@ class PioneerBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (compact) return _buildCompact();
-    return _buildFull();
+    final label = AppLocalizations.of(context)
+        ?.pioneerBadgeLabel(pioneerNumber.toString()) ??
+        'Pioneer #$pioneerNumber';
+    if (compact) return _buildCompact(label);
+    return _buildFull(label);
   }
 
-  Widget _buildCompact() {
+  Widget _buildCompact(String label) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: BackdropFilter(
@@ -43,7 +47,7 @@ class PioneerBadge extends StatelessWidget {
               const FaIcon(FontAwesomeIcons.crown, size: 10, color: Colors.white),
               const SizedBox(width: 4),
               Text(
-                '#$pioneerNumber',
+                label,
                 style: const TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
@@ -57,7 +61,7 @@ class PioneerBadge extends StatelessWidget {
     );
   }
 
-  Widget _buildFull() {
+  Widget _buildFull(String label) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: BackdropFilter(
@@ -85,7 +89,7 @@ class PioneerBadge extends StatelessWidget {
               const FaIcon(FontAwesomeIcons.crown, size: 14, color: Colors.white),
               const SizedBox(width: 6),
               Text(
-                'Pioneer #$pioneerNumber',
+                label,
                 style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,

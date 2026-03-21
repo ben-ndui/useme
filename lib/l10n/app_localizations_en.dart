@@ -4265,6 +4265,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get refresh => 'Refresh';
 
   @override
+  String pioneerBadgeLabel(String number) {
+    return 'Pioneer #$number';
+  }
+
+  @override
   String get pioneerFreeSubscription => 'Free Pro subscription';
 
   @override

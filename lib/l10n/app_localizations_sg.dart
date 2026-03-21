@@ -4248,6 +4248,11 @@ class AppLocalizationsSg extends AppLocalizations {
   String get refresh => 'Kîri yângâ';
 
   @override
+  String pioneerBadgeLabel(String number) {
+    return 'Pioneer #$number';
+  }
+
+  @override
   String get pioneerFreeSubscription => 'Abonnement Pro na cadeau';
 
   @override

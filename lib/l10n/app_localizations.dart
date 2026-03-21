@@ -7984,6 +7984,12 @@ abstract class AppLocalizations {
   /// **'Actualiser'**
   String get refresh;
 
+  /// No description provided for @pioneerBadgeLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pioneer #{number}'**
+  String pioneerBadgeLabel(String number);
+
   /// No description provided for @pioneerFreeSubscription.
   ///
   /// In fr, this message translates to:

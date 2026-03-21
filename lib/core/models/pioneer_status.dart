@@ -64,6 +64,8 @@ class PioneerStatus extends Equatable {
     return null;
   }
 
+  /// Serializes to map. Note: `grantedBy` is omitted to avoid
+  /// leaking admin UIDs — it's only written server-side.
   Map<String, dynamic> toMap() => {
         'isPioneer': isPioneer,
         'pioneerNumber': pioneerNumber,
@@ -71,7 +73,6 @@ class PioneerStatus extends Equatable {
         'pioneerSince': pioneerSince,
         'freeSubscriptionUntil': freeSubscriptionUntil,
         'commissionExemptUntil': commissionExemptUntil,
-        'grantedBy': grantedBy,
       };
 
   PioneerStatus copyWith({

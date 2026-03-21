@@ -1752,6 +1752,12 @@
   "platformFeeNotice": "A 15% platform fee is applied on each payment",
   "refresh": "Refresh",
 
+  "pioneerBadgeLabel": "Pioneer #{number}",
+  "@pioneerBadgeLabel": {
+    "placeholders": {
+      "number": {"type": "String"}
+    }
+  },
   "pioneerFreeSubscription": "Free Pro subscription",
   "pioneerNoCommission": "0% commission",
   "pioneerBadgePermanent": "Permanent Pioneer badge",
