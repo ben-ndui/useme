@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -67,69 +69,99 @@ class _BannerContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-    // Show first pending session
     final session = sessions.first;
     final isDeposit = session.canPayDeposit;
     final amount = isDeposit
         ? session.depositAmount ?? 0
         : session.remainingAmount;
+    const accent = Colors.amber;
 
-    return Material(
-      color: theme.colorScheme.primary.withValues(alpha: 0.1),
-      child: InkWell(
-        onTap: () => context.push('/artist/sessions/${session.id}'),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          child: Row(
-            children: [
-              FaIcon(
-                FontAwesomeIcons.creditCard,
-                size: 16,
-                color: theme.colorScheme.primary,
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => context.push('/artist/sessions/${session.id}'),
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 12,
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  isDeposit
-                      ? l10n.payDepositAmount(
-                          '${amount.toStringAsFixed(2)} €')
-                      : l10n.payRemainingAmount(
-                          '${amount.toStringAsFixed(2)} €'),
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: theme.colorScheme.primary,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    accent.withValues(alpha: 0.18),
+                    accent.withValues(alpha: 0.06),
+                  ],
+                ),
+                border: Border(
+                  bottom: BorderSide(
+                    color: accent.withValues(alpha: 0.3),
                   ),
                 ),
               ),
-              if (sessions.length > 1)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2,
-                  ),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    '+${sessions.length - 1}',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: theme.colorScheme.primary,
+              child: Row(
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: accent.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Center(
+                      child: FaIcon(
+                        FontAwesomeIcons.creditCard,
+                        size: 14,
+                        color: accent,
+                      ),
                     ),
                   ),
-                ),
-              const SizedBox(width: 8),
-              FaIcon(
-                FontAwesomeIcons.arrowRight,
-                size: 12,
-                color: theme.colorScheme.primary,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      isDeposit
+                          ? l10n.payDepositAmount(
+                              '${amount.toStringAsFixed(2)} €')
+                          : l10n.payRemainingAmount(
+                              '${amount.toStringAsFixed(2)} €'),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: accent,
+                      ),
+                    ),
+                  ),
+                  if (sessions.length > 1)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: accent.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        '+${sessions.length - 1}',
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: accent,
+                        ),
+                      ),
+                    ),
+                  const SizedBox(width: 8),
+                  const FaIcon(
+                    FontAwesomeIcons.arrowRight,
+                    size: 12,
+                    color: accent,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
