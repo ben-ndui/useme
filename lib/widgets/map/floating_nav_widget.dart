@@ -9,7 +9,6 @@ import 'package:useme/core/blocs/map/map_state.dart';
 import 'package:useme/core/models/navigation/navigation_exports.dart';
 
 /// Floating glassmorphism widget showing route info + travel mode picker.
-/// Appears when directions are active on the map.
 class FloatingNavWidget extends StatelessWidget {
   const FloatingNavWidget({super.key});
 
@@ -24,8 +23,7 @@ class FloatingNavWidget extends StatelessWidget {
         if (!state.hasDirections && !state.isLoadingDirections) {
           return const SizedBox.shrink();
         }
-
-        return _NavCard(
+        return _DraggableNavCard(
           directions: state.directions,
           travelMode: state.travelMode,
           isLoading: state.isLoadingDirections,
@@ -35,37 +33,37 @@ class FloatingNavWidget extends StatelessWidget {
   }
 }
 
-class _NavCard extends StatefulWidget {
+class _DraggableNavCard extends StatefulWidget {
   final DirectionsResult? directions;
   final TravelMode travelMode;
   final bool isLoading;
 
-  const _NavCard({
+  const _DraggableNavCard({
     this.directions,
     required this.travelMode,
     required this.isLoading,
   });
 
   @override
-  State<_NavCard> createState() => _NavCardState();
+  State<_DraggableNavCard> createState() => _DraggableNavCardState();
 }
 
-class _NavCardState extends State<_NavCard> {
+class _DraggableNavCardState extends State<_DraggableNavCard> {
   Offset _position = const Offset(16, 0);
   bool _initialized = false;
-
-  DirectionsResult? get directions => widget.directions;
-  TravelMode get travelMode => widget.travelMode;
-  bool get isLoading => widget.isLoading;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_initialized) {
-      final screenHeight = MediaQuery.of(context).size.height;
-      _position = Offset(16, screenHeight - 300);
+      final h = MediaQuery.of(context).size.height;
+      _position = Offset(16, h - 320);
       _initialized = true;
     }
+  }
+
+  void _onPanUpdate(DragUpdateDetails details) {
+    setState(() => _position += details.delta);
   }
 
   @override
@@ -76,72 +74,93 @@ class _NavCardState extends State<_NavCard> {
       left: _position.dx,
       top: _position.dy,
       child: GestureDetector(
-        onPanUpdate: (details) {
-          setState(() {
-            _position += details.delta;
-          });
-        },
+        onPanUpdate: _onPanUpdate,
         child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-          child: Container(
-            width: 180,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surface.withValues(alpha: 0.85),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: theme.colorScheme.outlineVariant
-                    .withValues(alpha: 0.3),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.15),
-                  blurRadius: 20,
-                  offset: const Offset(0, 4),
+          borderRadius: BorderRadius.circular(16),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+            child: Container(
+              width: 190,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface.withValues(alpha: 0.85),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: theme.colorScheme.outlineVariant
+                      .withValues(alpha: 0.3),
                 ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeader(context, theme),
-                if (directions != null) ...[
-                  const SizedBox(height: 8),
-                  _buildInfo(theme),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.15),
+                    blurRadius: 20,
+                    offset: const Offset(0, 4),
+                  ),
                 ],
-                if (isLoading)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child: Center(
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Drag handle
+                  Center(
+                    child: Container(
+                      width: 32,
+                      height: 4,
+                      margin: const EdgeInsets.only(bottom: 8),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.outline
+                            .withValues(alpha: 0.3),
+                        borderRadius: BorderRadius.circular(2),
                       ),
                     ),
                   ),
-                const SizedBox(height: 8),
-                _buildTravelModes(context, theme),
-              ],
+                  _Header(theme: theme),
+                  if (widget.directions != null) ...[
+                    const SizedBox(height: 8),
+                    _Info(
+                      directions: widget.directions!,
+                      theme: theme,
+                    ),
+                  ],
+                  if (widget.isLoading)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Center(
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      ),
+                    ),
+                  const SizedBox(height: 8),
+                  _TravelModes(
+                    current: widget.travelMode,
+                    theme: theme,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
-      ),
     );
   }
+}
 
-  Widget _buildHeader(BuildContext context, ThemeData theme) {
+class _Header extends StatelessWidget {
+  final ThemeData theme;
+
+  const _Header({required this.theme});
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: [
-        FaIcon(
-          FontAwesomeIcons.route,
-          size: 14,
-          color: theme.colorScheme.primary,
-        ),
+        FaIcon(FontAwesomeIcons.route,
+            size: 14, color: theme.colorScheme.primary),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
@@ -153,41 +172,43 @@ class _NavCardState extends State<_NavCard> {
             ),
           ),
         ),
-        GestureDetector(
-          onTap: () => context.read<MapBloc>().add(
-                const ClearDirectionsEvent(),
-              ),
+        InkWell(
+          onTap: () =>
+              context.read<MapBloc>().add(const ClearDirectionsEvent()),
+          borderRadius: BorderRadius.circular(8),
           child: Container(
-            padding: const EdgeInsets.all(4),
+            padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               color: theme.colorScheme.error.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: FaIcon(
-              FontAwesomeIcons.xmark,
-              size: 12,
-              color: theme.colorScheme.error,
-            ),
+            child: FaIcon(FontAwesomeIcons.xmark,
+                size: 12, color: theme.colorScheme.error),
           ),
         ),
       ],
     );
   }
+}
 
-  Widget _buildInfo(ThemeData theme) {
+class _Info extends StatelessWidget {
+  final DirectionsResult directions;
+  final ThemeData theme;
+
+  const _Info({required this.directions, required this.theme});
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            FaIcon(
-              FontAwesomeIcons.locationArrow,
-              size: 12,
-              color: theme.colorScheme.primary,
-            ),
+            FaIcon(FontAwesomeIcons.locationArrow,
+                size: 12, color: theme.colorScheme.primary),
             const SizedBox(width: 6),
             Text(
-              directions!.distance,
+              directions.distance,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -199,14 +220,11 @@ class _NavCardState extends State<_NavCard> {
         const SizedBox(height: 2),
         Row(
           children: [
-            FaIcon(
-              FontAwesomeIcons.clock,
-              size: 12,
-              color: Colors.amber,
-            ),
+            const FaIcon(FontAwesomeIcons.clock,
+                size: 12, color: Colors.amber),
             const SizedBox(width: 6),
             Text(
-              directions!.duration,
+              directions.duration,
               style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -218,66 +236,56 @@ class _NavCardState extends State<_NavCard> {
       ],
     );
   }
+}
 
-  Widget _buildTravelModes(BuildContext context, ThemeData theme) {
+class _TravelModes extends StatelessWidget {
+  final TravelMode current;
+  final ThemeData theme;
+
+  const _TravelModes({required this.current, required this.theme});
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _modeButton(
-          context,
-          theme,
-          icon: FontAwesomeIcons.personWalking,
-          mode: TravelMode.walking,
-        ),
-        _modeButton(
-          context,
-          theme,
-          icon: FontAwesomeIcons.bicycle,
-          mode: TravelMode.bicycling,
-        ),
-        _modeButton(
-          context,
-          theme,
-          icon: FontAwesomeIcons.car,
-          mode: TravelMode.driving,
-        ),
-        _modeButton(
-          context,
-          theme,
-          icon: FontAwesomeIcons.trainSubway,
-          mode: TravelMode.transit,
-        ),
-      ],
+      children: TravelMode.values.map((mode) {
+        final isActive = current == mode;
+        return InkWell(
+          onTap: () => context.read<MapBloc>().add(
+                ChangeTravelModeEvent(travelMode: mode.apiValue),
+              ),
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: isActive
+                  ? theme.colorScheme.primary.withValues(alpha: 0.2)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: FaIcon(
+              _iconFor(mode),
+              size: 16,
+              color: isActive
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 
-  Widget _modeButton(
-    BuildContext context,
-    ThemeData theme, {
-    required IconData icon,
-    required TravelMode mode,
-  }) {
-    final isActive = travelMode == mode;
-    return GestureDetector(
-      onTap: () => context.read<MapBloc>().add(
-            ChangeTravelModeEvent(travelMode: mode.apiValue),
-          ),
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: isActive
-              ? theme.colorScheme.primary.withValues(alpha: 0.2)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: FaIcon(
-          icon,
-          size: 16,
-          color: isActive
-              ? theme.colorScheme.primary
-              : theme.colorScheme.onSurfaceVariant,
-        ),
-      ),
-    );
+  IconData _iconFor(TravelMode mode) {
+    switch (mode) {
+      case TravelMode.walking:
+        return FontAwesomeIcons.personWalking;
+      case TravelMode.bicycling:
+        return FontAwesomeIcons.bicycle;
+      case TravelMode.driving:
+        return FontAwesomeIcons.car;
+      case TravelMode.transit:
+        return FontAwesomeIcons.trainSubway;
+    }
   }
 }
