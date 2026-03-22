@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:useme/core/blocs/map/map_event.dart';
@@ -245,6 +246,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       orElse: () => TravelMode.driving,
     );
 
+    debugPrint('[MapBloc] getDirections from ${state.userLocation} to ${event.destination.position} mode=${mode.apiValue}');
     emit(state.copyWith(isLoadingDirections: true, travelMode: mode));
 
     final result = await _directionsService.getDirections(
@@ -252,6 +254,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       destination: event.destination.position,
       mode: mode,
     );
+
+    debugPrint('[MapBloc] directions result: ${result != null ? "${result.distance} / ${result.duration} / ${result.polylinePoints.length} points" : "null"}');
 
     emit(state.copyWith(
       directions: result,

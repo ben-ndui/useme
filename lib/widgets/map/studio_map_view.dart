@@ -109,23 +109,27 @@ class _StudioMapViewState extends State<StudioMapView> {
     return BlocConsumer<MapBloc, MapState>(
       listenWhen: (previous, current) {
         if (!mounted || _isControllerDisposed) return false;
-        // Listen when search completes (searchCenter changed and not searching)
         final searchCompleted = previous.isSearchingAddress && !current.isSearchingAddress;
-        // Or when studios loaded
         final studiosLoaded = previous.isLoading && !current.isLoading;
-        // Or when new studios are available
         final newStudios = previous.nearbyStudios.length != current.nearbyStudios.length;
-        // Or when selected studio changes (select or deselect)
         final selectionChanged =
             previous.selectedStudio != current.selectedStudio;
-        return searchCompleted || studiosLoaded || newStudios || selectionChanged;
+        final directionsChanged =
+            previous.directions != current.directions;
+        return searchCompleted || studiosLoaded || newStudios || selectionChanged || directionsChanged;
       },
       listener: (context, state) {
-        // Avoid using controller after widget is disposed
         if (!mounted || _isControllerDisposed) return;
 
+        // Fit camera to route bounds when directions arrive
+        if (state.hasDirections && _mapController != null) {
+          _mapController!.animateCamera(
+            CameraUpdate.newLatLngBounds(state.directions!.bounds, 80),
+          );
+          return;
+        }
+
         if (_mapController != null && !state.isSearchingAddress) {
-          // Zoom tighter on selected studio, wider on area search
           final zoom = state.selectedStudio != null ? 16.0 : 13.0;
           _safeAnimateCamera(state.searchCenter, zoom);
         }

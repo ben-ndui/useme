@@ -35,7 +35,7 @@ class FloatingNavWidget extends StatelessWidget {
   }
 }
 
-class _NavCard extends StatelessWidget {
+class _NavCard extends StatefulWidget {
   final DirectionsResult? directions;
   final TravelMode travelMode;
   final bool isLoading;
@@ -47,13 +47,41 @@ class _NavCard extends StatelessWidget {
   });
 
   @override
+  State<_NavCard> createState() => _NavCardState();
+}
+
+class _NavCardState extends State<_NavCard> {
+  Offset _position = const Offset(16, 0);
+  bool _initialized = false;
+
+  DirectionsResult? get directions => widget.directions;
+  TravelMode get travelMode => widget.travelMode;
+  bool get isLoading => widget.isLoading;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      final screenHeight = MediaQuery.of(context).size.height;
+      _position = Offset(16, screenHeight - 300);
+      _initialized = true;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Positioned(
-      bottom: 140,
-      left: 16,
-      child: ClipRRect(
+      left: _position.dx,
+      top: _position.dy,
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          setState(() {
+            _position += details.delta;
+          });
+        },
+        child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
@@ -101,6 +129,7 @@ class _NavCard extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }

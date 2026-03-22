@@ -37,14 +37,21 @@ class DirectionsService {
         'language': 'fr',
       });
 
+      debugPrint('[Directions] GET $uri');
       final response = await _client.get(uri);
+      debugPrint('[Directions] status=${response.statusCode}');
 
-      if (response.statusCode != 200) return null;
+      if (response.statusCode != 200) {
+        debugPrint('[Directions] HTTP error: ${response.body}');
+        return null;
+      }
 
       final data = jsonDecode(response.body) as Map<String, dynamic>;
+      debugPrint('[Directions] API status=${data['status']}');
 
       if (data['status'] != 'OK' ||
           (data['routes'] as List).isEmpty) {
+        debugPrint('[Directions] Error: ${data['status']} - ${data['error_message'] ?? 'no routes'}');
         return null;
       }
 
