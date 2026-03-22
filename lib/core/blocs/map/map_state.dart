@@ -21,6 +21,7 @@ class MapState {
   final bool partnerOnly;
   final String? searchQuery;
   final DirectionsResult? directions;
+  final DiscoveredStudio? directionsDestination;
   final TravelMode travelMode;
   final bool isLoadingDirections;
 
@@ -39,6 +40,7 @@ class MapState {
     this.partnerOnly = false,
     this.searchQuery,
     this.directions,
+    this.directionsDestination,
     this.travelMode = TravelMode.driving,
     this.isLoadingDirections = false,
   });
@@ -58,6 +60,7 @@ class MapState {
     bool? partnerOnly,
     String? searchQuery,
     DirectionsResult? directions,
+    DiscoveredStudio? directionsDestination,
     TravelMode? travelMode,
     bool? isLoadingDirections,
     bool clearSelectedStudio = false,
@@ -82,6 +85,9 @@ class MapState {
       partnerOnly: partnerOnly ?? this.partnerOnly,
       searchQuery: clearSearchQuery ? null : (searchQuery ?? this.searchQuery),
       directions: clearDirections ? null : (directions ?? this.directions),
+      directionsDestination: clearDirections
+          ? null
+          : (directionsDestination ?? this.directionsDestination),
       travelMode: travelMode ?? this.travelMode,
       isLoadingDirections: isLoadingDirections ?? this.isLoadingDirections,
     );

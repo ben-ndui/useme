@@ -247,7 +247,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     );
 
     debugPrint('[MapBloc] getDirections from ${state.userLocation} to ${event.destination.position} mode=${mode.apiValue}');
-    emit(state.copyWith(isLoadingDirections: true, travelMode: mode));
+    emit(state.copyWith(
+      isLoadingDirections: true,
+      travelMode: mode,
+      directionsDestination: event.destination,
+    ));
 
     final result = await _directionsService.getDirections(
       origin: state.userLocation,
@@ -267,10 +271,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     ChangeTravelModeEvent event,
     Emitter<MapState> emit,
   ) async {
-    if (state.selectedStudio == null) return;
+    final dest = state.directionsDestination;
+    if (dest == null) return;
 
     add(GetDirectionsEvent(
-      destination: state.selectedStudio!,
+      destination: dest,
       travelMode: event.travelMode,
     ));
   }
