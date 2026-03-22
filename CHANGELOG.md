@@ -5,9 +5,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
-## [1.1.0] - 2026-03-21
+## [1.1.0] - 2026-03-22
 
 ### Added
+- **In-app navigation** — "Y aller" button on studio and pro detail sheets with polyline route on map, distance/duration info, travel mode picker (walk/bike/car/transit)
+- **Floating nav widget** — Draggable glassmorphism card with route info and transport mode switcher
+- **NavigationService** — Opens Apple Maps (iOS) / Google Maps (Android) with directions
+- **DirectionsService** — Google Directions API with polyline decoder
 - **Stripe session payment** — Artists can pay deposits and remaining balances directly in-app via Stripe PaymentSheet (Apple Pay, Google Pay, Card)
 - **Stripe Connect for studios** — Studios can connect their Stripe account to receive payments directly (Express accounts, 15% platform commission)
 - **Stripe Connect onboarding screen** — `/studio/stripe-connect` with status indicators and onboarding flow
