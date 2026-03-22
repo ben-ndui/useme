@@ -23,6 +23,11 @@ class StudioDetailBottomSheet extends StatelessWidget {
   static Future<void> show(BuildContext context, DiscoveredStudio studio) {
     final authBloc = context.read<AuthBloc>();
     final favoriteBloc = context.read<FavoriteBloc>();
+    // MapBloc may not exist if opened from outside the map screen
+    MapBloc? mapBloc;
+    try {
+      mapBloc = context.read<MapBloc>();
+    } catch (_) {}
 
     return showModalBottomSheet(
       context: context,
@@ -32,6 +37,7 @@ class StudioDetailBottomSheet extends StatelessWidget {
         providers: [
           BlocProvider.value(value: authBloc),
           BlocProvider.value(value: favoriteBloc),
+          if (mapBloc != null) BlocProvider.value(value: mapBloc),
         ],
         child: StudioDetailBottomSheet(studio: studio),
       ),
@@ -370,48 +376,68 @@ class StudioDetailBottomSheet extends StatelessWidget {
               ),
             ),
           const SizedBox(height: 10),
-          Row(
-            children: [
-              // In-app route on map
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    context.read<MapBloc>().add(
-                          GetDirectionsEvent(destination: studio),
-                        );
-                    Navigator.pop(context);
-                  },
-                  icon: FaIcon(
-                    FontAwesomeIcons.route,
-                    size: 14,
-                    color: theme.colorScheme.primary,
-                  ),
-                  label: Text(l10n.getDirections),
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size(0, 50),
-                  ),
-                ),
+          _buildDirectionsRow(context, theme, l10n),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDirectionsRow(
+    BuildContext context,
+    ThemeData theme,
+    AppLocalizations l10n,
+  ) {
+    // Check if MapBloc is available (only on map screens)
+    MapBloc? mapBloc;
+    try {
+      mapBloc = context.read<MapBloc>();
+    } catch (_) {}
+
+    if (mapBloc != null) {
+      return Row(
+        children: [
+          Expanded(
+            child: OutlinedButton.icon(
+              onPressed: () {
+                mapBloc!.add(GetDirectionsEvent(destination: studio));
+                Navigator.pop(context);
+              },
+              icon: FaIcon(FontAwesomeIcons.route, size: 14,
+                  color: theme.colorScheme.primary),
+              label: Text(l10n.getDirections),
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size(0, 50),
               ),
-              const SizedBox(width: 8),
-              // Open in native maps
-              OutlinedButton(
-                onPressed: () => NavigationService.openDirections(
-                  destination: studio.position,
-                  destinationName: studio.name,
-                ),
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(50, 50),
-                  padding: EdgeInsets.zero,
-                ),
-                child: FaIcon(
-                  FontAwesomeIcons.diamondTurnRight,
-                  size: 16,
-                  color: theme.colorScheme.primary,
-                ),
-              ),
-            ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          OutlinedButton(
+            onPressed: () => NavigationService.openDirections(
+              destination: studio.position,
+              destinationName: studio.name,
+            ),
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size(50, 50),
+              padding: EdgeInsets.zero,
+            ),
+            child: FaIcon(FontAwesomeIcons.diamondTurnRight,
+                size: 16, color: theme.colorScheme.primary),
           ),
         ],
+      );
+    }
+
+    // No MapBloc — just show external navigation
+    return OutlinedButton.icon(
+      onPressed: () => NavigationService.openDirections(
+        destination: studio.position,
+        destinationName: studio.name,
+      ),
+      icon: FaIcon(FontAwesomeIcons.diamondTurnRight,
+          size: 16, color: theme.colorScheme.primary),
+      label: Text(l10n.getDirections),
+      style: OutlinedButton.styleFrom(
+        minimumSize: const Size(double.infinity, 50),
       ),
     );
   }
