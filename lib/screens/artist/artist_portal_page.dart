@@ -18,6 +18,7 @@ import 'package:useme/widgets/artist/studio_selector_bottom_sheet.dart';
 import 'package:useme/core/services/pro_profile_service.dart';
 import 'package:useme/widgets/pro/pro_detail_bottom_sheet.dart';
 import 'package:useme/widgets/common/smooth_draggable_widget.dart';
+import 'package:useme/widgets/map/floating_nav_widget.dart';
 import 'package:useme/widgets/map/map_filter_sheet.dart';
 import 'package:useme/widgets/map/studio_map_view.dart';
 
@@ -92,6 +93,7 @@ class _ArtistPortalPageState extends State<ArtistPortalPage> {
             Positioned.fill(
               child: const StudioMapView(),
             ),
+            const FloatingNavWidget(),
             SlideInUp(
               duration: const Duration(milliseconds: 600),
               child: SmoothDraggableWidget(

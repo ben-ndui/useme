@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:useme/core/models/discovered_studio.dart';
+import 'package:useme/core/models/navigation/navigation_exports.dart';
 import 'package:useme/core/services/location_service.dart';
 
 /// Map State
@@ -17,6 +20,9 @@ class MapState {
   final Set<String> serviceFilters;
   final bool partnerOnly;
   final String? searchQuery;
+  final DirectionsResult? directions;
+  final TravelMode travelMode;
+  final bool isLoadingDirections;
 
   const MapState({
     this.isLoading = false,
@@ -32,6 +38,9 @@ class MapState {
     this.serviceFilters = const {},
     this.partnerOnly = false,
     this.searchQuery,
+    this.directions,
+    this.travelMode = TravelMode.driving,
+    this.isLoadingDirections = false,
   });
 
   MapState copyWith({
@@ -48,9 +57,13 @@ class MapState {
     Set<String>? serviceFilters,
     bool? partnerOnly,
     String? searchQuery,
+    DirectionsResult? directions,
+    TravelMode? travelMode,
+    bool? isLoadingDirections,
     bool clearSelectedStudio = false,
     bool clearError = false,
     bool clearSearchQuery = false,
+    bool clearDirections = false,
   }) {
     return MapState(
       isLoading: isLoading ?? this.isLoading,
@@ -68,7 +81,30 @@ class MapState {
       serviceFilters: serviceFilters ?? this.serviceFilters,
       partnerOnly: partnerOnly ?? this.partnerOnly,
       searchQuery: clearSearchQuery ? null : (searchQuery ?? this.searchQuery),
+      directions: clearDirections ? null : (directions ?? this.directions),
+      travelMode: travelMode ?? this.travelMode,
+      isLoadingDirections: isLoadingDirections ?? this.isLoadingDirections,
     );
+  }
+
+  /// Whether directions are currently displayed.
+  bool get hasDirections => directions != null;
+
+  /// Polylines for the route.
+  Set<Polyline> get routePolylines {
+    if (directions == null) return {};
+    return {
+      Polyline(
+        polylineId: const PolylineId('route'),
+        points: directions!.polylinePoints,
+        color: const Color(0xFF6C63FF), // UZME primary purple
+        width: 5,
+        patterns: [],
+        jointType: JointType.round,
+        endCap: Cap.roundCap,
+        startCap: Cap.roundCap,
+      ),
+    };
   }
 
   static double _markerHue(DiscoveredStudio studio) {

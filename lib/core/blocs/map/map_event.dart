@@ -90,3 +90,26 @@ class UpdateFiltersEvent extends MapEvent {
 class ClearFiltersEvent extends MapEvent {
   const ClearFiltersEvent();
 }
+
+/// Get directions to a studio/pro from user location
+class GetDirectionsEvent extends MapEvent {
+  final DiscoveredStudio destination;
+  final String travelMode; // driving, walking, transit, bicycling
+
+  const GetDirectionsEvent({
+    required this.destination,
+    this.travelMode = 'driving',
+  });
+}
+
+/// Change travel mode and recalculate directions
+class ChangeTravelModeEvent extends MapEvent {
+  final String travelMode;
+
+  const ChangeTravelModeEvent({required this.travelMode});
+}
+
+/// Clear directions from the map
+class ClearDirectionsEvent extends MapEvent {
+  const ClearDirectionsEvent();
+}

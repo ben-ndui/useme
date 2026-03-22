@@ -3,6 +3,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:useme/core/blocs/map/map_event.dart';
 import 'package:useme/core/blocs/map/map_state.dart';
 import 'package:useme/core/models/discovered_studio.dart';
+import 'package:useme/core/models/navigation/navigation_exports.dart';
+import 'package:useme/core/services/directions_service.dart';
 import 'package:useme/core/services/location_service.dart';
 import 'package:useme/core/services/studio_discovery_service.dart';
 
@@ -10,12 +12,15 @@ import 'package:useme/core/services/studio_discovery_service.dart';
 class MapBloc extends Bloc<MapEvent, MapState> {
   final LocationService _locationService;
   final StudioDiscoveryService _studioService;
+  final DirectionsService _directionsService;
 
   MapBloc({
     LocationService? locationService,
     StudioDiscoveryService? studioService,
+    DirectionsService? directionsService,
   })  : _locationService = locationService ?? LocationService(),
         _studioService = studioService ?? StudioDiscoveryService(),
+        _directionsService = directionsService ?? DirectionsService(),
         super(const MapState()) {
     on<InitMapEvent>(_onInitMap);
     on<LoadNearbyStudiosEvent>(_onLoadNearbyStudios);
@@ -28,6 +33,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<SearchInAreaEvent>(_onSearchInArea);
     on<UpdateFiltersEvent>(_onUpdateFilters);
     on<ClearFiltersEvent>(_onClearFilters);
+    on<GetDirectionsEvent>(_onGetDirections);
+    on<ChangeTravelModeEvent>(_onChangeTravelMode);
+    on<ClearDirectionsEvent>(_onClearDirections);
   }
 
   Future<void> _onInitMap(InitMapEvent event, Emitter<MapState> emit) async {
@@ -226,5 +234,47 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       serviceFilters: const {},
       partnerOnly: false,
     ));
+  }
+
+  Future<void> _onGetDirections(
+    GetDirectionsEvent event,
+    Emitter<MapState> emit,
+  ) async {
+    final mode = TravelMode.values.firstWhere(
+      (m) => m.apiValue == event.travelMode,
+      orElse: () => TravelMode.driving,
+    );
+
+    emit(state.copyWith(isLoadingDirections: true, travelMode: mode));
+
+    final result = await _directionsService.getDirections(
+      origin: state.userLocation,
+      destination: event.destination.position,
+      mode: mode,
+    );
+
+    emit(state.copyWith(
+      directions: result,
+      isLoadingDirections: false,
+    ));
+  }
+
+  Future<void> _onChangeTravelMode(
+    ChangeTravelModeEvent event,
+    Emitter<MapState> emit,
+  ) async {
+    if (state.selectedStudio == null) return;
+
+    add(GetDirectionsEvent(
+      destination: state.selectedStudio!,
+      travelMode: event.travelMode,
+    ));
+  }
+
+  void _onClearDirections(
+    ClearDirectionsEvent event,
+    Emitter<MapState> emit,
+  ) {
+    emit(state.copyWith(clearDirections: true));
   }
 }

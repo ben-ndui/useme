@@ -7,6 +7,8 @@ import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/discovered_studio.dart';
 import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/models/studio_profile.dart';
+import 'package:useme/core/blocs/map/map_bloc.dart';
+import 'package:useme/core/blocs/map/map_event.dart';
 import 'package:useme/core/services/navigation_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/badges/pioneer_badge.dart';
@@ -368,20 +370,46 @@ class StudioDetailBottomSheet extends StatelessWidget {
               ),
             ),
           const SizedBox(height: 10),
-          OutlinedButton.icon(
-            onPressed: () => NavigationService.openDirections(
-              destination: studio.position,
-              destinationName: studio.name,
-            ),
-            icon: FaIcon(
-              FontAwesomeIcons.diamondTurnRight,
-              size: 16,
-              color: theme.colorScheme.primary,
-            ),
-            label: Text(l10n.getDirections),
-            style: OutlinedButton.styleFrom(
-              minimumSize: const Size(double.infinity, 50),
-            ),
+          Row(
+            children: [
+              // In-app route on map
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    context.read<MapBloc>().add(
+                          GetDirectionsEvent(destination: studio),
+                        );
+                    Navigator.pop(context);
+                  },
+                  icon: FaIcon(
+                    FontAwesomeIcons.route,
+                    size: 14,
+                    color: theme.colorScheme.primary,
+                  ),
+                  label: Text(l10n.getDirections),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(0, 50),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Open in native maps
+              OutlinedButton(
+                onPressed: () => NavigationService.openDirections(
+                  destination: studio.position,
+                  destinationName: studio.name,
+                ),
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size(50, 50),
+                  padding: EdgeInsets.zero,
+                ),
+                child: FaIcon(
+                  FontAwesomeIcons.diamondTurnRight,
+                  size: 16,
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+            ],
           ),
         ],
       ),

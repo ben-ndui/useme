@@ -148,6 +148,7 @@ class _StudioMapViewState extends State<StudioMapView> {
               ),
               style: MapStyles.forBrightness(Theme.of(context).brightness),
               markers: _buildMarkers(state),
+              polylines: state.routePolylines,
               myLocationEnabled: true,
               myLocationButtonEnabled: false,
               zoomControlsEnabled: false,
