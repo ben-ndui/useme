@@ -350,6 +350,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() => _isUploadingPhoto = false);
 
       if (updateResult.code == 200) {
+        // Small delay to ensure Firestore write is complete
+        await Future.delayed(const Duration(milliseconds: 500));
+        if (!mounted) return;
         // Force reload du BLoC pour mettre à jour l'état
         context.read<AuthBloc>().add(const ReloadUserEvent());
         AppSnackBar.success(context, AppLocalizations.of(context)!.photoUpdated);
