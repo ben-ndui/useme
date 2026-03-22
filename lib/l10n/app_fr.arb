@@ -1944,6 +1944,8 @@
   "platformFeeNotice": "Une commission de 15% est appliquée par la plateforme sur chaque paiement",
   "refresh": "Actualiser",
 
+  "getDirections": "Y aller",
+
   "pioneerBadgeLabel": "Pioneer #{number}",
   "@pioneerBadgeLabel": {
     "placeholders": {

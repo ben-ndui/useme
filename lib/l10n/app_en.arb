@@ -1752,6 +1752,8 @@
   "platformFeeNotice": "A 15% platform fee is applied on each payment",
   "refresh": "Refresh",
 
+  "getDirections": "Get directions",
+
   "pioneerBadgeLabel": "Pioneer #{number}",
   "@pioneerBadgeLabel": {
     "placeholders": {

@@ -7,6 +7,7 @@ import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/discovered_studio.dart';
 import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/models/studio_profile.dart';
+import 'package:useme/core/services/navigation_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/badges/pioneer_badge.dart';
 import 'package:useme/widgets/favorite/favorite_button.dart';
@@ -341,8 +342,10 @@ class StudioDetailBottomSheet extends StatelessWidget {
   Widget _buildActions(BuildContext context, ThemeData theme, AppLocalizations l10n) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: studio.isPartner
-          ? FilledButton.icon(
+      child: Column(
+        children: [
+          if (studio.isPartner)
+            FilledButton.icon(
               onPressed: () {
                 Navigator.pop(context);
                 context.push(
@@ -355,7 +358,8 @@ class StudioDetailBottomSheet extends StatelessWidget {
                 minimumSize: const Size(double.infinity, 50),
               ),
             )
-          : OutlinedButton.icon(
+          else
+            OutlinedButton.icon(
               onPressed: () => Navigator.pop(context),
               icon: const FaIcon(FontAwesomeIcons.xmark, size: 16),
               label: Text(l10n.notAvailable),
@@ -363,6 +367,24 @@ class StudioDetailBottomSheet extends StatelessWidget {
                 minimumSize: const Size(double.infinity, 50),
               ),
             ),
+          const SizedBox(height: 10),
+          OutlinedButton.icon(
+            onPressed: () => NavigationService.openDirections(
+              destination: studio.position,
+              destinationName: studio.name,
+            ),
+            icon: FaIcon(
+              FontAwesomeIcons.diamondTurnRight,
+              size: 16,
+              color: theme.colorScheme.primary,
+            ),
+            label: Text(l10n.getDirections),
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 50),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

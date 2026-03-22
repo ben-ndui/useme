@@ -4,8 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:useme/core/models/app_user.dart';
 import 'package:useme/core/models/favorite.dart';
+import 'package:useme/core/services/navigation_service.dart';
 import 'package:useme/widgets/common/badges/pioneer_badge.dart';
 import 'package:useme/core/models/pro_profile.dart';
 import 'package:useme/l10n/app_localizations.dart';
@@ -457,6 +459,30 @@ class ProDetailBottomSheet extends StatelessWidget {
                 ),
               ),
             ),
+            if (_profile.location != null) ...[
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                onPressed: () => NavigationService.openDirections(
+                  destination: LatLng(
+                    _profile.location!.latitude,
+                    _profile.location!.longitude,
+                  ),
+                  destinationName: _profile.displayName,
+                ),
+                icon: FaIcon(
+                  FontAwesomeIcons.diamondTurnRight,
+                  size: 14,
+                  color: theme.colorScheme.primary,
+                ),
+                label: Text(l10n.getDirections),
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 44),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
       ),

@@ -4265,6 +4265,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get refresh => 'Refresh';
 
   @override
+  String get getDirections => 'Get directions';
+
+  @override
   String pioneerBadgeLabel(String number) {
     return 'Pioneer #$number';
   }

@@ -4302,6 +4302,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get refresh => 'Actualiser';
 
   @override
+  String get getDirections => 'Y aller';
+
+  @override
   String pioneerBadgeLabel(String number) {
     return 'Pioneer #$number';
   }

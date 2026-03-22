@@ -1941,6 +1941,8 @@
   "platformFeeNotice": "Commission tî 15% a-yeke na yâ tî fütä ôko ôko",
   "refresh": "Kîri yângâ",
 
+  "getDirections": "Gue na ndö",
+
   "pioneerBadgeLabel": "Pioneer #{number}",
   "@pioneerBadgeLabel": {
     "placeholders": {
