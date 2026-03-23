@@ -9,10 +9,15 @@ def flutter_cmd
   ENV["CI"] ? "flutter" : "fvm flutter"
 end
 
+def project_root
+  File.expand_path("../..", __dir__)
+end
+
 def flutter_build(platform, args = "")
-  sh("cd ../.. && #{flutter_cmd} clean")
-  sh("cd ../.. && #{flutter_cmd} pub get")
-  sh("cd ../.. && #{flutter_cmd} build #{platform} #{args}")
+  root = project_root
+  sh("cd #{root} && #{flutter_cmd} clean")
+  sh("cd #{root} && #{flutter_cmd} pub get")
+  sh("cd #{root} && #{flutter_cmd} build #{platform} #{args}")
 end
 
 # ──────────────────────────────────────────────
