@@ -80,6 +80,7 @@ class BookingAcceptanceService {
       );
 
       // 3. Générer et envoyer le message de paiement
+      final studioConfig = await _paymentService.getPaymentConfig(studio.uid);
       final sessionTitle = '${session.typeLabel} - ${session.artistNames.join(", ")}';
       final paymentMessage = _paymentService.generatePaymentMessageLocal(
         sessionTitle: sessionTitle,
@@ -88,6 +89,7 @@ class BookingAcceptanceService {
         depositAmount: depositAmount,
         paymentMethod: paymentMethod,
         studioName: studio.studioProfile?.name,
+        cancellationPolicy: studioConfig.cancellationPolicy,
       );
 
       // Ajouter le message personnalisé s'il existe
@@ -161,6 +163,7 @@ class BookingAcceptanceService {
       );
 
       // 3. Générer le message de paiement
+      final proConfig = await _paymentService.getPaymentConfig(proUser.uid);
       final sessionTitle =
           '${session.typeLabel} - ${session.artistNames.join(", ")}';
       final paymentMessage = _paymentService.generatePaymentMessageLocal(
@@ -170,6 +173,7 @@ class BookingAcceptanceService {
         depositAmount: depositAmount,
         paymentMethod: paymentMethod,
         studioName: proName,
+        cancellationPolicy: proConfig.cancellationPolicy,
       );
 
       final fullMessage = customMessage != null && customMessage.isNotEmpty

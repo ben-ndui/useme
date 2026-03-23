@@ -207,6 +207,7 @@ class PaymentConfigService {
     required double depositAmount,
     required PaymentMethod paymentMethod,
     String? studioName,
+    CancellationPolicy? cancellationPolicy,
   }) {
     final dateStr = '${sessionDate.day}/${sessionDate.month}/${sessionDate.year}';
     final buffer = StringBuffer();
@@ -247,6 +248,12 @@ class PaymentConfigService {
     if (paymentMethod.instructions != null && paymentMethod.instructions!.isNotEmpty) {
       buffer.writeln('');
       buffer.writeln('📝 Instructions: ${paymentMethod.instructions}');
+    }
+
+    if (cancellationPolicy != null) {
+      buffer.writeln('');
+      buffer.writeln('⚖️ Annulation: ${cancellationPolicy.label}');
+      buffer.writeln('   ${cancellationPolicy.description}');
     }
 
     buffer.writeln('');
