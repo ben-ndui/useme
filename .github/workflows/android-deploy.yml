@@ -5,7 +5,6 @@ on:
     tags:
       - "v*"
 
-# Prevent concurrent deployments
 concurrency:
   group: android-deploy
   cancel-in-progress: false
@@ -24,9 +23,7 @@ jobs:
         id: version
         run: |
           TAG=${GITHUB_REF#refs/tags/v}
-          VERSION_NAME=$(echo $TAG | cut -d'+' -f1)
           BUILD_NUMBER=${{ github.run_number }}
-          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
           echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
 
       - name: Setup Java
@@ -73,11 +70,16 @@ jobs:
       - name: Create .env
         run: echo "${{ secrets.DOTENV }}" > .env
 
+      - name: Flutter clean
+        run: flutter clean
+
       - name: Flutter pub get
         run: flutter pub get
 
-      - name: Deploy to Google Play
+      - name: Build AAB
+        run: flutter build appbundle --release --build-number=${{ steps.version.outputs.build_number }}
+
+      - name: Upload to Google Play
         run: bundle exec fastlane android deploy
         env:
-          BUILD_NUMBER: ${{ steps.version.outputs.build_number }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_KEY_PATH: /tmp/google-play-key.json

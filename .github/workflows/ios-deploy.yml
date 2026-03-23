@@ -5,7 +5,6 @@ on:
     tags:
       - "v*"
 
-# Prevent concurrent deployments
 concurrency:
   group: ios-deploy
   cancel-in-progress: false
@@ -23,10 +22,7 @@ jobs:
       - name: Extract version from tag
         id: version
         run: |
-          TAG=${GITHUB_REF#refs/tags/v}
-          VERSION_NAME=$(echo $TAG | cut -d'+' -f1)
           BUILD_NUMBER=${{ github.run_number }}
-          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
           echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
 
       - name: Setup Flutter (FVM)
@@ -52,6 +48,9 @@ jobs:
       - name: Create .env
         run: echo "${{ secrets.DOTENV }}" > .env
 
+      - name: Flutter clean
+        run: flutter clean
+
       - name: Flutter pub get
         run: flutter pub get
 
@@ -60,7 +59,7 @@ jobs:
 
       - name: Create ExportOptions.plist
         run: |
-          cat > ios/ExportOptions.plist <<'PLIST'
+          cat > ios/ExportOptions.plist << 'PLIST'
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
@@ -84,10 +83,12 @@ jobs:
           </plist>
           PLIST
 
-      - name: Deploy to TestFlight
+      - name: Build IPA
+        run: flutter build ipa --release --build-number=${{ steps.version.outputs.build_number }} --export-options-plist=ios/ExportOptions.plist
+
+      - name: Upload to TestFlight
         run: bundle exec fastlane ios deploy
         env:
-          BUILD_NUMBER: ${{ steps.version.outputs.build_number }}
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
