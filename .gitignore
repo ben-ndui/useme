@@ -4,6 +4,9 @@
 assets/.env
 !.env.example
 
+# Local dependency overrides (dev only)
+pubspec_overrides.yaml
+
 # Miscellaneous
 *.class
 *.log

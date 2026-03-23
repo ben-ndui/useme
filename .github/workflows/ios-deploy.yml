@@ -46,18 +46,21 @@ jobs:
           ruby-version: "3.2"
           bundler-cache: true
 
-      - name: Install CocoaPods
-        run: cd ios && pod install --repo-update
-
       - name: Decode GoogleService-Info.plist
         run: echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}" | base64 --decode > ios/Runner/GoogleService-Info.plist
 
       - name: Create .env
         run: echo "${{ secrets.DOTENV }}" > .env
 
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Install CocoaPods
+        run: cd ios && pod install --repo-update
+
       - name: Create ExportOptions.plist
         run: |
-          cat > ios/ExportOptions.plist <<EOF
+          cat > ios/ExportOptions.plist <<'PLIST'
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
@@ -79,10 +82,7 @@ jobs:
               </dict>
           </dict>
           </plist>
-          EOF
-
-      - name: Flutter pub get
-        run: flutter pub get
+          PLIST
 
       - name: Deploy to TestFlight
         run: bundle exec fastlane ios deploy

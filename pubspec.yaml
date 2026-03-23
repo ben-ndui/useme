@@ -15,7 +15,9 @@ dependencies:
 
   # Smooth & Design Package (shared business logic)
   smoothandesign_package:
-    path: ../smoothandesign_package
+    git:
+      url: https://github.com/ben-ndui/smoothandesign_package.git
+      ref: master
 
   cupertino_icons: ^1.0.8
   intl: ^0.20.0
