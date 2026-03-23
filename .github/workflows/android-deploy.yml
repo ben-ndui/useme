@@ -79,6 +79,12 @@ jobs:
       - name: Build AAB
         run: flutter build appbundle --release --build-number=${{ steps.version.outputs.build_number }}
 
+      - name: Verify AAB exists
+        run: |
+          echo "Working directory: $(pwd)"
+          find build -name "*.aab" 2>/dev/null || echo "No AAB found"
+          ls -la build/app/outputs/bundle/release/ 2>/dev/null || echo "Release dir not found"
+
       - name: Upload to Google Play
         run: bundle exec fastlane android deploy
         env:
