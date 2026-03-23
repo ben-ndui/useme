@@ -44,6 +44,15 @@ platform :ios do
       type: "appstore",
       readonly: true
     )
+
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: "ios/Runner.xcodeproj",
+      team_id: ENV["TEAM_ID"] || "A24549KKK4",
+      bundle_identifier: "com.smoothandesign.useme",
+      profile_name: "match AppStore com.smoothandesign.useme",
+      code_sign_identity: "Apple Distribution"
+    )
   end
 
   desc "Upload IPA to TestFlight"
