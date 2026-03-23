@@ -89,6 +89,32 @@ enum PaymentStatus {
   fullyPaid,
 }
 
+/// Refund status after cancellation.
+enum RefundStatus {
+  none,
+  pending,
+  partial,
+  full,
+  failed,
+}
+
+extension RefundStatusExtension on RefundStatus {
+  static RefundStatus fromString(String? value) {
+    switch (value) {
+      case 'pending':
+        return RefundStatus.pending;
+      case 'partial':
+        return RefundStatus.partial;
+      case 'full':
+        return RefundStatus.full;
+      case 'failed':
+        return RefundStatus.failed;
+      default:
+        return RefundStatus.none;
+    }
+  }
+}
+
 extension PaymentStatusExtension on PaymentStatus {
   static PaymentStatus fromString(String? value) {
     switch (value) {
@@ -261,6 +287,12 @@ class Session {
   final String? stripePaymentIntentId;
   final String? stripeDepositIntentId;
 
+  // Cancellation tracking
+  final String? cancellationReason;
+  final String? cancelledBy;
+  final double? refundAmount;
+  final RefundStatus refundStatus;
+
   Session({
     required this.id,
     required this.studioId,
@@ -293,6 +325,10 @@ class Session {
     this.fullyPaidAt,
     this.stripePaymentIntentId,
     this.stripeDepositIntentId,
+    this.cancellationReason,
+    this.cancelledBy,
+    this.refundAmount,
+    this.refundStatus = RefundStatus.none,
   })  : types = types ?? (type != null ? [type] : [SessionType.other]),
         type = type ?? (types?.isNotEmpty == true ? types!.first : SessionType.other),
         intervention = intervention ?? const SessionIntervention();
@@ -330,6 +366,10 @@ class Session {
     DateTime? fullyPaidAt,
     String? stripePaymentIntentId,
     String? stripeDepositIntentId,
+    String? cancellationReason,
+    String? cancelledBy,
+    double? refundAmount,
+    RefundStatus refundStatus = RefundStatus.none,
   }) {
     return Session(
       id: id,
@@ -363,6 +403,10 @@ class Session {
       fullyPaidAt: fullyPaidAt,
       stripePaymentIntentId: stripePaymentIntentId,
       stripeDepositIntentId: stripeDepositIntentId,
+      cancellationReason: cancellationReason,
+      cancelledBy: cancelledBy,
+      refundAmount: refundAmount,
+      refundStatus: refundStatus,
     );
   }
 
@@ -429,6 +473,10 @@ class Session {
       fullyPaidAt: _parseDateTime(map['fullyPaidAt']),
       stripePaymentIntentId: map['stripePaymentIntentId']?.toString(),
       stripeDepositIntentId: map['stripeDepositIntentId']?.toString(),
+      cancellationReason: map['cancellationReason']?.toString(),
+      cancelledBy: map['cancelledBy']?.toString(),
+      refundAmount: (map['refundAmount'] as num?)?.toDouble(),
+      refundStatus: RefundStatusExtension.fromString(map['refundStatus']?.toString()),
     );
   }
 
@@ -471,6 +519,10 @@ class Session {
         'fullyPaidAt': fullyPaidAt?.millisecondsSinceEpoch,
         'stripePaymentIntentId': stripePaymentIntentId,
         'stripeDepositIntentId': stripeDepositIntentId,
+        'cancellationReason': cancellationReason,
+        'cancelledBy': cancelledBy,
+        'refundAmount': refundAmount,
+        'refundStatus': refundStatus.name,
       };
 
   Session copyWith({
@@ -505,6 +557,10 @@ class Session {
     DateTime? fullyPaidAt,
     String? stripePaymentIntentId,
     String? stripeDepositIntentId,
+    String? cancellationReason,
+    String? cancelledBy,
+    double? refundAmount,
+    RefundStatus? refundStatus,
   }) =>
       Session(
         id: id ?? this.id,
@@ -540,6 +596,10 @@ class Session {
             stripePaymentIntentId ?? this.stripePaymentIntentId,
         stripeDepositIntentId:
             stripeDepositIntentId ?? this.stripeDepositIntentId,
+        cancellationReason: cancellationReason ?? this.cancellationReason,
+        cancelledBy: cancelledBy ?? this.cancelledBy,
+        refundAmount: refundAmount ?? this.refundAmount,
+        refundStatus: refundStatus ?? this.refundStatus,
       );
 
   // Helper getters
@@ -664,6 +724,9 @@ class Session {
 
   /// Whether the session is fully paid
   bool get isFullyPaid => paymentStatus == PaymentStatus.fullyPaid;
+
+  /// Whether the session has a refund
+  bool get hasRefund => refundStatus != RefundStatus.none;
 
   /// Whether an artist can pay the deposit via Stripe
   bool get canPayDeposit =>

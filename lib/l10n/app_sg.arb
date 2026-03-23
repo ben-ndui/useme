@@ -1942,6 +1942,38 @@
   "refresh": "Kîri yângâ",
 
   "getDirections": "Gue na ndö",
+  "cancelSessionTitle": "Lä session",
+  "selectCancellationReason": "Sï ndâ tî lä",
+  "cancellationReasonSchedule": "Kängbï tî programme",
+  "cancellationReasonPersonal": "Yângâ tî mbi",
+  "cancellationReasonStudioUnavailable": "Studio a-yeke pëpe",
+  "cancellationReasonArtistNoResponse": "Artiste a-tëne pëpe",
+  "cancellationReasonOther": "Ndë",
+  "cancellationReasonHint": "Fa ndâ tî lä (si mo yê)",
+  "refundSummary": "Kîri môlengê",
+  "refundFull": "Kîri ôse",
+  "refundPartial": "Kîri {percent}%",
+  "@refundPartial": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "refundNone": "Kîri pëpe",
+  "confirmCancelWithRefund": "Lä na kîri môlengê",
+  "confirmCancelNoRefund": "Lä session",
+  "sessionCancelledWithRefund": "Session a-lä. Kîri tî {amount} € a-yeke.",
+  "@sessionCancelledWithRefund": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "sessionCancelledNoRefund": "Session a-lä.",
+  "cancellationPolicyNotice": "Na ndâ tî politique {policy} tî studio",
+  "@cancellationPolicyNotice": {
+    "placeholders": {
+      "policy": {"type": "String"}
+    }
+  },
 
   "pioneerBadgeLabel": "Pioneer #{number}",
   "@pioneerBadgeLabel": {

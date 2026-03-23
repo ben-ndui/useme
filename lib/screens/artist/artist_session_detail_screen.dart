@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
@@ -12,6 +11,8 @@ import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/app_loader.dart';
+import 'package:useme/core/services/session_payment_service.dart';
+import 'package:useme/widgets/common/cancel_session_sheet.dart';
 import 'package:useme/widgets/common/payment_tracking_card.dart';
 import 'package:useme/widgets/common/session_pay_button.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
@@ -392,7 +393,41 @@ class _CancelButton extends StatelessWidget {
     );
   }
 
-  void _showCancelConfirmation(BuildContext context) {
+  void _showCancelConfirmation(BuildContext context) async {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is! AuthAuthenticatedState) return;
+
+    // If payment was made, show full cancel sheet with refund preview
+    if (session.hasPaymentTracking &&
+        session.paymentStatus != PaymentStatus.none) {
+      final result = await CancelSessionSheet.show(
+        context,
+        session: session,
+        isCancelledByStudio: false,
+      );
+      if (result == null || !context.mounted) return;
+
+      // Call backend for refund + cancel
+      try {
+        await SessionPaymentService().requestRefund(
+          sessionId: session.id,
+          userId: authState.user.uid,
+          reason: result.reason,
+          customReason: result.customReason,
+          isCancelledByStudio: false,
+        );
+        if (context.mounted) {
+          AppSnackBar.success(context, l10n.sessionCancelledNoRefund);
+        }
+      } catch (e) {
+        if (context.mounted) {
+          AppSnackBar.error(context, l10n.paymentFailed);
+        }
+      }
+      return;
+    }
+
+    // No payment — simple cancel dialog
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -404,7 +439,6 @@ class _CancelButton extends StatelessWidget {
             onPressed: () {
               Navigator.pop(ctx);
               context.read<SessionBloc>().add(UpdateSessionStatusEvent(sessionId: session.id, status: SessionStatus.cancelled));
-              context.pop();
             },
             child: Text(l10n.confirm, style: const TextStyle(color: Colors.red)),
           ),

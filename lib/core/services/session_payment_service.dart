@@ -100,6 +100,24 @@ class SessionPaymentService {
     });
   }
 
+  /// Requests a refund for a cancelled session.
+  /// The backend calculates the refund based on cancellation policy.
+  Future<Map<String, dynamic>> requestRefund({
+    required String sessionId,
+    required String userId,
+    required String reason,
+    String? customReason,
+    required bool isCancelledByStudio,
+  }) async {
+    return _post('/api/stripe/useme/refund-session', {
+      'sessionId': sessionId,
+      'userId': userId,
+      'reason': reason,
+      'customReason': customReason,
+      'isCancelledByStudio': isCancelledByStudio,
+    });
+  }
+
   // ------------------------------------------------------------------ //
   //  Stripe Connect onboarding
   // ------------------------------------------------------------------ //

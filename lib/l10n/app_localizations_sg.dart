@@ -4251,6 +4251,63 @@ class AppLocalizationsSg extends AppLocalizations {
   String get getDirections => 'Gue na ndö';
 
   @override
+  String get cancelSessionTitle => 'Lä session';
+
+  @override
+  String get selectCancellationReason => 'Sï ndâ tî lä';
+
+  @override
+  String get cancellationReasonSchedule => 'Kängbï tî programme';
+
+  @override
+  String get cancellationReasonPersonal => 'Yângâ tî mbi';
+
+  @override
+  String get cancellationReasonStudioUnavailable => 'Studio a-yeke pëpe';
+
+  @override
+  String get cancellationReasonArtistNoResponse => 'Artiste a-tëne pëpe';
+
+  @override
+  String get cancellationReasonOther => 'Ndë';
+
+  @override
+  String get cancellationReasonHint => 'Fa ndâ tî lä (si mo yê)';
+
+  @override
+  String get refundSummary => 'Kîri môlengê';
+
+  @override
+  String get refundFull => 'Kîri ôse';
+
+  @override
+  String refundPartial(String percent) {
+    return 'Kîri $percent%';
+  }
+
+  @override
+  String get refundNone => 'Kîri pëpe';
+
+  @override
+  String get confirmCancelWithRefund => 'Lä na kîri môlengê';
+
+  @override
+  String get confirmCancelNoRefund => 'Lä session';
+
+  @override
+  String sessionCancelledWithRefund(String amount) {
+    return 'Session a-lä. Kîri tî $amount € a-yeke.';
+  }
+
+  @override
+  String get sessionCancelledNoRefund => 'Session a-lä.';
+
+  @override
+  String cancellationPolicyNotice(String policy) {
+    return 'Na ndâ tî politique $policy tî studio';
+  }
+
+  @override
   String pioneerBadgeLabel(String number) {
     return 'Pioneer #$number';
   }

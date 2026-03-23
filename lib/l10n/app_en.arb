@@ -1753,6 +1753,38 @@
   "refresh": "Refresh",
 
   "getDirections": "Get directions",
+  "cancelSessionTitle": "Cancel session",
+  "selectCancellationReason": "Select a reason",
+  "cancellationReasonSchedule": "Schedule change",
+  "cancellationReasonPersonal": "Personal reason",
+  "cancellationReasonStudioUnavailable": "Studio unavailable",
+  "cancellationReasonArtistNoResponse": "Artist not responding",
+  "cancellationReasonOther": "Other",
+  "cancellationReasonHint": "Specify reason (optional)",
+  "refundSummary": "Refund summary",
+  "refundFull": "Full refund",
+  "refundPartial": "Partial refund ({percent}%)",
+  "@refundPartial": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "refundNone": "No refund",
+  "confirmCancelWithRefund": "Cancel and refund",
+  "confirmCancelNoRefund": "Cancel session",
+  "sessionCancelledWithRefund": "Session cancelled. Refund of {amount} € in progress.",
+  "@sessionCancelledWithRefund": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "sessionCancelledNoRefund": "Session cancelled.",
+  "cancellationPolicyNotice": "Based on studio's {policy} cancellation policy",
+  "@cancellationPolicyNotice": {
+    "placeholders": {
+      "policy": {"type": "String"}
+    }
+  },
 
   "pioneerBadgeLabel": "Pioneer #{number}",
   "@pioneerBadgeLabel": {

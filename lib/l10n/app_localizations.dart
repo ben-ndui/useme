@@ -7990,6 +7990,108 @@ abstract class AppLocalizations {
   /// **'Y aller'**
   String get getDirections;
 
+  /// No description provided for @cancelSessionTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler la session'**
+  String get cancelSessionTitle;
+
+  /// No description provided for @selectCancellationReason.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sélectionnez une raison'**
+  String get selectCancellationReason;
+
+  /// No description provided for @cancellationReasonSchedule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Changement de planning'**
+  String get cancellationReasonSchedule;
+
+  /// No description provided for @cancellationReasonPersonal.
+  ///
+  /// In fr, this message translates to:
+  /// **'Problème personnel'**
+  String get cancellationReasonPersonal;
+
+  /// No description provided for @cancellationReasonStudioUnavailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Studio indisponible'**
+  String get cancellationReasonStudioUnavailable;
+
+  /// No description provided for @cancellationReasonArtistNoResponse.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'artiste ne répond plus'**
+  String get cancellationReasonArtistNoResponse;
+
+  /// No description provided for @cancellationReasonOther.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autre'**
+  String get cancellationReasonOther;
+
+  /// No description provided for @cancellationReasonHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Préciser la raison (optionnel)'**
+  String get cancellationReasonHint;
+
+  /// No description provided for @refundSummary.
+  ///
+  /// In fr, this message translates to:
+  /// **'Résumé du remboursement'**
+  String get refundSummary;
+
+  /// No description provided for @refundFull.
+  ///
+  /// In fr, this message translates to:
+  /// **'Remboursement complet'**
+  String get refundFull;
+
+  /// No description provided for @refundPartial.
+  ///
+  /// In fr, this message translates to:
+  /// **'Remboursement partiel ({percent}%)'**
+  String refundPartial(String percent);
+
+  /// No description provided for @refundNone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun remboursement'**
+  String get refundNone;
+
+  /// No description provided for @confirmCancelWithRefund.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler et rembourser'**
+  String get confirmCancelWithRefund;
+
+  /// No description provided for @confirmCancelNoRefund.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler la session'**
+  String get confirmCancelNoRefund;
+
+  /// No description provided for @sessionCancelledWithRefund.
+  ///
+  /// In fr, this message translates to:
+  /// **'Session annulée. Remboursement de {amount} € en cours.'**
+  String sessionCancelledWithRefund(String amount);
+
+  /// No description provided for @sessionCancelledNoRefund.
+  ///
+  /// In fr, this message translates to:
+  /// **'Session annulée.'**
+  String get sessionCancelledNoRefund;
+
+  /// No description provided for @cancellationPolicyNotice.
+  ///
+  /// In fr, this message translates to:
+  /// **'Selon la politique d\'annulation {policy} du studio'**
+  String cancellationPolicyNotice(String policy);
+
   /// No description provided for @pioneerBadgeLabel.
   ///
   /// In fr, this message translates to:

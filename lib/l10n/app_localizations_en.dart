@@ -4268,6 +4268,63 @@ class AppLocalizationsEn extends AppLocalizations {
   String get getDirections => 'Get directions';
 
   @override
+  String get cancelSessionTitle => 'Cancel session';
+
+  @override
+  String get selectCancellationReason => 'Select a reason';
+
+  @override
+  String get cancellationReasonSchedule => 'Schedule change';
+
+  @override
+  String get cancellationReasonPersonal => 'Personal reason';
+
+  @override
+  String get cancellationReasonStudioUnavailable => 'Studio unavailable';
+
+  @override
+  String get cancellationReasonArtistNoResponse => 'Artist not responding';
+
+  @override
+  String get cancellationReasonOther => 'Other';
+
+  @override
+  String get cancellationReasonHint => 'Specify reason (optional)';
+
+  @override
+  String get refundSummary => 'Refund summary';
+
+  @override
+  String get refundFull => 'Full refund';
+
+  @override
+  String refundPartial(String percent) {
+    return 'Partial refund ($percent%)';
+  }
+
+  @override
+  String get refundNone => 'No refund';
+
+  @override
+  String get confirmCancelWithRefund => 'Cancel and refund';
+
+  @override
+  String get confirmCancelNoRefund => 'Cancel session';
+
+  @override
+  String sessionCancelledWithRefund(String amount) {
+    return 'Session cancelled. Refund of $amount € in progress.';
+  }
+
+  @override
+  String get sessionCancelledNoRefund => 'Session cancelled.';
+
+  @override
+  String cancellationPolicyNotice(String policy) {
+    return 'Based on studio\'s $policy cancellation policy';
+  }
+
+  @override
   String pioneerBadgeLabel(String number) {
     return 'Pioneer #$number';
   }

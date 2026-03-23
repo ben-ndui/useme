@@ -4305,6 +4305,63 @@ class AppLocalizationsFr extends AppLocalizations {
   String get getDirections => 'Y aller';
 
   @override
+  String get cancelSessionTitle => 'Annuler la session';
+
+  @override
+  String get selectCancellationReason => 'Sélectionnez une raison';
+
+  @override
+  String get cancellationReasonSchedule => 'Changement de planning';
+
+  @override
+  String get cancellationReasonPersonal => 'Problème personnel';
+
+  @override
+  String get cancellationReasonStudioUnavailable => 'Studio indisponible';
+
+  @override
+  String get cancellationReasonArtistNoResponse => 'L\'artiste ne répond plus';
+
+  @override
+  String get cancellationReasonOther => 'Autre';
+
+  @override
+  String get cancellationReasonHint => 'Préciser la raison (optionnel)';
+
+  @override
+  String get refundSummary => 'Résumé du remboursement';
+
+  @override
+  String get refundFull => 'Remboursement complet';
+
+  @override
+  String refundPartial(String percent) {
+    return 'Remboursement partiel ($percent%)';
+  }
+
+  @override
+  String get refundNone => 'Aucun remboursement';
+
+  @override
+  String get confirmCancelWithRefund => 'Annuler et rembourser';
+
+  @override
+  String get confirmCancelNoRefund => 'Annuler la session';
+
+  @override
+  String sessionCancelledWithRefund(String amount) {
+    return 'Session annulée. Remboursement de $amount € en cours.';
+  }
+
+  @override
+  String get sessionCancelledNoRefund => 'Session annulée.';
+
+  @override
+  String cancellationPolicyNotice(String policy) {
+    return 'Selon la politique d\'annulation $policy du studio';
+  }
+
+  @override
   String pioneerBadgeLabel(String number) {
     return 'Pioneer #$number';
   }

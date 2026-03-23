@@ -1945,6 +1945,38 @@
   "refresh": "Actualiser",
 
   "getDirections": "Y aller",
+  "cancelSessionTitle": "Annuler la session",
+  "selectCancellationReason": "Sélectionnez une raison",
+  "cancellationReasonSchedule": "Changement de planning",
+  "cancellationReasonPersonal": "Problème personnel",
+  "cancellationReasonStudioUnavailable": "Studio indisponible",
+  "cancellationReasonArtistNoResponse": "L'artiste ne répond plus",
+  "cancellationReasonOther": "Autre",
+  "cancellationReasonHint": "Préciser la raison (optionnel)",
+  "refundSummary": "Résumé du remboursement",
+  "refundFull": "Remboursement complet",
+  "refundPartial": "Remboursement partiel ({percent}%)",
+  "@refundPartial": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "refundNone": "Aucun remboursement",
+  "confirmCancelWithRefund": "Annuler et rembourser",
+  "confirmCancelNoRefund": "Annuler la session",
+  "sessionCancelledWithRefund": "Session annulée. Remboursement de {amount} € en cours.",
+  "@sessionCancelledWithRefund": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "sessionCancelledNoRefund": "Session annulée.",
+  "cancellationPolicyNotice": "Selon la politique d'annulation {policy} du studio",
+  "@cancellationPolicyNotice": {
+    "placeholders": {
+      "policy": {"type": "String"}
+    }
+  },
 
   "pioneerBadgeLabel": "Pioneer #{number}",
   "@pioneerBadgeLabel": {
