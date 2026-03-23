@@ -4,10 +4,15 @@ default_platform(:ios)
 # Helpers
 # ──────────────────────────────────────────────
 
+def flutter_cmd
+  # Use fvm locally, plain flutter on CI
+  ENV["CI"] ? "flutter" : "fvm flutter"
+end
+
 def flutter_build(platform, args = "")
-  sh("cd ../.. && fvm flutter clean")
-  sh("cd ../.. && fvm flutter pub get")
-  sh("cd ../.. && fvm flutter build #{platform} #{args}")
+  sh("cd ../.. && #{flutter_cmd} clean")
+  sh("cd ../.. && #{flutter_cmd} pub get")
+  sh("cd ../.. && #{flutter_cmd} build #{platform} #{args}")
 end
 
 # ──────────────────────────────────────────────
