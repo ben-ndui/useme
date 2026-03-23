@@ -9,7 +9,9 @@ import 'package:useme/core/models/favorite.dart';
 import 'package:useme/core/models/studio_profile.dart';
 import 'package:useme/core/blocs/map/map_bloc.dart';
 import 'package:useme/core/blocs/map/map_event.dart';
+import 'package:useme/core/models/payment_method.dart';
 import 'package:useme/core/services/navigation_service.dart';
+import 'package:useme/core/services/payment_config_service.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/common/badges/pioneer_badge.dart';
 import 'package:useme/widgets/favorite/favorite_button.dart';
@@ -70,6 +72,7 @@ class StudioDetailBottomSheet extends StatelessWidget {
           if (studio.address != null) _buildAddress(theme),
           _buildStats(theme, l10n),
           if (studio.services.isNotEmpty) _buildServices(theme, l10n),
+          if (studio.isPartner) _buildCancellationPolicy(theme, l10n),
           _buildActions(context, theme, l10n),
           const SizedBox(height: 16),
         ],
@@ -344,6 +347,36 @@ class StudioDetailBottomSheet extends StatelessWidget {
           );
         }).toList(),
       ),
+    );
+  }
+
+  Widget _buildCancellationPolicy(ThemeData theme, AppLocalizations l10n) {
+    return FutureBuilder<StudioPaymentConfig>(
+      future: PaymentConfigService().getPaymentConfig(studio.id),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const SizedBox.shrink();
+        final policy = snapshot.data!.cancellationPolicy;
+
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+          child: Row(
+            children: [
+              FaIcon(FontAwesomeIcons.scaleBalanced,
+                  size: 12, color: theme.colorScheme.outline),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  '${policy.label} — ${policy.description}',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.outline,
+                    fontSize: 11,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
