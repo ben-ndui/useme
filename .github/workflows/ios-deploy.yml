@@ -48,14 +48,21 @@ jobs:
       - name: Create .env
         run: echo "${{ secrets.DOTENV }}" > .env
 
-      - name: Flutter clean
-        run: flutter clean
-
-      - name: Flutter pub get
-        run: flutter pub get
+      - name: Flutter clean & pub get
+        run: flutter clean && flutter pub get
 
       - name: Install CocoaPods
         run: cd ios && pod install --repo-update
+
+      - name: Setup signing via Match
+        run: bundle exec fastlane ios setup_signing
+        env:
+          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
+          TEAM_ID: ${{ secrets.TEAM_ID }}
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
 
       - name: Create ExportOptions.plist
         run: |

@@ -35,15 +35,18 @@ end
 # ──────────────────────────────────────────────
 
 platform :ios do
-  desc "Deploy IPA to TestFlight"
-  lane :deploy do
+  desc "Install signing certificates via Match (before flutter build)"
+  lane :setup_signing do
     setup_ci if ENV["CI"]
 
     match(
       type: "appstore",
       readonly: true
     )
+  end
 
+  desc "Upload IPA to TestFlight"
+  lane :deploy do
     upload_to_testflight(
       ipa: "../build/ios/ipa/useme.ipa",
       skip_waiting_for_build_processing: true
