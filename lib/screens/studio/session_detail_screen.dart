@@ -10,6 +10,8 @@ import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/booking_acceptance_service.dart';
 import 'package:useme/core/services/payment_config_service.dart';
+import 'package:useme/core/services/session_payment_service.dart';
+import 'package:useme/widgets/common/cancel_session_sheet.dart';
 import 'package:useme/core/services/service_catalog_service.dart';
 import 'package:useme/config/responsive_config.dart';
 import 'package:useme/l10n/app_localizations.dart';
@@ -475,7 +477,40 @@ class _ActionButtons extends StatelessWidget {
     );
   }
 
-  void _confirmCancel(BuildContext context) {
+  void _confirmCancel(BuildContext context) async {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is! AuthAuthenticatedState) return;
+
+    // If payment exists, show full cancel sheet with refund
+    if (session.hasPaymentTracking &&
+        session.paymentStatus != PaymentStatus.none) {
+      final result = await CancelSessionSheet.show(
+        context,
+        session: session,
+        isCancelledByStudio: true,
+      );
+      if (result == null || !context.mounted) return;
+
+      try {
+        await SessionPaymentService().requestRefund(
+          sessionId: session.id,
+          userId: authState.user.uid,
+          reason: result.reason,
+          customReason: result.customReason,
+          isCancelledByStudio: true,
+        );
+        if (context.mounted) {
+          AppSnackBar.success(context, l10n.sessionCancelledNoRefund);
+        }
+      } catch (_) {
+        if (context.mounted) {
+          AppSnackBar.error(context, l10n.paymentFailed);
+        }
+      }
+      return;
+    }
+
+    // No payment — simple cancel
     final theme = Theme.of(context);
     showDialog(
       context: context,
