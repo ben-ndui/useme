@@ -94,10 +94,17 @@ jobs:
       - name: Build IPA
         run: flutter build ipa --release --build-number=${{ steps.version.outputs.build_number }} --export-options-plist=ios/ExportOptions.plist
 
+      - name: Find IPA path
+        id: ipa
+        run: |
+          IPA_FILE=$(find build/ios/ipa -name "*.ipa" | head -1)
+          echo "Found IPA: $IPA_FILE"
+          echo "path=${{ github.workspace }}/$IPA_FILE" >> $GITHUB_OUTPUT
+
       - name: Upload to TestFlight
         run: bundle exec fastlane ios deploy
         env:
-          IPA_PATH: ${{ github.workspace }}/build/ios/ipa/useme.ipa
+          IPA_PATH: ${{ steps.ipa.outputs.path }}
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
