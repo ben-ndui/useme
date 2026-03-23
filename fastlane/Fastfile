@@ -1,0 +1,89 @@
+default_platform(:ios)
+
+# ──────────────────────────────────────────────
+# Helpers
+# ──────────────────────────────────────────────
+
+def flutter_build(platform, args = "")
+  sh("cd ../.. && fvm flutter clean")
+  sh("cd ../.. && fvm flutter pub get")
+  sh("cd ../.. && fvm flutter build #{platform} #{args}")
+end
+
+# ──────────────────────────────────────────────
+# Android
+# ──────────────────────────────────────────────
+
+platform :android do
+  desc "Build and deploy to Google Play (internal testing)"
+  lane :deploy do
+    # Build AAB (Android App Bundle)
+    flutter_build(
+      "appbundle",
+      "--release --build-number=#{ENV['BUILD_NUMBER'] || '1'}"
+    )
+
+    upload_to_play_store(
+      track: "internal",
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      release_status: "draft"
+    )
+  end
+
+  desc "Promote internal to production"
+  lane :promote do
+    upload_to_play_store(
+      track: "internal",
+      track_promote_to: "production",
+      skip_upload_aab: true,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end
+
+# ──────────────────────────────────────────────
+# iOS
+# ──────────────────────────────────────────────
+
+platform :ios do
+  desc "Build and deploy to TestFlight"
+  lane :deploy do
+    # Fetch signing certificates via Match
+    setup_ci if ENV["CI"]
+
+    match(
+      type: "appstore",
+      readonly: true
+    )
+
+    # Build IPA
+    flutter_build(
+      "ipa",
+      "--release --build-number=#{ENV['BUILD_NUMBER'] || '1'} --export-options-plist=ios/ExportOptions.plist"
+    )
+
+    upload_to_testflight(
+      ipa: "../build/ios/ipa/useme.ipa",
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "Promote TestFlight build to App Store"
+  lane :promote do
+    deliver(
+      skip_binary_upload: true,
+      skip_metadata: true,
+      skip_screenshots: true,
+      submit_for_review: true,
+      automatic_release: false,
+      submission_information: {
+        add_id_info_uses_idfa: false
+      }
+    )
+  end
+end
