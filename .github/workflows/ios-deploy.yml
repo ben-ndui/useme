@@ -105,8 +105,6 @@ jobs:
         run: bundle exec fastlane ios deploy
         env:
           IPA_PATH: ${{ steps.ipa.outputs.path }}
-          FASTLANE_USER: ${{ secrets.APPLE_ID }}
-          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
-          TEAM_ID: ${{ secrets.TEAM_ID }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}

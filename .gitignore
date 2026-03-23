@@ -7,6 +7,9 @@ assets/.env
 # Local dependency overrides (dev only)
 pubspec_overrides.yaml
 
+# App Store Connect API keys (NEVER commit)
+fastlane/*.p8
+
 # Miscellaneous
 *.class
 *.log
