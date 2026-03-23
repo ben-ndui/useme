@@ -7,9 +7,10 @@ default_platform(:ios)
 platform :android do
   desc "Deploy AAB to Google Play (internal testing)"
   lane :deploy do
+    aab_path = ENV["AAB_PATH"] || "../build/app/outputs/bundle/release/app-release.aab"
     upload_to_play_store(
       track: "internal",
-      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      aab: aab_path,
       skip_upload_metadata: true,
       skip_upload_images: true,
       skip_upload_screenshots: true,
@@ -47,8 +48,9 @@ platform :ios do
 
   desc "Upload IPA to TestFlight"
   lane :deploy do
+    ipa_path = ENV["IPA_PATH"] || "../build/ios/ipa/useme.ipa"
     upload_to_testflight(
-      ipa: "../build/ios/ipa/useme.ipa",
+      ipa: ipa_path,
       skip_waiting_for_build_processing: true
     )
   end

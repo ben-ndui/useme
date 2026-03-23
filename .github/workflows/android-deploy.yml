@@ -89,3 +89,4 @@ jobs:
         run: bundle exec fastlane android deploy
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_KEY_PATH: /tmp/google-play-key.json
+          AAB_PATH: ${{ github.workspace }}/build/app/outputs/bundle/release/app-release.aab

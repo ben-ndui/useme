@@ -96,6 +96,7 @@ jobs:
       - name: Upload to TestFlight
         run: bundle exec fastlane ios deploy
         env:
+          IPA_PATH: ${{ github.workspace }}/build/ios/ipa/useme.ipa
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
