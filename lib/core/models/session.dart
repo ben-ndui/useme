@@ -729,19 +729,25 @@ class Session {
   bool get hasRefund => refundStatus != RefundStatus.none;
 
   /// Whether an artist can pay the deposit via Stripe
+  /// Only on confirmed sessions that haven't been cancelled
   bool get canPayDeposit =>
       paymentStatus == PaymentStatus.depositPending &&
       totalAmount != null &&
       depositAmount != null &&
       depositAmount! > 0 &&
-      status == SessionStatus.confirmed;
+      status == SessionStatus.confirmed &&
+      status != SessionStatus.cancelled &&
+      status != SessionStatus.noShow;
 
   /// Whether an artist can pay the remaining balance via Stripe
+  /// Allowed even after session ends (debt), but not if cancelled/noShow
   bool get canPayRemaining =>
       paymentStatus == PaymentStatus.depositPaid &&
       !isFullyPaid &&
       totalAmount != null &&
-      remainingAmount > 0;
+      remainingAmount > 0 &&
+      status != SessionStatus.cancelled &&
+      status != SessionStatus.noShow;
 
   /// Remaining amount after deposit
   double get remainingAmount {

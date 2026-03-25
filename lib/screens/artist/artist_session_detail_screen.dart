@@ -154,8 +154,12 @@ class _ArtistSessionDetailContent extends StatelessWidget {
               );
             }),
           ],
-          const SizedBox(height: 24),
-          _AddToCalendarButton(session: session, l10n: l10n),
+          if (!session.isPast &&
+              session.displayStatus != SessionStatus.cancelled &&
+              session.displayStatus != SessionStatus.noShow) ...[
+            const SizedBox(height: 24),
+            _AddToCalendarButton(session: session, l10n: l10n),
+          ],
           const SizedBox(height: 12),
           if (session.canBeCancelled)
             _CancelButton(session: session, l10n: l10n),
