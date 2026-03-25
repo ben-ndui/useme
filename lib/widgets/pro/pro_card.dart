@@ -165,9 +165,11 @@ class ProCard extends StatelessWidget {
       children: [
         FaIcon(icon, size: 11, color: c),
         const SizedBox(width: 4),
-        Text(
-          label,
-          style: theme.textTheme.labelSmall?.copyWith(color: c),
+        Flexible(
+          child: Text(
+            label,
+            style: theme.textTheme.labelSmall?.copyWith(color: c),
+          ),
         ),
       ],
     );

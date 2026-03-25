@@ -703,7 +703,7 @@ abstract class AppLocalizations {
   /// No description provided for @paymentMethods.
   ///
   /// In fr, this message translates to:
-  /// **'Moyens de paiement'**
+  /// **'Modes de paiement acceptés'**
   String get paymentMethods;
 
   /// No description provided for @paymentMethodsSubtitle.
@@ -7921,13 +7921,13 @@ abstract class AppLocalizations {
   /// No description provided for @stripeConnect.
   ///
   /// In fr, this message translates to:
-  /// **'Paiements en ligne'**
+  /// **'Recevoir par carte (Stripe)'**
   String get stripeConnect;
 
   /// No description provided for @stripeConnectSubtitle.
   ///
   /// In fr, this message translates to:
-  /// **'Connectez votre compte Stripe pour recevoir les paiements directement'**
+  /// **'Connectez votre compte Stripe pour recevoir les paiements par carte'**
   String get stripeConnectSubtitle;
 
   /// No description provided for @stripeConnected.

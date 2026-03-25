@@ -326,7 +326,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get manageEngineers => 'Manage engineers';
 
   @override
-  String get paymentMethods => 'Payment methods';
+  String get paymentMethods => 'Accepted payment methods';
 
   @override
   String get paymentMethodsSubtitle => 'Cash, transfer, PayPal...';
@@ -4230,11 +4230,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paymentCancelled => 'Payment cancelled';
 
   @override
-  String get stripeConnect => 'Online payments';
+  String get stripeConnect => 'Card payments (Stripe)';
 
   @override
   String get stripeConnectSubtitle =>
-      'Connect your Stripe account to receive payments directly';
+      'Connect your Stripe account to receive card payments';
 
   @override
   String get stripeConnected => 'Stripe account connected';

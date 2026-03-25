@@ -326,7 +326,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get manageEngineers => 'Gérer les ingénieurs';
 
   @override
-  String get paymentMethods => 'Moyens de paiement';
+  String get paymentMethods => 'Modes de paiement acceptés';
 
   @override
   String get paymentMethodsSubtitle => 'Espèces, virement, PayPal...';
@@ -4267,11 +4267,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paymentCancelled => 'Paiement annulé';
 
   @override
-  String get stripeConnect => 'Paiements en ligne';
+  String get stripeConnect => 'Recevoir par carte (Stripe)';
 
   @override
   String get stripeConnectSubtitle =>
-      'Connectez votre compte Stripe pour recevoir les paiements directement';
+      'Connectez votre compte Stripe pour recevoir les paiements par carte';
 
   @override
   String get stripeConnected => 'Compte Stripe connecté';
