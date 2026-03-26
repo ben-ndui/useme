@@ -5,6 +5,34 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
+## [1.1.2] - 2026-03-25
+
+### Added
+- **CI/CD pipeline** — Fastlane + GitHub Actions: `git tag v*` auto-deploys to Google Play (internal testing) and TestFlight
+- **Deploy dashboard** — SuperAdmin page at `/admin/deploys` on useme-support with real-time build monitoring, deploy trigger, and quick links to stores
+- **`/deploy` skill** — Claude Code command for version bump + tag + push in one step
+
+### Changed
+- "Moyens de paiement" renamed to **"Modes de paiement acceptés"**
+- "Paiements en ligne" renamed to **"Recevoir par carte (Stripe)"**
+- `smoothandesign_package` dependency changed from local path to git reference (CI compatibility)
+- App icons updated (Android + iOS)
+
+### Fixed
+- **Session action buttons on past sessions** — "Ajouter au calendrier" hidden on completed/cancelled sessions; payment buttons hidden on cancelled/noShow sessions (remaining payment still visible for unpaid debt)
+- **Pro card text overflow** — Wrapped label in `Flexible` to prevent RenderFlex overflow
+- **Google Sign-In on production builds** — Added Play App Signing SHA-1 fingerprint to Firebase
+
+### Security
+- **Firestore: `studio_requests` rule added** — "Report missing studio" feature was completely broken (permission-denied)
+- **Firestore: `reports` rule added** — User reporting feature was completely broken (permission-denied)
+- **Firestore: `isAdminLinkingClient()` fixed** — Studios can now link artists (accepts both `invitedByAdminId` and `invitedByStudioId`)
+- **Firestore: `useme_artists` CREATE fixed** — Artists can now create their own doc when accepting studio invitations
+- **Firestore: `isSessionEngineer()` expanded** — Engineers in `proposedEngineerIds` or `engineerIds` can now accept/decline sessions
+- **Storage: `releases/` restricted** — Upload limited to superAdmin/DevMaster only (was open to all authenticated users)
+
+---
+
 ## [1.1.0] - 2026-03-22
 
 ### Added
