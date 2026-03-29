@@ -44,46 +44,41 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBcZKj-FD4aRyp6Nmmi38v0hVKOpYwyU_k',
-    appId: '1:1053737369070:web:19904e4f41bf63ef6422ff',
-    messagingSenderId: '1053737369070',
-    projectId: 'smoothandesign',
-    authDomain: 'smoothandesign.firebaseapp.com',
-    databaseURL: 'https://smoothandesign-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'smoothandesign.appspot.com',
-    measurementId: 'G-NVQBYQ0DRN',
+    apiKey: 'AIzaSyCtRI9lPe3hDWVcbFwtyfEXw8rHnBBNFo0',
+    appId: '1:830017708682:web:placeholder',
+    messagingSenderId: '830017708682',
+    projectId: 'uzme-app',
+    authDomain: 'uzme-app.firebaseapp.com',
+    storageBucket: 'uzme-app.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBf1fPBEucMKCM-zxt3zEXxBzHSKqdEmLs',
-    appId: '1:1053737369070:android:677caa34632001ec6422ff',
-    messagingSenderId: '1053737369070',
-    projectId: 'smoothandesign',
-    databaseURL: 'https://smoothandesign-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'smoothandesign.appspot.com',
+    apiKey: 'AIzaSyCtRI9lPe3hDWVcbFwtyfEXw8rHnBBNFo0',
+    appId: '1:830017708682:android:edfc9be7eb65684dda0373',
+    messagingSenderId: '830017708682',
+    projectId: 'uzme-app',
+    storageBucket: 'uzme-app.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDQ4Hpc-0F-1xr9e0VqYg5sF9NOTbqIpHU',
-    appId: '1:1053737369070:ios:f4fe4935346b0bf46422ff',
-    messagingSenderId: '1053737369070',
-    projectId: 'smoothandesign',
-    databaseURL: 'https://smoothandesign-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'smoothandesign.appspot.com',
-    androidClientId: '1053737369070-0n3f4c9k1hmmcsovpritl9sp251cn81v.apps.googleusercontent.com',
-    iosClientId: '1053737369070-akmcqtcto4449fq8s1l8oke6r486gfp1.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDI1EK7Se-iNCB428RtWZ0mhgZ_6jUOMFw',
+    appId: '1:830017708682:ios:a24c8ee86f9c8641da0373',
+    messagingSenderId: '830017708682',
+    projectId: 'uzme-app',
+    storageBucket: 'uzme-app.firebasestorage.app',
+    androidClientId: '830017708682-l5976rfnqen0ap7ofmhn6adb7bt6p4j3.apps.googleusercontent.com',
+    iosClientId: '830017708682-f4sl6lpjhu1ca9dpbfbv40r5jlbvqrls.apps.googleusercontent.com',
     iosBundleId: 'com.smoothandesign.useme',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDQ4Hpc-0F-1xr9e0VqYg5sF9NOTbqIpHU',
-    appId: '1:1053737369070:ios:f4fe4935346b0bf46422ff',
-    messagingSenderId: '1053737369070',
-    projectId: 'smoothandesign',
-    databaseURL: 'https://smoothandesign-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'smoothandesign.appspot.com',
-    androidClientId: '1053737369070-0n3f4c9k1hmmcsovpritl9sp251cn81v.apps.googleusercontent.com',
-    iosClientId: '1053737369070-akmcqtcto4449fq8s1l8oke6r486gfp1.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDI1EK7Se-iNCB428RtWZ0mhgZ_6jUOMFw',
+    appId: '1:830017708682:ios:a24c8ee86f9c8641da0373',
+    messagingSenderId: '830017708682',
+    projectId: 'uzme-app',
+    storageBucket: 'uzme-app.firebasestorage.app',
+    androidClientId: '830017708682-l5976rfnqen0ap7ofmhn6adb7bt6p4j3.apps.googleusercontent.com',
+    iosClientId: '830017708682-f4sl6lpjhu1ca9dpbfbv40r5jlbvqrls.apps.googleusercontent.com',
     iosBundleId: 'com.smoothandesign.useme',
   );
 }
