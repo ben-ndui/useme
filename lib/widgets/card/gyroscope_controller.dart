@@ -22,7 +22,7 @@ class GyroscopeController {
   void init() {
     try {
       _subscription = gyroscopeEventStream(
-        samplingPeriod: const Duration(milliseconds: 16), // ~60fps
+        samplingPeriod: SensorInterval.gameInterval,
       ).listen(
         _onGyroscopeEvent,
         onError: (_) {}, // Silently ignore if unavailable
