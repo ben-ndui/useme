@@ -137,17 +137,26 @@ class _StudioFeedHeader extends StatelessWidget {
           ),
         ],
         color: Colors.white.withValues(alpha: 0.1),
-        image: photoUrl != null
-            ? DecorationImage(
-                image: NetworkImage(photoUrl), fit: BoxFit.cover)
-            : null,
       ),
-      child: photoUrl == null
-          ? const Center(
-              child: FaIcon(FontAwesomeIcons.recordVinyl,
-                  size: 22, color: Colors.white),
-            )
-          : null,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(14.5),
+        child: photoUrl != null && photoUrl.isNotEmpty
+            ? Image.network(
+                photoUrl,
+                fit: BoxFit.cover,
+                width: 52,
+                height: 52,
+                errorBuilder: (_, __, ___) => _avatarFallback(),
+              )
+            : _avatarFallback(),
+      ),
+    );
+  }
+
+  static Widget _avatarFallback() {
+    return const Center(
+      child:
+          FaIcon(FontAwesomeIcons.recordVinyl, size: 22, color: Colors.white),
     );
   }
 }

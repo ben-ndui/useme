@@ -143,12 +143,24 @@ class _EngineerFeedHeader extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
       ),
-      child: photoURL != null && photoURL.isNotEmpty
-          ? ClipOval(child: Image.network(photoURL, fit: BoxFit.cover))
-          : const Center(
-              child: FaIcon(FontAwesomeIcons.headphones,
-                  color: Colors.white, size: 22),
-            ),
+      child: ClipOval(
+        child: photoURL != null && photoURL.isNotEmpty
+            ? Image.network(
+                photoURL,
+                fit: BoxFit.cover,
+                width: 52,
+                height: 52,
+                errorBuilder: (_, __, ___) => _avatarFallback(),
+              )
+            : _avatarFallback(),
+      ),
+    );
+  }
+
+  static Widget _avatarFallback() {
+    return const Center(
+      child: FaIcon(FontAwesomeIcons.headphones,
+          color: Colors.white, size: 22),
     );
   }
 

@@ -207,8 +207,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ImageProvider? imageProvider;
     if (_selectedPhoto != null) {
       imageProvider = FileImage(_selectedPhoto!);
-    } else if (user.photoURL != null) {
-      imageProvider = NetworkImage(user.photoURL!);
+    } else if (user.photoURL != null && user.photoURL!.isNotEmpty) {
+      final provider = NetworkImage(user.photoURL!);
+      imageProvider = provider;
     }
 
     return Center(
@@ -340,6 +341,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (!mounted) return;
 
     if (uploadResult.code == 200 && (uploadResult.data?.isNotEmpty ?? false)) {
+      // Evict old cached image so the new one loads fresh
+      if (user.photoURL != null) {
+        imageCache.evict(user.photoURL!);
+      }
       // Update user with new photo URL
       final updatedUser = user.copyWith(photoURL: uploadResult.data);
       debugPrint('[Photo] updating user profile with new URL...');
