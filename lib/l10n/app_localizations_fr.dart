@@ -1600,6 +1600,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get remove => 'Retirer';
 
   @override
+  String get removeAccount => 'Supprimer le compte';
+
+  @override
+  String removeAccountConfirm(String name) {
+    return 'Retirer $name des comptes mémorisés ?';
+  }
+
+  @override
   String get invitationCancelled => 'Invitation annulée';
 
   @override

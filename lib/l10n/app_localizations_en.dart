@@ -1589,6 +1589,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get remove => 'Remove';
 
   @override
+  String get removeAccount => 'Remove account';
+
+  @override
+  String removeAccountConfirm(String name) {
+    return 'Remove $name from saved accounts?';
+  }
+
+  @override
   String get invitationCancelled => 'Invitation cancelled';
 
   @override

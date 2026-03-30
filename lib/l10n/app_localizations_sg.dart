@@ -1581,6 +1581,14 @@ class AppLocalizationsSg extends AppLocalizations {
   String get remove => 'Ûse';
 
   @override
+  String get removeAccount => 'Supprimer le compte';
+
+  @override
+  String removeAccountConfirm(String name) {
+    return 'Retirer $name des comptes mémorisés ?';
+  }
+
+  @override
   String get invitationCancelled => 'Invitation a-lä';
 
   @override

@@ -3094,6 +3094,18 @@ abstract class AppLocalizations {
   /// **'Retirer'**
   String get remove;
 
+  /// No description provided for @removeAccount.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer le compte'**
+  String get removeAccount;
+
+  /// No description provided for @removeAccountConfirm.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer {name} des comptes mémorisés ?'**
+  String removeAccountConfirm(String name);
+
   /// No description provided for @invitationCancelled.
   ///
   /// In fr, this message translates to:
