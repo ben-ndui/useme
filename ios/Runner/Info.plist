@@ -29,7 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.1053737369070-7a61ov70fhavca4i6ftu16uaqjejl92l</string>
+				<string>com.googleusercontent.apps.830017708682-f4sl6lpjhu1ca9dpbfbv40r5jlbvqrls</string>
 			</array>
 		</dict>
 		<dict>
@@ -48,7 +48,7 @@
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 	<key>GIDClientID</key>
-	<string>1053737369070-7a61ov70fhavca4i6ftu16uaqjejl92l.apps.googleusercontent.com</string>
+	<string>830017708682-f4sl6lpjhu1ca9dpbfbv40r5jlbvqrls.apps.googleusercontent.com</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCalendarsUsageDescription</key>

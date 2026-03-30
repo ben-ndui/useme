@@ -20,14 +20,13 @@ class HoloCardContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(14),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildTopRow(),
-          const Spacer(),
           _buildCenter(),
-          const Spacer(),
           _buildBottomRow(),
         ],
       ),
@@ -198,7 +197,8 @@ class HoloCardContent extends StatelessWidget {
           child: QrImageView(
             data: 'https://uzme.app/u/${user.uid}',
             version: QrVersions.auto,
-            size: 56,
+            size: 58,
+            padding: EdgeInsets.all(2),
             backgroundColor: Colors.white,
             eyeStyle: QrEyeStyle(
               eyeShape: QrEyeShape.square,
