@@ -51,7 +51,7 @@ class _RegisterScreenContentState extends State<_RegisterScreenContent> {
           if (_selectedRole == BaseUserRole.client) {
             await _autoLinkInvitations(state.user);
           }
-          _navigateBasedOnRole(state.user);
+          if (mounted) _navigateBasedOnRole(state.user);
         }
       },
       child: Scaffold(
