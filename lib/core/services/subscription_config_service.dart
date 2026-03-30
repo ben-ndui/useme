@@ -21,14 +21,19 @@ class SubscriptionConfigService {
   CollectionReference<Map<String, dynamic>> get _tiersRef =>
       _firestore.collection(_collection);
 
-  /// Stream de tous les tiers actifs triés par ordre
+  /// Stream de tous les tiers triés par ordre, avec fallback sur les défauts
   Stream<List<SubscriptionTierConfig>> streamTiers() {
     return _tiersRef
         .orderBy('sortOrder')
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => SubscriptionTierConfig.fromMap(doc.data(), id: doc.id))
-            .toList());
+        .map((snapshot) {
+      if (snapshot.docs.isEmpty) return SubscriptionTierConfig.defaultTiers;
+      return snapshot.docs
+          .map((doc) => SubscriptionTierConfig.fromMap(doc.data(), id: doc.id))
+          .toList();
+    }).handleError((error) {
+      appLog('streamTiers error: $error');
+    });
   }
 
   /// Récupère tous les tiers (avec cache)

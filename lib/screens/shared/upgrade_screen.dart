@@ -159,8 +159,12 @@ class _UpgradeScreenState extends State<UpgradeScreen>
               return const AppLoader();
             }
 
-            final tiers =
-                (snapshot.data ?? []).where((t) => t.isActive).toList();
+            // On error, fallback to default tiers
+            final sourceTiers = snapshot.hasError
+                ? SubscriptionTierConfig.defaultTiers
+                : (snapshot.data ?? SubscriptionTierConfig.defaultTiers);
+
+            final tiers = sourceTiers.where((t) => t.isActive).toList();
 
             if (tiers.isEmpty) {
               return Center(child: Text(l10n.noSubscriptionAvailable));

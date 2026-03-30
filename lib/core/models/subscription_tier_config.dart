@@ -183,7 +183,7 @@ class SubscriptionTierConfig extends Equatable {
       aiMessagesPerMonth: map['aiMessagesPerMonth'] ?? 50,
       isActive: map['isActive'] ?? true,
       sortOrder: map['sortOrder'] ?? 0,
-      updatedAt: map['updatedAt'] != null
+      updatedAt: map['updatedAt'] is Timestamp
           ? (map['updatedAt'] as Timestamp).toDate()
           : null,
     );
