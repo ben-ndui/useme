@@ -120,6 +120,30 @@ class _AccountTile extends StatelessWidget {
     required this.onRemove,
   });
 
+  void _confirmRemove(BuildContext context, AppLocalizations l10n) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.removeAccount),
+        content: Text(l10n.removeAccountConfirm(account.displayName)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              onRemove();
+            },
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: Text(l10n.remove),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -189,7 +213,7 @@ class _AccountTile extends StatelessWidget {
                 _ProviderBadge(provider: account.provider, l10n: l10n),
                 const SizedBox(width: 8),
                 GestureDetector(
-                  onTap: onRemove,
+                  onTap: () => _confirmRemove(context, l10n),
                   behavior: HitTestBehavior.opaque,
                   child: Padding(
                     padding: const EdgeInsets.all(4),

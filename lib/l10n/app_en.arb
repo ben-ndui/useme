@@ -562,6 +562,13 @@
   "memberNoAccessAnymore": "{name} will no longer have access to the studio's sessions.",
   "memberRemoved": "Member removed",
   "remove": "Remove",
+  "removeAccount": "Remove account",
+  "removeAccountConfirm": "Remove {name} from saved accounts?",
+  "@removeAccountConfirm": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
   "invitationCancelled": "Invitation cancelled",
   "addMember": "Add member",
   "searchByEmailOrInvite": "Search by email or invite a new engineer",

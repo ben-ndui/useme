@@ -712,6 +712,13 @@
   },
   "memberRemoved": "Membre retiré",
   "remove": "Retirer",
+  "removeAccount": "Supprimer le compte",
+  "removeAccountConfirm": "Retirer {name} des comptes mémorisés ?",
+  "@removeAccountConfirm": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
   "invitationCancelled": "Invitation annulée",
   "addMember": "Ajouter un membre",
   "searchByEmailOrInvite": "Recherchez par email ou invitez un nouvel ingénieur",
