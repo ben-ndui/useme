@@ -322,55 +322,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final authState = context.read<AuthBloc>().state;
     if (authState is! AuthAuthenticatedState) return;
 
+    // Capture bloc reference BEFORE any async gap so we can dispatch
+    // ReloadUserEvent even if the widget gets unmounted during upload
+    final authBloc = context.read<AuthBloc>();
+
     final imageFile = await _photoService.pickImage(context);
     if (imageFile == null) return;
 
+    if (!mounted) return;
     setState(() {
       _selectedPhoto = imageFile;
       _isUploadingPhoto = true;
     });
 
     final user = authState.user as AppUser;
-    debugPrint('[Photo] uploading for userId=${user.uid}, file=${imageFile.path}');
+    debugPrint('[Photo] uploading for userId=${user.uid}');
     final uploadResult = await _photoService.uploadProfilePhoto(
       userId: user.uid,
       imageFile: imageFile,
     );
-    debugPrint('[Photo] upload result: code=${uploadResult.code} msg=${uploadResult.message} url=${uploadResult.data}');
-
-    if (!mounted) return;
+    debugPrint('[Photo] upload result: code=${uploadResult.code} url=${uploadResult.data}');
 
     if (uploadResult.code == 200 && (uploadResult.data?.isNotEmpty ?? false)) {
       // Evict old cached image so the new one loads fresh
       if (user.photoURL != null) {
         imageCache.evict(user.photoURL!);
       }
-      // Update user with new photo URL
       final updatedUser = user.copyWith(photoURL: uploadResult.data);
-      debugPrint('[Photo] updating user profile with new URL...');
       final updateResult = await useMeAuthService.updateUserProfile(updatedUser);
-      debugPrint('[Photo] update result: code=${updateResult.code} msg=${updateResult.message}');
+      debugPrint('[Photo] update result: code=${updateResult.code}');
 
-      if (!mounted) return;
-      setState(() => _isUploadingPhoto = false);
-
+      // Always reload the BLoC — even if widget is unmounted, the bloc
+      // lives in the parent scaffold and must reflect the new photo
       if (updateResult.code == 200) {
-        // Reload immediately — updateUserProfile already awaited the
-        // Firestore write + reloadUser, no need for an extra delay
-        context.read<AuthBloc>().add(const ReloadUserEvent());
-        if (mounted) {
+        authBloc.add(const ReloadUserEvent());
+      }
+
+      if (mounted) {
+        setState(() => _isUploadingPhoto = false);
+        if (updateResult.code == 200) {
           AppSnackBar.success(context, AppLocalizations.of(context)!.photoUpdated);
+        } else {
+          setState(() => _selectedPhoto = null);
+          AppSnackBar.error(context, updateResult.message);
         }
-      } else {
-        setState(() => _selectedPhoto = null);
-        AppSnackBar.error(context, updateResult.message);
       }
     } else {
-      setState(() {
-        _selectedPhoto = null;
-        _isUploadingPhoto = false;
-      });
-      AppSnackBar.error(context, uploadResult.message);
+      if (mounted) {
+        setState(() {
+          _selectedPhoto = null;
+          _isUploadingPhoto = false;
+        });
+        AppSnackBar.error(context, uploadResult.message);
+      }
     }
   }
 
