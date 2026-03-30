@@ -175,13 +175,27 @@ class _WelcomeHeaderState extends State<WelcomeHeader>
               shape: BoxShape.circle,
               color: Color(0xFF1E3A5F),
             ),
-            child: CircleAvatar(
-              radius: 28,
-              backgroundColor: Colors.white.withValues(alpha: 0.1),
-              backgroundImage: photoUrl != null ? NetworkImage(photoUrl) : null,
-              child: photoUrl == null
-                  ? const FaIcon(FontAwesomeIcons.user, size: 22, color: Colors.white)
-                  : null,
+            child: ClipOval(
+              child: Container(
+                width: 56,
+                height: 56,
+                color: Colors.white.withValues(alpha: 0.1),
+                child: photoUrl != null && photoUrl.isNotEmpty
+                    ? Image.network(
+                        photoUrl,
+                        fit: BoxFit.cover,
+                        width: 56,
+                        height: 56,
+                        errorBuilder: (_, __, ___) => const Center(
+                          child: FaIcon(FontAwesomeIcons.user,
+                              size: 22, color: Colors.white),
+                        ),
+                      )
+                    : const Center(
+                        child: FaIcon(FontAwesomeIcons.user,
+                            size: 22, color: Colors.white),
+                      ),
+              ),
             ),
           ),
         );
