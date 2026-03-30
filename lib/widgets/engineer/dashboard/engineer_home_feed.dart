@@ -7,7 +7,9 @@ import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/dashboard/glass_color_scheme.dart';
+import 'package:go_router/go_router.dart';
+import 'package:useme/routing/app_routes.dart';
+import 'package:useme/widgets/common/dashboard/dashboard_exports.dart';
 import 'package:useme/widgets/engineer/dashboard/engineer_dashboard_exports.dart';
 
 /// Feed content for engineer dashboard (inside draggable sheet)
@@ -34,6 +36,15 @@ class EngineerHomeFeed extends StatelessWidget {
           ),
           SizedBox(height: spacing),
           EngineerStatsRow(l10n: l10n),
+          SizedBox(height: spacing),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.horizontalPadding),
+            child: DashboardQuickPill(
+              icon: FontAwesomeIcons.idCard,
+              label: l10n.myCard,
+              onTap: () => context.push(AppRoutes.digitalCard),
+            ),
+          ),
           SizedBox(height: spacing),
           EngineerProposedSection(l10n: l10n, locale: locale),
           EngineerSessionsList(l10n: l10n, locale: locale),

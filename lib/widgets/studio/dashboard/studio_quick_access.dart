@@ -31,6 +31,11 @@ class StudioQuickAccess extends StatelessWidget {
         label: l10n.planning,
         onTap: () => context.push(AppRoutes.sessions),
       ),
+      DashboardQuickPill(
+        icon: FontAwesomeIcons.idCard,
+        label: l10n.myCard,
+        onTap: () => context.push(AppRoutes.digitalCard),
+      ),
     ];
 
     // Sur tablet+, afficher en Row avec espacement uniforme

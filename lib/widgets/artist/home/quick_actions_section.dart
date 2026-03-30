@@ -64,6 +64,11 @@ class QuickActionsSection extends StatelessWidget {
                 onTap: () => context.push('/artist/favorites'),
               ),
               QuickActionPill(
+                icon: FontAwesomeIcons.idCard,
+                label: l10n.myCard,
+                onTap: () => context.push(AppRoutes.digitalCard),
+              ),
+              QuickActionPill(
                 icon: FontAwesomeIcons.sliders,
                 label: l10n.preferencesLabel,
                 onTap: () => context.push('/artist/settings'),
