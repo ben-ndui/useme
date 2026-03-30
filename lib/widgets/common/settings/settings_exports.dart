@@ -1,3 +1,4 @@
+export 'settings_digital_card_tile.dart';
 export 'settings_language_tile.dart';
 export 'settings_logout_tile.dart';
 export 'settings_notification_tile.dart';

@@ -80,6 +80,10 @@ class ArtistSettingsPage extends StatelessWidget {
 
           const Divider(height: 32),
 
+          // Digital Card
+          const SettingsDigitalCardTile(),
+          const Divider(height: 32),
+
           const SecuritySettingsSection(),
           const Divider(height: 32),
 
