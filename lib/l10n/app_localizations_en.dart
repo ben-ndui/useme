@@ -387,6 +387,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tiltToExplore => 'Tilt your phone to explore';
 
   @override
+  String get shareQr => 'Share';
+
+  @override
+  String get scan => 'Scan';
+
+  @override
+  String get invalidQrCode => 'Unrecognized UZME QR code';
+
+  @override
   String version(String version) {
     return 'UZME v$version';
   }

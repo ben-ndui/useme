@@ -188,6 +188,9 @@
   "deleteMessage": "Supprimer",
   "myCard": "Ma Carte",
   "tiltToExplore": "Incline ton telephone pour explorer",
+  "shareQr": "Partager",
+  "scan": "Scanner",
+  "invalidQrCode": "QR code UZME non reconnu",
 
   "version": "UZME v{version}",
   "@version": {

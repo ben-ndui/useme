@@ -814,6 +814,24 @@ abstract class AppLocalizations {
   /// **'Incline ton telephone pour explorer'**
   String get tiltToExplore;
 
+  /// No description provided for @shareQr.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partager'**
+  String get shareQr;
+
+  /// No description provided for @scan.
+  ///
+  /// In fr, this message translates to:
+  /// **'Scanner'**
+  String get scan;
+
+  /// No description provided for @invalidQrCode.
+  ///
+  /// In fr, this message translates to:
+  /// **'QR code UZME non reconnu'**
+  String get invalidQrCode;
+
   /// No description provided for @version.
   ///
   /// In fr, this message translates to:

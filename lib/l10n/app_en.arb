@@ -153,6 +153,9 @@
   "deleteMessage": "Delete",
   "myCard": "My Card",
   "tiltToExplore": "Tilt your phone to explore",
+  "shareQr": "Share",
+  "scan": "Scan",
+  "invalidQrCode": "Unrecognized UZME QR code",
 
   "version": "UZME v{version}",
 
