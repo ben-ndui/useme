@@ -26,10 +26,16 @@ class DashboardQuickPill extends StatelessWidget {
         color: isPrimary
             ? theme.colorScheme.primary
             : theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: isPrimary
+              ? BorderSide.none
+              : BorderSide(color: theme.colorScheme.outlineVariant),
+        ),
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(20),
+          splashColor: Colors.white.withValues(alpha: 0.1),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Row(

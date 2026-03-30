@@ -1,114 +1,69 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
-import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/localization/intl_locale.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/widgets/common/dashboard/dashboard_exports.dart';
-import 'package:useme/widgets/engineer/dashboard/engineer_dashboard_exports.dart';
+import 'package:useme/core/blocs/map/map_bloc.dart';
+import 'package:useme/core/blocs/map/map_state.dart';
+import 'package:useme/widgets/common/smooth_draggable_widget.dart';
+import 'package:useme/widgets/engineer/dashboard/engineer_home_feed.dart';
+import 'package:useme/widgets/map/floating_nav_widget.dart';
+import 'package:useme/widgets/map/map_dashboard_app_bar.dart';
+import 'package:useme/widgets/map/studio_detail_helper.dart';
+import 'package:useme/widgets/map/studio_map_view.dart';
 
-/// Engineer dashboard - Clean dashboard with today's sessions
+/// Engineer Dashboard - Map + Collapsible Feed
 class EngineerDashboardPage extends StatelessWidget {
   const EngineerDashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final l10n = AppLocalizations.of(context)!;
-    final locale = intlLocale(context);
-    final padding = context.horizontalPadding;
-    final spacing = context.itemSpacing;
+    return BlocProvider(
+      create: (_) => MapBloc(),
+      child: const _EngineerDashboardBody(),
+    );
+  }
+}
 
-    return Scaffold(
-      backgroundColor: colorScheme.surface,
-      body: RefreshIndicator(
-        onRefresh: () async {
-          final authState = context.read<AuthBloc>().state;
-          if (authState is AuthAuthenticatedState) {
-            context.read<SessionBloc>().add(
-              LoadEngineerSessionsEvent(engineerId: authState.user.uid),
-            );
-          }
-        },
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: Responsive.maxContentWidth,
+class _EngineerDashboardBody extends StatelessWidget {
+  const _EngineerDashboardBody();
+
+  @override
+  Widget build(BuildContext context) {
+    final isWide = context.isTabletOrLarger;
+    final bottomPadding = isWide ? 16.0 : Responsive.fabBottomOffset;
+
+    return BlocListener<MapBloc, MapState>(
+      listenWhen: (prev, curr) =>
+          prev.selectedStudio != curr.selectedStudio &&
+          curr.selectedStudio != null,
+      listener: (context, state) {
+        openStudioOrProDetail(context, state.selectedStudio!);
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: buildMapDashboardAppBar(
+          context: context,
+          titleIcon: FontAwesomeIcons.headphones,
+        ),
+        body: Stack(
+          children: [
+            const Positioned.fill(child: StudioMapView()),
+            const FloatingNavWidget(),
+            SlideInUp(
+              duration: const Duration(milliseconds: 600),
+              child: SmoothDraggableWidget(
+                initial: 0.45,
+                minSize: 0.20,
+                maxSize: 1.0,
+                bottomPadding: bottomPadding,
+                floatingBottomPadding: bottomPadding,
+                bodyContent: const EngineerHomeFeed(),
+              ),
             ),
-            child: CustomScrollView(
-              slivers: [
-                EngineerHeader(l10n: l10n, locale: locale),
-                SliverToBoxAdapter(child: EngineerStatsRow(l10n: l10n)),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(padding, spacing, padding, 0),
-                    child: DashboardQuickPill(
-                      icon: FontAwesomeIcons.mapLocationDot,
-                      label: l10n.exploreStudiosTitle,
-                      onTap: () => context.push(AppRoutes.discoverMap),
-                    ),
-                  ),
-                ),
-                EngineerProposedSection(l10n: l10n, locale: locale),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(padding, spacing, padding, 12),
-                    child: _buildSectionTitle(context, l10n),
-                  ),
-                ),
-                EngineerSessionsList(l10n: l10n, locale: locale),
-                const SliverToBoxAdapter(child: SizedBox(height: 100)),
-              ],
-            ),
-          ),
+          ],
         ),
       ),
     );
-  }
-
-  Widget _buildSectionTitle(BuildContext context, AppLocalizations l10n) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          l10n.todaySessions,
-          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: colorScheme.onSurface),
-        ),
-        BlocBuilder<SessionBloc, SessionState>(
-          builder: (context, state) {
-            final count = _getTodaySessions(state.sessions).length;
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: colorScheme.primary.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                '$count',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colorScheme.primary),
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  List<Session> _getTodaySessions(List<Session> sessions) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final tomorrow = today.add(const Duration(days: 1));
-
-    return sessions.where((s) {
-      final start = s.scheduledStart;
-      return start.isAfter(today.subtract(const Duration(seconds: 1))) && start.isBefore(tomorrow);
-    }).toList()
-      ..sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart));
   }
 }

@@ -7,7 +7,7 @@ import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/screens/shared/conversations_screen.dart';
 import 'package:useme/widgets/common/app_navigation_rail.dart';
-import 'package:useme/widgets/studio/studio_bottom_nav.dart';
+import 'package:useme/widgets/common/floating_bottom_nav.dart';
 import 'studio_dashboard_page.dart';
 import 'sessions_page.dart';
 import 'artists_page.dart';
@@ -166,18 +166,60 @@ class _StudioMainScaffoldState extends State<StudioMainScaffold> {
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) => setState(() => _currentIndex = index),
-        physics: const BouncingScrollPhysics(),
+        physics: _currentIndex == 0
+            ? const NeverScrollableScrollPhysics()
+            : const BouncingScrollPhysics(),
         children: _pages,
       ),
       extendBody: true,
       bottomNavigationBar: BlocBuilder<SessionBloc, SessionState>(
         buildWhen: (prev, curr) => prev.pendingCount != curr.pendingCount,
         builder: (context, sessionState) {
-          return StudioBottomNav(
-            currentIndex: _currentIndex,
-            onTap: _onNavTap,
-            l10n: l10n,
-            pendingSessionCount: sessionState.pendingCount,
+          return BlocBuilder<MessagingBloc, MessagingState>(
+            buildWhen: (previous, current) {
+              final prevCount = previous is ConversationsLoadedState ? previous.totalUnreadCount : 0;
+              final currCount = current is ConversationsLoadedState ? current.totalUnreadCount : 0;
+              return prevCount != currCount;
+            },
+            builder: (context, messagingState) {
+              final unreadCount = messagingState is ConversationsLoadedState
+                  ? messagingState.totalUnreadCount
+                  : 0;
+
+              return FloatingBottomNav(
+                currentIndex: _currentIndex,
+                onTap: _onNavTap,
+                items: [
+                  FloatingNavItem(
+                    icon: FontAwesomeIcons.house,
+                    selectedIcon: FontAwesomeIcons.houseChimney,
+                    label: l10n.home,
+                  ),
+                  FloatingNavItem(
+                    icon: FontAwesomeIcons.calendar,
+                    selectedIcon: FontAwesomeIcons.solidCalendar,
+                    label: l10n.sessionsLabel,
+                    badgeCount: sessionState.pendingCount,
+                  ),
+                  FloatingNavItem(
+                    icon: FontAwesomeIcons.users,
+                    selectedIcon: FontAwesomeIcons.userGroup,
+                    label: l10n.artistsLabel,
+                  ),
+                  FloatingNavItem(
+                    icon: FontAwesomeIcons.comment,
+                    selectedIcon: FontAwesomeIcons.solidComment,
+                    label: l10n.messages,
+                    badgeCount: unreadCount,
+                  ),
+                  FloatingNavItem(
+                    icon: FontAwesomeIcons.gear,
+                    selectedIcon: FontAwesomeIcons.gears,
+                    label: l10n.settings,
+                  ),
+                ],
+              );
+            },
           );
         },
       ),

@@ -1,4 +1,4 @@
-export 'studio_app_bar.dart';
+export 'studio_home_feed.dart';
 export 'studio_pending_requests.dart';
 export 'studio_quick_access.dart';
 export 'studio_recent_artists.dart';

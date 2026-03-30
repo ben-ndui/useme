@@ -1,4 +1,5 @@
 export 'dashboard_action_button.dart';
+export 'glass_color_scheme.dart';
 export 'dashboard_empty_card.dart';
 export 'dashboard_icon_button.dart';
 export 'dashboard_quick_pill.dart';

@@ -165,7 +165,9 @@ class _EngineerMainScaffoldState extends State<EngineerMainScaffold> {
       body: PageView(
         controller: _pageController,
         onPageChanged: (i) => setState(() => _currentIndex = i),
-        physics: const BouncingScrollPhysics(),
+        physics: _currentIndex == 0
+            ? const NeverScrollableScrollPhysics()
+            : const BouncingScrollPhysics(),
         children: _pages,
       ),
       bottomNavigationBar: BlocBuilder<SessionBloc, SessionState>(

@@ -19,7 +19,7 @@ class EngineerProposedSection extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, authState) {
         if (authState is! AuthAuthenticatedState) {
-          return const SliverToBoxAdapter(child: SizedBox.shrink());
+          return const SizedBox.shrink();
         }
         final engineerId = authState.user.uid;
 
@@ -30,28 +30,26 @@ class EngineerProposedSection extends StatelessWidget {
             }).toList();
 
             if (proposedSessions.isEmpty) {
-              return const SliverToBoxAdapter(child: SizedBox.shrink());
+              return const SizedBox.shrink();
             }
 
-            return SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
-                    child: _buildProposedHeader(proposedSessions.length),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
+                  child: _buildProposedHeader(proposedSessions.length),
+                ),
+                ...proposedSessions.map((s) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: EngineerProposedTile(
+                    session: s,
+                    engineerId: engineerId,
+                    engineer: authState.user as AppUser,
+                    locale: locale,
                   ),
-                  ...proposedSessions.map((s) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: EngineerProposedTile(
-                      session: s,
-                      engineerId: engineerId,
-                      engineer: authState.user as AppUser,
-                      locale: locale,
-                    ),
-                  )),
-                ],
-              ),
+                )),
+              ],
             );
           },
         );

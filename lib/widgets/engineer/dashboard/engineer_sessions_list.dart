@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/widgets/engineer/dashboard/engineer_session_tile.dart';
 
-/// Sessions list for engineer dashboard (today + upcoming)
+/// Sessions list for engineer dashboard (title + today + upcoming)
 class EngineerSessionsList extends StatelessWidget {
   final AppLocalizations l10n;
   final String locale;
@@ -16,47 +17,80 @@ class EngineerSessionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final padding = context.horizontalPadding;
 
     return BlocBuilder<SessionBloc, SessionState>(
       builder: (context, state) {
         if (state.isLoading) {
-          return const SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.all(40),
-              child: Center(child: CircularProgressIndicator()),
-            ),
+          return const Padding(
+            padding: EdgeInsets.all(40),
+            child: Center(child: CircularProgressIndicator(color: Colors.white)),
           );
         }
 
         final todaySessions = _getTodaySessions(state.sessions);
         final upcomingSessions = _getUpcomingSessions(state.sessions).take(3).toList();
 
-        if (todaySessions.isEmpty && upcomingSessions.isEmpty) {
-          return SliverToBoxAdapter(child: _buildEmptyState(colorScheme));
-        }
-
-        final allItems = <Widget>[];
-
-        for (final s in todaySessions) {
-          allItems.add(EngineerSessionTile(session: s, locale: locale));
-        }
-
-        if (todaySessions.isEmpty) {
-          allItems.add(_buildNoSessionsToday(colorScheme));
-        }
-
-        if (upcomingSessions.isNotEmpty) {
-          allItems.add(_buildUpcomingHeader(upcomingSessions.length));
-          for (final s in upcomingSessions) {
-            allItems.add(EngineerSessionTile(session: s, showDate: true, locale: locale));
-          }
-        }
-
-        return SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          sliver: SliverList(delegate: SliverChildListDelegate(allItems)),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildTitleRow(colorScheme, padding, todaySessions.length),
+            if (todaySessions.isEmpty && upcomingSessions.isEmpty)
+              _buildEmptyState(colorScheme)
+            else
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: padding),
+                child: Column(
+                  children: [
+                    for (final s in todaySessions)
+                      EngineerSessionTile(session: s, locale: locale),
+                    if (todaySessions.isEmpty) _buildNoSessionsToday(colorScheme),
+                    if (upcomingSessions.isNotEmpty) ...[
+                      _buildUpcomingHeader(upcomingSessions.length),
+                      for (final s in upcomingSessions)
+                        EngineerSessionTile(session: s, showDate: true, locale: locale),
+                    ],
+                  ],
+                ),
+              ),
+          ],
         );
       },
+    );
+  }
+
+  Widget _buildTitleRow(ColorScheme colorScheme, double padding, int count) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(padding, 0, padding, 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            l10n.todaySessions,
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: colorScheme.primary.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: colorScheme.primary.withValues(alpha: 0.3)),
+            ),
+            child: Text(
+              '$count',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: colorScheme.primary,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -64,7 +98,6 @@ class EngineerSessionsList extends StatelessWidget {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final tomorrow = today.add(const Duration(days: 1));
-
     return sessions.where((s) {
       final start = s.scheduledStart;
       return start.isAfter(today.subtract(const Duration(seconds: 1))) && start.isBefore(tomorrow);
@@ -75,7 +108,6 @@ class EngineerSessionsList extends StatelessWidget {
   List<Session> _getUpcomingSessions(List<Session> sessions) {
     final now = DateTime.now();
     final tomorrow = DateTime(now.year, now.month, now.day).add(const Duration(days: 1));
-
     return sessions.where((s) => s.scheduledStart.isAfter(tomorrow)).toList()
       ..sort((a, b) => a.scheduledStart.compareTo(b.scheduledStart));
   }
@@ -83,36 +115,30 @@ class EngineerSessionsList extends StatelessWidget {
   Widget _buildUpcomingHeader(int count) {
     return Padding(
       padding: const EdgeInsets.only(top: 24, bottom: 12),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.orange.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          color: Colors.orange.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n.upcomingStatus,
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.orange)),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: Colors.orange.withValues(alpha: 0.25),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text('$count',
+                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Colors.orange)),
             ),
-            child: Row(
-              children: [
-                Text(
-                  l10n.upcomingStatus,
-                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.orange),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    '$count',
-                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Colors.orange),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -123,6 +149,7 @@ class EngineerSessionsList extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Row(
         children: [
@@ -136,10 +163,8 @@ class EngineerSessionsList extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  l10n.noSessionToday,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: colorScheme.onSurface),
-                ),
+                Text(l10n.noSessionToday,
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
                 const SizedBox(height: 2),
                 Text(l10n.enjoyYourDay, style: TextStyle(fontSize: 13, color: colorScheme.onSurfaceVariant)),
               ],
@@ -161,10 +186,8 @@ class EngineerSessionsList extends StatelessWidget {
             child: FaIcon(FontAwesomeIcons.calendarXmark, size: 36, color: colorScheme.primary),
           ),
           const SizedBox(height: 20),
-          Text(
-            l10n.noSessionsPlanned,
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: colorScheme.onSurface),
-          ),
+          Text(l10n.noSessionsPlanned,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: colorScheme.onSurface)),
           const SizedBox(height: 6),
           Text(l10n.noAssignedSessions, style: TextStyle(fontSize: 13, color: colorScheme.onSurfaceVariant)),
         ],

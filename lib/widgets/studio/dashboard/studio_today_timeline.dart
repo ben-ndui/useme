@@ -86,12 +86,13 @@ class _TimelineSessionCard extends StatelessWidget {
 
     return Material(
       color: isNow
-          ? theme.colorScheme.primaryContainer.withValues(alpha: 0.3)
-          : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+          ? theme.colorScheme.primaryContainer
+          : theme.colorScheme.surfaceContainerHighest,
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         onTap: () => context.push('/sessions/${session.id}'),
         borderRadius: BorderRadius.circular(16),
+        splashColor: Colors.white.withValues(alpha: 0.1),
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Row(
