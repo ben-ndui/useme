@@ -151,6 +151,8 @@
 
   "copy": "Copy",
   "deleteMessage": "Delete",
+  "myCard": "My Card",
+  "tiltToExplore": "Tilt your phone to explore",
 
   "version": "UZME v{version}",
 

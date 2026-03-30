@@ -107,6 +107,9 @@ class AppRoutes {
   // Stripe Connect onboarding (studio)
   static const String stripeConnect = '/studio/stripe-connect';
 
+  // Digital Card
+  static const String digitalCard = '/card';
+
   // Discover map (shared)
   static const String discoverMap = '/discover';
 

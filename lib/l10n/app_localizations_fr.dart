@@ -382,6 +382,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get deleteMessage => 'Supprimer';
 
   @override
+  String get myCard => 'Ma Carte';
+
+  @override
+  String get tiltToExplore => 'Incline ton telephone pour explorer';
+
+  @override
   String version(String version) {
     return 'UZME v$version';
   }

@@ -186,6 +186,8 @@
 
   "copy": "Copier",
   "deleteMessage": "Supprimer",
+  "myCard": "Ma Carte",
+  "tiltToExplore": "Incline ton telephone pour explorer",
 
   "version": "UZME v{version}",
   "@version": {

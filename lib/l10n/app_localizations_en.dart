@@ -381,6 +381,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteMessage => 'Delete';
 
   @override
+  String get myCard => 'My Card';
+
+  @override
+  String get tiltToExplore => 'Tilt your phone to explore';
+
+  @override
   String version(String version) {
     return 'UZME v$version';
   }

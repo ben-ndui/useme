@@ -41,6 +41,7 @@ import 'package:useme/screens/shared/network_screen.dart';
 import 'package:useme/screens/admin/studio_claims_screen.dart';
 import 'package:useme/screens/admin/subscription_tiers_screen.dart';
 import 'package:useme/screens/admin/stripe_config_screen.dart';
+import 'package:useme/screens/shared/digital_card_screen.dart';
 import 'package:useme/screens/shared/upgrade_screen.dart';
 import 'package:useme/screens/shared/ai_assistant_screen.dart';
 import 'package:useme/screens/studio/ai_settings_screen.dart';
@@ -307,6 +308,10 @@ class AppRouter {
         GoRoute(
           path: '/upgrade',
           builder: (context, state) => const UpgradeScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.digitalCard,
+          builder: (context, state) => const DigitalCardScreen(),
         ),
 
         // Notifications

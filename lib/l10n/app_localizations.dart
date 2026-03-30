@@ -802,6 +802,18 @@ abstract class AppLocalizations {
   /// **'Supprimer'**
   String get deleteMessage;
 
+  /// No description provided for @myCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ma Carte'**
+  String get myCard;
+
+  /// No description provided for @tiltToExplore.
+  ///
+  /// In fr, this message translates to:
+  /// **'Incline ton telephone pour explorer'**
+  String get tiltToExplore;
+
   /// No description provided for @version.
   ///
   /// In fr, this message translates to:
