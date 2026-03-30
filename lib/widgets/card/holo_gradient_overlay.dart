@@ -19,11 +19,11 @@ class HoloGradientOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     final tiltMagnitude = tilt.distance.clamp(0.0, 1.0);
     // More tilt = more visible holographic effect
-    final holoOpacity = 0.08 + (tiltMagnitude * 0.18);
-    final specularOpacity = 0.05 + (tiltMagnitude * 0.25);
+    final holoOpacity = 0.12 + (tiltMagnitude * 0.30);
+    final specularOpacity = 0.10 + (tiltMagnitude * 0.35);
 
     // Rotation angle derived from tilt direction
-    final angle = tilt.dx * pi * 0.5 + tilt.dy * pi * 0.3;
+    final angle = tilt.dx * pi * 0.8 + tilt.dy * pi * 0.5;
 
     return IgnorePointer(
       child: Stack(

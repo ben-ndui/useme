@@ -7,8 +7,7 @@ import 'package:useme/config/responsive_config.dart';
 import 'package:useme/core/localization/intl_locale.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-import 'package:useme/routing/app_routes.dart';
+import 'package:useme/widgets/card/digital_card_sheet.dart';
 import 'package:useme/widgets/common/dashboard/dashboard_exports.dart';
 import 'package:useme/widgets/engineer/dashboard/engineer_dashboard_exports.dart';
 
@@ -42,7 +41,7 @@ class EngineerHomeFeed extends StatelessWidget {
             child: DashboardQuickPill(
               icon: FontAwesomeIcons.idCard,
               label: l10n.myCard,
-              onTap: () => context.push(AppRoutes.digitalCard),
+              onTap: () => DigitalCardSheet.show(context),
             ),
           ),
           SizedBox(height: spacing),

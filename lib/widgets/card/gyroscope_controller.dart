@@ -10,8 +10,8 @@ class GyroscopeController {
   final ValueNotifier<Offset> tilt = ValueNotifier(Offset.zero);
   StreamSubscription<AccelerometerEvent>? _subscription;
 
-  static const double _smoothing = 0.75;
-  static const double _sensitivity = 0.12;
+  static const double _smoothing = 0.65;
+  static const double _sensitivity = 0.25;
 
   void init() {
     try {

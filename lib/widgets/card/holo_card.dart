@@ -73,14 +73,14 @@ class _HoloCardState extends State<HoloCard> {
   Widget _buildCard(Offset tilt) {
     final theme = _theme;
 
-    // 3D perspective transform
+    // 3D perspective transform — amplified for visible effect
     final transform = Matrix4.identity()
-      ..setEntry(3, 2, 0.001)
-      ..rotateX(tilt.dy * 0.15)
-      ..rotateY(-tilt.dx * 0.15);
+      ..setEntry(3, 2, 0.0015)
+      ..rotateX(tilt.dy * 0.35)
+      ..rotateY(-tilt.dx * 0.35);
 
     // Dynamic shadow follows opposite of tilt
-    final shadowOffset = Offset(-tilt.dx * 15, -tilt.dy * 15);
+    final shadowOffset = Offset(-tilt.dx * 25, -tilt.dy * 25);
 
     return AnimatedContainer(
       duration: _isDragging

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/artist/studio_selector_bottom_sheet.dart';
+import 'package:useme/widgets/card/digital_card_sheet.dart';
 
 /// Quick actions horizontal scrollable section
 class QuickActionsSection extends StatelessWidget {
@@ -66,7 +67,7 @@ class QuickActionsSection extends StatelessWidget {
               QuickActionPill(
                 icon: FontAwesomeIcons.idCard,
                 label: l10n.myCard,
-                onTap: () => context.push(AppRoutes.digitalCard),
+                onTap: () => DigitalCardSheet.show(context),
               ),
               QuickActionPill(
                 icon: FontAwesomeIcons.sliders,
