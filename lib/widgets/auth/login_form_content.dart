@@ -97,6 +97,7 @@ class _LoginFormContentState extends State<LoginFormContent> {
         child: RecentAccountsList(
           accounts: recentAccountsService.accounts,
           onAccountSelected: (account) => _connectRecentAccount(account),
+          onAccountRemoved: (account) => _removeRecentAccount(account),
           onUseAnotherAccount: () => setState(() {
             _showRecentAccounts = false;
           }),
@@ -171,6 +172,21 @@ class _LoginFormContentState extends State<LoginFormContent> {
         password: password,
       ));
     }
+  }
+
+  Future<void> _removeRecentAccount(RecentAccount account) async {
+    await recentAccountsService.removeAccount(account.email);
+    // If quick login was for this account, clear it too
+    if (preferencesService.quickLoginEmail == account.email) {
+      preferencesService.clearQuickLoginData();
+    }
+    if (!mounted) return;
+    setState(() {
+      // If no accounts left, show normal login form
+      if (recentAccountsService.accounts.isEmpty) {
+        _showRecentAccounts = false;
+      }
+    });
   }
 
   void _connectRecentAccount(RecentAccount account) {

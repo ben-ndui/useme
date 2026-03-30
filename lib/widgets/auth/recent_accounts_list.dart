@@ -9,12 +9,14 @@ import 'package:useme/l10n/app_localizations.dart';
 class RecentAccountsList extends StatelessWidget {
   final List<RecentAccount> accounts;
   final void Function(RecentAccount account) onAccountSelected;
+  final void Function(RecentAccount account) onAccountRemoved;
   final VoidCallback onUseAnotherAccount;
 
   const RecentAccountsList({
     super.key,
     required this.accounts,
     required this.onAccountSelected,
+    required this.onAccountRemoved,
     required this.onUseAnotherAccount,
   });
 
@@ -33,6 +35,7 @@ class RecentAccountsList extends StatelessWidget {
                 child: _AccountTile(
                   account: a,
                   onTap: () => onAccountSelected(a),
+                  onRemove: () => onAccountRemoved(a),
                 ),
               )),
           const SizedBox(height: 16),
@@ -109,8 +112,13 @@ class RecentAccountsList extends StatelessWidget {
 class _AccountTile extends StatelessWidget {
   final RecentAccount account;
   final VoidCallback onTap;
+  final VoidCallback onRemove;
 
-  const _AccountTile({required this.account, required this.onTap});
+  const _AccountTile({
+    required this.account,
+    required this.onTap,
+    required this.onRemove,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -177,8 +185,21 @@ class _AccountTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 8),
                 _ProviderBadge(provider: account.provider, l10n: l10n),
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onTap: onRemove,
+                  behavior: HitTestBehavior.opaque,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: FaIcon(
+                      FontAwesomeIcons.xmark,
+                      size: 14,
+                      color: Colors.white.withValues(alpha: 0.4),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
