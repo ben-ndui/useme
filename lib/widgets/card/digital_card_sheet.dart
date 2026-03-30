@@ -46,7 +46,7 @@ class DigitalCardSheet extends StatelessWidget {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
             child: Container(
-              height: MediaQuery.sizeOf(context).height * 0.82,
+              height: MediaQuery.sizeOf(context).height * 0.58,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
