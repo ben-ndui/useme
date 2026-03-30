@@ -4,6 +4,11 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      build_number:
+        description: "Build number override (optional)"
+        required: false
 
 concurrency:
   group: ios-deploy
@@ -22,7 +27,7 @@ jobs:
       - name: Extract version from tag
         id: version
         run: |
-          BUILD_NUMBER=${{ github.run_number }}
+          BUILD_NUMBER=${{ inputs.build_number || github.run_number }}
           echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
 
       - name: Setup Flutter (FVM)
