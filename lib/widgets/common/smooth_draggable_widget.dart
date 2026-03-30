@@ -139,13 +139,15 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
         return AnimatedOpacity(
           opacity: isVisible ? 1.0 : 0.0,
           duration: const Duration(milliseconds: 300),
-          child: Container(
-            width: 40,
-            height: 5,
-            margin: const EdgeInsets.symmetric(vertical: 12),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(10),
+          child: Center(
+            child: Container(
+              width: 40,
+              height: 5,
+              margin: const EdgeInsets.symmetric(vertical: 12),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
         );
