@@ -1,275 +1,40 @@
 {
   "project_info": {
-    "project_number": "1053737369070",
-    "firebase_url": "https://smoothandesign-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "smoothandesign",
-    "storage_bucket": "smoothandesign.appspot.com"
+    "project_number": "830017708682",
+    "project_id": "uzme-app",
+    "storage_bucket": "uzme-app.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1053737369070:android:7a284b43dd14f5266422ff",
-        "android_client_info": {
-          "package_name": "com.smoothandesign.ccd"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1053737369070-55cdir00vs6q0dnq9h98lith6be31dce.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBf1fPBEucMKCM-zxt3zEXxBzHSKqdEmLs"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1053737369070-55cdir00vs6q0dnq9h98lith6be31dce.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "1053737369070-0mkd8gqe4o9sj21upt3t149d31kkpohu.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.smoothandesign.viba",
-                "app_store_id": "6742661984"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1053737369070:android:7ee00427981d74476422ff",
-        "android_client_info": {
-          "package_name": "com.smoothandesign.consentia"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1053737369070-0n3f4c9k1hmmcsovpritl9sp251cn81v.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.smoothandesign.consentia",
-            "certificate_hash": "fbea4f082f9384838fc977f494e2619b38082c7d"
-          }
-        },
-        {
-          "client_id": "1053737369070-55cdir00vs6q0dnq9h98lith6be31dce.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBf1fPBEucMKCM-zxt3zEXxBzHSKqdEmLs"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1053737369070-55cdir00vs6q0dnq9h98lith6be31dce.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "1053737369070-0mkd8gqe4o9sj21upt3t149d31kkpohu.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.smoothandesign.viba",
-                "app_store_id": "6742661984"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1053737369070:android:02220ede3780c1206422ff",
-        "android_client_info": {
-          "package_name": "com.smoothandesign.fivestudioapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1053737369070-64sv6cska1bgqtn6irvku2a52tmg771p.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.smoothandesign.fivestudioapp",
-            "certificate_hash": "99b44c3aa73c3308250befff2defeab2c32b5a86"
-          }
-        },
-        {
-          "client_id": "1053737369070-55cdir00vs6q0dnq9h98lith6be31dce.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBf1fPBEucMKCM-zxt3zEXxBzHSKqdEmLs"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1053737369070-55cdir00vs6q0dnq9h98lith6be31dce.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "1053737369070-0mkd8gqe4o9sj21upt3t149d31kkpohu.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.smoothandesign.viba",
-                "app_store_id": "6742661984"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1053737369070:android:e0275ff85eab2dcc6422ff",
-        "android_client_info": {
-          "package_name": "com.smoothandesign.smoothdevis"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1053737369070-dvrsf2d1na89c2r0fk002fkbu3ldqnuj.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.smoothandesign.smoothdevis",
-            "certificate_hash": "fbea4f082f9384838fc977f494e2619b38082c7d"
-          }
-        },
-        {
-          "client_id": "1053737369070-55cdir00vs6q0dnq9h98lith6be31dce.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBf1fPBEucMKCM-zxt3zEXxBzHSKqdEmLs"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1053737369070-55cdir00vs6q0dnq9h98lith6be31dce.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "1053737369070-0mkd8gqe4o9sj21upt3t149d31kkpohu.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.smoothandesign.viba",
-                "app_store_id": "6742661984"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1053737369070:android:677caa34632001ec6422ff",
+        "mobilesdk_app_id": "1:830017708682:android:edfc9be7eb65684dda0373",
         "android_client_info": {
           "package_name": "com.smoothandesign.useme"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1053737369070-e9ug7i4f8h53l136ml0kejea0rl8n9mp.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.smoothandesign.useme",
-            "certificate_hash": "fbea4f082f9384838fc977f494e2619b38082c7d"
-          }
-        },
-        {
-          "client_id": "1053737369070-tg8ie5rcg5tk7314n7mt7102uv4qfmos.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.smoothandesign.useme",
-            "certificate_hash": "6c0b9ea289dc6c366c70a6c89c89559e965321a0"
-          }
-        },
-        {
-          "client_id": "1053737369070-55cdir00vs6q0dnq9h98lith6be31dce.apps.googleusercontent.com",
+          "client_id": "830017708682-l5976rfnqen0ap7ofmhn6adb7bt6p4j3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBf1fPBEucMKCM-zxt3zEXxBzHSKqdEmLs"
+          "current_key": "AIzaSyCtRI9lPe3hDWVcbFwtyfEXw8rHnBBNFo0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1053737369070-55cdir00vs6q0dnq9h98lith6be31dce.apps.googleusercontent.com",
+              "client_id": "830017708682-l5976rfnqen0ap7ofmhn6adb7bt6p4j3.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1053737369070-0mkd8gqe4o9sj21upt3t149d31kkpohu.apps.googleusercontent.com",
+              "client_id": "830017708682-f4sl6lpjhu1ca9dpbfbv40r5jlbvqrls.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.smoothandesign.viba",
-                "app_store_id": "6742661984"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1053737369070:android:bb3b099ac6e047506422ff",
-        "android_client_info": {
-          "package_name": "com.smoothandesign.viba"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1053737369070-jv20lm41tsekq16s1gm7o2d09mnmhs2l.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.smoothandesign.viba",
-            "certificate_hash": "0b7b9a46ecf69905dbf828f21fd5eade4d65e393"
-          }
-        },
-        {
-          "client_id": "1053737369070-55cdir00vs6q0dnq9h98lith6be31dce.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBf1fPBEucMKCM-zxt3zEXxBzHSKqdEmLs"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1053737369070-55cdir00vs6q0dnq9h98lith6be31dce.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "1053737369070-0mkd8gqe4o9sj21upt3t149d31kkpohu.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.smoothandesign.viba",
-                "app_store_id": "6742661984"
+                "bundle_id": "com.smoothandesign.useme"
               }
             }
           ]

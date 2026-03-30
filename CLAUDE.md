@@ -14,9 +14,75 @@ Use Me is a studio booking platform connecting artists with recording studios an
 - **Frontend**: Flutter 3.38+ (managed via FVM)
 - **State Management**: BloC pattern (flutter_bloc)
 - **Backend**: Firebase (Firestore, Auth, Storage, Cloud Functions)
+- **Firebase Project**: `uzme-app` (europe-west1)
 - **Routing**: go_router
 - **Shared Package**: smoothandesign_package (shared components with Smooth Devis)
 - **Localization**: flutter_localizations with ARB files
+
+## Backend (smoothbackend)
+
+Le backend Use Me fait partie du monorepo `ben-ndui/smoothbackend`.
+Le code est dans `projects/useme/` qui assemble 14 modules depuis `modules/`.
+
+### Firebase Project: `uzme-app`
+- **API**: `https://europe-west1-uzme-app.cloudfunctions.net/api`
+- **Region**: europe-west1
+- **22 Cloud Functions** (API Express + 11 callables + 9 triggers + 1 scheduled)
+
+### API Endpoints
+
+| Route | Description |
+|-------|-------------|
+| `GET/POST /api/users` | CRUD utilisateurs |
+| `GET/POST /api/studios` | Studios + geoloc + staff |
+| `GET/POST /api/studio-services` | Services + disponibilite |
+| `GET/POST /api/bookings` | Reservations + annulations |
+| `POST /api/calendar/google/auth-url` | Google Calendar OAuth |
+| `POST /api/calendar/sync` | Sync calendrier |
+| `POST /api/stripe/useme/session-payment` | Paiement session |
+| `POST /api/stripe/useme/connect-onboard` | Stripe Connect onboarding |
+| `POST /api/stripe/useme/subscription-checkout` | Abonnement studio |
+| `POST /api/stripe/useme/refund-session` | Remboursement |
+| `POST /api/website-generator/generate` | Generation site AI |
+| `GET /health` | Health check |
+
+### Callable Functions (Firebase)
+| Function | Description |
+|----------|-------------|
+| `generateChatResponse` | Chat AI Claude |
+| `generatePersonalAssistantResponse` | Assistant personnel |
+| `getSuggestedReplies` | Suggestions de reponse |
+| `getEncryptionKey` | Cle de chiffrement user |
+| `generatePaymentMessage` | Message de paiement |
+| `verifyAppleReceipt` | Verification IAP Apple |
+| `syncRoleClaim` | Sync role -> custom claims |
+| `forceLogoutUser` | Deconnexion forcee (admin) |
+| `validateInvitationCode` | Validation code invitation |
+| `sendPaymentReminder` | Relance paiement |
+
+### Firestore Triggers
+| Trigger | Collection |
+|---------|------------|
+| `onSessionConfirmed` | `useme_sessions` |
+| `onSessionCreatedConfirmed` | `useme_sessions` |
+| `onTeamInvitationCreated` | `team_invitations` |
+| `onUserUpdatedCheckPioneer` | `users` |
+| `onBookingCreated/Updated` | `bookings` |
+| `onUserNotificationCreated` | `user_notifications` |
+| `onMessageCreated` | `conversations/*/messages` |
+| `onUserRoleUpdated` | `users` |
+| `syncAllCalendars` | Scheduled (every 15min) |
+
+### Modules Use Me dans smoothbackend
+`booking`, `studio`, `studio-services`, `calendar`, `stripe-core`, `stripe-connect`,
+`website-generator`, `ai-chat`, `encryption`, `iap`, `user-management`, `notifications`,
+`payment-accounts`, `payment-distributions`
+
+### Deployer le backend Use Me
+```bash
+cd ~/IdeaProjects/smoothbackend
+./scripts/deploy.sh useme
+```
 
 ## Common Commands
 
@@ -38,9 +104,6 @@ fvm flutter gen-l10n
 # Analyze code
 fvm flutter analyze
 
-# Analyze specific files
-fvm flutter analyze lib/path/to/file.dart
-
 # Run tests
 fvm flutter test
 
@@ -57,29 +120,30 @@ fvm flutter build ios
 ```
 lib/
 ├── main.dart
-├── config/                    # Theme, constants
+├── firebase_options.dart          # Firebase config (uzme-app)
+├── config/                        # Theme, constants
 ├── core/
-│   ├── blocs/                # BloC state management
+│   ├── blocs/                    # BloC state management
 │   │   ├── feature/
 │   │   │   ├── feature_bloc.dart
 │   │   │   ├── feature_event.dart
 │   │   │   ├── feature_state.dart
 │   │   │   └── feature_exports.dart
-│   ├── models/               # Data models (Equatable)
-│   └── services/             # Firebase services
-├── l10n/                     # Localizations (FR/EN)
-│   ├── app_fr.arb           # French strings (primary)
-│   └── app_en.arb           # English strings
+│   ├── models/                   # Data models (Equatable)
+│   └── services/                 # Firebase services
+├── l10n/                         # Localizations (FR/EN)
+│   ├── app_fr.arb               # French strings (primary)
+│   └── app_en.arb               # English strings
 ├── routing/
-│   ├── app_routes.dart      # Route constants
-│   └── router.dart          # GoRouter configuration
+│   ├── app_routes.dart          # Route constants
+│   └── router.dart              # GoRouter configuration
 ├── screens/
-│   ├── artist/              # Artist-specific screens
-│   ├── engineer/            # Engineer-specific screens
-│   ├── studio/              # Studio admin screens
-│   ├── shared/              # Cross-role screens
-│   └── admin/               # SuperAdmin screens
-└── widgets/                  # Reusable widgets by domain
+│   ├── artist/                  # Artist-specific screens
+│   ├── engineer/                # Engineer-specific screens
+│   ├── studio/                  # Studio admin screens
+│   ├── shared/                  # Cross-role screens
+│   └── admin/                   # SuperAdmin screens
+└── widgets/                      # Reusable widgets by domain
     ├── artist/
     ├── engineer/
     ├── studio/
@@ -167,19 +231,6 @@ if (session.canBeCancelled)
 | `ai_messages` | AI messages (subcollection) |
 | `ai_settings` | AI configuration per studio |
 
-### Backend-Only Collections (Cloud Functions)
-
-| Collection | Description |
-|------------|-------------|
-| `ai_actions_log` | AI action tracking/logs |
-| `ai_analytics` | AI analytics data |
-| `counters` | Document counters (invoice numbering) |
-| `encryption_ivs` | Encryption initialization vectors |
-| `invitation_codes` | Invitation codes |
-| `payment_accounts` | Payment account records |
-| `payment_distributions` | Payment distribution records |
-| `xpTransactions` | Experience point transactions |
-
 ## Role-Based Access
 
 | Role | Access |
@@ -219,60 +270,8 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/models/session.dart';
 ```
 
-## Key Features Implemented
-
-### Map & Search
-- **Search by city/address**: `SearchByAddressEvent` in `map_event.dart` - geocoding search
-- **"Search in this zone" button**: `search_in_zone_button.dart` - appears when map moves
-- **Service filters**: Filter studios by services offered
-- **Partner filter**: Show only verified partner studios
-
-### Sessions & Booking
-- **Calendar views**: Week, Month, List views in `artist_sessions_page.dart`
-- **Export to phone calendar**: `add_2_calendar` package in `artist_session_detail_screen.dart`
-- **Availability picker**: `availability_picker.dart` with engineer availability
-- **Working hours**: `WorkingHours` model from smoothandesign_package
-
-### Studios
-- **Manual registration**: `manual_studio_form_screen.dart` - no Google Maps required
-- **Studio types**: `StudioType` enum (pro, independent, amateur) with badges
-- **Verification badges**: Partner verified badge in `studio_detail_bottom_sheet.dart`
-- **Studio claiming**: Claim existing Google Places studios via `studio_claim_screen.dart`
-
-### Calendar Integration
-- **Google Calendar import**: `CalendarBloc` with OAuth flow
-- **Unavailabilities sync**: Import events as unavailabilities
-- **Calendar review screen**: `calendar_import_review_screen.dart`
-
-### Messaging
-- **Contact search**: `new_conversation_bottom_sheet.dart` - search by name/email
-- **AI Assistant**: `chat_assistant_service.dart` with intent detection
-- **Voice messages**: Audio recording in conversations
-- **Reactions**: Message reactions with emojis
-
-### User Management
-- **Multi-studio support**: `studioIds: List<String>` in AppUser for artists
-- **Team invitations**: Invite engineers to studio team
-- **Artist invitations**: Invite artists to studio
-- **Device sessions**: `device_sessions_screen.dart` - manage connected devices
-
-### Shared Package (smoothandesign_package)
-Components migrated to shared package for reuse:
-- Models: `WorkingHours`, `Unavailability`, `CalendarConnection`
-- BLoCs: `LocaleBloc`
-- Widgets: `AppSnackBar`, `AppLoader`, `FloatingBottomNav`, `NotificationBell`
-- Glass widgets: `GlassChip`, `GlassEmptyState`, `GlassSectionHeader`
-- Settings: `SettingsTile`, `SettingsSectionHeader`
-
-## Backend
-
-Cloud Functions located in `/Users/wesof./IdeaProjects/smoothbackend`:
-- Notification triggers (invitations, messages, bookings)
-- Push notifications via FCM
-- Firestore security rules
-
 ## Related Projects
 
-- **smoothandesign_package**: `/Users/wesof./IdeaProjects/smoothandesign_package`
-- **smoothbackend**: `/Users/wesof./IdeaProjects/smoothbackend`
-- **smoothdevis**: `/Users/wesof./IdeaProjects/smoothdevis` (uses same backend)
+- **smoothbackend** (monorepo backend): `/Users/wesof./IdeaProjects/smoothbackend` — repo `ben-ndui/smoothbackend`
+- **smoothandesign_package** (shared Flutter package): `/Users/wesof./IdeaProjects/smoothandesign_package`
+- **useme-website** (Next.js support site): `/Users/wesof./IdeaProjects/useme-support` — repo `ben-ndui/useme-website` — domaine `usmi.app`
