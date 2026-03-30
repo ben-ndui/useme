@@ -60,44 +60,21 @@ class HoloCardContent extends StatelessWidget {
   }
 
   Widget _buildCenter() {
-    final displayName =
-        user.stageName ?? user.displayName ?? user.name ?? '';
+    final isStudio = user.isStudio || user.isSuperAdmin;
+    final displayName = isStudio
+        ? user.studioDisplayName
+        : (user.stageName ?? user.displayName ?? user.name ?? '');
+    final location = isStudio
+        ? user.studioProfile?.address
+        : user.city;
     final photoUrl = user.displayPhotoUrl;
     final initial =
         displayName.isNotEmpty ? displayName[0].toUpperCase() : '?';
 
     return Row(
       children: [
-        // Avatar
-        Container(
-          width: 64,
-          height: 64,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: theme.accentColor.withValues(alpha: 0.5),
-              width: 2,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: theme.glowColor.withValues(alpha: 0.3),
-                blurRadius: 16,
-                spreadRadius: 2,
-              ),
-            ],
-          ),
-          child: ClipOval(
-            child: photoUrl != null
-                ? Image.network(
-                    photoUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => _initialsFallback(initial),
-                  )
-                : _initialsFallback(initial),
-          ),
-        ),
+        _buildAvatar(photoUrl, initial),
         const SizedBox(width: 16),
-        // Name + role + city
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +91,7 @@ class HoloCardContent extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               _buildRoleBadge(),
-              if (user.city != null) ...[
+              if (location != null && location.isNotEmpty) ...[
                 const SizedBox(height: 4),
                 Row(
                   children: [
@@ -122,11 +99,15 @@ class HoloCardContent extends StatelessWidget {
                         size: 10,
                         color: Colors.white.withValues(alpha: 0.5)),
                     const SizedBox(width: 6),
-                    Text(
-                      user.city!,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white.withValues(alpha: 0.6),
+                    Expanded(
+                      child: Text(
+                        location,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white.withValues(alpha: 0.6),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
@@ -136,6 +117,38 @@ class HoloCardContent extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildAvatar(String? photoUrl, String initial) {
+    return Container(
+      width: 64,
+      height: 64,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: theme.accentColor.withValues(alpha: 0.5),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: theme.glowColor.withValues(alpha: 0.3),
+            blurRadius: 16,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: ClipOval(
+        child: photoUrl != null
+            ? Image.network(
+                photoUrl,
+                fit: BoxFit.cover,
+                width: 64,
+                height: 64,
+                errorBuilder: (_, __, ___) => _initialsFallback(initial),
+              )
+            : _initialsFallback(initial),
+      ),
     );
   }
 
