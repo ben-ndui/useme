@@ -10,7 +10,7 @@ import 'package:useme/core/models/session_payment_intent.dart';
 
 /// Base URL for the Cloud Functions API.
 const _apiBaseUrl =
-    'https://us-central1-smoothandesign.cloudfunctions.net/api';
+    'https://europe-west1-uzme-app.cloudfunctions.net/api';
 
 /// Service handling Stripe session payments and Connect onboarding.
 class SessionPaymentService {

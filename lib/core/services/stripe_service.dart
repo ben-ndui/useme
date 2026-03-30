@@ -11,7 +11,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 
 /// Configuration Stripe pour Use Me
 const _useMeStripeConfig = StripeServiceConfig(
-  apiBaseUrl: 'https://us-central1-smoothandesign.cloudfunctions.net/api',
+  apiBaseUrl: 'https://europe-west1-uzme-app.cloudfunctions.net/api',
   appName: 'useme',
   configDocPath: 'app_config/stripe',
 );

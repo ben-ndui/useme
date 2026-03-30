@@ -18,7 +18,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
 
   // URL de base de l'API (note: /api/api car le nom de la fonction est 'api')
   static const String _baseUrl =
-      'https://us-central1-smoothandesign.cloudfunctions.net/api/api';
+      'https://europe-west1-uzme-app.cloudfunctions.net/api/api';
 
   CalendarBloc({UnavailabilityService? unavailabilityService})
       : _unavailabilityService = unavailabilityService ?? UnavailabilityService(),
