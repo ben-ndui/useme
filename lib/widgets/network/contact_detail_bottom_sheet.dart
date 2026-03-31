@@ -1,27 +1,36 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/core/blocs/blocs_exports.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:useme/core/models/app_user.dart';
+import 'package:useme/core/models/card_config.dart';
 import 'package:useme/core/models/user_contact.dart';
 import 'package:useme/l10n/app_localizations.dart';
+import 'package:useme/widgets/card/holo_card.dart';
+import 'package:useme/core/services/vcard_service.dart';
 import 'package:useme/widgets/network/contact_detail_header.dart';
 import 'package:useme/widgets/network/contact_invite_helper.dart';
 
 /// Bottom sheet showing full contact details with actions.
+/// For platform contacts, displays their HoloCard at the top.
 class ContactDetailBottomSheet extends StatelessWidget {
   final UserContact contact;
 
   const ContactDetailBottomSheet({super.key, required this.contact});
 
   static void show(BuildContext context, UserContact contact) {
+    final networkBloc = context.read<NetworkBloc>();
+    final authBloc = context.read<AuthBloc>();
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (_) => MultiBlocProvider(
         providers: [
-          BlocProvider.value(value: context.read<NetworkBloc>()),
-          BlocProvider.value(value: context.read<AuthBloc>()),
+          BlocProvider.value(value: networkBloc),
+          BlocProvider.value(value: authBloc),
         ],
         child: ContactDetailBottomSheet(contact: contact),
       ),
@@ -34,7 +43,7 @@ class ContactDetailBottomSheet extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return DraggableScrollableSheet(
-      initialChildSize: 0.6,
+      initialChildSize: contact.isOnPlatform ? 0.75 : 0.6,
       minChildSize: 0.4,
       maxChildSize: 0.85,
       expand: false,
@@ -55,13 +64,18 @@ class ContactDetailBottomSheet extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            ContactDetailHeader(contact: contact),
+            // HoloCard for platform contacts
+            if (contact.isOnPlatform && contact.contactUserId != null)
+              _ContactHoloCard(contactUserId: contact.contactUserId!),
+            if (!contact.isOnPlatform) ContactDetailHeader(contact: contact),
             const SizedBox(height: 24),
             if (contact.note != null && contact.note!.isNotEmpty)
               _buildNote(theme, l10n),
             if (contact.tags.isNotEmpty) _buildTags(theme),
             _buildActions(context, l10n),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
+            _buildShareVCard(context, theme, l10n),
+            const SizedBox(height: 8),
             _buildDeleteButton(context, theme, l10n),
           ],
         ),
@@ -136,6 +150,25 @@ class ContactDetailBottomSheet extends StatelessWidget {
     );
   }
 
+  Widget _buildShareVCard(
+    BuildContext context,
+    ThemeData theme,
+    AppLocalizations l10n,
+  ) {
+    return Center(
+      child: TextButton.icon(
+        onPressed: () {
+          final vcard = VCardService().fromContact(contact);
+          VCardService().share(vcard, name: contact.contactName);
+        },
+        icon: FaIcon(FontAwesomeIcons.addressCard,
+            size: 14, color: theme.colorScheme.primary),
+        label: Text(l10n.shareVCard,
+            style: TextStyle(color: theme.colorScheme.primary)),
+      ),
+    );
+  }
+
   Widget _buildDeleteButton(
     BuildContext context,
     ThemeData theme,
@@ -154,6 +187,79 @@ class ContactDetailBottomSheet extends StatelessWidget {
         label: Text(l10n.remove,
             style: TextStyle(color: theme.colorScheme.error)),
       ),
+    );
+  }
+}
+
+/// Fetches a platform user's data + card config and displays their HoloCard.
+class _ContactHoloCard extends StatefulWidget {
+  final String contactUserId;
+
+  const _ContactHoloCard({required this.contactUserId});
+
+  @override
+  State<_ContactHoloCard> createState() => _ContactHoloCardState();
+}
+
+class _ContactHoloCardState extends State<_ContactHoloCard> {
+  AppUser? _user;
+  CardConfig? _cardConfig;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.contactUserId)
+          .get();
+
+      if (!mounted || doc.data() == null) {
+        setState(() => _isLoading = false);
+        return;
+      }
+
+      final user = AppUser.fromMap(doc.data()!, doc.id);
+      final cardConfigData = doc.data()!['cardConfig'];
+      final cardConfig = cardConfigData != null
+          ? CardConfig.fromMap(cardConfigData as Map<String, dynamic>)
+          : const CardConfig();
+
+      setState(() {
+        _user = user;
+        _cardConfig = cardConfig;
+        _isLoading = false;
+      });
+    } catch (_) {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const SizedBox(
+        height: 180,
+        child: Center(
+          child: SizedBox(
+            width: 24,
+            height: 24,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+        ),
+      );
+    }
+
+    if (_user == null) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: HoloCard(user: _user!, cardConfig: _cardConfig),
     );
   }
 }

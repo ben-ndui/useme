@@ -11,3 +11,4 @@ export 'onboarding/onboarding_exports.dart';
 export 'network/network_exports.dart';
 export 'pro_profile/pro_profile_exports.dart';
 export 'session_payment/session_payment_exports.dart';
+export 'card_config/card_config_exports.dart';

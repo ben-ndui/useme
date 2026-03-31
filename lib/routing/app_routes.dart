@@ -109,6 +109,7 @@ class AppRoutes {
 
   // Digital Card
   static const String digitalCard = '/card';
+  static const String cardCustomize = '/card/customize';
   static const String qrScanner = '/card/scan';
 
   // Discover map (shared)

@@ -246,6 +246,7 @@ class _UseMeAppState extends State<UseMeApp> {
         BlocProvider<FavoriteBloc>(create: (_) => FavoriteBloc()),
         BlocProvider<ProProfileBloc>(create: (_) => ProProfileBloc()),
         BlocProvider<NetworkBloc>(create: (_) => NetworkBloc()),
+        BlocProvider<CardConfigBloc>(create: (_) => CardConfigBloc()),
         BlocProvider<CalendarBloc>.value(value: globalCalendarBloc),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(

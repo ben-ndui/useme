@@ -832,6 +832,210 @@ abstract class AppLocalizations {
   /// **'QR code UZME non reconnu'**
   String get invalidQrCode;
 
+  /// No description provided for @customizeCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Personnaliser'**
+  String get customizeCard;
+
+  /// No description provided for @cardTheme.
+  ///
+  /// In fr, this message translates to:
+  /// **'Thème'**
+  String get cardTheme;
+
+  /// No description provided for @cardAccentColor.
+  ///
+  /// In fr, this message translates to:
+  /// **'Couleur d\'accent'**
+  String get cardAccentColor;
+
+  /// No description provided for @cardPattern.
+  ///
+  /// In fr, this message translates to:
+  /// **'Motif de fond'**
+  String get cardPattern;
+
+  /// No description provided for @cardSaved.
+  ///
+  /// In fr, this message translates to:
+  /// **'Carte enregistrée'**
+  String get cardSaved;
+
+  /// No description provided for @patternNone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun'**
+  String get patternNone;
+
+  /// No description provided for @patternGradient.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dégradé'**
+  String get patternGradient;
+
+  /// No description provided for @patternWaves.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vagues'**
+  String get patternWaves;
+
+  /// No description provided for @patternDots.
+  ///
+  /// In fr, this message translates to:
+  /// **'Points'**
+  String get patternDots;
+
+  /// No description provided for @reset.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réinitialiser'**
+  String get reset;
+
+  /// No description provided for @exportCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Exporter'**
+  String get exportCard;
+
+  /// No description provided for @shareImage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partager l\'image'**
+  String get shareImage;
+
+  /// No description provided for @exporting.
+  ///
+  /// In fr, this message translates to:
+  /// **'Export en cours...'**
+  String get exporting;
+
+  /// No description provided for @formatStory.
+  ///
+  /// In fr, this message translates to:
+  /// **'Story'**
+  String get formatStory;
+
+  /// No description provided for @formatPost.
+  ///
+  /// In fr, this message translates to:
+  /// **'Post'**
+  String get formatPost;
+
+  /// No description provided for @formatLandscape.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paysage'**
+  String get formatLandscape;
+
+  /// No description provided for @cardBackgroundImage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Photo de fond'**
+  String get cardBackgroundImage;
+
+  /// No description provided for @premiumRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Abonnement Pro requis'**
+  String get premiumRequired;
+
+  /// No description provided for @scannedProfile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil scanné'**
+  String get scannedProfile;
+
+  /// No description provided for @addToNetwork.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter au réseau'**
+  String get addToNetwork;
+
+  /// No description provided for @adding.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajout...'**
+  String get adding;
+
+  /// No description provided for @contactAdded.
+  ///
+  /// In fr, this message translates to:
+  /// **'Contact ajouté'**
+  String get contactAdded;
+
+  /// No description provided for @alreadyInNetwork.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déjà dans ton réseau'**
+  String get alreadyInNetwork;
+
+  /// No description provided for @userNotFound.
+  ///
+  /// In fr, this message translates to:
+  /// **'Utilisateur non trouvé'**
+  String get userNotFound;
+
+  /// No description provided for @shareVCard.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partager la fiche contact'**
+  String get shareVCard;
+
+  /// No description provided for @listView.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vue liste'**
+  String get listView;
+
+  /// No description provided for @cardView.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vue cartes'**
+  String get cardView;
+
+  /// No description provided for @nearbyUsers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autour de moi'**
+  String get nearbyUsers;
+
+  /// No description provided for @nearbyRadius.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dans un rayon de 10 km'**
+  String get nearbyRadius;
+
+  /// No description provided for @noNearbyUsers.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun utilisateur UZME à proximité'**
+  String get noNearbyUsers;
+
+  /// No description provided for @locationRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'La localisation est nécessaire pour découvrir les utilisateurs proches'**
+  String get locationRequired;
+
+  /// No description provided for @nearby.
+  ///
+  /// In fr, this message translates to:
+  /// **'À proximité'**
+  String get nearby;
+
+  /// No description provided for @nfc.
+  ///
+  /// In fr, this message translates to:
+  /// **'NFC'**
+  String get nfc;
+
+  /// No description provided for @nfcWritten.
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil écrit sur le tag NFC'**
+  String get nfcWritten;
+
   /// No description provided for @version.
   ///
   /// In fr, this message translates to:
@@ -1611,12 +1815,6 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Passées'**
   String get past;
-
-  /// No description provided for @listView.
-  ///
-  /// In fr, this message translates to:
-  /// **'Vue liste'**
-  String get listView;
 
   /// No description provided for @calendarView.
   ///

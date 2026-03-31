@@ -1,6 +1,4 @@
-import 'dart:ui';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:useme/widgets/card/gyroscope_controller.dart';
 

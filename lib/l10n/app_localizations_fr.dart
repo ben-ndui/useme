@@ -397,6 +397,109 @@ class AppLocalizationsFr extends AppLocalizations {
   String get invalidQrCode => 'QR code UZME non reconnu';
 
   @override
+  String get customizeCard => 'Personnaliser';
+
+  @override
+  String get cardTheme => 'Thème';
+
+  @override
+  String get cardAccentColor => 'Couleur d\'accent';
+
+  @override
+  String get cardPattern => 'Motif de fond';
+
+  @override
+  String get cardSaved => 'Carte enregistrée';
+
+  @override
+  String get patternNone => 'Aucun';
+
+  @override
+  String get patternGradient => 'Dégradé';
+
+  @override
+  String get patternWaves => 'Vagues';
+
+  @override
+  String get patternDots => 'Points';
+
+  @override
+  String get reset => 'Réinitialiser';
+
+  @override
+  String get exportCard => 'Exporter';
+
+  @override
+  String get shareImage => 'Partager l\'image';
+
+  @override
+  String get exporting => 'Export en cours...';
+
+  @override
+  String get formatStory => 'Story';
+
+  @override
+  String get formatPost => 'Post';
+
+  @override
+  String get formatLandscape => 'Paysage';
+
+  @override
+  String get cardBackgroundImage => 'Photo de fond';
+
+  @override
+  String get premiumRequired => 'Abonnement Pro requis';
+
+  @override
+  String get scannedProfile => 'Profil scanné';
+
+  @override
+  String get addToNetwork => 'Ajouter au réseau';
+
+  @override
+  String get adding => 'Ajout...';
+
+  @override
+  String get contactAdded => 'Contact ajouté';
+
+  @override
+  String get alreadyInNetwork => 'Déjà dans ton réseau';
+
+  @override
+  String get userNotFound => 'Utilisateur non trouvé';
+
+  @override
+  String get shareVCard => 'Partager la fiche contact';
+
+  @override
+  String get listView => 'Vue liste';
+
+  @override
+  String get cardView => 'Vue cartes';
+
+  @override
+  String get nearbyUsers => 'Autour de moi';
+
+  @override
+  String get nearbyRadius => 'Dans un rayon de 10 km';
+
+  @override
+  String get noNearbyUsers => 'Aucun utilisateur UZME à proximité';
+
+  @override
+  String get locationRequired =>
+      'La localisation est nécessaire pour découvrir les utilisateurs proches';
+
+  @override
+  String get nearby => 'À proximité';
+
+  @override
+  String get nfc => 'NFC';
+
+  @override
+  String get nfcWritten => 'Profil écrit sur le tag NFC';
+
+  @override
   String version(String version) {
     return 'UZME v$version';
   }
@@ -807,9 +910,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get past => 'Passées';
-
-  @override
-  String get listView => 'Vue liste';
 
   @override
   String get calendarView => 'Vue calendrier';

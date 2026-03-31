@@ -22,6 +22,7 @@ class QrFullscreenSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = HoloCardTheme.forRole(user.role, isPioneer: user.isPioneer);
+    final cs = Theme.of(context).colorScheme;
     final isStudio = user.isStudio || user.isSuperAdmin;
     final displayName = isStudio
         ? user.studioDisplayName
@@ -30,9 +31,9 @@ class QrFullscreenSheet extends StatelessWidget {
 
     return Container(
       height: screenHeight * 0.7,
-      decoration: const BoxDecoration(
-        color: Color(0xFF0A0E21),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: cs.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         children: [
@@ -42,7 +43,7 @@ class QrFullscreenSheet extends StatelessWidget {
             height: 4,
             margin: const EdgeInsets.only(top: 12),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
+              color: cs.outline,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -51,10 +52,10 @@ class QrFullscreenSheet extends StatelessWidget {
           // Title
           Text(
             displayName,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: cs.onSurface,
             ),
           ),
           const SizedBox(height: 8),
@@ -107,13 +108,13 @@ class QrFullscreenSheet extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FaIcon(FontAwesomeIcons.qrcode,
-                    size: 14, color: Colors.white.withValues(alpha: 0.4)),
+                    size: 14, color: cs.onSurfaceVariant),
                 const SizedBox(width: 8),
                 Text(
                   'Scanne ce code pour voir mon profil',
                   style: TextStyle(
                     fontSize: 13,
-                    color: Colors.white.withValues(alpha: 0.4),
+                    color: cs.onSurfaceVariant,
                   ),
                 ),
               ],

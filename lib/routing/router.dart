@@ -42,6 +42,7 @@ import 'package:useme/screens/admin/studio_claims_screen.dart';
 import 'package:useme/screens/admin/subscription_tiers_screen.dart';
 import 'package:useme/screens/admin/stripe_config_screen.dart';
 import 'package:useme/screens/shared/digital_card_screen.dart';
+import 'package:useme/screens/shared/card_customization_screen.dart';
 import 'package:useme/widgets/card/qr_scanner_screen.dart';
 import 'package:useme/screens/shared/upgrade_screen.dart';
 import 'package:useme/screens/shared/ai_assistant_screen.dart';
@@ -313,6 +314,10 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.digitalCard,
           builder: (context, state) => const DigitalCardScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.cardCustomize,
+          builder: (context, state) => const CardCustomizationScreen(),
         ),
         GoRoute(
           path: AppRoutes.qrScanner,

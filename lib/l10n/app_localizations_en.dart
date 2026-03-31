@@ -396,6 +396,109 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidQrCode => 'Unrecognized UZME QR code';
 
   @override
+  String get customizeCard => 'Customize';
+
+  @override
+  String get cardTheme => 'Theme';
+
+  @override
+  String get cardAccentColor => 'Accent color';
+
+  @override
+  String get cardPattern => 'Background pattern';
+
+  @override
+  String get cardSaved => 'Card saved';
+
+  @override
+  String get patternNone => 'None';
+
+  @override
+  String get patternGradient => 'Gradient';
+
+  @override
+  String get patternWaves => 'Waves';
+
+  @override
+  String get patternDots => 'Dots';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get exportCard => 'Export';
+
+  @override
+  String get shareImage => 'Share image';
+
+  @override
+  String get exporting => 'Exporting...';
+
+  @override
+  String get formatStory => 'Story';
+
+  @override
+  String get formatPost => 'Post';
+
+  @override
+  String get formatLandscape => 'Landscape';
+
+  @override
+  String get cardBackgroundImage => 'Background photo';
+
+  @override
+  String get premiumRequired => 'Pro subscription required';
+
+  @override
+  String get scannedProfile => 'Scanned profile';
+
+  @override
+  String get addToNetwork => 'Add to network';
+
+  @override
+  String get adding => 'Adding...';
+
+  @override
+  String get contactAdded => 'Contact added';
+
+  @override
+  String get alreadyInNetwork => 'Already in your network';
+
+  @override
+  String get userNotFound => 'User not found';
+
+  @override
+  String get shareVCard => 'Share contact card';
+
+  @override
+  String get listView => 'List view';
+
+  @override
+  String get cardView => 'Card view';
+
+  @override
+  String get nearbyUsers => 'Nearby';
+
+  @override
+  String get nearbyRadius => 'Within 10 km radius';
+
+  @override
+  String get noNearbyUsers => 'No UZME users nearby';
+
+  @override
+  String get locationRequired =>
+      'Location is required to discover nearby users';
+
+  @override
+  String get nearby => 'Nearby';
+
+  @override
+  String get nfc => 'NFC';
+
+  @override
+  String get nfcWritten => 'Profile written to NFC tag';
+
+  @override
   String version(String version) {
     return 'UZME v$version';
   }
@@ -803,9 +906,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get past => 'Past';
-
-  @override
-  String get listView => 'List view';
 
   @override
   String get calendarView => 'Calendar view';

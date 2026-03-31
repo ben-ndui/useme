@@ -30,16 +30,16 @@ void main() {
 
     test('surfaceContainerHighest is translucent white', () {
       final c = glass.surfaceContainerHighest;
-      expect(c.red, 255);
-      expect(c.green, 255);
-      expect(c.blue, 255);
+      expect((c.r * 255).round(), 255);
+      expect((c.g * 255).round(), 255);
+      expect((c.b * 255).round(), 255);
     });
 
     test('outlineVariant is translucent white', () {
       final c = glass.outlineVariant;
-      expect(c.red, 255);
-      expect(c.green, 255);
-      expect(c.blue, 255);
+      expect((c.r * 255).round(), 255);
+      expect((c.g * 255).round(), 255);
+      expect((c.b * 255).round(), 255);
     });
   });
 }

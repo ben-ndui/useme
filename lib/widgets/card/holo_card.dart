@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:useme/core/models/app_user.dart';
+import 'package:useme/core/models/card_config.dart';
+import 'package:useme/widgets/card/card_background_pattern.dart';
 import 'package:useme/widgets/card/gyroscope_controller.dart';
 import 'package:useme/widgets/card/holo_card_content.dart';
 import 'package:useme/widgets/card/holo_card_theme.dart';
@@ -12,8 +14,9 @@ import 'package:useme/widgets/card/holo_gradient_overlay.dart';
 /// and perspective transform driven by device orientation.
 class HoloCard extends StatefulWidget {
   final AppUser user;
+  final CardConfig? cardConfig;
 
-  const HoloCard({super.key, required this.user});
+  const HoloCard({super.key, required this.user, this.cardConfig});
 
   @override
   State<HoloCard> createState() => _HoloCardState();
@@ -37,10 +40,20 @@ class _HoloCardState extends State<HoloCard> {
     super.dispose();
   }
 
-  HoloCardTheme get _theme => HoloCardTheme.forRole(
-        widget.user.role,
+  HoloCardTheme get _theme {
+    final config = widget.cardConfig;
+    if (config != null && !config.isDefault) {
+      return HoloCardTheme.fromConfig(
+        config: config,
+        role: widget.user.role,
         isPioneer: widget.user.isPioneer,
       );
+    }
+    return HoloCardTheme.forRole(
+      widget.user.role,
+      isPioneer: widget.user.isPioneer,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +85,9 @@ class _HoloCardState extends State<HoloCard> {
 
   Widget _buildCard(Offset tilt) {
     final theme = _theme;
+    final pattern = widget.cardConfig?.backgroundPattern ??
+        CardBackgroundPattern.none;
+    final bgImageUrl = widget.cardConfig?.backgroundImageUrl;
 
     // 3D perspective transform — amplified for visible effect
     final transform = Matrix4.identity()
@@ -132,6 +148,30 @@ class _HoloCardState extends State<HoloCard> {
                   ),
                   child: Stack(
                     children: [
+                      // Custom background image (premium)
+                      if (bgImageUrl != null)
+                        Positioned.fill(
+                          child: Image.network(
+                            bgImageUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) =>
+                                const SizedBox.shrink(),
+                          ),
+                        ),
+                      // Darken overlay on top of background image
+                      if (bgImageUrl != null)
+                        Positioned.fill(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.4),
+                            ),
+                          ),
+                        ),
+                      if (pattern != CardBackgroundPattern.none)
+                        CardBackgroundPatternWidget(
+                          pattern: pattern,
+                          theme: theme,
+                        ),
                       HoloCardContent(user: widget.user, theme: theme),
                       HoloGradientOverlay(tilt: tilt, theme: theme),
                     ],
