@@ -65,6 +65,8 @@
 	<string>UZME needs access to your microphone to record voice messages. For example, you can send a voice note to a studio owner to discuss your session details.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>UZME needs access to your contacts to help you find and invite your music collaborators. For example, you can see which of your contacts are already on UZME and connect with them.</string>
+	<key>NFCReaderUsageDescription</key>
+	<string>UZME uses NFC to share your digital card with nearby devices. For example, you can tap an NFC tag to write your profile link so others can scan it to view your card.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>UZME needs access to your camera to take photos. For example, you can take a profile picture, capture a photo of your studio setup, or snap a picture to share in a conversation with an artist or studio.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
