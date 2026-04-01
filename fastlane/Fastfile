@@ -40,9 +40,21 @@ platform :ios do
   lane :setup_signing do
     setup_ci if ENV["CI"]
 
+    # Use App Store Connect API key for auth (no interactive 2FA needed)
+    if ENV["ASC_KEY_ID"] && ENV["ASC_ISSUER_ID"] && ENV["ASC_KEY_CONTENT"]
+      api_key = app_store_connect_api_key(
+        key_id: ENV["ASC_KEY_ID"],
+        issuer_id: ENV["ASC_ISSUER_ID"],
+        key_content: ENV["ASC_KEY_CONTENT"],
+        is_key_content_base64: true
+      )
+    end
+
     match(
       type: "appstore",
-      readonly: true
+      readonly: is_ci && !ENV["MATCH_FORCE"],
+      force: ENV["MATCH_FORCE"] == "true",
+      api_key: defined?(api_key) ? api_key : nil
     )
 
     update_code_signing_settings(
