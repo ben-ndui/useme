@@ -380,37 +380,37 @@ class AppLocalizationsSg extends AppLocalizations {
   String get deleteMessage => 'Zïa';
 
   @override
-  String get myCard => 'Ma Carte';
+  String get myCard => 'Carte tî mbi';
 
   @override
-  String get tiltToExplore => 'Incline ton telephone pour explorer';
+  String get tiltToExplore => 'Gingo téléphone tî mo ngbanga tî bâa';
 
   @override
-  String get shareQr => 'Partager';
+  String get shareQr => 'Fa';
 
   @override
   String get scan => 'Scanner';
 
   @override
-  String get invalidQrCode => 'QR code UZME non reconnu';
+  String get invalidQrCode => 'QR code UZME sô a-yeke pepe';
 
   @override
-  String get customizeCard => 'Personnaliser';
+  String get customizeCard => 'Sâra carte';
 
   @override
   String get cardTheme => 'Thème';
 
   @override
-  String get cardAccentColor => 'Couleur d\'accent';
+  String get cardAccentColor => 'Couleur accent';
 
   @override
-  String get cardPattern => 'Motif de fond';
+  String get cardPattern => 'Motif';
 
   @override
-  String get cardSaved => 'Carte enregistrée';
+  String get cardSaved => 'Carte a-sârango';
 
   @override
-  String get patternNone => 'Aucun';
+  String get patternNone => 'Ôse pepe';
 
   @override
   String get patternGradient => 'Dégradé';
@@ -422,16 +422,16 @@ class AppLocalizationsSg extends AppLocalizations {
   String get patternDots => 'Points';
 
   @override
-  String get reset => 'Réinitialiser';
+  String get reset => 'Bâa na kôzo';
 
   @override
   String get exportCard => 'Exporter';
 
   @override
-  String get shareImage => 'Partager l\'image';
+  String get shareImage => 'Fa foto';
 
   @override
-  String get exporting => 'Export en cours...';
+  String get exporting => 'Export a-sala...';
 
   @override
   String get formatStory => 'Story';
@@ -443,59 +443,59 @@ class AppLocalizationsSg extends AppLocalizations {
   String get formatLandscape => 'Paysage';
 
   @override
-  String get cardBackgroundImage => 'Photo de fond';
+  String get cardBackgroundImage => 'Foto tî fond';
 
   @override
-  String get premiumRequired => 'Abonnement Pro requis';
+  String get premiumRequired => 'Abonnement Pro a-lîngbi';
 
   @override
-  String get scannedProfile => 'Profil scanné';
+  String get scannedProfile => 'Profil a-bâango';
 
   @override
-  String get addToNetwork => 'Ajouter au réseau';
+  String get addToNetwork => 'Bâa na réseau';
 
   @override
-  String get adding => 'Ajout...';
+  String get adding => 'A-bâa...';
 
   @override
-  String get contactAdded => 'Contact ajouté';
+  String get contactAdded => 'Contact a-bâango';
 
   @override
-  String get alreadyInNetwork => 'Déjà dans ton réseau';
+  String get alreadyInNetwork => 'A-yeke na réseau tî mo kâ';
 
   @override
-  String get userNotFound => 'Utilisateur non trouvé';
+  String get userNotFound => 'Zo sô a-yeke pepe';
 
   @override
-  String get shareVCard => 'Partager la fiche contact';
+  String get shareVCard => 'Fa fiche contact';
 
   @override
-  String get listView => 'Yê na liste';
+  String get listView => 'Vue liste';
 
   @override
-  String get cardView => 'Vue cartes';
+  String get cardView => 'Vue carte';
 
   @override
-  String get nearbyUsers => 'Autour de moi';
+  String get nearbyUsers => 'Na pêpêe';
 
   @override
-  String get nearbyRadius => 'Dans un rayon de 10 km';
+  String get nearbyRadius => 'Na rayon tî 10 km';
 
   @override
-  String get noNearbyUsers => 'Aucun utilisateur UZME à proximité';
+  String get noNearbyUsers => 'Zo UZME ôse pepe na pêpêe';
 
   @override
   String get locationRequired =>
-      'La localisation est nécessaire pour découvrir les utilisateurs proches';
+      'Localisation a-lîngbi ngbanga tî bâa zo na pêpêe';
 
   @override
-  String get nearby => 'À proximité';
+  String get nearby => 'Na pêpêe';
 
   @override
   String get nfc => 'NFC';
 
   @override
-  String get nfcWritten => 'Profil écrit sur le tag NFC';
+  String get nfcWritten => 'Profil a-surango na tag NFC';
 
   @override
   String version(String version) {
@@ -1696,11 +1696,11 @@ class AppLocalizationsSg extends AppLocalizations {
   String get remove => 'Ûse';
 
   @override
-  String get removeAccount => 'Supprimer le compte';
+  String get removeAccount => 'Zîa compte';
 
   @override
   String removeAccountConfirm(String name) {
-    return 'Retirer $name des comptes mémorisés ?';
+    return 'Mo a-yê tî zîa compte tî mo?';
   }
 
   @override
