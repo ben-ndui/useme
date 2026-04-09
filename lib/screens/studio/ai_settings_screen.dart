@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/models/models_exports.dart';
 import 'package:useme/core/services/services_exports.dart';
 import 'package:useme/config/responsive_config.dart';
@@ -138,45 +140,61 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
   }
 
   Widget _buildHeader() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.purple.withValues(alpha:0.2),
-            Colors.blue.withValues(alpha:0.2),
-          ],
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [UseMeTheme.accentColor, UseMeTheme.primaryColor],
         ),
         borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: UseMeTheme.primaryColor.withValues(alpha: 0.3),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
-      child: Column(
+      child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(16),
+            width: 56,
+            height: 56,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha:0.2),
-              shape: BoxShape.circle,
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(14),
             ),
-            child: const Icon(
-              Icons.auto_awesome,
-              size: 40,
-              color: Colors.purple,
+            child: const Center(
+              child: FaIcon(FontAwesomeIcons.solidStar, color: Colors.white, size: 24),
             ),
           ),
-          const SizedBox(height: 16),
-          Text(
-            AppLocalizations.of(context)!.aiAssistant,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            AppLocalizations.of(context)!.aiAssistantDescription,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.grey.shade600,
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.aiAssistant,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  l10n.aiAssistantDescription,
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.85),
+                    fontSize: 13,
+                    height: 1.4,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -200,9 +218,14 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
             _settings = _settings!.copyWith(enabled: value);
           });
         },
-        secondary: Icon(
-          _settings!.enabled ? Icons.smart_toy : Icons.smart_toy_outlined,
-          color: _settings!.enabled ? Colors.purple : Colors.grey,
+        secondary: FaIcon(
+          _settings!.enabled
+              ? FontAwesomeIcons.solidStar
+              : FontAwesomeIcons.star,
+          size: 18,
+          color: _settings!.enabled
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.outline,
         ),
       ),
     );
@@ -233,9 +256,12 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
         mode.description,
         style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
       ),
-      trailing: isSelected
-          ? const Icon(Icons.check_circle, color: Colors.purple)
-          : const Icon(Icons.circle_outlined, color: Colors.grey),
+      trailing: Icon(
+        isSelected ? Icons.check_circle : Icons.circle_outlined,
+        color: isSelected
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.outline,
+      ),
       onTap: () {
         setState(() {
           _settings = _settings!.copyWith(mode: mode);
@@ -260,9 +286,12 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
           return ListTile(
             title: Text(tone.$2),
             subtitle: Text(tone.$3),
-            trailing: isSelected
-                ? const Icon(Icons.check_circle, color: Colors.purple)
-                : const Icon(Icons.circle_outlined, color: Colors.grey),
+            trailing: Icon(
+              isSelected ? Icons.check_circle : Icons.circle_outlined,
+              color: isSelected
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.outline,
+            ),
             onTap: () {
               setState(() {
                 _settings = _settings!.copyWith(tone: tone.$1);
@@ -327,7 +356,7 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
     return _buildCard(
       title: l10n.customFAQs,
       trailing: IconButton(
-        icon: const Icon(Icons.add_circle_outline, color: Colors.purple),
+        icon: Icon(Icons.add_circle_outline, color: Theme.of(context).colorScheme.primary),
         onPressed: _showAddFAQDialog,
       ),
       child: Column(
@@ -441,17 +470,12 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
     Widget? trailing,
     required Widget child,
   }) {
+    final cs = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: cs.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha:0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.5)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

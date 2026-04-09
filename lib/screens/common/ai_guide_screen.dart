@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:useme/config/responsive_config.dart';
+import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/models/tip_item.dart';
 import 'package:useme/l10n/app_localizations.dart';
 
@@ -67,18 +68,15 @@ class _AIGuideScreenState extends State<AIGuideScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.deepPurple,
-            Colors.deepPurple.withValues(alpha: 0.7),
-          ],
+        gradient: const LinearGradient(
+          colors: [UseMeTheme.accentColor, UseMeTheme.primaryColor],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.deepPurple.withValues(alpha: 0.3),
+            color: UseMeTheme.primaryColor.withValues(alpha: 0.3),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -86,22 +84,18 @@ class _AIGuideScreenState extends State<AIGuideScreen> {
       ),
       child: Row(
         children: [
-          Pulse(
-            infinite: true,
-            duration: const Duration(seconds: 2),
-            child: Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: const Center(
-                child: FaIcon(
-                  FontAwesomeIcons.robot,
-                  color: Colors.white,
-                  size: 26,
-                ),
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: const Center(
+              child: FaIcon(
+                FontAwesomeIcons.solidStar,
+                color: Colors.white,
+                size: 24,
               ),
             ),
           ),
