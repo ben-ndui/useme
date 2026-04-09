@@ -75,6 +75,9 @@ class ProDiscoveryCarousel extends StatelessWidget {
     AppLocalizations l10n,
     double padding,
   ) {
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: padding),
       child: Row(
@@ -83,17 +86,16 @@ class ProDiscoveryCarousel extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Colors.white.withValues(alpha: 0.2),
-                  Colors.white.withValues(alpha: 0.1),
-                ],
+                colors: isDark
+                    ? [Colors.white.withValues(alpha: 0.2), Colors.white.withValues(alpha: 0.1)]
+                    : [cs.primary.withValues(alpha: 0.12), cs.primary.withValues(alpha: 0.06)],
               ),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const FaIcon(
+            child: FaIcon(
               FontAwesomeIcons.briefcase,
               size: 16,
-              color: Colors.white,
+              color: isDark ? Colors.white : cs.primary,
             ),
           ),
           const SizedBox(width: 12),
@@ -103,17 +105,17 @@ class ProDiscoveryCarousel extends StatelessWidget {
               children: [
                 Text(
                   l10n.proDiscoveryTitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: isDark ? Colors.white : cs.onSurface,
                   ),
                 ),
                 Text(
                   l10n.proDiscoverySubtitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
-                    color: Color(0xFFB0C4DE),
+                    color: isDark ? const Color(0xFFB0C4DE) : cs.onSurfaceVariant,
                   ),
                 ),
               ],
@@ -122,10 +124,9 @@ class ProDiscoveryCarousel extends StatelessWidget {
           GestureDetector(
             onTap: () => context.push(AppRoutes.proDiscovery),
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.15),
+                color: isDark ? Colors.white.withValues(alpha: 0.15) : cs.primaryContainer,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -133,17 +134,17 @@ class ProDiscoveryCarousel extends StatelessWidget {
                 children: [
                   Text(
                     l10n.seeAll,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                      color: isDark ? Colors.white : cs.onPrimaryContainer,
                     ),
                   ),
                   const SizedBox(width: 4),
-                  const FaIcon(
+                  FaIcon(
                     FontAwesomeIcons.arrowRight,
                     size: 10,
-                    color: Colors.white,
+                    color: isDark ? Colors.white : cs.onPrimaryContainer,
                   ),
                 ],
               ),
