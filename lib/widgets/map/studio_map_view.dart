@@ -41,12 +41,22 @@ class _StudioMapViewState extends State<StudioMapView> {
   // Selected studio pin (regenerated on selection change)
   String? _selectedStudioId;
   BitmapDescriptor? _selectedStudioPin;
+  Brightness? _lastBrightness;
 
   @override
   void initState() {
     super.initState();
     _initWithPermission();
-    _loadDefaultPins();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final brightness = Theme.of(context).brightness;
+    if (_lastBrightness != brightness) {
+      _lastBrightness = brightness;
+      _loadDefaultPins();
+    }
   }
 
   Future<void> _initWithPermission() async {

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/responsive_config.dart';
+import 'package:useme/config/useme_theme.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/core/services/block_service.dart';
@@ -288,17 +289,19 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.purple.shade400, Colors.blue.shade400],
+              gradient: const LinearGradient(
+                colors: [UseMeTheme.accentColor, UseMeTheme.primaryColor],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(14),
             ),
-            child: const Icon(
-              Icons.auto_awesome,
-              color: Colors.white,
-              size: 26,
+            child: const Center(
+              child: FaIcon(
+                FontAwesomeIcons.solidStar,
+                color: Colors.white,
+                size: 22,
+              ),
             ),
           ),
           title: const Text(
@@ -327,23 +330,23 @@ class _ConversationsScreenState extends State<ConversationsScreen> {
           trailing: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: Colors.purple.withValues(alpha: 0.1),
+              color: theme.colorScheme.primaryContainer,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Text(
+            child: Text(
               'IA',
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
-                color: Colors.purple,
+                color: theme.colorScheme.onPrimaryContainer,
               ),
             ),
           ),
         ),
         Divider(
           height: 1,
-          thickness: 2,
-          color: Colors.purple.withValues(alpha: 0.1),
+          thickness: 1,
+          color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
         ),
       ],
     );
