@@ -70,82 +70,77 @@ class _PaymentCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () =>
-                  context.push('/artist/sessions/${session.id}'),
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      accent.withValues(alpha: 0.18),
-                      accent.withValues(alpha: 0.06),
-                    ],
+        child: Builder(
+          builder: (context) {
+            final isDark = Theme.of(context).brightness == Brightness.dark;
+            Widget card = Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => context.push('/artist/sessions/${session.id}'),
+                borderRadius: BorderRadius.circular(16),
+                child: Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        accent.withValues(alpha: isDark ? 0.18 : 0.12),
+                        accent.withValues(alpha: isDark ? 0.06 : 0.04),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: accent.withValues(alpha: 0.35),
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: accent.withValues(alpha: 0.35),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 42,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        color: accent.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Center(
-                        child: FaIcon(
-                          FontAwesomeIcons.creditCard,
-                          size: 16,
-                          color: accent,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 42,
+                        height: 42,
+                        decoration: BoxDecoration(
+                          color: accent.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Center(
+                          child: FaIcon(FontAwesomeIcons.creditCard, size: 16, color: accent),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            session.typeLabel,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: theme.colorScheme.onSurface,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              session.typeLabel,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: theme.colorScheme.onSurface,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            label,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: accent,
-                              fontWeight: FontWeight.w600,
+                            const SizedBox(height: 2),
+                            Text(
+                              label,
+                              style: const TextStyle(fontSize: 12, color: accent, fontWeight: FontWeight.w600),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    const FaIcon(
-                      FontAwesomeIcons.arrowRight,
-                      size: 13,
-                      color: accent,
-                    ),
-                  ],
+                      const FaIcon(FontAwesomeIcons.arrowRight, size: 13, color: accent),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+            return isDark
+                ? BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                    child: card,
+                  )
+                : card;
+          },
         ),
       ),
     );
