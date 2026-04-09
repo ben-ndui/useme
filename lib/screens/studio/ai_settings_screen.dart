@@ -449,20 +449,22 @@ class _AISettingsScreenState extends State<AISettingsScreen> {
     );
   }
 
-  void _addFAQ(CustomFAQ faq) {
+  Future<void> _addFAQ(CustomFAQ faq) async {
     setState(() {
       _settings = _settings!.copyWith(
         customFAQs: [..._settings!.customFAQs, faq],
       );
     });
+    await _service.addFAQ(widget.studioId, faq);
   }
 
-  void _removeFAQ(CustomFAQ faq) {
+  Future<void> _removeFAQ(CustomFAQ faq) async {
     setState(() {
       _settings = _settings!.copyWith(
         customFAQs: _settings!.customFAQs.where((f) => f != faq).toList(),
       );
     });
+    await _service.removeFAQ(widget.studioId, faq);
   }
 
   Widget _buildCard({
