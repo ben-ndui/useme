@@ -3,6 +3,7 @@ import UIKit
 import GoogleMaps
 import FirebaseCore
 import FirebaseMessaging
+import GoogleSignIn
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -29,5 +30,15 @@ import FirebaseMessaging
                             didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     Messaging.messaging().apnsToken = deviceToken
     super.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+  }
+
+  // Handle Google Sign-In callback URL
+  override func application(_ app: UIApplication,
+                            open url: URL,
+                            options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+    if GIDSignIn.sharedInstance.handle(url) {
+      return true
+    }
+    return super.application(app, open: url, options: options)
   }
 }
