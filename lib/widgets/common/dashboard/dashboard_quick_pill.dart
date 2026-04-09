@@ -45,7 +45,7 @@ class DashboardQuickPill extends StatelessWidget {
                   icon,
                   size: 14,
                   color: isPrimary
-                      ? Colors.white
+                      ? theme.colorScheme.onPrimary
                       : theme.colorScheme.onSurfaceVariant,
                 ),
                 const SizedBox(width: 8),
@@ -55,7 +55,7 @@ class DashboardQuickPill extends StatelessWidget {
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: isPrimary
-                        ? Colors.white
+                        ? theme.colorScheme.onPrimary
                         : theme.colorScheme.onSurfaceVariant,
                   ),
                 ),

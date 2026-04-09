@@ -30,6 +30,103 @@ class _ModernSessionCardState extends State<ModernSessionCard> {
     final locale = intlLocale(context);
     final timeFormat = DateFormat('HH:mm', locale);
     final dateFormat = DateFormat('EEE d MMM', locale);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
+
+    final card = Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: isDark
+            ? LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white.withValues(alpha: widget.isPast ? 0.05 : 0.1),
+                  Colors.white.withValues(alpha: widget.isPast ? 0.02 : 0.05),
+                ],
+              )
+            : null,
+        color: isDark ? null : (widget.isPast ? cs.surfaceContainerLowest : cs.surfaceContainerHigh),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: isDark
+              ? Colors.white.withValues(alpha: widget.isPast ? 0.05 : 0.15)
+              : cs.outlineVariant,
+        ),
+      ),
+      child: Row(
+        children: [
+          SessionDateBadge(
+            date: widget.session.scheduledStart,
+            isPast: widget.isPast,
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: _getTypeColor(widget.session.types.firstOrNull ?? SessionType.other)
+                            .withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: FaIcon(
+                        _getTypeIcon(widget.session.types.firstOrNull ?? SessionType.other),
+                        size: 12,
+                        color: _getTypeColor(widget.session.types.firstOrNull ?? SessionType.other),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        widget.session.typeLabel,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: widget.isPast
+                              ? cs.onSurface.withValues(alpha: 0.5)
+                              : cs.onSurface,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.clock,
+                      size: 11,
+                      color: cs.onSurface.withValues(alpha: 0.45),
+                    ),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        '${dateFormat.format(widget.session.scheduledStart)} • ${timeFormat.format(widget.session.scheduledStart)}',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: cs.onSurface.withValues(alpha: 0.6),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SessionStatusChip(
+            status: widget.session.displayStatus,
+            paymentStatus: widget.session.paymentStatus,
+            l10n: l10n,
+          ),
+        ],
+      ),
+    );
 
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
@@ -39,101 +136,15 @@ class _ModernSessionCardState extends State<ModernSessionCard> {
       child: AnimatedScale(
         scale: _isPressed ? 0.98 : 1.0,
         duration: const Duration(milliseconds: 150),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white.withValues(alpha: widget.isPast ? 0.05 : 0.1),
-                    Colors.white.withValues(alpha: widget.isPast ? 0.02 : 0.05),
-                  ],
-                ),
+        child: isDark
+            ? ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: widget.isPast ? 0.05 : 0.15),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: card,
                 ),
-              ),
-              child: Row(
-                children: [
-                  SessionDateBadge(
-                    date: widget.session.scheduledStart,
-                    isPast: widget.isPast,
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                color: _getTypeColor(widget.session.types.firstOrNull ?? SessionType.other)
-                                    .withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: FaIcon(
-                                _getTypeIcon(widget.session.types.firstOrNull ?? SessionType.other),
-                                size: 12,
-                                color: _getTypeColor(widget.session.types.firstOrNull ?? SessionType.other),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                widget.session.typeLabel,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: widget.isPast
-                                      ? const Color(0xFFB0C4DE)
-                                      : Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            FaIcon(
-                              FontAwesomeIcons.clock,
-                              size: 11,
-                              color: Colors.white.withValues(alpha: 0.5),
-                            ),
-                            const SizedBox(width: 6),
-                            Flexible(
-                              child: Text(
-                                '${dateFormat.format(widget.session.scheduledStart)} • ${timeFormat.format(widget.session.scheduledStart)}',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.white.withValues(alpha: 0.6),
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  SessionStatusChip(
-                    status: widget.session.displayStatus,
-                    paymentStatus: widget.session.paymentStatus,
-                    l10n: l10n,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+              )
+            : card,
       ),
     );
   }

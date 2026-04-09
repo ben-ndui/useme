@@ -47,12 +47,12 @@ class SearchInZoneButton extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.search, color: Colors.white, size: 20),
+                    Icon(Icons.search, color: Theme.of(context).colorScheme.onPrimary, size: 20),
                     const SizedBox(width: 8),
                     Text(
                       l10n.searchInThisZone,
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

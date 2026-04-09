@@ -15,11 +15,7 @@ class NearbyStudiosCarousel extends StatelessWidget {
   final Function(DiscoveredStudio)? onStudioTap;
   final bool isWideLayout;
 
-  const NearbyStudiosCarousel({
-    super.key,
-    this.onStudioTap,
-    this.isWideLayout = false,
-  });
+  const NearbyStudiosCarousel({super.key, this.onStudioTap, this.isWideLayout = false});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +24,7 @@ class NearbyStudiosCarousel extends StatelessWidget {
     return BlocBuilder<MapBloc, MapState>(
       builder: (context, state) {
         if (state.isLoading && state.nearbyStudios.isEmpty) {
-          return _buildLoadingState(l10n);
+          return _buildLoadingState(context, l10n);
         }
 
         if (state.nearbyStudios.isEmpty) {
@@ -40,7 +36,7 @@ class NearbyStudiosCarousel extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeader(state.nearbyStudios.length, l10n, padding),
+            _buildHeader(context, state.nearbyStudios.length, l10n, padding),
             const SizedBox(height: 16),
             SizedBox(
               height: 200,
@@ -51,13 +47,8 @@ class NearbyStudiosCarousel extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final studio = state.nearbyStudios[index];
                   return Padding(
-                    padding: EdgeInsets.only(
-                      right: index < state.nearbyStudios.length - 1 ? 16 : 0,
-                    ),
-                    child: _ModernStudioCard(
-                      studio: studio,
-                      onTap: () => onStudioTap?.call(studio),
-                    ),
+                    padding: EdgeInsets.only(right: index < state.nearbyStudios.length - 1 ? 16 : 0),
+                    child: _ModernStudioCard(studio: studio, onTap: () => onStudioTap?.call(studio)),
                   );
                 },
               ),
@@ -68,7 +59,13 @@ class NearbyStudiosCarousel extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(int count, AppLocalizations l10n, double padding) {
+  Widget _buildHeader(BuildContext context, int count, AppLocalizations l10n, double padding) {
+    final colorScheme = Theme
+        .of(context)
+        .colorScheme;
+    final textTheme = Theme
+        .of(context)
+        .textTheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: padding),
       child: Row(
@@ -77,14 +74,11 @@ class NearbyStudiosCarousel extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Colors.white.withValues(alpha: 0.2),
-                  Colors.white.withValues(alpha: 0.1),
-                ],
+                colors: [colorScheme.primary.withValues(alpha: 0.2), colorScheme.primary.withValues(alpha: 0.1)],
               ),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const FaIcon(FontAwesomeIcons.recordVinyl, size: 16, color: Colors.white),
+            child: FaIcon(FontAwesomeIcons.recordVinyl, size: 16, color: colorScheme.primary),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -93,32 +87,21 @@ class NearbyStudiosCarousel extends StatelessWidget {
               children: [
                 Text(
                   l10n.nearbyStudios,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                  style: textTheme.titleMedium,
                 ),
-                Text(
-                  l10n.discoverWhereToRecord,
-                  style: const TextStyle(fontSize: 12, color: Color(0xFFB0C4DE)),
-                ),
+                Text(l10n.discoverWhereToRecord, style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant)),
               ],
             ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.15),
+              color: colorScheme.primaryContainer,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               '$count',
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: colorScheme.onPrimaryContainer),
             ),
           ),
         ],
@@ -126,12 +109,12 @@ class NearbyStudiosCarousel extends StatelessWidget {
     );
   }
 
-  Widget _buildLoadingState(AppLocalizations l10n) {
+  Widget _buildLoadingState(BuildContext context, AppLocalizations l10n) {
     final padding = isWideLayout ? 24.0 : 16.0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildHeader(0, l10n, padding),
+        _buildHeader(context, 0, l10n, padding),
         const SizedBox(height: 16),
         SizedBox(
           height: 200,
@@ -139,10 +122,7 @@ class NearbyStudiosCarousel extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: padding),
             itemCount: 3,
-            itemBuilder: (context, index) => Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: _ShimmerCard(),
-            ),
+            itemBuilder: (context, index) => Padding(padding: const EdgeInsets.only(right: 16), child: _ShimmerCard()),
           ),
         ),
       ],
@@ -151,45 +131,42 @@ class NearbyStudiosCarousel extends StatelessWidget {
 
   Widget _buildEmptyState(AppLocalizations l10n) {
     final padding = isWideLayout ? 24.0 : 16.0;
-    return Builder(builder: (context) {
-      final cs = Theme.of(context).colorScheme;
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: padding),
-        padding: const EdgeInsets.all(32),
-        decoration: BoxDecoration(
-          color: cs.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: cs.outlineVariant),
-        ),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: cs.surfaceContainerHigh,
-                shape: BoxShape.circle,
+    return Builder(
+      builder: (context) {
+        final cs = Theme
+            .of(context)
+            .colorScheme;
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: padding),
+          padding: const EdgeInsets.all(32),
+          decoration: BoxDecoration(
+            color: cs.surfaceContainerLow,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: cs.outlineVariant),
+          ),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(color: cs.surfaceContainerHigh, shape: BoxShape.circle),
+                child: FaIcon(FontAwesomeIcons.locationCrosshairs, size: 28, color: cs.primary),
               ),
-              child: FaIcon(FontAwesomeIcons.locationCrosshairs, size: 28, color: cs.primary),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              l10n.noStudioFound,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: cs.onSurface,
+              const SizedBox(height: 16),
+              Text(
+                l10n.noStudioFound,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: cs.onSurface),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              l10n.enableLocationToDiscover,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
-            ),
-          ],
-        ),
-      );
-    });
+              const SizedBox(height: 4),
+              Text(
+                l10n.enableLocationToDiscover,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -223,11 +200,7 @@ class _ModernStudioCardState extends State<_ModernStudioCard> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
+              BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 20, offset: const Offset(0, 10)),
             ],
           ),
           child: ClipRRect(
@@ -311,13 +284,7 @@ class _ModernStudioCardState extends State<_ModernStudioCard> {
               : [const Color(0xFF374151), const Color(0xFF6B7280)],
         ),
       ),
-      child: Center(
-        child: FaIcon(
-          FontAwesomeIcons.microphone,
-          size: 40,
-          color: Colors.white.withValues(alpha: 0.3),
-        ),
-      ),
+      child: Center(child: FaIcon(FontAwesomeIcons.microphone, size: 40, color: Colors.white.withValues(alpha: 0.3))),
     );
   }
 
@@ -327,11 +294,7 @@ class _ModernStudioCardState extends State<_ModernStudioCard> {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            Colors.transparent,
-            Colors.black.withValues(alpha: 0.3),
-            Colors.black.withValues(alpha: 0.8),
-          ],
+          colors: [Colors.transparent, Colors.black.withValues(alpha: 0.3), Colors.black.withValues(alpha: 0.8)],
           stops: const [0.0, 0.5, 1.0],
         ),
       ),
@@ -349,12 +312,7 @@ class _ModernStudioCardState extends State<_ModernStudioCard> {
           // Studio name
           Text(
             widget.studio.name,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              height: 1.2,
-            ),
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white, height: 1.2),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -378,11 +336,7 @@ class _ModernStudioCardState extends State<_ModernStudioCard> {
                       const SizedBox(width: 4),
                       Text(
                         widget.studio.formattedDistance,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                        ),
+                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Colors.white),
                       ),
                     ],
                   ),
@@ -405,11 +359,7 @@ class _ModernStudioCardState extends State<_ModernStudioCard> {
                       const SizedBox(width: 4),
                       Text(
                         widget.studio.rating!.toStringAsFixed(1),
-                        style: const TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
+                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Colors.white),
                       ),
                     ],
                   ),
@@ -443,11 +393,7 @@ class _ModernStudioCardState extends State<_ModernStudioCard> {
                 const SizedBox(width: 4),
                 Text(
                   l10n.partner,
-                  style: const TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.greenAccent,
-                  ),
+                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.greenAccent),
                 ),
               ],
             ),
@@ -470,13 +416,12 @@ class _ShimmerCardState extends State<_ShimmerCard> with SingleTickerProviderSta
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    )..repeat();
-    _animation = Tween<double>(begin: -1.0, end: 2.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this)
+      ..repeat();
+    _animation = Tween<double>(
+      begin: -1.0,
+      end: 2.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
