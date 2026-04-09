@@ -5,6 +5,24 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
+## [1.3.2] - 2026-04-09
+
+### Changed
+- **`mobile_scanner` upgraded 6.x → 7.x** — migrated from Google MLKit to Apple Vision API; removes all MLKit static libraries (`MLImage`, `MLKitCommon`, `MLKitVision`, `MLKitBarcodeScanning`) and enables native arm64 simulator support (iPhone 17 / iOS 26)
+- **iOS Podfile** — removed MLKit binary patch script (no longer needed); `EXCLUDED_ARCHS` override kept for arm64 simulator
+
+### Fixed
+- **iPhone 17 simulator build** — app now compiles and runs on iPhone 17 (iOS 26, arm64-only simulator)
+- **Light theme contrast — dashboard bottom sheets** — `SmoothDraggableWidget` now uses `colorScheme.surface` in light mode instead of a hardcoded dark blue gradient
+- **Light theme contrast — studio/engineer/artist feed headers** — removed hardcoded `Colors.white` text; all colors now use `colorScheme.onSurface`; `ShaderMask` white gradient removed from name labels
+- **Light theme contrast — `glassColorScheme`** — applied only in dark mode on all 3 feeds (studio, engineer, artist); light mode uses native theme colors
+- **Light theme contrast — artist feed** — `WelcomeHeader` (greeting, name, date, avatar ring) and `QuickActionsSection` pills now use `colorScheme.onSurface` variants
+- **Light theme contrast — nearby studios carousel** — empty state and shimmer skeleton now use `colorScheme` surface colors instead of white-transparent glass
+- **Map search bar** — complete redesign: glassmorphism with `BackdropFilter` blur(20), theme-adaptive surface color, border, icons and text using `colorScheme.onSurface`
+- **Map studio pin glow** — selected pin glow is white on dark map, `pinColor` at 50% on light map (white glow was invisible on light tiles)
+
+---
+
 ## [1.1.2] - 2026-03-25
 
 ### Added

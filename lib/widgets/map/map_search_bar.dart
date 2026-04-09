@@ -1,13 +1,13 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/blocs/map/map_bloc.dart';
 import 'package:useme/core/blocs/map/map_event.dart';
 import 'package:useme/core/blocs/map/map_state.dart';
 import 'package:useme/l10n/app_localizations.dart';
 
-/// Floating search bar on the map for address/city search
+/// Floating glassmorphic search bar on the map for address/city search
 class MapSearchBar extends StatefulWidget {
   const MapSearchBar({super.key});
 
@@ -44,6 +44,17 @@ class _MapSearchBarState extends State<MapSearchBar> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // Glass surface colors
+    final bgColor = isDark
+        ? cs.surfaceContainerHigh.withValues(alpha: 0.85)
+        : cs.surface.withValues(alpha: 0.92);
+    final borderColor = isDark
+        ? Colors.white.withValues(alpha: 0.12)
+        : cs.outlineVariant;
+    final iconColor = cs.onSurface.withValues(alpha: 0.7);
 
     return BlocListener<MapBloc, MapState>(
       listenWhen: (prev, curr) =>
@@ -59,27 +70,39 @@ class _MapSearchBarState extends State<MapSearchBar> {
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 250),
               curve: Curves.easeInOut,
-              width: _isExpanded ? maxWidth : 60,
-              height: 60,
+              width: _isExpanded ? maxWidth : 48,
+              height: 48,
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
-                color: UseMeTheme.primaryColor,
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.15),
-                    blurRadius: 12,
-                    offset: const Offset(0, 2),
+                    color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.1),
+                    blurRadius: 16,
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  if (constraints.maxWidth <= 80) {
-                    return _buildCollapsedButton();
-                  }
-                  return _buildExpandedBar(l10n);
-                },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: bgColor,
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(color: borderColor, width: 0.8),
+                    ),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        if (constraints.maxWidth <= 80) {
+                          return _buildCollapsedButton(iconColor);
+                        }
+                        return _buildExpandedBar(l10n, cs, iconColor);
+                      },
+                    ),
+                  ),
+                ),
               ),
             ),
           );
@@ -88,7 +111,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
     );
   }
 
-  Widget _buildCollapsedButton() {
+  Widget _buildCollapsedButton(Color iconColor) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -100,50 +123,51 @@ class _MapSearchBarState extends State<MapSearchBar> {
           );
         },
         borderRadius: BorderRadius.circular(24),
-        child: const Center(
-          child: FaIcon(FontAwesomeIcons.magnifyingGlass, size: 18),
+        child: Center(
+          child: FaIcon(FontAwesomeIcons.magnifyingGlass,
+              size: 17, color: iconColor),
         ),
       ),
     );
   }
 
-  Widget _buildExpandedBar(AppLocalizations l10n) {
+  Widget _buildExpandedBar(
+      AppLocalizations l10n, ColorScheme cs, Color iconColor) {
     return BlocBuilder<MapBloc, MapState>(
       buildWhen: (prev, curr) =>
           prev.isSearchingAddress != curr.isSearchingAddress,
       builder: (context, state) {
         return Row(
           children: [
-            const SizedBox(width: 16),
+            const SizedBox(width: 14),
             if (state.isSearchingAddress)
-              const SizedBox(
-                width: 18,
-                height: 18,
-                child: CircularProgressIndicator(strokeWidth: 2),
+              SizedBox(
+                width: 17,
+                height: 17,
+                child: CircularProgressIndicator(
+                    strokeWidth: 2, color: cs.primary),
               )
             else
-              const FaIcon(FontAwesomeIcons.magnifyingGlass, size: 16),
-            const SizedBox(width: 12),
+              FaIcon(FontAwesomeIcons.magnifyingGlass,
+                  size: 15, color: iconColor),
+            const SizedBox(width: 10),
             Expanded(
               child: TextField(
                 controller: _controller,
                 focusNode: _focusNode,
-                style: const TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: 15, color: cs.onSurface),
                 decoration: InputDecoration(
-                  filled: true,
-                  fillColor:
-                      UseMeTheme.secondaryColor.withValues(alpha: 0.2),
+                  filled: false,
                   hintText: l10n.searchAddressHint,
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
                   hintStyle: TextStyle(
-                    color: Colors.grey.shade500,
+                    color: cs.onSurface.withValues(alpha: 0.4),
                     fontSize: 15,
                   ),
                   border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 12, horizontal: 12),
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 14, horizontal: 0),
                   isDense: true,
                 ),
                 textInputAction: TextInputAction.search,
@@ -155,9 +179,10 @@ class _MapSearchBarState extends State<MapSearchBar> {
               child: InkWell(
                 onTap: _collapse,
                 borderRadius: BorderRadius.circular(24),
-                child: const Padding(
-                  padding: EdgeInsets.all(12),
-                  child: FaIcon(FontAwesomeIcons.xmark, size: 16),
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: FaIcon(FontAwesomeIcons.xmark,
+                      size: 14, color: iconColor),
                 ),
               ),
             ),

@@ -20,11 +20,14 @@ class StudioHomeFeed extends StatelessWidget {
     final locale = intlLocale(context);
     final padding = context.horizontalPadding;
     final spacing = context.itemSpacing;
+    final isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
     final baseScheme = Theme.of(context).colorScheme;
 
     return Theme(
       data: Theme.of(context).copyWith(
-        colorScheme: glassColorScheme(baseScheme),
+        colorScheme: isDark ? glassColorScheme(baseScheme) : baseScheme,
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: padding),
@@ -73,40 +76,38 @@ class _StudioFeedHeader extends StatelessWidget {
           photoUrl = user.photoURL;
         }
 
+        final cs = Theme
+            .of(context)
+            .colorScheme;
         return Row(
           children: [
-            _buildAvatar(photoUrl),
+            _buildAvatar(context, photoUrl),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ShaderMask(
-                    shaderCallback: (bounds) => const LinearGradient(
-                      colors: [Colors.white, Color(0xFFB0C4DE)],
-                    ).createShader(bounds),
-                    child: Text(
-                      studioName,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                  Text(
+                    studioName,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: cs.onSurface,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
                       FaIcon(FontAwesomeIcons.calendarDay,
-                          size: 11, color: Colors.white.withValues(alpha: 0.5)),
+                          size: 11, color: cs.onSurface.withValues(alpha: 0.4)),
                       const SizedBox(width: 6),
                       Text(today,
                           style: TextStyle(
                             fontSize: 13,
-                            color: Colors.white.withValues(alpha: 0.6),
+                            color: cs.onSurface.withValues(alpha: 0.5),
                           )),
                     ],
                   ),
@@ -119,24 +120,20 @@ class _StudioFeedHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildAvatar(String? photoUrl) {
+  Widget _buildAvatar(BuildContext context, String? photoUrl) {
+    final cs = Theme
+        .of(context)
+        .colorScheme;
     return Container(
       width: 52,
       height: 52,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.25),
+          color: cs.outlineVariant,
           width: 1.5,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF3B82F6).withValues(alpha: 0.3),
-            blurRadius: 16,
-            spreadRadius: 1,
-          ),
-        ],
-        color: Colors.white.withValues(alpha: 0.1),
+        color: cs.surfaceContainerHigh,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(14.5),
@@ -146,17 +143,16 @@ class _StudioFeedHeader extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: 52,
                 height: 52,
-                errorBuilder: (_, __, ___) => _avatarFallback(),
+          errorBuilder: (_, __, ___) => _avatarFallback(cs),
               )
-            : _avatarFallback(),
+            : _avatarFallback(cs),
       ),
     );
   }
 
-  static Widget _avatarFallback() {
-    return const Center(
-      child:
-          FaIcon(FontAwesomeIcons.recordVinyl, size: 22, color: Colors.white),
+  Widget _avatarFallback(ColorScheme cs) {
+    return Center(
+      child: FaIcon(FontAwesomeIcons.recordVinyl, size: 22, color: cs.onSurfaceVariant),
     );
   }
 }

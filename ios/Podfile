@@ -49,6 +49,9 @@ post_install do |installer|
         'PERMISSION_NOTIFICATIONS=1',
         'PERMISSION_PHOTOS=1',
       ]
+      # Allow arm64 simulator for iPhone 17+ (iOS 26+)
+      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'i386'
     end
   end
+
 end

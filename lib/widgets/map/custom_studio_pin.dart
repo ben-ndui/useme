@@ -16,6 +16,7 @@ class CustomStudioPin {
     Color pinColor = UseMeTheme.primaryColor,
     double size = 80,
     bool isSelected = false,
+    bool isDark = true,
   }) async {
     // Selected pins are 30% larger with a glow ring
     final double effectiveSize = isSelected ? size * 1.3 : size;
@@ -35,8 +36,11 @@ class CustomStudioPin {
 
     // Draw glow ring behind pin when selected
     if (isSelected) {
+      final glowColor = isDark
+          ? Colors.white.withValues(alpha: 0.7)
+          : pinColor.withValues(alpha: 0.5);
       final Paint glowPaint = Paint()
-        ..color = Colors.white.withValues(alpha: 0.7)
+        ..color = glowColor
         ..maskFilter = MaskFilter.blur(BlurStyle.normal, glowPadding);
 
       final Path glowPath = Path()

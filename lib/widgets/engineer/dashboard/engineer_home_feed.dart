@@ -20,11 +20,14 @@ class EngineerHomeFeed extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final locale = intlLocale(context);
     final spacing = context.itemSpacing;
+    final isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
     final baseScheme = Theme.of(context).colorScheme;
 
     return Theme(
       data: Theme.of(context).copyWith(
-        colorScheme: glassColorScheme(baseScheme),
+        colorScheme: isDark ? glassColorScheme(baseScheme) : baseScheme,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,9 +79,12 @@ class _EngineerFeedHeader extends StatelessWidget {
           photoURL = user.photoURL;
         }
 
+        final cs = Theme
+            .of(context)
+            .colorScheme;
         return Row(
           children: [
-            _buildAvatar(photoURL),
+            _buildAvatar(photoURL, cs: cs),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
@@ -89,35 +95,30 @@ class _EngineerFeedHeader extends StatelessWidget {
                     _getGreeting(),
                     style: TextStyle(
                       fontSize: 13,
-                      color: Colors.white.withValues(alpha: 0.6),
+                      color: cs.onSurface.withValues(alpha: 0.6),
                     ),
                   ),
                   const SizedBox(height: 2),
-                  ShaderMask(
-                    shaderCallback: (bounds) => const LinearGradient(
-                      colors: [Colors.white, Color(0xFFB0C4DE)],
-                    ).createShader(bounds),
-                    child: Text(
-                      userName,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                  Text(
+                    userName,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: cs.onSurface,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
                       FaIcon(FontAwesomeIcons.calendarDay,
-                          size: 11, color: Colors.white.withValues(alpha: 0.5)),
+                          size: 11, color: cs.onSurface.withValues(alpha: 0.4)),
                       const SizedBox(width: 6),
                       Text(today,
                           style: TextStyle(
                             fontSize: 13,
-                            color: Colors.white.withValues(alpha: 0.6),
+                            color: cs.onSurface.withValues(alpha: 0.5),
                           )),
                     ],
                   ),
@@ -130,28 +131,14 @@ class _EngineerFeedHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildAvatar(String? photoURL) {
+  Widget _buildAvatar(String? photoURL, {required ColorScheme cs}) {
     return Container(
       width: 52,
       height: 52,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.25),
-          width: 1.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF00CEC9).withValues(alpha: 0.3),
-            blurRadius: 16,
-            spreadRadius: 1,
-          ),
-        ],
-        gradient: const LinearGradient(
-          colors: [Color(0xFF3B82F6), Color(0xFF00CEC9)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        border: Border.all(color: cs.outlineVariant, width: 1.5),
+        color: cs.surfaceContainerHigh,
       ),
       child: ClipOval(
         child: photoURL != null && photoURL.isNotEmpty
@@ -160,17 +147,16 @@ class _EngineerFeedHeader extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: 52,
                 height: 52,
-                errorBuilder: (_, __, ___) => _avatarFallback(),
+          errorBuilder: (_, __, ___) => _avatarFallback(cs),
               )
-            : _avatarFallback(),
+            : _avatarFallback(cs),
       ),
     );
   }
 
-  static Widget _avatarFallback() {
-    return const Center(
-      child: FaIcon(FontAwesomeIcons.headphones,
-          color: Colors.white, size: 22),
+  Widget _avatarFallback(ColorScheme cs) {
+    return Center(
+      child: FaIcon(FontAwesomeIcons.headphones, color: cs.onSurfaceVariant, size: 22),
     );
   }
 

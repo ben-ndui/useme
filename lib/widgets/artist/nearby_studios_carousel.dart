@@ -151,49 +151,45 @@ class NearbyStudiosCarousel extends StatelessWidget {
 
   Widget _buildEmptyState(AppLocalizations l10n) {
     final padding = isWideLayout ? 24.0 : 16.0;
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: padding),
-      padding: const EdgeInsets.all(32),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.white.withValues(alpha: 0.1),
-            Colors.white.withValues(alpha: 0.05),
+    return Builder(builder: (context) {
+      final cs = Theme.of(context).colorScheme;
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: padding),
+        padding: const EdgeInsets.all(32),
+        decoration: BoxDecoration(
+          color: cs.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: cs.outlineVariant),
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: cs.surfaceContainerHigh,
+                shape: BoxShape.circle,
+              ),
+              child: FaIcon(FontAwesomeIcons.locationCrosshairs, size: 28, color: cs.primary),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.noStudioFound,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: cs.onSurface,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              l10n.enableLocationToDiscover,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
+            ),
           ],
         ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-            ),
-            child: const FaIcon(FontAwesomeIcons.locationCrosshairs, size: 28, color: Color(0xFFB0C4DE)),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.noStudioFound,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            l10n.enableLocationToDiscover,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 13, color: Color(0xFFB0C4DE)),
-          ),
-        ],
-      ),
-    );
+      );
+    });
   }
 }
 
@@ -494,6 +490,7 @@ class _ShimmerCardState extends State<_ShimmerCard> with SingleTickerProviderSta
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
+        final onSurface = Theme.of(context).colorScheme.onSurface;
         return Container(
           width: 160,
           decoration: BoxDecoration(
@@ -502,9 +499,9 @@ class _ShimmerCardState extends State<_ShimmerCard> with SingleTickerProviderSta
               begin: Alignment(_animation.value - 1, 0),
               end: Alignment(_animation.value, 0),
               colors: [
-                Colors.white.withValues(alpha: 0.05),
-                Colors.white.withValues(alpha: 0.15),
-                Colors.white.withValues(alpha: 0.05),
+                onSurface.withValues(alpha: 0.04),
+                onSurface.withValues(alpha: 0.12),
+                onSurface.withValues(alpha: 0.04),
               ],
             ),
           ),

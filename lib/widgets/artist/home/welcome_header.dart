@@ -58,6 +58,7 @@ class _WelcomeHeaderState extends State<WelcomeHeader>
         }
 
         final padding = widget.isWideLayout ? 24.0 : 16.0;
+        final cs = Theme.of(context).colorScheme;
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: padding),
@@ -76,36 +77,31 @@ class _WelcomeHeaderState extends State<WelcomeHeader>
                       _getGreeting(l10n),
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.white.withValues(alpha: 0.7),
+                        color: cs.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
-                    ShaderMask(
-                      shaderCallback: (bounds) => const LinearGradient(
-                        colors: [Colors.white, Color(0xFFB0C4DE)],
-                      ).createShader(bounds),
-                      child: Text(
-                        userName,
-                        style: const TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+                    Text(
+                      userName,
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: cs.onSurface,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Row(
                       children: [
                         FaIcon(
                           FontAwesomeIcons.calendarDay,
                           size: 11,
-                          color: Colors.white.withValues(alpha: 0.5),
+                          color: cs.onSurface.withValues(alpha: 0.4),
                         ),
                         const SizedBox(width: 6),
                         Text(
                           today,
                           style: TextStyle(
                             fontSize: 13,
-                            color: Colors.white.withValues(alpha: 0.6),
+                            color: cs.onSurface.withValues(alpha: 0.5),
                           ),
                         ),
                         if (city != null) ...[
@@ -113,14 +109,14 @@ class _WelcomeHeaderState extends State<WelcomeHeader>
                           FaIcon(
                             FontAwesomeIcons.locationDot,
                             size: 10,
-                            color: Colors.white.withValues(alpha: 0.5),
+                            color: cs.onSurface.withValues(alpha: 0.4),
                           ),
                           const SizedBox(width: 4),
                           Text(
                             city,
                             style: TextStyle(
                               fontSize: 13,
-                              color: Colors.white.withValues(alpha: 0.6),
+                              color: cs.onSurface.withValues(alpha: 0.5),
                             ),
                           ),
                         ],
@@ -147,6 +143,7 @@ class _WelcomeHeaderState extends State<WelcomeHeader>
     return AnimatedBuilder(
       animation: _ringController,
       builder: (context, child) {
+        final cs = Theme.of(context).colorScheme;
         return Container(
           padding: const EdgeInsets.all(3),
           decoration: BoxDecoration(
@@ -171,29 +168,29 @@ class _WelcomeHeaderState extends State<WelcomeHeader>
           ),
           child: Container(
             padding: const EdgeInsets.all(2),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Color(0xFF1E3A5F),
+              color: cs.surface,
             ),
             child: ClipOval(
               child: Container(
                 width: 56,
                 height: 56,
-                color: Colors.white.withValues(alpha: 0.1),
+                color: cs.surfaceContainerHigh,
                 child: photoUrl != null && photoUrl.isNotEmpty
                     ? Image.network(
                         photoUrl,
                         fit: BoxFit.cover,
                         width: 56,
                         height: 56,
-                        errorBuilder: (_, __, ___) => const Center(
+                        errorBuilder: (_, __, ___) => Center(
                           child: FaIcon(FontAwesomeIcons.user,
-                              size: 22, color: Colors.white),
+                              size: 22, color: cs.onSurfaceVariant),
                         ),
                       )
-                    : const Center(
+                    : Center(
                         child: FaIcon(FontAwesomeIcons.user,
-                            size: 22, color: Colors.white),
+                            size: 22, color: cs.onSurfaceVariant),
                       ),
               ),
             ),

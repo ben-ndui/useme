@@ -27,7 +27,7 @@ class QuickActionsSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: Colors.white.withValues(alpha: 0.6),
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               letterSpacing: 0.5,
             ),
           ),
@@ -116,10 +116,10 @@ class _QuickActionPillState extends State<QuickActionPill> {
           margin: const EdgeInsets.only(right: 10),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: _isPressed ? 0.15 : 0.08),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: _isPressed ? 0.15 : 0.08),
             borderRadius: BorderRadius.circular(22),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.12),
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.12),
             ),
           ),
           child: Row(
@@ -128,7 +128,7 @@ class _QuickActionPillState extends State<QuickActionPill> {
               FaIcon(
                 widget.icon,
                 size: 14,
-                color: Colors.white.withValues(alpha: 0.9),
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.85),
               ),
               const SizedBox(width: 8),
               Text(
@@ -136,7 +136,7 @@ class _QuickActionPillState extends State<QuickActionPill> {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white.withValues(alpha: 0.9),
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.85),
                 ),
               ),
             ],

@@ -80,17 +80,21 @@ class _StudioMapViewState extends State<StudioMapView> {
   }
 
   Future<void> _loadDefaultPins() async {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     _partnerPin = await CustomStudioPin.createPinWithImage(
       imageUrl: null,
       pinColor: Colors.green,
+      isDark: isDark,
     );
     _defaultPin = await CustomStudioPin.createPinWithImage(
       imageUrl: null,
       pinColor: UseMeTheme.primaryColor,
+      isDark: isDark,
     );
     _proPin = await CustomStudioPin.createPinWithImage(
       imageUrl: null,
       pinColor: UseMeTheme.accentColor,
+      isDark: isDark,
     );
     if (mounted) setState(() {});
   }
@@ -215,10 +219,12 @@ class _StudioMapViewState extends State<StudioMapView> {
     }
     if (studio.id == _selectedStudioId) return;
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final pin = await CustomStudioPin.createPinWithImage(
       imageUrl: studio.photoUrl,
       pinColor: _pinColor(studio),
       isSelected: true,
+      isDark: isDark,
     );
     if (mounted) {
       setState(() {
@@ -229,12 +235,14 @@ class _StudioMapViewState extends State<StudioMapView> {
   }
 
   Future<void> _loadStudioPins(List<DiscoveredStudio> studios) async {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     for (final studio in studios) {
       if (!_studioPins.containsKey(studio.id) && studio.photoUrl != null) {
         try {
           final pin = await CustomStudioPin.createPinWithImage(
             imageUrl: studio.photoUrl,
             pinColor: _pinColor(studio),
+            isDark: isDark,
           );
           if (mounted) {
             setState(() {

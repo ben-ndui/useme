@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:useme/widgets/artist/home/home_exports.dart';
 import 'package:useme/widgets/artist/nearby_studios_carousel.dart';
 import 'package:useme/widgets/artist/studio_detail_bottom_sheet.dart';
+import 'package:useme/widgets/common/dashboard/glass_color_scheme.dart';
 import 'package:useme/widgets/pro/pro_detail_bottom_sheet.dart';
 import 'package:useme/widgets/pro/pro_discovery_carousel.dart';
 
-/// Main feed content for artist home (inside draggable sheet - dark blue bg)
+/// Main feed content for artist home (inside draggable sheet)
 class ArtistHomeFeed extends StatelessWidget {
   final bool isWideLayout;
 
@@ -13,9 +14,15 @@ class ArtistHomeFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseScheme = Theme.of(context).colorScheme;
     final spacing = isWideLayout ? 32.0 : 28.0;
 
-    return Column(
+    return Theme(
+      data: Theme.of(context).copyWith(
+        colorScheme: isDark ? glassColorScheme(baseScheme) : baseScheme,
+      ),
+      child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         WelcomeHeader(isWideLayout: isWideLayout),
@@ -38,6 +45,6 @@ class ArtistHomeFeed extends StatelessWidget {
         RecentActivitySection(isWideLayout: isWideLayout),
         SizedBox(height: isWideLayout ? 24 : 100),
       ],
-    );
+    ));
   }
 }

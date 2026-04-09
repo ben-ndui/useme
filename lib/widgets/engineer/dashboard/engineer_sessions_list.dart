@@ -22,9 +22,9 @@ class EngineerSessionsList extends StatelessWidget {
     return BlocBuilder<SessionBloc, SessionState>(
       builder: (context, state) {
         if (state.isLoading) {
-          return const Padding(
-            padding: EdgeInsets.all(40),
-            child: Center(child: CircularProgressIndicator(color: Colors.white)),
+          return Padding(
+            padding: const EdgeInsets.all(40),
+            child: Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.onSurface)),
           );
         }
 
@@ -67,10 +67,10 @@ class EngineerSessionsList extends StatelessWidget {
         children: [
           Text(
             l10n.todaySessions,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w600,
-              color: Colors.white,
+              color: colorScheme.onSurface,
             ),
           ),
           Container(

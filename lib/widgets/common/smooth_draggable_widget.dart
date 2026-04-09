@@ -81,9 +81,20 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // Use theme colors by default
-    final defaultColor1 = widget.color1 ?? UseMeTheme.primaryColor;
-    final defaultColor2 = widget.color2 ?? UseMeTheme.secondaryColor;
+    final isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
+    // In dark mode: branded blue gradient. In light mode: theme surface.
+    final defaultColor1 = widget.color1 ??
+        (isDark ? UseMeTheme.primaryColor : Theme
+            .of(context)
+            .colorScheme
+            .surface);
+    final defaultColor2 = widget.color2 ??
+        (isDark ? UseMeTheme.secondaryColor : Theme
+            .of(context)
+            .colorScheme
+            .surfaceContainerLow);
 
     return DraggableScrollableSheet(
       initialChildSize: widget.initial,
@@ -96,6 +107,7 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
           child: _SmoothBackground(
             color1: defaultColor1,
             color2: defaultColor2,
+            isDark: isDark,
             child: Stack(
               children: [
                 CustomScrollView(
@@ -136,6 +148,11 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
     return ValueListenableBuilder<bool>(
       valueListenable: showDragHandle,
       builder: (context, isVisible, child) {
+        final handleColor = Theme
+            .of(context)
+            .colorScheme
+            .onSurface
+            .withValues(alpha: 0.25);
         return AnimatedOpacity(
           opacity: isVisible ? 1.0 : 0.0,
           duration: const Duration(milliseconds: 300),
@@ -145,7 +162,7 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
               height: 5,
               margin: const EdgeInsets.symmetric(vertical: 12),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.3),
+                color: handleColor,
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
@@ -188,16 +205,18 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
   }
 }
 
-/// Simple background container with gradient
+/// Background container — gradient in dark mode, surface in light mode
 class _SmoothBackground extends StatelessWidget {
   final Widget child;
   final Color color1;
   final Color color2;
+  final bool isDark;
 
   const _SmoothBackground({
     required this.child,
     required this.color1,
     required this.color2,
+    required this.isDark,
   });
 
   @override
@@ -209,9 +228,19 @@ class _SmoothBackground extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
+        borderRadius: BorderRadius.all(100),
+        border: Border(
+          top: BorderSide(
+            color: Theme
+                .of(context)
+                .colorScheme
+                .outlineVariant,
+            width: 0.5,
+          ),
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
+            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.08),
             blurRadius: 10,
             offset: const Offset(0, -5),
           ),
