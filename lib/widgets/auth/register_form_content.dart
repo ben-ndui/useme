@@ -89,50 +89,58 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
   }
 
   Widget _buildHeader(AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
+    final iconColor = isDark ? Colors.white : cs.onSurface;
+    final containerBg = isDark
+        ? Colors.white.withValues(alpha: 0.3)
+        : cs.surfaceContainerHigh;
+    final containerBg2 = isDark
+        ? Colors.white.withValues(alpha: 0.1)
+        : cs.surfaceContainerHigh;
+    final borderColor = isDark ? Colors.white.withValues(alpha: 0.3) : cs.outlineVariant;
+
+    Widget iconContainer = Container(
+      width: 72,
+      height: 72,
+      decoration: BoxDecoration(
+        gradient: isDark
+            ? LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [containerBg, containerBg2],
+              )
+            : null,
+        color: isDark ? null : cs.surfaceContainerHigh,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: borderColor),
+        boxShadow: isDark
+            ? [BoxShadow(color: Colors.white.withValues(alpha: 0.2), blurRadius: 20, spreadRadius: 2)]
+            : [BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 10, offset: const Offset(0, 4))],
+      ),
+      child: Center(
+        child: FaIcon(FontAwesomeIcons.userPlus, color: iconColor, size: 28),
+      ),
+    );
+
     return Column(
       children: [
-        // Logo with glassmorphism
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              width: 72,
-              height: 72,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white.withValues(alpha: 0.3),
-                    Colors.white.withValues(alpha: 0.1),
-                  ],
-                ),
+        isDark
+            ? ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.3),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: iconContainer,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    blurRadius: 20,
-                    spreadRadius: 2,
-                  ),
-                ],
-              ),
-              child: const Center(
-                child: FaIcon(FontAwesomeIcons.userPlus, color: Colors.white, size: 28),
-              ),
-            ),
-          ),
-        ),
+              )
+            : iconContainer,
         const SizedBox(height: 20),
         Text(
           l10n.createAccount,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.w700,
-            color: Colors.white,
+            color: isDark ? Colors.white : cs.onSurface,
             letterSpacing: -0.5,
           ),
         ),
@@ -141,7 +149,7 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
           l10n.joinCommunity,
           style: TextStyle(
             fontSize: 15,
-            color: Colors.white.withValues(alpha: 0.75),
+            color: isDark ? Colors.white.withValues(alpha: 0.75) : cs.onSurface.withValues(alpha: 0.6),
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -150,13 +158,15 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
   }
 
   Widget _buildRoleSelector(AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           l10n.iAm,
           style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.9),
+            color: isDark ? Colors.white.withValues(alpha: 0.9) : cs.onSurface,
             fontWeight: FontWeight.w600,
             fontSize: 15,
           ),
@@ -177,66 +187,66 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
 
   Widget _buildRoleChip(BaseUserRole role, String label, IconData icon) {
     final isSelected = _selectedRole == role;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
 
-    return GestureDetector(
-      onTap: () => _updateRole(role),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(14),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
+    final Color activeIconColor = isDark ? Colors.white : cs.primary;
+    final Color inactiveIconColor = isDark ? Colors.white.withValues(alpha: 0.6) : cs.onSurfaceVariant;
+    final Color activeTextColor = isDark ? Colors.white : cs.primary;
+    final Color inactiveTextColor = isDark ? Colors.white.withValues(alpha: 0.6) : cs.onSurfaceVariant;
+    final Color activeBorderColor = isDark ? Colors.white.withValues(alpha: 0.6) : cs.primary;
+    final Color inactiveBorderColor = isDark ? Colors.white.withValues(alpha: 0.2) : cs.outlineVariant;
+
+    final chip = AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      decoration: BoxDecoration(
+        gradient: isDark
+            ? LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: isSelected
-                    ? [
-                        Colors.white.withValues(alpha: 0.35),
-                        Colors.white.withValues(alpha: 0.2),
-                      ]
-                    : [
-                        Colors.white.withValues(alpha: 0.12),
-                        Colors.white.withValues(alpha: 0.06),
-                      ],
-              ),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: isSelected ? Colors.white.withValues(alpha: 0.6) : Colors.white.withValues(alpha: 0.2),
-                width: isSelected ? 1.5 : 1,
-              ),
-              boxShadow: isSelected
-                  ? [
-                      BoxShadow(
-                        color: Colors.white.withValues(alpha: 0.15),
-                        blurRadius: 12,
-                        spreadRadius: 1,
-                      ),
-                    ]
-                  : null,
-            ),
-            child: Column(
-              children: [
-                FaIcon(
-                  icon,
-                  size: 22,
-                  color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.6),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.6),
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                  ),
-                ),
-              ],
+                    ? [Colors.white.withValues(alpha: 0.35), Colors.white.withValues(alpha: 0.2)]
+                    : [Colors.white.withValues(alpha: 0.12), Colors.white.withValues(alpha: 0.06)],
+              )
+            : null,
+        color: isDark ? null : (isSelected ? cs.primary.withValues(alpha: 0.08) : cs.surfaceContainerHigh),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: isSelected ? activeBorderColor : inactiveBorderColor,
+          width: isSelected ? 1.5 : 1,
+        ),
+        boxShadow: isSelected && isDark
+            ? [BoxShadow(color: Colors.white.withValues(alpha: 0.15), blurRadius: 12, spreadRadius: 1)]
+            : null,
+      ),
+      child: Column(
+        children: [
+          FaIcon(icon, size: 22, color: isSelected ? activeIconColor : inactiveIconColor),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              color: isSelected ? activeTextColor : inactiveTextColor,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
             ),
           ),
-        ),
+        ],
       ),
+    );
+
+    return GestureDetector(
+      onTap: () => _updateRole(role),
+      child: isDark
+          ? ClipRRect(
+              borderRadius: BorderRadius.circular(14),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                child: chip,
+              ),
+            )
+          : ClipRRect(borderRadius: BorderRadius.circular(14), child: chip),
     );
   }
 
@@ -267,18 +277,16 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
   }
 
   Widget _buildDivider(AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
+    final lineColor = isDark ? Colors.white.withValues(alpha: 0.3) : cs.outlineVariant;
     return Row(
       children: [
         Expanded(
           child: Container(
             height: 1,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.transparent,
-                  Colors.white.withValues(alpha: 0.3),
-                ],
-              ),
+              gradient: LinearGradient(colors: [Colors.transparent, lineColor]),
             ),
           ),
         ),
@@ -287,7 +295,7 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
           child: Text(
             l10n.orByEmail,
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.6),
+              color: isDark ? Colors.white.withValues(alpha: 0.6) : cs.onSurface.withValues(alpha: 0.5),
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -297,12 +305,7 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
           child: Container(
             height: 1,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.white.withValues(alpha: 0.3),
-                  Colors.transparent,
-                ],
-              ),
+              gradient: LinearGradient(colors: [lineColor, Colors.transparent]),
             ),
           ),
         ),
@@ -356,6 +359,8 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
   }
 
   Widget _buildPasswordField(AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
     return GlassTextField(
       controller: _passwordController,
       hint: l10n.passwordHint,
@@ -367,7 +372,7 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
         icon: FaIcon(
           _obscurePassword ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
           size: 16,
-          color: Colors.white.withValues(alpha: 0.6),
+          color: isDark ? Colors.white.withValues(alpha: 0.6) : cs.onSurfaceVariant,
         ),
       ),
       validator: (v) {
@@ -379,6 +384,8 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
   }
 
   Widget _buildConfirmField(AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
     return GlassTextField(
       controller: _confirmController,
       hint: l10n.confirmPassword,
@@ -391,7 +398,7 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
         icon: FaIcon(
           _obscureConfirm ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
           size: 16,
-          color: Colors.white.withValues(alpha: 0.6),
+          color: isDark ? Colors.white.withValues(alpha: 0.6) : cs.onSurfaceVariant,
         ),
       ),
       validator: (v) {
@@ -403,20 +410,22 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
   }
 
   Widget _buildLoginLink(AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           l10n.alreadyHaveAccount,
           style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.75),
+            color: isDark ? Colors.white.withValues(alpha: 0.75) : cs.onSurface.withValues(alpha: 0.6),
             fontSize: 15,
           ),
         ),
         TextButton(
           onPressed: () => context.pop(),
           style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
+            foregroundColor: isDark ? Colors.white : cs.primary,
             padding: const EdgeInsets.symmetric(horizontal: 8),
           ),
           child: Text(

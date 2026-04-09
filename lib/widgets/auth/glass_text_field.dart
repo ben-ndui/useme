@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-/// Text field with glassmorphism effect for auth screens
+/// Text field that adapts to theme:
+/// - Dark mode: glassmorphism with white-translucent background
+/// - Light mode: solid surfaceContainerHigh with theme border/colors
 class GlassTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hint;
@@ -59,7 +61,6 @@ class _GlassTextFieldState extends State<GlassTextField>
     _glowAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animController, curve: Curves.easeOutCubic),
     );
-
     _focusNode.addListener(_onFocusChange);
   }
 
@@ -82,6 +83,9 @@ class _GlassTextFieldState extends State<GlassTextField>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
+
     return AnimatedBuilder(
       animation: _animController,
       builder: (context, child) {
@@ -91,54 +95,75 @@ class _GlassTextFieldState extends State<GlassTextField>
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
-                // Outer glow when focused
                 BoxShadow(
-                  color: Colors.white.withValues(alpha: 0.15 * _glowAnimation.value),
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.12 * _glowAnimation.value)
+                      : cs.primary.withValues(alpha: 0.12 * _glowAnimation.value),
                   blurRadius: 20,
                   spreadRadius: 2,
                 ),
-                // Subtle shadow
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
+                  color: Colors.black.withValues(alpha: isDark ? 0.1 : 0.06),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Colors.white.withValues(alpha: _isFocused ? 0.25 : 0.15),
-                        Colors.white.withValues(alpha: _isFocused ? 0.15 : 0.08),
-                      ],
-                    ),
+            child: isDark
+                ? ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: _isFocused
-                          ? Colors.white.withValues(alpha: 0.5)
-                          : Colors.white.withValues(alpha: 0.2),
-                      width: _isFocused ? 1.5 : 1,
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: _buildFieldContainer(isDark, cs),
                     ),
-                  ),
-                  child: _buildTextField(),
-                ),
-              ),
-            ),
+                  )
+                : _buildFieldContainer(isDark, cs),
           ),
         );
       },
     );
   }
 
-  Widget _buildTextField() {
+  Widget _buildFieldContainer(bool isDark, ColorScheme cs) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      decoration: BoxDecoration(
+        gradient: isDark
+            ? LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white.withValues(alpha: _isFocused ? 0.25 : 0.15),
+                  Colors.white.withValues(alpha: _isFocused ? 0.15 : 0.08),
+                ],
+              )
+            : null,
+        color: isDark ? null : cs.surfaceContainerHigh,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isDark
+              ? (_isFocused
+                  ? Colors.white.withValues(alpha: 0.5)
+                  : Colors.white.withValues(alpha: 0.2))
+              : (_isFocused ? cs.primary : cs.outlineVariant),
+          width: _isFocused ? 1.5 : 1,
+        ),
+      ),
+      child: _buildTextField(isDark, cs),
+    );
+  }
+
+  Widget _buildTextField(bool isDark, ColorScheme cs) {
+    final textColor = isDark ? Colors.white : cs.onSurface;
+    final hintColor = isDark
+        ? Colors.white.withValues(alpha: 0.5)
+        : cs.onSurface.withValues(alpha: 0.45);
+    final iconColor = isDark
+        ? (_isFocused
+            ? Colors.white.withValues(alpha: 0.9)
+            : Colors.white.withValues(alpha: 0.6))
+        : (_isFocused ? cs.primary : cs.onSurfaceVariant);
+
     return TextFormField(
       controller: widget.controller,
       focusNode: _focusNode,
@@ -149,9 +174,9 @@ class _GlassTextFieldState extends State<GlassTextField>
       validator: widget.validator,
       onFieldSubmitted: widget.onFieldSubmitted,
       onChanged: widget.onChanged,
-      cursorColor: Colors.white,
-      style: const TextStyle(
-        color: Colors.white,
+      cursorColor: isDark ? Colors.white : cs.primary,
+      style: TextStyle(
+        color: textColor,
         fontSize: 16,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.3,
@@ -160,29 +185,23 @@ class _GlassTextFieldState extends State<GlassTextField>
         hintText: widget.hint,
         labelText: widget.label,
         hintStyle: TextStyle(
-          color: Colors.white.withValues(alpha: 0.5),
+          color: hintColor,
           fontSize: 15,
           fontWeight: FontWeight.w400,
         ),
         labelStyle: TextStyle(
-          color: Colors.white.withValues(alpha: 0.7),
+          color: isDark ? Colors.white.withValues(alpha: 0.7) : cs.onSurfaceVariant,
           fontSize: 14,
         ),
-        floatingLabelStyle: const TextStyle(
-          color: Colors.white,
+        floatingLabelStyle: TextStyle(
+          color: isDark ? Colors.white : cs.primary,
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
         prefixIcon: widget.prefixIcon != null
             ? Padding(
                 padding: const EdgeInsets.only(left: 16, right: 12),
-                child: FaIcon(
-                  widget.prefixIcon,
-                  size: 18,
-                  color: _isFocused
-                      ? Colors.white.withValues(alpha: 0.9)
-                      : Colors.white.withValues(alpha: 0.6),
-                ),
+                child: FaIcon(widget.prefixIcon, size: 18, color: iconColor),
               )
             : null,
         prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
@@ -197,7 +216,7 @@ class _GlassTextFieldState extends State<GlassTextField>
           vertical: 18,
         ),
         errorStyle: TextStyle(
-          color: Colors.orange.shade200,
+          color: isDark ? Colors.orange.shade200 : cs.error,
           fontSize: 12,
           fontWeight: FontWeight.w500,
         ),
@@ -234,6 +253,12 @@ class _GlassPasswordFieldState extends State<GlassPasswordField> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
+    final iconColor = isDark
+        ? Colors.white.withValues(alpha: 0.6)
+        : cs.onSurfaceVariant;
+
     return GlassTextField(
       controller: widget.controller,
       hint: widget.hint,
@@ -248,14 +273,14 @@ class _GlassPasswordFieldState extends State<GlassPasswordField> {
         icon: FaIcon(
           _obscureText ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
           size: 16,
-          color: Colors.white.withValues(alpha: 0.6),
+          color: iconColor,
         ),
       ),
     );
   }
 }
 
-/// Glass button with gradient and glow effect
+/// Primary action button — white gradient in dark, primary color in light
 class GlassButton extends StatefulWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -298,6 +323,68 @@ class _GlassButtonState extends State<GlassButton>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
+
+    // Colors adapt to theme
+    final Color bgColor;
+    final Color fgColor;
+    final Gradient? gradient;
+    final List<BoxShadow>? shadows;
+    final Border? border;
+
+    if (widget.isPrimary) {
+      if (isDark) {
+        // Dark: white button with black text (contrasts on dark bg)
+        gradient = const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, Color(0xFFF0F0F0)],
+        );
+        bgColor = Colors.transparent;
+        fgColor = Colors.black87;
+        shadows = [
+          BoxShadow(
+            color: Colors.white.withValues(alpha: 0.25),
+            blurRadius: 15,
+            offset: const Offset(0, 4),
+          ),
+        ];
+        border = null;
+      } else {
+        // Light: primary color button with onPrimary text
+        gradient = LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [cs.primary, cs.primary.withValues(alpha: 0.85)],
+        );
+        bgColor = Colors.transparent;
+        fgColor = cs.onPrimary;
+        shadows = [
+          BoxShadow(
+            color: cs.primary.withValues(alpha: 0.3),
+            blurRadius: 15,
+            offset: const Offset(0, 4),
+          ),
+        ];
+        border = null;
+      }
+    } else {
+      // Secondary button
+      gradient = null;
+      if (isDark) {
+        bgColor = Colors.white.withValues(alpha: 0.15);
+        fgColor = Colors.white;
+        shadows = null;
+        border = Border.all(color: Colors.white.withValues(alpha: 0.3));
+      } else {
+        bgColor = cs.surfaceContainerHigh;
+        fgColor = cs.onSurface;
+        shadows = null;
+        border = Border.all(color: cs.outlineVariant);
+      }
+    }
+
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
       onTapUp: (_) => setState(() => _isPressed = false),
@@ -310,27 +397,11 @@ class _GlassButtonState extends State<GlassButton>
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 18),
           decoration: BoxDecoration(
-            gradient: widget.isPrimary
-                ? const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Colors.white, Color(0xFFF0F0F0)],
-                  )
-                : null,
-            color: widget.isPrimary ? null : Colors.white.withValues(alpha: 0.15),
+            gradient: gradient,
+            color: gradient == null ? bgColor : null,
             borderRadius: BorderRadius.circular(16),
-            border: widget.isPrimary
-                ? null
-                : Border.all(color: Colors.white.withValues(alpha: 0.3)),
-            boxShadow: widget.isPrimary
-                ? [
-                    BoxShadow(
-                      color: Colors.white.withValues(alpha: 0.3),
-                      blurRadius: 15,
-                      offset: const Offset(0, 4),
-                    ),
-                  ]
-                : null,
+            border: border,
+            boxShadow: shadows,
           ),
           child: Center(
             child: widget.isLoading
@@ -339,24 +410,20 @@ class _GlassButtonState extends State<GlassButton>
                     height: 22,
                     child: CircularProgressIndicator(
                       strokeWidth: 2.5,
-                      color: widget.isPrimary ? Colors.black54 : Colors.white,
+                      color: fgColor,
                     ),
                   )
                 : Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (widget.icon != null) ...[
-                        FaIcon(
-                          widget.icon,
-                          size: 16,
-                          color: widget.isPrimary ? Colors.black87 : Colors.white,
-                        ),
+                        FaIcon(widget.icon, size: 16, color: fgColor),
                         const SizedBox(width: 10),
                       ],
                       Text(
                         widget.label,
                         style: TextStyle(
-                          color: widget.isPrimary ? Colors.black87 : Colors.white,
+                          color: fgColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.3,
@@ -371,7 +438,7 @@ class _GlassButtonState extends State<GlassButton>
   }
 }
 
-/// Glass social button
+/// Social login button — glass in dark, surface card in light
 class GlassSocialButton extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -388,53 +455,65 @@ class GlassSocialButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
+
+    final bgColor = isDark
+        ? Colors.white.withValues(alpha: 0.12)
+        : cs.surfaceContainerHigh;
+    final borderColor = isDark
+        ? Colors.white.withValues(alpha: 0.2)
+        : cs.outlineVariant;
+    final fgColor = isDark ? Colors.white : cs.onSurface;
+
+    final child = Material(
+      color: bgColor,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        onTap: isLoading ? null : onPressed,
+        borderRadius: BorderRadius.circular(14),
+        splashColor: cs.onSurface.withValues(alpha: 0.08),
+        highlightColor: cs.onSurface.withValues(alpha: 0.04),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: borderColor),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (isLoading)
+                SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                      strokeWidth: 2, color: fgColor),
+                )
+              else
+                FaIcon(icon, size: 20, color: fgColor),
+              const SizedBox(width: 12),
+              Text(
+                label,
+                style: TextStyle(
+                  color: fgColor,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (!isDark) return ClipRRect(borderRadius: BorderRadius.circular(14), child: child);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(14),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-        child: Material(
-          color: Colors.white.withValues(alpha: 0.12),
-          child: InkWell(
-            onTap: isLoading ? null : onPressed,
-            borderRadius: BorderRadius.circular(14),
-            splashColor: Colors.white.withValues(alpha: 0.2),
-            highlightColor: Colors.white.withValues(alpha: 0.1),
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.2),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (isLoading)
-                    const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  else
-                    FaIcon(icon, size: 20, color: Colors.white),
-                  const SizedBox(width: 12),
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        child: child,
       ),
     );
   }

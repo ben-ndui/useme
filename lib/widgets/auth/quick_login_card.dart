@@ -76,14 +76,16 @@ class _QuickLoginCardState extends State<QuickLoginCard> {
   }
 
   Widget _buildHeader(AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
     return Column(
       children: [
-        const Text(
+        Text(
           'UZME',
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.w700,
-            color: Colors.white,
+            color: isDark ? Colors.white : cs.onSurface,
             letterSpacing: 25,
           ),
         ),
@@ -91,7 +93,7 @@ class _QuickLoginCardState extends State<QuickLoginCard> {
           l10n.welcomeBack,
           style: TextStyle(
             fontSize: 15,
-            color: Colors.white.withValues(alpha: 0.75),
+            color: isDark ? Colors.white.withValues(alpha: 0.75) : cs.onSurface.withValues(alpha: 0.6),
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -100,89 +102,94 @@ class _QuickLoginCardState extends State<QuickLoginCard> {
   }
 
   Widget _buildUserCard() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
     final initial = widget.displayName.isNotEmpty
         ? widget.displayName[0].toUpperCase()
         : '?';
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-        child: Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.2),
-            ),
-          ),
-          child: Column(
-            children: [
-              CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.white.withValues(alpha: 0.2),
-                backgroundImage: widget.photoUrl != null
-                    ? NetworkImage(widget.photoUrl!)
-                    : null,
-                child: widget.photoUrl == null
-                    ? Text(
-                        initial,
-                        style: const TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      )
-                    : null,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                widget.displayName,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                widget.email,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white.withValues(alpha: 0.7),
-                ),
-              ),
-              const SizedBox(height: 12),
-              _buildRoleBadge(),
-            ],
-          ),
+    final card = Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: isDark ? Colors.white.withValues(alpha: 0.12) : cs.surfaceContainerHigh,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: isDark ? Colors.white.withValues(alpha: 0.2) : cs.outlineVariant,
         ),
       ),
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 40,
+            backgroundColor: isDark ? Colors.white.withValues(alpha: 0.2) : cs.surfaceContainerHighest,
+            backgroundImage: widget.photoUrl != null ? NetworkImage(widget.photoUrl!) : null,
+            child: widget.photoUrl == null
+                ? Text(
+                    initial,
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? Colors.white : cs.onSurface,
+                    ),
+                  )
+                : null,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            widget.displayName,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: isDark ? Colors.white : cs.onSurface,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            widget.email,
+            style: TextStyle(
+              fontSize: 14,
+              color: isDark ? Colors.white.withValues(alpha: 0.7) : cs.onSurface.withValues(alpha: 0.6),
+            ),
+          ),
+          const SizedBox(height: 12),
+          _buildRoleBadge(),
+        ],
+      ),
     );
+
+    return isDark
+        ? ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+              child: card,
+            ),
+          )
+        : card;
   }
 
   Widget _buildRoleBadge() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.15),
+        color: isDark ? Colors.white.withValues(alpha: 0.15) : cs.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.25),
+          color: isDark ? Colors.white.withValues(alpha: 0.25) : cs.outlineVariant,
         ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          FaIcon(_roleIcon, size: 12,
-              color: Colors.white.withValues(alpha: 0.8)),
+          FaIcon(_roleIcon, size: 12, color: isDark ? Colors.white.withValues(alpha: 0.8) : cs.onSurfaceVariant),
           const SizedBox(width: 8),
           Text(
             _roleLabel,
             style: TextStyle(
               fontSize: 13,
-              color: Colors.white.withValues(alpha: 0.8),
+              color: isDark ? Colors.white.withValues(alpha: 0.8) : cs.onSurfaceVariant,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -217,16 +224,18 @@ class _QuickLoginCardState extends State<QuickLoginCard> {
   }
 
   Widget _buildSwitchAccountLink(AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: widget.onSwitchAccount,
       child: Text(
         l10n.useAnotherAccount,
         style: TextStyle(
-          color: Colors.white.withValues(alpha: 0.75),
+          color: isDark ? Colors.white.withValues(alpha: 0.75) : cs.onSurface.withValues(alpha: 0.6),
           fontSize: 14,
           fontWeight: FontWeight.w500,
           decoration: TextDecoration.underline,
-          decorationColor: Colors.white.withValues(alpha: 0.5),
+          decorationColor: isDark ? Colors.white.withValues(alpha: 0.5) : cs.onSurface.withValues(alpha: 0.3),
         ),
       ),
     );

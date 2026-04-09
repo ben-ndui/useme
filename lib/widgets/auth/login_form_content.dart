@@ -237,15 +237,16 @@ class _LoginFormContentState extends State<LoginFormContent> {
   }
 
   Widget _buildHeader(AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
     return Column(
       children: [
-        // Logo with glassmorphism
-         Text(
+        Text(
           'UZME',
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.w700,
-            color: Colors.white,
+            color: isDark ? Colors.white : cs.onSurface,
             letterSpacing: 25,
           ),
         ),
@@ -253,7 +254,7 @@ class _LoginFormContentState extends State<LoginFormContent> {
           l10n.bookNextSessionSubtitle,
           style: TextStyle(
             fontSize: 15,
-            color: Colors.white.withValues(alpha: 0.75),
+            color: isDark ? Colors.white.withValues(alpha: 0.75) : cs.onSurface.withValues(alpha: 0.6),
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -262,6 +263,8 @@ class _LoginFormContentState extends State<LoginFormContent> {
   }
 
   Widget _buildForm(bool isLoading, AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
     return Form(
       key: _formKey,
       child: Column(
@@ -298,7 +301,7 @@ class _LoginFormContentState extends State<LoginFormContent> {
               TextButton(
                 onPressed: () => _forgotPassword(l10n),
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.white.withValues(alpha: 0.8),
+                  foregroundColor: isDark ? Colors.white.withValues(alpha: 0.8) : cs.onSurface.withValues(alpha: 0.7),
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 ),
                 child: Text(
@@ -320,6 +323,8 @@ class _LoginFormContentState extends State<LoginFormContent> {
   }
 
   Widget _buildRememberMeCheckbox(AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () => setState(() => _rememberMe = !_rememberMe),
       child: Row(
@@ -331,9 +336,9 @@ class _LoginFormContentState extends State<LoginFormContent> {
             child: Checkbox(
               value: _rememberMe,
               onChanged: (v) => setState(() => _rememberMe = v ?? false),
-              side: BorderSide(color: Colors.white.withValues(alpha: 0.6)),
-              checkColor: Colors.white,
-              activeColor: Colors.white.withValues(alpha: 0.3),
+              side: BorderSide(color: isDark ? Colors.white.withValues(alpha: 0.6) : cs.onSurface.withValues(alpha: 0.5)),
+              checkColor: isDark ? Colors.black87 : cs.onPrimary,
+              activeColor: isDark ? Colors.white.withValues(alpha: 0.3) : cs.primary,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
           ),
@@ -341,7 +346,7 @@ class _LoginFormContentState extends State<LoginFormContent> {
           Text(
             l10n.rememberMe,
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.8),
+              color: isDark ? Colors.white.withValues(alpha: 0.8) : cs.onSurface.withValues(alpha: 0.7),
               fontSize: 13,
               fontWeight: FontWeight.w500,
             ),
@@ -352,18 +357,16 @@ class _LoginFormContentState extends State<LoginFormContent> {
   }
 
   Widget _buildDivider(AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
+    final lineColor = isDark ? Colors.white.withValues(alpha: 0.3) : cs.outlineVariant;
     return Row(
       children: [
         Expanded(
           child: Container(
             height: 1,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.transparent,
-                  Colors.white.withValues(alpha: 0.3),
-                ],
-              ),
+              gradient: LinearGradient(colors: [Colors.transparent, lineColor]),
             ),
           ),
         ),
@@ -372,7 +375,7 @@ class _LoginFormContentState extends State<LoginFormContent> {
           child: Text(
             l10n.or,
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.6),
+              color: isDark ? Colors.white.withValues(alpha: 0.6) : cs.onSurface.withValues(alpha: 0.5),
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -382,12 +385,7 @@ class _LoginFormContentState extends State<LoginFormContent> {
           child: Container(
             height: 1,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.white.withValues(alpha: 0.3),
-                  Colors.transparent,
-                ],
-              ),
+              gradient: LinearGradient(colors: [lineColor, Colors.transparent]),
             ),
           ),
         ),
@@ -422,20 +420,22 @@ class _LoginFormContentState extends State<LoginFormContent> {
   }
 
   Widget _buildSignUpLink(AppLocalizations l10n) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           l10n.noAccountYet,
           style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.75),
+            color: isDark ? Colors.white.withValues(alpha: 0.75) : cs.onSurface.withValues(alpha: 0.6),
             fontSize: 15,
           ),
         ),
         TextButton(
           onPressed: () => context.push(AppRoutes.signup),
           style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
+            foregroundColor: isDark ? Colors.white : cs.primary,
             padding: const EdgeInsets.symmetric(horizontal: 8),
           ),
           child: Text(
