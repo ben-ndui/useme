@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:useme/config/useme_theme.dart';
 
-/// Indicateur de saisie de l'IA
+/// Typing indicator shown while the AI is generating a response.
+/// Matches the AIMessageBubble layout: avatar + bubble with animated dots.
 class AITypingIndicator extends StatefulWidget {
   const AITypingIndicator({super.key});
 
@@ -10,119 +13,112 @@ class AITypingIndicator extends StatefulWidget {
 
 class _AITypingIndicatorState extends State<AITypingIndicator>
     with TickerProviderStateMixin {
-  late List<AnimationController> _controllers;
-  late List<Animation<double>> _animations;
+  late final List<AnimationController> _controllers;
+  late final List<Animation<double>> _animations;
 
   @override
   void initState() {
     super.initState();
-
-    _controllers = List.generate(
-      3,
-      (index) => AnimationController(
-        duration: const Duration(milliseconds: 600),
+    _controllers = List.generate(3, (i) {
+      return AnimationController(
         vsync: this,
-      ),
-    );
+        duration: const Duration(milliseconds: 500),
+      );
+    });
 
-    _animations = _controllers.map((controller) {
-      return Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(parent: controller, curve: Curves.easeInOut),
+    _animations = _controllers.map((c) {
+      return Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(parent: c, curve: Curves.easeInOut),
       );
     }).toList();
 
-    // Démarrer les animations en décalé
     for (var i = 0; i < _controllers.length; i++) {
-      Future.delayed(Duration(milliseconds: i * 200), () {
-        if (mounted) {
-          _controllers[i].repeat(reverse: true);
-        }
+      Future.delayed(Duration(milliseconds: i * 160), () {
+        if (mounted) _controllers[i].repeat(reverse: true);
       });
     }
   }
 
   @override
   void dispose() {
-    for (final controller in _controllers) {
-      controller.dispose();
+    for (final c in _controllers) {
+      c.dispose();
     }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.purple.withValues(alpha:isDark ? 0.2 : 0.1),
-            Colors.blue.withValues(alpha:isDark ? 0.2 : 0.1),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.purple.withValues(alpha:0.3),
-          width: 1,
-        ),
-      ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          _buildAvatar(),
+          const SizedBox(width: 8),
           Container(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
-              color: Colors.purple.withValues(alpha:0.2),
-              borderRadius: BorderRadius.circular(8),
+              color: cs.surfaceContainerHigh,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(18),
+                topRight: Radius.circular(18),
+                bottomLeft: Radius.circular(4),
+                bottomRight: Radius.circular(18),
+              ),
+              border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.5)),
             ),
-            child: const Icon(
-              Icons.auto_awesome,
-              size: 16,
-              color: Colors.purple,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(3, (index) {
-              return AnimatedBuilder(
-                animation: _animations[index],
-                builder: (context, child) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    child: Transform.translate(
-                      offset: Offset(0, -4 * _animations[index].value),
-                      child: Container(
-                        width: 8,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: Colors.purple.withValues(alpha:
-                            0.5 + 0.5 * _animations[index].value,
-                          ),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              );
-            }),
-          ),
-          const SizedBox(width: 12),
-          Text(
-            'L\'IA réfléchit...',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade500,
-              fontStyle: FontStyle.italic,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(3, (i) => _buildDot(i, cs)),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildAvatar() {
+    return Container(
+      width: 28,
+      height: 28,
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [UseMeTheme.accentColor, UseMeTheme.primaryColor],
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: const Center(
+        child: FaIcon(FontAwesomeIcons.solidStar, color: Colors.white, size: 11),
+      ),
+    );
+  }
+
+  Widget _buildDot(int index, ColorScheme cs) {
+    return Padding(
+      padding: EdgeInsets.only(right: index < 2 ? 5 : 0),
+      child: AnimatedBuilder(
+        animation: _animations[index],
+        builder: (_, __) {
+          return Transform.translate(
+            offset: Offset(0, -4 * _animations[index].value),
+            child: Container(
+              width: 7,
+              height: 7,
+              decoration: BoxDecoration(
+                color: cs.onSurface.withValues(
+                  alpha: 0.35 + 0.3 * _animations[index].value,
+                ),
+                shape: BoxShape.circle,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
