@@ -45,6 +45,6 @@ class ArtistHomeFeed extends StatelessWidget {
         RecentActivitySection(isWideLayout: isWideLayout),
         SizedBox(height: isWideLayout ? 24 : 100),
       ],
-    ));
+      ));
   }
 }

@@ -45,8 +45,7 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
   }
 
   void _onSheetScroll() {
-    final normalizedSize =
-        (controller.size - widget.minSize) / (widget.maxSize - widget.minSize);
+    final normalizedSize = (controller.size - widget.minSize) / (widget.maxSize - widget.minSize);
 
     // Update floating action buttons visibility
     if (controller.size <= widget.minSize) {
@@ -63,8 +62,7 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
 
     // SafeArea padding management
     final safePadding = MediaQuery.of(context).padding.top;
-    final targetPadding =
-        controller.size >= widget.maxSize * 0.99 ? safePadding : 0;
+    final targetPadding = controller.size >= widget.maxSize * 0.99 ? safePadding : 0;
     if (safeAreaPadding.value != targetPadding) {
       safeAreaPadding.value = targetPadding.toDouble();
     }
@@ -85,13 +83,12 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
         .of(context)
         .brightness == Brightness.dark;
     // In dark mode: branded blue gradient. In light mode: theme surface.
-    final defaultColor1 = widget.color1 ??
-        (isDark ? UseMeTheme.primaryColor : Theme
-            .of(context)
-            .colorScheme
-            .surface);
-    final defaultColor2 = widget.color2 ??
-        (isDark ? UseMeTheme.secondaryColor : Theme
+    final defaultColor1 = widget.color1 ?? (isDark ? UseMeTheme.primaryColor : Theme
+        .of(context)
+        .colorScheme
+        .surface);
+    final defaultColor2 =
+        widget.color2 ?? (isDark ? UseMeTheme.secondaryColor : Theme
             .of(context)
             .colorScheme
             .surfaceContainerLow);
@@ -102,42 +99,36 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
       maxChildSize: widget.maxSize,
       controller: controller,
       builder: (context, scrollController) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(40)),
-          child: _SmoothBackground(
-            color1: defaultColor1,
-            color2: defaultColor2,
-            isDark: isDark,
-            child: Stack(
-              children: [
-                CustomScrollView(
-                  controller: scrollController,
-                  physics: const BouncingScrollPhysics(),
-                  slivers: [
-                    SliverToBoxAdapter(child: _buildDragHandle()),
-                    SliverList(
-                      delegate: SliverChildListDelegate([
-                        ValueListenableBuilder<double>(
-                          valueListenable: safeAreaPadding,
-                          builder: (context, padding, child) {
-                            return AnimatedPadding(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                              padding: EdgeInsets.only(
-                                top: padding,
-                                bottom: widget.bottomPadding,
-                              ),
-                              child: widget.bodyContent,
-                            );
-                          },
-                        ),
-                      ]),
-                    ),
-                  ],
-                ),
-                if (widget.floatButtons.isNotEmpty) _buildFloatButtons(),
-              ],
-            ),
+        return _SmoothBackground(
+          color1: defaultColor1,
+          color2: defaultColor2,
+          isDark: isDark,
+          child: Stack(
+            children: [
+              CustomScrollView(
+                controller: scrollController,
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  SliverToBoxAdapter(child: _buildDragHandle()),
+                  SliverList(
+                    delegate: SliverChildListDelegate([
+                      ValueListenableBuilder<double>(
+                        valueListenable: safeAreaPadding,
+                        builder: (context, padding, child) {
+                          return AnimatedPadding(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                            padding: EdgeInsets.only(top: padding, bottom: widget.bottomPadding),
+                            child: widget.bodyContent,
+                          );
+                        },
+                      ),
+                    ]),
+                  ),
+                ],
+              ),
+              if (widget.floatButtons.isNotEmpty) _buildFloatButtons(),
+            ],
           ),
         );
       },
@@ -161,10 +152,7 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
               width: 40,
               height: 5,
               margin: const EdgeInsets.symmetric(vertical: 12),
-              decoration: BoxDecoration(
-                color: handleColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
+              decoration: BoxDecoration(color: handleColor, borderRadius: BorderRadius.circular(10)),
             ),
           ),
         );
@@ -191,10 +179,7 @@ class _SmoothDraggableWidgetState extends State<SmoothDraggableWidget> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: widget.floatButtons
-                        .map((btn) => Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: btn,
-                            ))
+                        .map((btn) => Padding(padding: const EdgeInsets.only(bottom: 8), child: btn))
                         .toList(),
                   )
                 : const SizedBox.shrink(),
@@ -212,32 +197,18 @@ class _SmoothBackground extends StatelessWidget {
   final Color color2;
   final bool isDark;
 
-  const _SmoothBackground({
-    required this.child,
-    required this.color1,
-    required this.color2,
-    required this.isDark,
-  });
+  const _SmoothBackground({required this.child, required this.color1, required this.color2, required this.isDark});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [color1, color2],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        borderRadius: BorderRadius.all(100),
-        border: Border(
-          top: BorderSide(
-            color: Theme
-                .of(context)
-                .colorScheme
-                .outlineVariant,
-            width: 0.5,
-          ),
-        ),
+        gradient: LinearGradient(colors: [color1, color2], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+        border: Border(top: BorderSide(color: Theme
+            .of(context)
+            .colorScheme
+            .outlineVariant, width: 0.5)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.08),
