@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +20,7 @@ import 'package:useme/core/services/notification_navigation_service.dart';
 import 'package:useme/core/services/notification_service.dart';
 import 'package:useme/core/services/recent_accounts_service.dart';
 import 'package:useme/core/utils/app_logger.dart';
+import 'package:useme/core/utils/crashlytics_bloc_observer.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/routing/router.dart';
 
@@ -61,6 +64,18 @@ void main() async {
   // Initialize SmoothFirebase with default app
   SmoothFirebase.initializeWithDefault();
 
+  // Crashlytics — capture Flutter framework errors
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+  // BLoC observer — breadcrumbs + erreurs BLoC vers Crashlytics
+  Bloc.observer = CrashlyticsBlocObserver();
+
+  // Crashlytics — capture async errors outside Flutter (Platform, isolates)
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
   // Initialize French locale for date formatting
   await initializeDateFormatting('fr_FR', null);
 
@@ -78,13 +93,19 @@ void main() async {
   // Initialize CalendarBloc globally
   globalCalendarBloc = CalendarBloc();
 
-  runApp(const UseMeApp());
+  runZonedGuarded(
+    () {
+      runApp(const UseMeApp());
 
-  // Initialize notification listeners after app is running (non-blocking)
-  _initializeNotificationListeners();
+      // Initialize notification listeners after app is running (non-blocking)
+      _initializeNotificationListeners();
 
-  // Initialize deep link service
-  _initializeDeepLinks();
+      // Initialize deep link service
+      _initializeDeepLinks();
+    },
+    (error, stack) =>
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
+  );
 }
 
 /// Create device session for the authenticated user.
@@ -262,20 +283,30 @@ class _UseMeAppState extends State<UseMeApp> {
                 },
                 listener: (context, state) async {
                   if (state is AuthAuthenticatedState) {
+                    final user = state.user;
+
+                    // Crashlytics — identify user for crash reports
+                    FirebaseCrashlytics.instance.setUserIdentifier(user.uid);
+                    FirebaseCrashlytics.instance.setCustomKey('role', user.role.name);
+                    FirebaseCrashlytics.instance.log('User authenticated: ${user.uid} (${user.role.name})');
+
                     // User logged in: set userId for notification token
-                    notificationService.setUserId(state.user.uid);
+                    notificationService.setUserId(user.uid);
 
                     // Create device session
-                    _createDeviceSession(state.user.uid);
+                    _createDeviceSession(user.uid);
 
                     // Load calendar status for studios
-                    final user = state.user;
                     if (user.role.isStudio || user.role.isSuperAdmin) {
                       globalCalendarBloc.add(
                         LoadCalendarStatusEvent(userId: user.uid),
                       );
                     }
                   } else {
+                    // Crashlytics — clear user identity on logout
+                    FirebaseCrashlytics.instance.setUserIdentifier('');
+                    FirebaseCrashlytics.instance.log('User signed out');
+
                     // User logged out: remove token, reset calendar
                     notificationService.removeToken();
                     globalCalendarBloc.add(const ResetCalendarEvent());

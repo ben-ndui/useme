@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import '../models/app_user.dart';
 
@@ -42,6 +43,45 @@ class UseMeAuthService extends BaseAuthService {
     );
 
     await SmoothFirebase.collection('users').doc(firebaseUser.uid).set(appUser.toMap());
+  }
+
+  @override
+  Future<SmoothResponse<bool>> signInWithGoogle() async {
+    final crashlytics = FirebaseCrashlytics.instance;
+    crashlytics.log('[Auth] signInWithGoogle started');
+    final result = await super.signInWithGoogle();
+    if (result.isSuccess) {
+      crashlytics.log('[Auth] Google sign-in success (code ${result.code})');
+    } else {
+      crashlytics.log('[Auth] Google sign-in failed: ${result.message} (code ${result.code})');
+    }
+    return result;
+  }
+
+  @override
+  Future<SmoothResponse<bool>> signInWithApple() async {
+    final crashlytics = FirebaseCrashlytics.instance;
+    crashlytics.log('[Auth] signInWithApple started');
+    final result = await super.signInWithApple();
+    if (result.isSuccess) {
+      crashlytics.log('[Auth] Apple sign-in success (code ${result.code})');
+    } else {
+      crashlytics.log('[Auth] Apple sign-in failed: ${result.message} (code ${result.code})');
+    }
+    return result;
+  }
+
+  @override
+  Future<SmoothResponse<bool>> signInWithEmail(String email, String password) async {
+    final crashlytics = FirebaseCrashlytics.instance;
+    crashlytics.log('[Auth] signInWithEmail started');
+    final result = await super.signInWithEmail(email, password);
+    if (result.isSuccess) {
+      crashlytics.log('[Auth] Email sign-in success');
+    } else {
+      crashlytics.log('[Auth] Email sign-in failed: ${result.message} (code ${result.code})');
+    }
+    return result;
   }
 
   /// Met à jour le profil de l'utilisateur.

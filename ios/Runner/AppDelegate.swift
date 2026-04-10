@@ -17,6 +17,11 @@ import GoogleSignIn
     // Firebase
     FirebaseApp.configure()
 
+    // Google Sign-In — explicit config required for distribution builds
+    if let clientID = FirebaseApp.app()?.options.clientID {
+      GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
+    }
+
     // Push Notifications
     UNUserNotificationCenter.current().delegate = self
     application.registerForRemoteNotifications()
