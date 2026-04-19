@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:useme/core/models/app_user.dart';
@@ -131,6 +132,8 @@ class StudioDiscoveryService {
     LatLng position,
     int radius,
   ) async {
+    if (FirebaseAuth.instance.currentUser == null) return googleStudios;
+
     // Fetch partner studios (admin or superAdmin with isPartner)
     // Note: Firestore doesn't support OR in where, so we query isPartner only
     // and filter by role in Dart

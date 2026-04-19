@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:useme/firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,53 +49,55 @@ final deviceSessionService = BaseDeviceSessionService();
 /// CalendarBloc global (needed for deep link callbacks).
 late CalendarBloc globalCalendarBloc;
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() {
+  runZonedGuarded<Future<void>>(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-  // Load environment variables (optional - for dev only)
-  try {
-    await dotenv.load(fileName: 'assets/.env');
-  } catch (_) {
-    // .env file not found in production - this is expected
-  }
+      // Load environment variables (optional - for dev only)
+      try {
+        await dotenv.load(fileName: 'assets/.env');
+      } catch (_) {
+        // .env file not found in production - this is expected
+      }
 
-  // Initialize Firebase
-  await Firebase.initializeApp();
+      // Initialize Firebase
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
 
-  // Initialize SmoothFirebase with default app
-  SmoothFirebase.initializeWithDefault();
+      // Initialize SmoothFirebase with default app
+      SmoothFirebase.initializeWithDefault();
 
-  // Crashlytics — capture Flutter framework errors
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+      // Crashlytics — capture Flutter framework errors
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
-  // BLoC observer — breadcrumbs + erreurs BLoC vers Crashlytics
-  Bloc.observer = CrashlyticsBlocObserver();
+      // BLoC observer — breadcrumbs + erreurs BLoC vers Crashlytics
+      Bloc.observer = CrashlyticsBlocObserver();
 
-  // Crashlytics — capture async errors outside Flutter (Platform, isolates)
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
+      // Crashlytics — capture async errors outside Flutter (Platform, isolates)
+      PlatformDispatcher.instance.onError = (error, stack) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        return true;
+      };
 
-  // Initialize French locale for date formatting
-  await initializeDateFormatting('fr_FR', null);
+      // Initialize French locale for date formatting
+      await initializeDateFormatting('fr_FR', null);
 
-  // Allow all orientations for tablet/desktop support
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
-  ]);
+      // Allow all orientations for tablet/desktop support
+      await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
 
-  // Load recent accounts
-  await recentAccountsService.load();
+      // Load recent accounts
+      await recentAccountsService.load();
 
-  // Initialize CalendarBloc globally
-  globalCalendarBloc = CalendarBloc();
+      // Initialize CalendarBloc globally
+      globalCalendarBloc = CalendarBloc();
 
-  runZonedGuarded(
-    () {
       runApp(const UseMeApp());
 
       // Initialize notification listeners after app is running (non-blocking)

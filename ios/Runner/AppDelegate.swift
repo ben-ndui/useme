@@ -17,9 +17,11 @@ import GoogleSignIn
     // Firebase
     FirebaseApp.configure()
 
-    // Google Sign-In — explicit config required for distribution builds
+    // Google Sign-In — explicit config required for distribution builds.
+    // serverClientID (web client) is required by GIDSignIn 7.x to generate a valid idToken.
     if let clientID = FirebaseApp.app()?.options.clientID {
-      GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
+      let serverClientID = "830017708682-l5976rfnqen0ap7ofmhn6adb7bt6p4j3.apps.googleusercontent.com"
+      GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID, serverClientID: serverClientID)
     }
 
     // Push Notifications
