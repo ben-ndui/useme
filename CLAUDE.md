@@ -1,4 +1,9 @@
-# CLAUDE.md
+# CLAUDE.md — useme (UZME)
+
+> **Base de connaissance centralisée :** `/Users/wesof./.smooth-brain/`
+> Lire en priorité : `stacks/flutter-bloc.md` + `cross-project/shared-package.md` + `cross-project/smoothbackend.md`
+
+---
 
 This file provides guidance to Claude Code when working with the Use Me codebase.
 
