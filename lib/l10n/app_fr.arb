@@ -1665,6 +1665,22 @@
   },
   "rememberMe": "Se souvenir de moi",
 
+  "biometricEnableTitle": "Activer la connexion biométrique ?",
+  "biometricEnableMessage": "Connectez-vous en un instant avec Face ID, Touch ID ou votre empreinte la prochaine fois.",
+  "biometricEnableAction": "Activer",
+  "biometricEnableSkip": "Plus tard",
+  "biometricEnabledToast": "Connexion biométrique activée",
+  "biometricReason": "Authentifiez-vous pour vous connecter",
+  "biometricFailed": "Échec de l'authentification biométrique",
+  "biometricLoginWith": "Déverrouiller avec {name}",
+  "@biometricLoginWith": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+
   "tipQuickLoginTitle": "Connexion rapide",
   "tipQuickLoginDesc": "Cochez 'Se souvenir de moi' lors de votre connexion pour retrouver votre compte en un clic à la prochaine ouverture de l'app.",
   "tipSearchCityTitle": "Rechercher par ville",

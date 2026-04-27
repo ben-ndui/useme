@@ -3829,6 +3829,33 @@ class AppLocalizationsFr extends AppLocalizations {
   String get rememberMe => 'Se souvenir de moi';
 
   @override
+  String get biometricEnableTitle => 'Activer la connexion biométrique ?';
+
+  @override
+  String get biometricEnableMessage =>
+      'Connectez-vous en un instant avec Face ID, Touch ID ou votre empreinte la prochaine fois.';
+
+  @override
+  String get biometricEnableAction => 'Activer';
+
+  @override
+  String get biometricEnableSkip => 'Plus tard';
+
+  @override
+  String get biometricEnabledToast => 'Connexion biométrique activée';
+
+  @override
+  String get biometricReason => 'Authentifiez-vous pour vous connecter';
+
+  @override
+  String get biometricFailed => 'Échec de l\'authentification biométrique';
+
+  @override
+  String biometricLoginWith(String name) {
+    return 'Déverrouiller avec $name';
+  }
+
+  @override
   String get tipQuickLoginTitle => 'Connexion rapide';
 
   @override

@@ -3799,6 +3799,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rememberMe => 'Remember me';
 
   @override
+  String get biometricEnableTitle => 'Enable biometric login?';
+
+  @override
+  String get biometricEnableMessage =>
+      'Sign in instantly with Face ID, Touch ID or your fingerprint next time.';
+
+  @override
+  String get biometricEnableAction => 'Enable';
+
+  @override
+  String get biometricEnableSkip => 'Not now';
+
+  @override
+  String get biometricEnabledToast => 'Biometric login enabled';
+
+  @override
+  String get biometricReason => 'Authenticate to sign in';
+
+  @override
+  String get biometricFailed => 'Biometric authentication failed';
+
+  @override
+  String biometricLoginWith(String name) {
+    return 'Unlock with $name';
+  }
+
+  @override
   String get tipQuickLoginTitle => 'Quick login';
 
   @override

@@ -213,6 +213,10 @@ class _AccountTile extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
+          if (account.biometricEnabled) ...[
+            _BiometricBadge(isDark: isDark, cs: cs),
+            const SizedBox(width: 6),
+          ],
           _ProviderBadge(provider: account.provider, l10n: l10n),
           const SizedBox(width: 8),
           GestureDetector(
@@ -242,6 +246,28 @@ class _AccountTile extends StatelessWidget {
               ),
             )
           : ClipRRect(borderRadius: BorderRadius.circular(16), child: tile),
+    );
+  }
+}
+
+class _BiometricBadge extends StatelessWidget {
+  final bool isDark;
+  final ColorScheme cs;
+
+  const _BiometricBadge({required this.isDark, required this.cs});
+
+  @override
+  Widget build(BuildContext context) {
+    final color = isDark ? Colors.white.withValues(alpha: 0.85) : cs.primary;
+    return Container(
+      padding: const EdgeInsets.all(7),
+      decoration: BoxDecoration(
+        color: isDark
+            ? Colors.white.withValues(alpha: 0.12)
+            : cs.primary.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: FaIcon(FontAwesomeIcons.fingerprint, size: 12, color: color),
     );
   }
 }

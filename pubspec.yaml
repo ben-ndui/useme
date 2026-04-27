@@ -2,7 +2,7 @@ name: useme
 description: "UZME - Studio Session Booking App"
 publish_to: 'none'
 
-version: 1.3.4+13
+version: 1.3.5+14
 
 environment:
   sdk: ^3.9.0
@@ -18,6 +18,12 @@ dependencies:
     git:
       url: https://github.com/ben-ndui/smoothandesign_package.git
       ref: master
+
+  # Smooth & Design Biometric Auth (Face ID / Touch ID / fingerprint)
+  smoothandesign_auth_biometric:
+    git:
+      url: https://github.com/ben-ndui/smoothandesign_auth_biometric.git
+      ref: v0.1.0
 
   cupertino_icons: ^1.0.8
   intl: ^0.20.0

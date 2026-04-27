@@ -10,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:smoothandesign_auth_biometric/smoothandesign_auth_biometric.dart'
+    hide RecentAccountsService;
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/config/useme_theme.dart';
 import 'package:useme/core/blocs/blocs_exports.dart';
@@ -36,6 +38,9 @@ final preferencesService = BasePreferencesService();
 
 /// Service de comptes récents global.
 final recentAccountsService = RecentAccountsService();
+
+/// Service de biométrie global (Face ID / Touch ID / empreinte).
+final biometricService = BiometricService();
 
 /// Service de notifications global.
 final notificationService = UseMeNotificationService.instance;

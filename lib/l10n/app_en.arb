@@ -1473,6 +1473,22 @@
   },
   "rememberMe": "Remember me",
 
+  "biometricEnableTitle": "Enable biometric login?",
+  "biometricEnableMessage": "Sign in instantly with Face ID, Touch ID or your fingerprint next time.",
+  "biometricEnableAction": "Enable",
+  "biometricEnableSkip": "Not now",
+  "biometricEnabledToast": "Biometric login enabled",
+  "biometricReason": "Authenticate to sign in",
+  "biometricFailed": "Biometric authentication failed",
+  "biometricLoginWith": "Unlock with {name}",
+  "@biometricLoginWith": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+
   "tipQuickLoginTitle": "Quick login",
   "tipQuickLoginDesc": "Check 'Remember me' when signing in to quickly access your account next time you open the app.",
   "tipSearchCityTitle": "Search by city",

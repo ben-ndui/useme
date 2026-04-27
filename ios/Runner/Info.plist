@@ -69,7 +69,9 @@
 	<string>UZME uses NFC to share your digital card with nearby devices. For example, you can tap an NFC tag to write your profile link so others can scan it to view your card.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>UZME needs access to your camera to take photos. For example, you can take a profile picture, capture a photo of your studio setup, or snap a picture to share in a conversation with an artist or studio.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
+	<key>NSFaceIDUsageDescription</key>
+		<string>UZME uses Face ID to sign you in instantly without typing your password.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
 	<string>UZME needs access to your photo library to share images. For example, you can send a photo of your lyrics or album artwork in a conversation with a studio or artist.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>

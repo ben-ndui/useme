@@ -1,12 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/core/blocs/map/map_bloc.dart';
-import 'package:useme/core/models/app_user.dart';
 import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/auth/auth_map_background.dart';
 import 'package:useme/widgets/auth/login_form_content.dart';
 import 'package:useme/widgets/auth/role_selector_sheet.dart';
@@ -32,6 +29,9 @@ class _LoginScreenContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
+      // Navigation post-auth est gérée par LoginFormContent (après l'opt-in
+      // biométrique) pour éviter une race entre deux listeners qui se
+      // déclenchent au retour des flows externes (Google / Apple Sign-In).
       listener: (context, state) {
         final l10n = AppLocalizations.of(context)!;
         if (state is AuthErrorState) {
@@ -44,8 +44,6 @@ class _LoginScreenContent extends StatelessWidget {
           } else {
             AppSnackBar.error(context, state.message);
           }
-        } else if (state is AuthAuthenticatedState) {
-          _navigateBasedOnRole(context, state.user);
         } else if (state is AuthNeedsRoleSelectionState) {
           RoleSelectorSheet.show(context, isNewUser: true);
         } else if (state is AuthPasswordResetSentState) {
@@ -77,15 +75,4 @@ class _LoginScreenContent extends StatelessWidget {
     );
   }
 
-  void _navigateBasedOnRole(BuildContext context, BaseUser user) {
-    final appUser = user as AppUser;
-
-    if (appUser.isSuperAdmin || appUser.isStudio) {
-      context.go(AppRoutes.home);
-    } else if (appUser.isEngineer) {
-      context.go(AppRoutes.engineerDashboard);
-    } else {
-      context.go(AppRoutes.artistPortal);
-    }
-  }
 }

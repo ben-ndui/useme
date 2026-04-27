@@ -14,6 +14,7 @@ class QuickLoginCard extends StatefulWidget {
   final String role;
   final String provider;
   final String? photoUrl;
+  final bool biometricEnabled;
   final void Function(String? password) onConnect;
   final VoidCallback onSwitchAccount;
 
@@ -24,6 +25,7 @@ class QuickLoginCard extends StatefulWidget {
     required this.role,
     required this.provider,
     this.photoUrl,
+    this.biometricEnabled = false,
     required this.onConnect,
     required this.onSwitchAccount,
   });
@@ -36,6 +38,7 @@ class _QuickLoginCardState extends State<QuickLoginCard> {
   final _passwordController = TextEditingController();
 
   bool get _isEmailProvider => widget.provider == 'email';
+  bool get _showPasswordField => _isEmailProvider && !widget.biometricEnabled;
 
   @override
   void dispose() {
@@ -60,7 +63,7 @@ class _QuickLoginCardState extends State<QuickLoginCard> {
               _buildHeader(l10n),
               const SizedBox(height: 32),
               _buildUserCard(),
-              if (_isEmailProvider) ...[
+              if (_showPasswordField) ...[
                 const SizedBox(height: 20),
                 _buildPasswordField(l10n),
               ],
@@ -208,15 +211,18 @@ class _QuickLoginCardState extends State<QuickLoginCard> {
   }
 
   Widget _buildConnectButton(AppLocalizations l10n, bool isLoading) {
+    final label = widget.biometricEnabled
+        ? l10n.biometricLoginWith(widget.displayName)
+        : l10n.signIn;
     return GlassButton(
-      label: l10n.signIn,
+      label: label,
       isLoading: isLoading,
       onPressed: _onConnect,
     );
   }
 
   void _onConnect() {
-    if (_isEmailProvider) {
+    if (_showPasswordField) {
       widget.onConnect(_passwordController.text);
     } else {
       widget.onConnect(null);

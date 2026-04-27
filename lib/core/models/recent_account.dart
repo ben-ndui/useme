@@ -8,6 +8,7 @@ class RecentAccount {
   final String role; // 'admin', 'worker', 'client', 'superAdmin'
   final String? photoUrl;
   final DateTime lastLoginAt;
+  final bool biometricEnabled;
 
   const RecentAccount({
     required this.email,
@@ -16,7 +17,27 @@ class RecentAccount {
     required this.role,
     this.photoUrl,
     required this.lastLoginAt,
+    this.biometricEnabled = false,
   });
+
+  RecentAccount copyWith({
+    String? email,
+    String? displayName,
+    String? provider,
+    String? role,
+    String? photoUrl,
+    DateTime? lastLoginAt,
+    bool? biometricEnabled,
+  }) =>
+      RecentAccount(
+        email: email ?? this.email,
+        displayName: displayName ?? this.displayName,
+        provider: provider ?? this.provider,
+        role: role ?? this.role,
+        photoUrl: photoUrl ?? this.photoUrl,
+        lastLoginAt: lastLoginAt ?? this.lastLoginAt,
+        biometricEnabled: biometricEnabled ?? this.biometricEnabled,
+      );
 
   Map<String, dynamic> toMap() => {
         'email': email,
@@ -25,6 +46,7 @@ class RecentAccount {
         'role': role,
         'photoUrl': photoUrl,
         'lastLoginAt': lastLoginAt.toIso8601String(),
+        'biometricEnabled': biometricEnabled,
       };
 
   factory RecentAccount.fromMap(Map<String, dynamic> map) => RecentAccount(
@@ -34,6 +56,7 @@ class RecentAccount {
         role: map['role'] ?? 'client',
         photoUrl: map['photoUrl'],
         lastLoginAt: DateTime.tryParse(map['lastLoginAt'] ?? '') ?? DateTime.now(),
+        biometricEnabled: map['biometricEnabled'] == true,
       );
 
   /// Encode a list of accounts to a JSON string for SharedPreferences.

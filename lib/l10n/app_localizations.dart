@@ -7150,6 +7150,54 @@ abstract class AppLocalizations {
   /// **'Se souvenir de moi'**
   String get rememberMe;
 
+  /// No description provided for @biometricEnableTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer la connexion biométrique ?'**
+  String get biometricEnableTitle;
+
+  /// No description provided for @biometricEnableMessage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connectez-vous en un instant avec Face ID, Touch ID ou votre empreinte la prochaine fois.'**
+  String get biometricEnableMessage;
+
+  /// No description provided for @biometricEnableAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer'**
+  String get biometricEnableAction;
+
+  /// No description provided for @biometricEnableSkip.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus tard'**
+  String get biometricEnableSkip;
+
+  /// No description provided for @biometricEnabledToast.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion biométrique activée'**
+  String get biometricEnabledToast;
+
+  /// No description provided for @biometricReason.
+  ///
+  /// In fr, this message translates to:
+  /// **'Authentifiez-vous pour vous connecter'**
+  String get biometricReason;
+
+  /// No description provided for @biometricFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de l\'authentification biométrique'**
+  String get biometricFailed;
+
+  /// No description provided for @biometricLoginWith.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déverrouiller avec {name}'**
+  String biometricLoginWith(String name);
+
   /// No description provided for @tipQuickLoginTitle.
   ///
   /// In fr, this message translates to:

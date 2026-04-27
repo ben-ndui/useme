@@ -10,6 +10,7 @@ import 'package:useme/core/models/recent_account.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/main.dart';
 import 'package:useme/routing/app_routes.dart';
+import 'package:useme/widgets/auth/biometric_opt_in_sheet.dart';
 import 'package:useme/widgets/auth/glass_text_field.dart';
 import 'package:useme/widgets/auth/password_bottom_sheet.dart';
 import 'package:useme/widgets/auth/quick_login_card.dart';
@@ -32,6 +33,7 @@ class _LoginFormContentState extends State<LoginFormContent> {
   bool _showRecentAccounts = false;
   bool _rememberMe = false;
   String _lastLoginProvider = 'email';
+  String? _pendingEmailPassword;
 
   @override
   void initState() {
@@ -64,18 +66,16 @@ class _LoginFormContentState extends State<LoginFormContent> {
 
     if (_showQuickLogin) {
       final provider = preferencesService.quickLoginProvider ?? 'email';
+      final email = preferencesService.quickLoginEmail ?? '';
       return BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is AuthAuthenticatedState) {
-            _saveRecentAccount(state.user as AppUser);
-          }
-        },
+        listener: _onAuthState,
         child: QuickLoginCard(
           displayName: preferencesService.quickLoginDisplayName ?? '',
-          email: preferencesService.quickLoginEmail ?? '',
+          email: email,
           role: preferencesService.quickLoginRole ?? 'client',
           provider: provider,
           photoUrl: preferencesService.quickLoginPhotoUrl,
+          biometricEnabled: _isBiometricEnabled(email),
           onConnect: (password) => _quickConnect(context, password),
           onSwitchAccount: () => setState(() {
             _showQuickLogin = false;
@@ -89,11 +89,7 @@ class _LoginFormContentState extends State<LoginFormContent> {
 
     if (_showRecentAccounts) {
       return BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is AuthAuthenticatedState) {
-            _saveRecentAccount(state.user as AppUser);
-          }
-        },
+        listener: _onAuthState,
         child: RecentAccountsList(
           accounts: recentAccountsService.accounts,
           onAccountSelected: (account) => _connectRecentAccount(account),
@@ -106,11 +102,7 @@ class _LoginFormContentState extends State<LoginFormContent> {
     }
 
     return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is AuthAuthenticatedState) {
-          _saveRecentAccount(state.user as AppUser);
-        }
-      },
+      listener: _onAuthState,
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           final isLoading = state is AuthLoadingState;
@@ -139,9 +131,12 @@ class _LoginFormContentState extends State<LoginFormContent> {
     );
   }
 
-  void _quickConnect(BuildContext context, String? password) {
+  Future<void> _quickConnect(BuildContext context, String? password) async {
+    // Capture bloc reference up-front so we can dispatch after awaits.
+    final authBloc = context.read<AuthBloc>();
+
     // If Firebase session is still active, navigate directly
-    final state = context.read<AuthBloc>().state;
+    final state = authBloc.state;
     if (state is AuthAuthenticatedState) {
       final appUser = state.user as AppUser;
       if (appUser.isSuperAdmin || appUser.isStudio) {
@@ -156,60 +151,158 @@ class _LoginFormContentState extends State<LoginFormContent> {
 
     // Session expired — re-authenticate based on provider
     final provider = preferencesService.quickLoginProvider ?? 'email';
+    final email = preferencesService.quickLoginEmail ?? '';
     _rememberMe = true; // Keep quick login enabled after re-auth
     _lastLoginProvider = provider;
 
+    // Biometric path: prompt then either reuse stored password or social gate.
+    if (_isBiometricEnabled(email)) {
+      final ok = await _promptBiometric();
+      if (!ok || !mounted) return;
+      if (provider == 'email') {
+        final stored = await biometricService.retrievePassword(email);
+        if (stored == null || stored.isEmpty || !mounted) return;
+        _pendingEmailPassword = stored;
+        authBloc.add(SignInWithEmailEvent(email: email, password: stored));
+        return;
+      }
+    }
+
     if (provider == 'google') {
-      context.read<AuthBloc>().add(const SignInWithGoogleEvent());
+      authBloc.add(const SignInWithGoogleEvent());
     } else if (provider == 'apple') {
-      context.read<AuthBloc>().add(const SignInWithAppleEvent());
+      authBloc.add(const SignInWithAppleEvent());
     } else {
-      // Email/password — need password
-      final email = preferencesService.quickLoginEmail ?? '';
       if (password == null || password.isEmpty) return;
-      context.read<AuthBloc>().add(SignInWithEmailEvent(
-        email: email,
-        password: password,
-      ));
+      _pendingEmailPassword = password;
+      authBloc.add(SignInWithEmailEvent(email: email, password: password));
     }
   }
 
   Future<void> _removeRecentAccount(RecentAccount account) async {
     await recentAccountsService.removeAccount(account.email);
+    await biometricService.clearForEmail(account.email);
     // If quick login was for this account, clear it too
     if (preferencesService.quickLoginEmail == account.email) {
       preferencesService.clearQuickLoginData();
     }
     if (!mounted) return;
     setState(() {
-      // If no accounts left, show normal login form
       if (recentAccountsService.accounts.isEmpty) {
         _showRecentAccounts = false;
       }
     });
   }
 
-  void _connectRecentAccount(RecentAccount account) {
+  Future<void> _connectRecentAccount(RecentAccount account) async {
+    final authBloc = context.read<AuthBloc>();
     _lastLoginProvider = account.provider;
     _rememberMe = true;
 
+    if (account.biometricEnabled) {
+      final ok = await _promptBiometric();
+      if (!ok || !mounted) return;
+      if (account.provider == 'email') {
+        final stored = await biometricService.retrievePassword(account.email);
+        if (stored == null || stored.isEmpty || !mounted) return;
+        _pendingEmailPassword = stored;
+        authBloc.add(
+          SignInWithEmailEvent(email: account.email, password: stored),
+        );
+        return;
+      }
+    }
+
     if (account.provider == 'google') {
-      context.read<AuthBloc>().add(const SignInWithGoogleEvent());
+      authBloc.add(const SignInWithGoogleEvent());
     } else if (account.provider == 'apple') {
-      context.read<AuthBloc>().add(const SignInWithAppleEvent());
+      authBloc.add(const SignInWithAppleEvent());
     } else {
-      // Email provider — show password bottom sheet
       PasswordBottomSheet.show(
         context,
         displayName: account.displayName,
         email: account.email,
         onSubmit: (password) {
-          context.read<AuthBloc>().add(SignInWithEmailEvent(
-                email: account.email,
-                password: password,
-              ));
+          _pendingEmailPassword = password;
+          authBloc.add(
+            SignInWithEmailEvent(email: account.email, password: password),
+          );
         },
       );
+    }
+  }
+
+  bool _isBiometricEnabled(String email) =>
+      recentAccountsService.findByEmail(email)?.biometricEnabled ?? false;
+
+  Future<bool> _promptBiometric() async {
+    final l10n = AppLocalizations.of(context)!;
+    final ok = await biometricService.authenticate(reason: l10n.biometricReason);
+    if (!ok && mounted) {
+      AppSnackBar.error(context, l10n.biometricFailed);
+    }
+    return ok;
+  }
+
+  Future<void> _onAuthState(BuildContext context, AuthState state) async {
+    if (state is! AuthAuthenticatedState) return;
+    final appUser = state.user as AppUser;
+    final password = _pendingEmailPassword;
+    _saveRecentAccount(appUser);
+    if (!context.mounted) return;
+    await _maybeOfferBiometricOptIn(
+      context,
+      email: appUser.email,
+      provider: _lastLoginProvider,
+      emailPassword: password,
+    );
+    _pendingEmailPassword = null;
+    if (!context.mounted) return;
+    _navigateBasedOnRole(context, appUser);
+  }
+
+  void _navigateBasedOnRole(BuildContext context, AppUser appUser) {
+    if (appUser.isSuperAdmin || appUser.isStudio) {
+      context.go(AppRoutes.home);
+    } else if (appUser.isEngineer) {
+      context.go(AppRoutes.engineerDashboard);
+    } else {
+      context.go(AppRoutes.artistPortal);
+    }
+  }
+
+  Future<void> _maybeOfferBiometricOptIn(
+    BuildContext context, {
+    required String email,
+    required String provider,
+    String? emailPassword,
+  }) async {
+    final account = recentAccountsService.findByEmail(email);
+    if (account == null || account.biometricEnabled) return;
+    if (provider == 'email' &&
+        (emailPassword == null || emailPassword.isEmpty)) {
+      return;
+    }
+    final available = await biometricService.isAvailable();
+    if (!available || !context.mounted) return;
+
+    final accepted = await BiometricOptInSheet.show(context);
+    if (!accepted) return;
+
+    if (provider == 'email') {
+      await biometricService.storePassword(
+        email: email,
+        password: emailPassword!,
+      );
+    } else {
+      await biometricService.setSocialGate(email: email, enabled: true);
+    }
+    await recentAccountsService.setBiometricEnabled(email, true);
+
+    if (!context.mounted) return;
+    final l10n = AppLocalizations.of(context);
+    if (l10n != null) {
+      AppSnackBar.success(context, l10n.biometricEnabledToast);
     }
   }
 
@@ -454,17 +547,20 @@ class _LoginFormContentState extends State<LoginFormContent> {
     if (!_formKey.currentState!.validate()) return;
 
     final email = _emailController.text.trim();
+    final password = _passwordController.text;
     preferencesService.setSavedEmail(email);
     _lastLoginProvider = 'email';
+    _pendingEmailPassword = password;
 
     context.read<AuthBloc>().add(SignInWithEmailEvent(
           email: email,
-          password: _passwordController.text,
+          password: password,
         ));
   }
 
   void _socialLogin(String provider) {
     _lastLoginProvider = provider;
+    _pendingEmailPassword = null;
     if (provider == 'google') {
       context.read<AuthBloc>().add(const SignInWithGoogleEvent());
     } else if (provider == 'apple') {
