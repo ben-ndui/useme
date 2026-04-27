@@ -53,9 +53,6 @@ jobs:
       - name: Create .env
         run: echo "${{ secrets.DOTENV }}" > .env
 
-      - name: Configure git for private packages
-        run: git config --global url."https://${{ secrets.GH_PAT }}@github.com/".insteadOf "https://github.com/"
-
       - name: Flutter clean & pub get
         run: flutter clean && flutter pub get
 
