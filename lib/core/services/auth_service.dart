@@ -18,13 +18,41 @@ class UseMeAuthService extends BaseAuthService {
     return AppUser.fromMap(doc.data()!, doc.id);
   }
 
+  /// Sentinel détectant les appels qui n'ont PAS passé `role` explicitement.
+  /// `BaseUserRole.user` n'est jamais utilisé en useme (on a admin/superAdmin/
+  /// worker/client) — donc s'il arrive ici, c'est qu'on est dans un code path
+  /// du package partagé qui appelle sans rôle (ex. base_auth_service.dart
+  /// signInWithEmail L133, qui crée un doc minimal si Firestore manque).
+  static const BaseUserRole _missingRoleSentinel = BaseUserRole.user;
+
   @override
   Future<void> saveUserToFirestore(
     User firebaseUser, {
     String? name,
-    BaseUserRole role = BaseUserRole.client,
+    BaseUserRole role = _missingRoleSentinel,
     Map<String, dynamic>? extraData,
   }) async {
+    var safeRole = role;
+    if (role == _missingRoleSentinel) {
+      // Aucun rôle passé explicitement — on tombe ici uniquement quand le
+      // package partagé crée un doc minimal en cas de désynchro Auth/Firestore
+      // (cf. base_auth_service.signInWithEmail L133). On fallback en `client`
+      // (rôle le moins privilégié), mais on log à Crashlytics et on garde
+      // isFirstTime=true (default AppUser) pour que le RoleSelector relance.
+      final crashlytics = FirebaseCrashlytics.instance;
+      crashlytics.log(
+        '[Auth] saveUserToFirestore called WITHOUT explicit role for '
+        '${firebaseUser.email} — falling back to client',
+      );
+      crashlytics.recordError(
+        StateError('saveUserToFirestore called without role'),
+        StackTrace.current,
+        reason: 'Missing role on user creation: ${firebaseUser.email}',
+        fatal: false,
+      );
+      safeRole = BaseUserRole.client;
+    }
+
     final appUser = AppUser(
       uid: firebaseUser.uid,
       email: firebaseUser.email ?? '',
@@ -32,7 +60,7 @@ class UseMeAuthService extends BaseAuthService {
       displayName: firebaseUser.displayName ?? name,
       photoURL: firebaseUser.photoURL,
       phoneNumber: firebaseUser.phoneNumber,
-      role: role,
+      role: safeRole,
       createdAt: DateTime.now(),
       studioId: extraData?['studioId'],
       studioIds: List<String>.from(extraData?['studioIds'] ?? []),

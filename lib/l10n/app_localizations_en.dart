@@ -3799,6 +3799,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rememberMe => 'Remember me';
 
   @override
+  String get selectRoleFirst => 'Pick your role first';
+
+  @override
   String get biometricEnableTitle => 'Enable biometric login?';
 
   @override

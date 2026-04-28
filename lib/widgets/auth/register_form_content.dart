@@ -9,6 +9,7 @@ import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:useme/l10n/app_localizations.dart';
 import 'package:useme/main.dart';
 import 'package:useme/widgets/auth/glass_text_field.dart';
+import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Register form content with glassmorphism design
 class RegisterFormContent extends StatefulWidget {
@@ -33,12 +34,14 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
   final _confirmController = TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
-  late BaseUserRole _selectedRole;
+  // Volontairement nullable : empêche un signup silencieux avec role=client
+  // par défaut. Tous les boutons signup sont désactivés tant que c'est null.
+  BaseUserRole? _selectedRole;
 
   @override
   void initState() {
     super.initState();
-    _selectedRole = widget.initialRole ?? BaseUserRole.client;
+    _selectedRole = widget.initialRole;
   }
 
   @override
@@ -441,6 +444,10 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
   }
 
   void _register() {
+    if (_selectedRole == null) {
+      AppSnackBar.warning(context, AppLocalizations.of(context)!.selectRoleFirst);
+      return;
+    }
     if (!_formKey.currentState!.validate()) return;
 
     final email = _emailController.text.trim();
@@ -455,12 +462,19 @@ class _RegisterFormContentState extends State<RegisterFormContent> {
           email: email,
           password: _passwordController.text,
           name: _nameController.text.trim(),
-          role: _selectedRole,
+          role: _selectedRole!,
           extraData: extraData.isNotEmpty ? extraData : null,
         ));
   }
 
   void _socialSignIn(String provider) {
+    // Garde-fou — _buildSocialButtons désactive déjà ces boutons sans rôle,
+    // mais double-check ici pour être sûr de ne JAMAIS lancer un signup
+    // social sans rôle explicitement choisi (sinon le user finit en client).
+    if (_selectedRole == null) {
+      AppSnackBar.warning(context, AppLocalizations.of(context)!.selectRoleFirst);
+      return;
+    }
     if (provider == 'google') {
       context.read<AuthBloc>().add(const SignInWithGoogleEvent());
     } else if (provider == 'apple') {

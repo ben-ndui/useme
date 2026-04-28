@@ -3829,6 +3829,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get rememberMe => 'Se souvenir de moi';
 
   @override
+  String get selectRoleFirst => 'Choisis d\'abord ton rôle';
+
+  @override
   String get biometricEnableTitle => 'Activer la connexion biométrique ?';
 
   @override

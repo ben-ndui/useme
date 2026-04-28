@@ -7150,6 +7150,12 @@ abstract class AppLocalizations {
   /// **'Se souvenir de moi'**
   String get rememberMe;
 
+  /// No description provided for @selectRoleFirst.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisis d\'abord ton rôle'**
+  String get selectRoleFirst;
+
   /// No description provided for @biometricEnableTitle.
   ///
   /// In fr, this message translates to:

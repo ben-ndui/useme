@@ -1473,6 +1473,8 @@
   },
   "rememberMe": "Remember me",
 
+  "selectRoleFirst": "Pick your role first",
+
   "biometricEnableTitle": "Enable biometric login?",
   "biometricEnableMessage": "Sign in instantly with Face ID, Touch ID or your fingerprint next time.",
   "biometricEnableAction": "Enable",

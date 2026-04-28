@@ -3781,6 +3781,9 @@ class AppLocalizationsSg extends AppLocalizations {
   String get rememberMe => 'Bâa mbi';
 
   @override
+  String get selectRoleFirst => 'Choisis d\'abord ton rôle';
+
+  @override
   String get biometricEnableTitle => 'Activer la connexion biométrique ?';
 
   @override

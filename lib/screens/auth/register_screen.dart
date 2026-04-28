@@ -9,6 +9,7 @@ import 'package:useme/core/services/invitation_service.dart';
 import 'package:useme/routing/app_routes.dart';
 import 'package:useme/widgets/auth/auth_map_background.dart';
 import 'package:useme/widgets/auth/register_form_content.dart';
+import 'package:useme/widgets/auth/role_selector_sheet.dart';
 import 'package:useme/widgets/common/smooth_draggable_widget.dart';
 import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
 import 'package:useme/core/utils/app_logger.dart';
@@ -35,7 +36,10 @@ class _RegisterScreenContent extends StatefulWidget {
 
 class _RegisterScreenContentState extends State<_RegisterScreenContent> {
   final _invitationService = InvitationService();
-  BaseUserRole _selectedRole = BaseUserRole.client;
+  // Volontairement nullable + sans default : force le user à choisir un rôle
+  // explicitement avant signup. Sans ça, un clic direct sur "Sign in with
+  // Google/Apple" créait silencieusement un compte avec role=client.
+  BaseUserRole? _selectedRole;
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +48,17 @@ class _RegisterScreenContentState extends State<_RegisterScreenContent> {
         if (state is AuthErrorState) {
           AppSnackBar.error(context, state.message);
         } else if (state is AuthNeedsRoleSelectionState) {
-          // Auto-complete with pre-selected role (no need to show selector again)
-          context.read<AuthBloc>().add(CompleteSocialSignUpEvent(role: _selectedRole));
+          // Auto-complete avec le rôle explicitement choisi dans le form.
+          // Sécurité : si pour une raison quelconque _selectedRole est null
+          // ici (l'UI ne devrait pas l'avoir permis), on bascule sur le
+          // RoleSelectorSheet pour ne PAS créer un compte avec un default.
+          if (_selectedRole != null) {
+            context.read<AuthBloc>().add(
+                  CompleteSocialSignUpEvent(role: _selectedRole!),
+                );
+          } else {
+            RoleSelectorSheet.show(context, isNewUser: true);
+          }
         } else if (state is AuthAuthenticatedState) {
           // Auto-link invitations for artists
           if (_selectedRole == BaseUserRole.client) {

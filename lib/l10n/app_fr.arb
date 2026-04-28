@@ -1665,6 +1665,8 @@
   },
   "rememberMe": "Se souvenir de moi",
 
+  "selectRoleFirst": "Choisis d'abord ton rôle",
+
   "biometricEnableTitle": "Activer la connexion biométrique ?",
   "biometricEnableMessage": "Connectez-vous en un instant avec Face ID, Touch ID ou votre empreinte la prochaine fois.",
   "biometricEnableAction": "Activer",
