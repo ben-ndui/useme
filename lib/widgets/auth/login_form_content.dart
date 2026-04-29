@@ -156,7 +156,8 @@ class _LoginFormContentState extends State<LoginFormContent> {
     _lastLoginProvider = provider;
 
     // Biometric path: prompt then either reuse stored password or social gate.
-    if (_isBiometricEnabled(email)) {
+    final biometricUsed = _isBiometricEnabled(email);
+    if (biometricUsed) {
       final ok = await _promptBiometric();
       if (!ok || !mounted) return;
       if (provider == 'email') {
@@ -168,10 +169,14 @@ class _LoginFormContentState extends State<LoginFormContent> {
       }
     }
 
-    if (provider == 'google') {
-      authBloc.add(const SignInWithGoogleEvent());
-    } else if (provider == 'apple') {
-      authBloc.add(const SignInWithAppleEvent());
+    if (provider == 'google' || provider == 'apple') {
+      // Sur iOS 26+, lancer GoogleSignIn/AppleSignIn juste après la dismissal
+      // du sheet biométrique cause un BSActionErrorDomain → null silencieux.
+      if (biometricUsed) await _waitForUiSettle();
+      if (!mounted) return;
+      authBloc.add(provider == 'google'
+          ? const SignInWithGoogleEvent()
+          : const SignInWithAppleEvent());
     } else {
       if (password == null || password.isEmpty) return;
       _pendingEmailPassword = password;
@@ -199,7 +204,8 @@ class _LoginFormContentState extends State<LoginFormContent> {
     _lastLoginProvider = account.provider;
     _rememberMe = true;
 
-    if (account.biometricEnabled) {
+    final biometricUsed = account.biometricEnabled;
+    if (biometricUsed) {
       final ok = await _promptBiometric();
       if (!ok || !mounted) return;
       if (account.provider == 'email') {
@@ -213,10 +219,14 @@ class _LoginFormContentState extends State<LoginFormContent> {
       }
     }
 
-    if (account.provider == 'google') {
-      authBloc.add(const SignInWithGoogleEvent());
-    } else if (account.provider == 'apple') {
-      authBloc.add(const SignInWithAppleEvent());
+    if (account.provider == 'google' || account.provider == 'apple') {
+      // Cf. _waitForUiSettle — sur iOS 26+, dispatch immédiat post-bio fait
+      // échouer la présentation de la vue Google/Apple Sign-In.
+      if (biometricUsed) await _waitForUiSettle();
+      if (!mounted) return;
+      authBloc.add(account.provider == 'google'
+          ? const SignInWithGoogleEvent()
+          : const SignInWithAppleEvent());
     } else {
       PasswordBottomSheet.show(
         context,
@@ -242,6 +252,28 @@ class _LoginFormContentState extends State<LoginFormContent> {
       AppSnackBar.error(context, l10n.biometricFailed);
     }
     return ok;
+  }
+
+  /// Laisse iOS finir la dismissal d'un sheet/modal/Face ID overlay avant de
+  /// lancer un signin social. Sur iOS 26+ :
+  /// - LocalAuthentication peut valider en mode "passif" (regard) en <100ms
+  ///   tout en gardant la pill Face ID animée encore ~1s.
+  /// - ASWebAuthenticationSession (utilisé par GoogleSignIn 7.x) est auto-
+  ///   dismissed si la presentation context n'est pas un window key
+  ///   stabilisé (ex. l'overlay Face ID est encore présent).
+  /// On attend que l'app soit `AppLifecycleState.resumed` (Face ID overlay
+  /// dismissed pour de bon) puis 500ms de marge.
+  Future<void> _waitForUiSettle() async {
+    await WidgetsBinding.instance.endOfFrame;
+    // Attente bornée du retour à resumed (max 2s pour ne pas hang).
+    final deadline = DateTime.now().add(const Duration(seconds: 2));
+    while (WidgetsBinding.instance.lifecycleState != AppLifecycleState.resumed
+        && DateTime.now().isBefore(deadline)) {
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+    // Marge pour que iOS finalise le top view controller après resume.
+    await Future.delayed(const Duration(milliseconds: 500));
+    await WidgetsBinding.instance.endOfFrame;
   }
 
   Future<void> _onAuthState(BuildContext context, AuthState state) async {
@@ -558,13 +590,20 @@ class _LoginFormContentState extends State<LoginFormContent> {
         ));
   }
 
-  void _socialLogin(String provider) {
+  Future<void> _socialLogin(String provider) async {
+    final authBloc = context.read<AuthBloc>();
     _lastLoginProvider = provider;
     _pendingEmailPassword = null;
+    // Robustesse iOS 26+ : si on arrive ici juste après un signout (ou tout
+    // autre transition UI), iOS peut ne pas avoir libéré son top view
+    // controller, ce qui fait silencieusement échouer la présentation
+    // GoogleSignIn / Apple. 350ms d'attente règlent tous les cas observés.
+    await _waitForUiSettle();
+    if (!mounted) return;
     if (provider == 'google') {
-      context.read<AuthBloc>().add(const SignInWithGoogleEvent());
+      authBloc.add(const SignInWithGoogleEvent());
     } else if (provider == 'apple') {
-      context.read<AuthBloc>().add(const SignInWithAppleEvent());
+      authBloc.add(const SignInWithAppleEvent());
     }
   }
 
