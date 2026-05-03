@@ -3,12 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/blocs/map/map_bloc.dart';
-import 'package:useme/core/blocs/map/map_state.dart';
-import 'package:useme/core/models/discovered_studio.dart';
-import 'package:useme/core/models/favorite.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/favorite/favorite_button.dart';
+import 'package:uzme/core/blocs/map/map_bloc.dart';
+import 'package:uzme/core/blocs/map/map_state.dart';
+import 'package:uzme/core/models/discovered_studio.dart';
+import 'package:uzme/core/models/favorite.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/favorite/favorite_button.dart';
 
 /// Modern carousel showing nearby recording studios
 class NearbyStudiosCarousel extends StatelessWidget {

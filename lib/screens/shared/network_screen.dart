@@ -2,16 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/card_config.dart';
-import 'package:useme/core/models/user_contact.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/card/holo_card.dart';
-import 'package:useme/widgets/network/add_contact_bottom_sheet.dart';
-import 'package:useme/widgets/network/contact_card.dart';
-import 'package:useme/widgets/network/contact_detail_bottom_sheet.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/card_config.dart';
+import 'package:uzme/core/models/user_contact.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/card/holo_card.dart';
+import 'package:uzme/widgets/network/add_contact_bottom_sheet.dart';
+import 'package:uzme/widgets/network/contact_card.dart';
+import 'package:uzme/widgets/network/contact_detail_bottom_sheet.dart';
 
 /// Screen showing the user's professional network.
 /// Supports list view (default) and card grid view toggle.

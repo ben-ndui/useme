@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:useme/core/models/favorite.dart';
-import 'package:useme/core/services/favorite_service.dart';
+import 'package:uzme/core/models/favorite.dart';
+import 'package:uzme/core/services/favorite_service.dart';
 import 'favorite_event.dart';
 import 'favorite_state.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// BLoC pour la gestion des favoris.
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {

@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/user_contact.dart';
-import 'package:useme/core/services/network_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/permission_dialog.dart';
-import 'package:useme/widgets/network/phone_contact_tile.dart';
-import 'package:useme/widgets/network/phone_contacts_banner.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/user_contact.dart';
+import 'package:uzme/core/services/network_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/permission_dialog.dart';
+import 'package:uzme/widgets/network/phone_contact_tile.dart';
+import 'package:uzme/widgets/network/phone_contacts_banner.dart';
 
 /// Screen to import contacts from the phone's address book.
 class PhoneContactsScreen extends StatefulWidget {

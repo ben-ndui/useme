@@ -1,5 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:useme/core/models/discovered_studio.dart';
+import 'package:uzme/core/models/discovered_studio.dart';
 
 /// Map Events
 abstract class MapEvent {

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/user_contact.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/network/add_contact_manual_form.dart';
-import 'package:useme/widgets/network/add_contact_search.dart';
-import 'package:useme/widgets/network/import_phone_button.dart';
-import 'package:useme/widgets/network/phone_contacts_screen.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/user_contact.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/network/add_contact_manual_form.dart';
+import 'package:uzme/widgets/network/add_contact_search.dart';
+import 'package:uzme/widgets/network/import_phone_button.dart';
+import 'package:uzme/widgets/network/phone_contacts_screen.dart';
 
 /// Bottom sheet for adding a contact (platform, manual, or phone import).
 class AddContactBottomSheet extends StatefulWidget {

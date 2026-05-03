@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/user_contact.dart';
+import 'package:uzme/core/models/user_contact.dart';
 
 void main() {
   group('ContactCategory', () {

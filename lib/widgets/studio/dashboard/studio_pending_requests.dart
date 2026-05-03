@@ -4,14 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/core/services/booking_acceptance_service.dart';
-import 'package:useme/core/services/payment_config_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/dashboard/dashboard_exports.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
-import 'package:useme/widgets/studio/accept_booking_sheet.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/core/services/booking_acceptance_service.dart';
+import 'package:uzme/core/services/payment_config_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/dashboard/dashboard_exports.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/widgets/studio/accept_booking_sheet.dart';
 
 /// Pending requests section for studio dashboard
 class StudioPendingRequests extends StatelessWidget {

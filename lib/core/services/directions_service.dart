@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:useme/core/models/navigation/navigation_exports.dart';
-import 'package:useme/core/services/env_service.dart';
+import 'package:uzme/core/models/navigation/navigation_exports.dart';
+import 'package:uzme/core/services/env_service.dart';
 
 /// Fetches turn-by-turn directions from the Google Directions API.
 class DirectionsService {

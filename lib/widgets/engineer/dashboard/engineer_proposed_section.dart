@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/engineer/dashboard/engineer_proposed_tile.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/engineer/dashboard/engineer_proposed_tile.dart';
 
 /// Proposed sessions section for engineer dashboard
 class EngineerProposedSection extends StatelessWidget {

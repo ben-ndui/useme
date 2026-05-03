@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:useme/core/models/discovered_studio.dart';
-import 'package:useme/core/models/studio_profile.dart';
+import 'package:uzme/core/models/discovered_studio.dart';
+import 'package:uzme/core/models/studio_profile.dart';
 
 void main() {
   const parisPosition = LatLng(48.8566, 2.3522);

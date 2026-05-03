@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/favorite.dart';
+import 'package:uzme/core/models/favorite.dart';
 
 void main() {
   final now = DateTime(2026, 3, 9, 10, 0);

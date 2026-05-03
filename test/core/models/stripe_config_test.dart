@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/stripe_config.dart';
+import 'package:uzme/core/models/stripe_config.dart';
 
 void main() {
   const fullConfig = StripeConfig(

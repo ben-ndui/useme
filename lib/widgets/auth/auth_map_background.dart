@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:useme/config/map_styles.dart';
-import 'package:useme/config/useme_theme.dart';
-import 'package:useme/core/blocs/map/map_bloc.dart';
-import 'package:useme/core/blocs/map/map_event.dart';
-import 'package:useme/core/blocs/map/map_state.dart';
-import 'package:useme/core/models/discovered_studio.dart';
-import 'package:useme/widgets/auth/studio_preview_bottom_sheet.dart';
-import 'package:useme/widgets/map/custom_studio_pin.dart';
+import 'package:uzme/config/map_styles.dart';
+import 'package:uzme/config/useme_theme.dart';
+import 'package:uzme/core/blocs/map/map_bloc.dart';
+import 'package:uzme/core/blocs/map/map_event.dart';
+import 'package:uzme/core/blocs/map/map_state.dart';
+import 'package:uzme/core/models/discovered_studio.dart';
+import 'package:uzme/widgets/auth/studio_preview_bottom_sheet.dart';
+import 'package:uzme/widgets/map/custom_studio_pin.dart';
 
 /// Simplified map background for auth screens showing nearby studios
 class AuthMapBackground extends StatefulWidget {

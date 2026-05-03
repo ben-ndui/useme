@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:useme/core/models/models_exports.dart';
+import 'package:uzme/core/models/models_exports.dart';
 
 /// Service pour gérer l'assistant IA dans le chat
 class ChatAssistantService {

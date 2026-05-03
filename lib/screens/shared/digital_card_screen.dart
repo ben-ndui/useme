@@ -3,15 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/card_config/card_config_exports.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/widgets/card/card_export_sheet.dart';
-import 'package:useme/widgets/card/holo_card.dart';
-import 'package:useme/widgets/card/nearby_users_sheet.dart';
-import 'package:useme/widgets/card/qr_fullscreen_sheet.dart';
-import 'package:useme/widgets/common/app_loader.dart';
+import 'package:uzme/core/blocs/card_config/card_config_exports.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/widgets/card/card_export_sheet.dart';
+import 'package:uzme/widgets/card/holo_card.dart';
+import 'package:uzme/widgets/card/nearby_users_sheet.dart';
+import 'package:uzme/widgets/card/qr_fullscreen_sheet.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
 
 /// Screen displaying the user's holographic digital business card.
 class DigitalCardScreen extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Gold glassmorphism badge for Pioneer users (#1 to #5).
 /// Use [compact] mode for map pins and lists, full mode for detail screens.

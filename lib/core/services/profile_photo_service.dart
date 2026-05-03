@@ -3,8 +3,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/permission_dialog.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/permission_dialog.dart';
 
 /// Service pour gérer les photos de profil utilisateur
 class ProfilePhotoService {

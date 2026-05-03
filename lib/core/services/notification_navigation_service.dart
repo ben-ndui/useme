@@ -1,6 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:go_router/go_router.dart';
-import 'package:useme/routing/app_routes.dart';
+import 'package:uzme/routing/app_routes.dart';
 
 /// Service for handling notification navigation in Use Me.
 class NotificationNavigationService {

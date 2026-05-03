@@ -5,14 +5,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/localization/intl_locale.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/localization/intl_locale.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Notifications screen - loads from Firestore user_notifications collection
 class NotificationsScreen extends StatefulWidget {

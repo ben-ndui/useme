@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/subscription_tier_config.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/admin/subscription/tier_chips.dart';
+import 'package:uzme/core/models/subscription_tier_config.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/admin/subscription/tier_chips.dart';
 
 /// Card pour afficher un tier d'abonnement
 class TierCard extends StatelessWidget {

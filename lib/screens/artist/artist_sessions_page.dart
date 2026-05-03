@@ -4,17 +4,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/config/useme_theme.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/localization/intl_locale.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/artist/sessions/artist_month_calendar.dart';
-import 'package:useme/widgets/artist/sessions/artist_session_filter_sheet.dart';
-import 'package:useme/widgets/artist/sessions/artist_sessions_exports.dart';
-import 'package:useme/widgets/artist/studio_selector_bottom_sheet.dart';
-import 'package:useme/widgets/common/app_loader.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/config/useme_theme.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/localization/intl_locale.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/artist/sessions/artist_month_calendar.dart';
+import 'package:uzme/widgets/artist/sessions/artist_session_filter_sheet.dart';
+import 'package:uzme/widgets/artist/sessions/artist_sessions_exports.dart';
+import 'package:uzme/widgets/artist/studio_selector_bottom_sheet.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
 
 /// View mode for artist sessions page
 enum _ViewMode { week, month, list }

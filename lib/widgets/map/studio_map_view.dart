@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:useme/config/map_styles.dart';
-import 'package:useme/config/useme_theme.dart';
-import 'package:useme/core/blocs/map/map_bloc.dart';
-import 'package:useme/core/blocs/map/map_event.dart';
-import 'package:useme/core/blocs/map/map_state.dart';
-import 'package:useme/core/models/discovered_studio.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/permission_dialog.dart';
-import 'package:useme/widgets/map/custom_studio_pin.dart';
-import 'package:useme/widgets/map/map_search_bar.dart';
+import 'package:uzme/config/map_styles.dart';
+import 'package:uzme/config/useme_theme.dart';
+import 'package:uzme/core/blocs/map/map_bloc.dart';
+import 'package:uzme/core/blocs/map/map_event.dart';
+import 'package:uzme/core/blocs/map/map_state.dart';
+import 'package:uzme/core/models/discovered_studio.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/permission_dialog.dart';
+import 'package:uzme/widgets/map/custom_studio_pin.dart';
+import 'package:uzme/widgets/map/map_search_bar.dart';
 
 /// Google Maps view showing nearby studios with custom pins
 class StudioMapView extends StatefulWidget {

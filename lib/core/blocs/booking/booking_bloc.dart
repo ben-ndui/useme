@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:useme/core/blocs/booking/booking_event.dart';
-import 'package:useme/core/blocs/booking/booking_state.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/core/services/services_exports.dart';
+import 'package:uzme/core/blocs/booking/booking_event.dart';
+import 'package:uzme/core/blocs/booking/booking_state.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/core/services/services_exports.dart';
 
 /// Booking BLoC - Manages booking state
 class BookingBloc extends Bloc<BookingEvent, BookingState> {

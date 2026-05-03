@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/services/subscription_config_service.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/services/subscription_config_service.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service pour gérer l'équipe (ingénieurs) d'un studio
 class TeamService {

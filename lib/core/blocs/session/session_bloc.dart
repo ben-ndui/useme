@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:useme/core/blocs/session/session_event.dart';
-import 'package:useme/core/blocs/session/session_state.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/core/services/services_exports.dart';
+import 'package:uzme/core/blocs/session/session_event.dart';
+import 'package:uzme/core/blocs/session/session_state.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/core/services/services_exports.dart';
 
 /// Session BLoC - Manages session state
 class SessionBloc extends Bloc<SessionEvent, SessionState> {

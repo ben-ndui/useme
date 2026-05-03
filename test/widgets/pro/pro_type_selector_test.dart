@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/pro_profile.dart';
-import 'package:useme/screens/shared/pro/pro_type_selector.dart';
+import 'package:uzme/core/models/pro_profile.dart';
+import 'package:uzme/screens/shared/pro/pro_type_selector.dart';
 
 import '../../helpers/widget_test_helpers.dart';
 

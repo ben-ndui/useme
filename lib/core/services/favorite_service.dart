@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
-import 'package:useme/core/models/favorite.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/favorite.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service pour gérer les favoris dans Firestore.
 class FavoriteService {

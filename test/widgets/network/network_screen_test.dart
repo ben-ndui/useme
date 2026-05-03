@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/user_contact.dart';
-import 'package:useme/screens/shared/network_screen.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/user_contact.dart';
+import 'package:uzme/screens/shared/network_screen.dart';
 
 import '../../helpers/widget_test_helpers.dart';
 

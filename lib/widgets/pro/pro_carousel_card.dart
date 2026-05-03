@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/favorite.dart';
-import 'package:useme/widgets/favorite/favorite_button.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/favorite.dart';
+import 'package:uzme/widgets/favorite/favorite_button.dart';
 
 /// Card for displaying a pro in the discovery carousel.
 class ProCarouselCard extends StatelessWidget {

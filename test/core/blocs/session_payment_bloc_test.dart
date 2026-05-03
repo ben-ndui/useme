@@ -1,11 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:useme/core/blocs/session_payment/session_payment_bloc.dart';
-import 'package:useme/core/blocs/session_payment/session_payment_event.dart';
-import 'package:useme/core/blocs/session_payment/session_payment_state.dart';
-import 'package:useme/core/models/session_payment_intent.dart';
-import 'package:useme/core/services/session_payment_service.dart';
+import 'package:uzme/core/blocs/session_payment/session_payment_bloc.dart';
+import 'package:uzme/core/blocs/session_payment/session_payment_event.dart';
+import 'package:uzme/core/blocs/session_payment/session_payment_state.dart';
+import 'package:uzme/core/models/session_payment_intent.dart';
+import 'package:uzme/core/services/session_payment_service.dart';
 
 class MockSessionPaymentService extends Mock implements SessionPaymentService {}
 

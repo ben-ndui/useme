@@ -4,10 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/localization/intl_locale.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/notification_bell.dart';
+import 'package:uzme/core/localization/intl_locale.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/notification_bell.dart';
 
 /// Welcome header with user info and notification button
 class WelcomeHeader extends StatefulWidget {

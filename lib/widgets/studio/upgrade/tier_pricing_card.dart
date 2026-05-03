@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:useme/core/models/subscription_tier_config.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/studio/upgrade/tier_features_list.dart';
+import 'package:uzme/core/models/subscription_tier_config.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/studio/upgrade/tier_features_list.dart';
 
 /// Card displaying a subscription tier with its pricing, features, and CTA.
 class TierPricingCard extends StatelessWidget {

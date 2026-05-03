@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:useme/core/data/ai_guide_data.dart';
-import 'package:useme/core/data/tips_data.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/screens/common/ai_guide_screen.dart';
-import 'package:useme/screens/common/tips_screen.dart';
-import 'package:useme/widgets/common/settings/settings_exports.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/widgets/studio/settings/security_settings_section.dart';
+import 'package:uzme/core/data/ai_guide_data.dart';
+import 'package:uzme/core/data/tips_data.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/screens/common/ai_guide_screen.dart';
+import 'package:uzme/screens/common/tips_screen.dart';
+import 'package:uzme/widgets/common/settings/settings_exports.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/widgets/studio/settings/security_settings_section.dart';
 
 /// Engineer settings page
 class EngineerSettingsPage extends StatelessWidget {

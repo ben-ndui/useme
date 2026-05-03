@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/user_contact.dart';
-import 'package:useme/core/services/vcard_service.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/user_contact.dart';
+import 'package:uzme/core/services/vcard_service.dart';
 
 void main() {
   late VCardService service;

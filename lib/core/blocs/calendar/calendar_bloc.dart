@@ -9,7 +9,7 @@ import 'package:smoothandesign_package/core/models/unavailability.dart';
 import '../../services/unavailability_service.dart';
 import 'calendar_event.dart';
 import 'calendar_state.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// CalendarBloc - gère la connexion calendrier et les indisponibilités
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {

@@ -4,15 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/core/services/services_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/artist/availability_picker.dart';
-import 'package:useme/widgets/artist/engineer_selector_bottom_sheet.dart';
-import 'package:useme/widgets/artist/session_request/session_request_exports.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/core/services/services_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/artist/availability_picker.dart';
+import 'package:uzme/widgets/artist/engineer_selector_bottom_sheet.dart';
+import 'package:uzme/widgets/artist/session_request/session_request_exports.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Session request form for artists to request new sessions
 class SessionRequestScreen extends StatefulWidget {

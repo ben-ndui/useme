@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Reusable section header for tier edit form
 Widget buildFormSection(BuildContext context, String title, List<Widget> children) {

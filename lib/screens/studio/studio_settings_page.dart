@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/services/studio_claim_service.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/widgets/common/settings/settings_exports.dart';
-import 'package:useme/widgets/studio/calendar_connection_section.dart';
-import 'package:useme/widgets/studio/settings/studio_settings_exports.dart';
-import 'package:useme/widgets/studio/studio_working_hours_section.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/services/studio_claim_service.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/widgets/common/settings/settings_exports.dart';
+import 'package:uzme/widgets/studio/calendar_connection_section.dart';
+import 'package:uzme/widgets/studio/settings/studio_settings_exports.dart';
+import 'package:uzme/widgets/studio/studio_working_hours_section.dart';
 
 /// Studio settings page
 class StudioSettingsPage extends StatefulWidget {

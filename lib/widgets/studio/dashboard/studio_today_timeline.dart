@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/widgets/common/dashboard/dashboard_exports.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/widgets/common/dashboard/dashboard_exports.dart';
 
 /// Today's sessions timeline for studio dashboard
 class StudioTodayTimeline extends StatelessWidget {

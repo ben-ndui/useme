@@ -4,18 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/discovered_studio.dart';
-import 'package:useme/core/models/studio_profile.dart';
-import 'package:useme/core/services/location_service.dart';
-import 'package:useme/core/services/studio_claim_service.dart';
-import 'package:useme/core/services/studio_claim_approval_service.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/common/permission_dialog.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/discovered_studio.dart';
+import 'package:uzme/core/models/studio_profile.dart';
+import 'package:uzme/core/services/location_service.dart';
+import 'package:uzme/core/services/studio_claim_service.dart';
+import 'package:uzme/core/services/studio_claim_approval_service.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/common/permission_dialog.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Écran pour revendiquer son studio (lier un Google Place à son compte)
 class StudioClaimScreen extends StatefulWidget {

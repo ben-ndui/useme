@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/blocs/map/map_bloc.dart';
-import 'package:useme/core/blocs/map/map_event.dart';
-import 'package:useme/core/blocs/map/map_state.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/map/map_dashboard_app_bar.dart';
-import 'package:useme/widgets/map/map_filter_sheet.dart';
-import 'package:useme/widgets/map/studio_detail_helper.dart';
-import 'package:useme/widgets/map/studio_map_view.dart';
+import 'package:uzme/core/blocs/map/map_bloc.dart';
+import 'package:uzme/core/blocs/map/map_event.dart';
+import 'package:uzme/core/blocs/map/map_state.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/map/map_dashboard_app_bar.dart';
+import 'package:uzme/widgets/map/map_filter_sheet.dart';
+import 'package:uzme/widgets/map/studio_detail_helper.dart';
+import 'package:uzme/widgets/map/studio_map_view.dart';
 
 /// Shared map discovery screen for Studio and Engineer roles.
 /// Allows them to explore nearby studios and pro profiles.

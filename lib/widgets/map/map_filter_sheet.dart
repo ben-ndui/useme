@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/config/useme_theme.dart';
-import 'package:useme/core/blocs/map/map_bloc.dart';
-import 'package:useme/core/blocs/map/map_event.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/config/useme_theme.dart';
+import 'package:uzme/core/blocs/map/map_bloc.dart';
+import 'package:uzme/core/blocs/map/map_event.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Bottom sheet for filtering map studios
 class MapFilterSheet extends StatefulWidget {

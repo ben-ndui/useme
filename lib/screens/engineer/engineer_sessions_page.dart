@@ -4,14 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/localization/intl_locale.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/engineer/sessions/engineer_sessions_exports.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/widgets/studio/sessions/sessions_filter_sheet.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/localization/intl_locale.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/engineer/sessions/engineer_sessions_exports.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/widgets/studio/sessions/sessions_filter_sheet.dart';
 
 /// Engineer sessions page - Calendar view with week selector
 class EngineerSessionsPage extends StatefulWidget {

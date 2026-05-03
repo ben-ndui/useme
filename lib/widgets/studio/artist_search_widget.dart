@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/services/invitation_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/services/invitation_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Widget de recherche d'artistes existants
 class ArtistSearchWidget extends StatefulWidget {

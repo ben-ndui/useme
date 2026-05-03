@@ -2,13 +2,13 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/map/map_bloc.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/auth/auth_map_background.dart';
-import 'package:useme/widgets/auth/login_form_content.dart';
-import 'package:useme/widgets/auth/role_selector_sheet.dart';
-import 'package:useme/widgets/common/smooth_draggable_widget.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/core/blocs/map/map_bloc.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/auth/auth_map_background.dart';
+import 'package:uzme/widgets/auth/login_form_content.dart';
+import 'package:uzme/widgets/auth/role_selector_sheet.dart';
+import 'package:uzme/widgets/common/smooth_draggable_widget.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Login screen with map background and draggable form overlay
 class LoginScreen extends StatelessWidget {

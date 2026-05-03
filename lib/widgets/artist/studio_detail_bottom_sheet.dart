@@ -3,18 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/discovered_studio.dart';
-import 'package:useme/core/models/favorite.dart';
-import 'package:useme/core/models/studio_profile.dart';
-import 'package:useme/core/blocs/map/map_bloc.dart';
-import 'package:useme/core/blocs/map/map_event.dart';
-import 'package:useme/core/models/payment_method.dart';
-import 'package:useme/core/services/navigation_service.dart';
-import 'package:useme/core/services/payment_config_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/badges/pioneer_badge.dart';
-import 'package:useme/widgets/favorite/favorite_button.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/discovered_studio.dart';
+import 'package:uzme/core/models/favorite.dart';
+import 'package:uzme/core/models/studio_profile.dart';
+import 'package:uzme/core/blocs/map/map_bloc.dart';
+import 'package:uzme/core/blocs/map/map_event.dart';
+import 'package:uzme/core/models/payment_method.dart';
+import 'package:uzme/core/services/navigation_service.dart';
+import 'package:uzme/core/services/payment_config_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/badges/pioneer_badge.dart';
+import 'package:uzme/widgets/favorite/favorite_button.dart';
 
 /// Bottom sheet showing studio details for authenticated artists
 class StudioDetailBottomSheet extends StatelessWidget {

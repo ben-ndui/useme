@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/studio_room.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/core/models/studio_room.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Room selector widget for session request
 class SessionRoomSelector extends StatelessWidget {

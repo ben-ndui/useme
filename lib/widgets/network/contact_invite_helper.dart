@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:useme/core/models/user_contact.dart';
-import 'package:useme/core/services/network_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/core/models/user_contact.dart';
+import 'package:uzme/core/services/network_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Helper for launching invite actions (email/SMS) for contacts.
 class ContactInviteHelper {

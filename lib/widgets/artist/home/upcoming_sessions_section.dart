@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/artist/studio_selector_bottom_sheet.dart';
-import 'package:useme/widgets/common/glass/glass_exports.dart';
-import 'package:useme/widgets/common/session/session_exports.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/artist/studio_selector_bottom_sheet.dart';
+import 'package:uzme/widgets/common/glass/glass_exports.dart';
+import 'package:uzme/widgets/common/session/session_exports.dart';
 
 /// Section displaying upcoming sessions
 class UpcomingSessionsSection extends StatelessWidget {

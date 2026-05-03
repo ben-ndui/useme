@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/user_contact.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/user_contact.dart';
 
 class NetworkState extends Equatable {
   final List<UserContact> contacts;

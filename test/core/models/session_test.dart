@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/session.dart';
+import 'package:uzme/core/models/session.dart';
 
 import '../../helpers/test_factories.dart';
 

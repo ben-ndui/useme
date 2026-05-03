@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/services/team_service.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/studio/team/team_exports.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/services/team_service.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/studio/team/team_exports.dart';
 
 /// Screen de gestion de l'équipe (ingénieurs)
 class TeamManagementScreen extends StatefulWidget {

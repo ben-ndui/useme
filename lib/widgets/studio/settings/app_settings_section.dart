@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/data/ai_guide_data.dart';
-import 'package:useme/core/data/tips_data.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/screens/common/ai_guide_screen.dart';
-import 'package:useme/screens/common/tips_screen.dart';
-import 'package:useme/widgets/common/settings/settings_exports.dart';
+import 'package:uzme/core/data/ai_guide_data.dart';
+import 'package:uzme/core/data/tips_data.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/screens/common/ai_guide_screen.dart';
+import 'package:uzme/screens/common/tips_screen.dart';
+import 'package:uzme/widgets/common/settings/settings_exports.dart';
 
 /// Section des paramètres de l'application
 class AppSettingsSection extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:useme/widgets/card/holo_card_theme.dart';
+import 'package:uzme/widgets/card/holo_card_theme.dart';
 
 /// Animated holographic rainbow gradient + specular highlight overlay.
 /// Reacts to [tilt] offset to create a shifting holographic shimmer.

@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/auth/glass_text_field.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/auth/glass_text_field.dart';
 
 /// Bottom sheet for entering password when re-logging into an email account.
 class PasswordBottomSheet extends StatefulWidget {

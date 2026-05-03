@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:useme/core/models/models_exports.dart';
+import 'package:uzme/core/models/models_exports.dart';
 
 /// Base service event
 abstract class ServiceEvent extends Equatable {

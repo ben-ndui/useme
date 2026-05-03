@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/favorite.dart';
-import 'package:useme/core/services/engineer_availability_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/favorite/favorite_button.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/favorite.dart';
+import 'package:uzme/core/services/engineer_availability_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/favorite/favorite_button.dart';
 
 /// Bottom sheet pour sélectionner un ingénieur disponible
 class EngineerSelectorBottomSheet extends StatelessWidget {

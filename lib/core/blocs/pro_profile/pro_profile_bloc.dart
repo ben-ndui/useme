@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:useme/core/services/pro_profile_service.dart';
-import 'package:useme/core/services/studio_discovery_service.dart';
+import 'package:uzme/core/services/pro_profile_service.dart';
+import 'package:uzme/core/services/studio_discovery_service.dart';
 import 'pro_profile_event.dart';
 import 'pro_profile_state.dart';
 

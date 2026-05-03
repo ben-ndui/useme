@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:useme/config/useme_theme.dart';
+import 'package:uzme/config/useme_theme.dart';
 
 /// Custom map pin generator for studios - adapted from Viba
 class CustomStudioPin {

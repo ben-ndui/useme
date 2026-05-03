@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// A status badge widget for sessions in dashboards
 class DashboardStatusBadge extends StatelessWidget {

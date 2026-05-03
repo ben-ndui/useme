@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/card/scanned_contact_sheet.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/card/scanned_contact_sheet.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
 
 /// QR code scanner screen for scanning UZME profile cards.
 /// Detects `uzme.app/u/{userId}` URLs and shows the scanned contact sheet.

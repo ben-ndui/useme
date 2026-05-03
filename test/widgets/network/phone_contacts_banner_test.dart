@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/widgets/network/phone_contacts_banner.dart';
+import 'package:uzme/widgets/network/phone_contacts_banner.dart';
 
 import '../../helpers/widget_test_helpers.dart';
 

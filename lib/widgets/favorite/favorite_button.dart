@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/favorite.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/favorite.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Bouton pour ajouter/supprimer des favoris.
 class FavoriteButton extends StatelessWidget {

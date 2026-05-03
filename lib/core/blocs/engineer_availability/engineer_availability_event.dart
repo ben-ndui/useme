@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:useme/core/models/models_exports.dart';
+import 'package:uzme/core/models/models_exports.dart';
 
 /// Base event pour les disponibilités ingénieur
 abstract class EngineerAvailabilityEvent extends Equatable {

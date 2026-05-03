@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/pro_profile.dart';
-import 'package:useme/widgets/pro/pro_card.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/pro_profile.dart';
+import 'package:uzme/widgets/pro/pro_card.dart';
 
 import '../../helpers/widget_test_helpers.dart';
 

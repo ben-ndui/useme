@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:useme/core/models/studio_claim.dart';
-import 'package:useme/core/models/studio_profile.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/studio_claim.dart';
+import 'package:uzme/core/models/studio_profile.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service pour gérer les demandes de revendication de studio (workflow admin)
 class StudioClaimApprovalService {

@@ -2,10 +2,10 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
-import 'package:useme/core/blocs/service/service_bloc.dart';
-import 'package:useme/core/blocs/service/service_event.dart';
-import 'package:useme/core/blocs/service/service_state.dart';
-import 'package:useme/core/models/models_exports.dart';
+import 'package:uzme/core/blocs/service/service_bloc.dart';
+import 'package:uzme/core/blocs/service/service_event.dart';
+import 'package:uzme/core/blocs/service/service_state.dart';
+import 'package:uzme/core/models/models_exports.dart';
 
 import '../../helpers/mock_services.dart';
 

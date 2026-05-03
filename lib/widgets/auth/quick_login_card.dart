@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/auth/glass_text_field.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/auth/glass_text_field.dart';
 
 /// Welcome back card shown when quick login is enabled
 class QuickLoginCard extends StatefulWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/config/useme_theme.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/core/services/services_exports.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/config/useme_theme.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/core/services/services_exports.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Écran de configuration de l'assistant IA pour un studio
 class AISettingsScreen extends StatefulWidget {

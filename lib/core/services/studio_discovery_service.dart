@@ -3,11 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/discovered_studio.dart';
-import 'package:useme/core/services/env_service.dart';
-import 'package:useme/core/services/location_service.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/discovered_studio.dart';
+import 'package:uzme/core/services/env_service.dart';
+import 'package:uzme/core/services/location_service.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service for discovering studios nearby using Google Places API + Firestore partners
 class StudioDiscoveryService {

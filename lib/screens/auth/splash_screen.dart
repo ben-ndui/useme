@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/config/useme_theme.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/routing/router.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/config/useme_theme.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/routing/router.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Splash screen shown on app launch
 class SplashScreen extends StatefulWidget {

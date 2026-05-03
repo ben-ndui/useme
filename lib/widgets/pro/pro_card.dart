@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/favorite.dart';
-import 'package:useme/core/models/pro_profile.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/favorite/favorite_button.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/favorite.dart';
+import 'package:uzme/core/models/pro_profile.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/favorite/favorite_button.dart';
 
 /// Card displaying a pro profile in the discovery list.
 class ProCard extends StatelessWidget {

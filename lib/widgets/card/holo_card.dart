@@ -1,13 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/card_config.dart';
-import 'package:useme/widgets/card/card_background_pattern.dart';
-import 'package:useme/widgets/card/gyroscope_controller.dart';
-import 'package:useme/widgets/card/holo_card_content.dart';
-import 'package:useme/widgets/card/holo_card_theme.dart';
-import 'package:useme/widgets/card/holo_gradient_overlay.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/card_config.dart';
+import 'package:uzme/widgets/card/card_background_pattern.dart';
+import 'package:uzme/widgets/card/gyroscope_controller.dart';
+import 'package:uzme/widgets/card/holo_card_content.dart';
+import 'package:uzme/widgets/card/holo_card_theme.dart';
+import 'package:uzme/widgets/card/holo_gradient_overlay.dart';
 
 /// Premium holographic digital business card with 3D gyroscope tilt.
 /// Combines a glassmorphism base, holographic rainbow overlay,

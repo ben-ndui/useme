@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:useme/config/useme_theme.dart';
-import 'package:useme/core/blocs/map/map_bloc.dart';
-import 'package:useme/core/blocs/map/map_event.dart';
-import 'package:useme/core/blocs/map/map_state.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/map/map_filter_sheet.dart';
+import 'package:uzme/config/useme_theme.dart';
+import 'package:uzme/core/blocs/map/map_bloc.dart';
+import 'package:uzme/core/blocs/map/map_event.dart';
+import 'package:uzme/core/blocs/map/map_state.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/map/map_filter_sheet.dart';
 
 /// Shared transparent AppBar for map-based dashboard pages.
 /// Used by Artist, Studio, and Engineer dashboards.

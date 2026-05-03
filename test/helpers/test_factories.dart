@@ -1,5 +1,5 @@
-import 'package:useme/core/models/session.dart';
-import 'package:useme/core/models/booking.dart';
+import 'package:uzme/core/models/session.dart';
+import 'package:uzme/core/models/booking.dart';
 
 /// Factory pour créer des sessions de test facilement.
 class SessionFactory {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:useme/core/localization/intl_locale.dart';
-import 'package:useme/core/models/session.dart';
+import 'package:uzme/core/localization/intl_locale.dart';
+import 'package:uzme/core/models/session.dart';
 
 /// Month calendar widget for artist sessions
 class ArtistMonthCalendar extends StatelessWidget {

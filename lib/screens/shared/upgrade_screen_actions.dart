@@ -5,13 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/subscription_tier_config.dart';
-import 'package:useme/core/services/iap_service.dart';
-import 'package:useme/core/services/stripe_service.dart';
-import 'package:useme/core/utils/app_logger.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/subscription_tier_config.dart';
+import 'package:uzme/core/services/iap_service.dart';
+import 'package:uzme/core/services/stripe_service.dart';
+import 'package:uzme/core/utils/app_logger.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Mixin providing subscription purchase and management actions.
 mixin UpgradeScreenActions<T extends StatefulWidget> on State<T> {

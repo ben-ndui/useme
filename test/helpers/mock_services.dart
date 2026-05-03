@@ -1,17 +1,17 @@
 import 'package:mocktail/mocktail.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/core/services/session_service.dart';
-import 'package:useme/core/services/booking_service.dart';
-import 'package:useme/core/services/subscription_config_service.dart';
-import 'package:useme/core/services/favorite_service.dart';
-import 'package:useme/core/services/artist_service.dart';
-import 'package:useme/core/services/location_service.dart';
-import 'package:useme/core/services/studio_discovery_service.dart';
-import 'package:useme/core/services/unavailability_service.dart';
-import 'package:useme/core/services/engineer_availability_service.dart';
-import 'package:useme/core/services/team_service.dart';
-import 'package:useme/core/services/service_catalog_service.dart';
-import 'package:useme/core/services/studio_room_service.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/core/services/session_service.dart';
+import 'package:uzme/core/services/booking_service.dart';
+import 'package:uzme/core/services/subscription_config_service.dart';
+import 'package:uzme/core/services/favorite_service.dart';
+import 'package:uzme/core/services/artist_service.dart';
+import 'package:uzme/core/services/location_service.dart';
+import 'package:uzme/core/services/studio_discovery_service.dart';
+import 'package:uzme/core/services/unavailability_service.dart';
+import 'package:uzme/core/services/engineer_availability_service.dart';
+import 'package:uzme/core/services/team_service.dart';
+import 'package:uzme/core/services/service_catalog_service.dart';
+import 'package:uzme/core/services/studio_room_service.dart';
 
 class MockSessionService extends Mock implements SessionService {}
 

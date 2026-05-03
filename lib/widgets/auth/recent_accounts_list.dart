@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/recent_account.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/core/models/recent_account.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Displays a list of recent accounts for quick re-login.
 class RecentAccountsList extends StatelessWidget {

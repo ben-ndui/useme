@@ -5,7 +5,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service de chiffrement AES-256 pour les données sensibles
 class EncryptionService {

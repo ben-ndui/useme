@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/user_contact.dart';
+import 'package:uzme/core/models/user_contact.dart';
 
 /// Card displaying a contact in the network list.
 class ContactCard extends StatelessWidget {

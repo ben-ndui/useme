@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/card/digital_card_sheet.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/card/digital_card_sheet.dart';
 
 /// Settings tile to access the holographic digital business card.
 class SettingsDigitalCardTile extends StatelessWidget {

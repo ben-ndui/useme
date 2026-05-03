@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:useme/core/models/studio_invitation.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/core/models/studio_invitation.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Success state after artist creation with shareable invitation code
 class ArtistCreationSuccess extends StatelessWidget {

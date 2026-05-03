@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:useme/core/models/subscription_tier_config.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/admin/subscription/tier_edit_form_sections.dart';
+import 'package:uzme/core/models/subscription_tier_config.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/admin/subscription/tier_edit_form_sections.dart';
 
 /// Bottom sheet pour editer un tier d'abonnement
 class TierEditSheet extends StatefulWidget {

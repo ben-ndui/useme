@@ -1,5 +1,5 @@
-name: useme
-description: "UZME - Studio Session Booking App"
+name: uzme
+description: "UZME — réservation de sessions studio entre artistes, ingénieurs son et propriétaires de studios."
 publish_to: 'none'
 
 version: 1.4.2+21

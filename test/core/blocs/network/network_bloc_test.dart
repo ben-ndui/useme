@@ -1,11 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:useme/core/blocs/network/network_bloc.dart';
-import 'package:useme/core/blocs/network/network_event.dart';
-import 'package:useme/core/blocs/network/network_state.dart';
-import 'package:useme/core/models/user_contact.dart';
-import 'package:useme/core/services/network_service.dart';
+import 'package:uzme/core/blocs/network/network_bloc.dart';
+import 'package:uzme/core/blocs/network/network_event.dart';
+import 'package:uzme/core/blocs/network/network_state.dart';
+import 'package:uzme/core/models/user_contact.dart';
+import 'package:uzme/core/services/network_service.dart';
 
 class MockNetworkService extends Mock implements NetworkService {}
 

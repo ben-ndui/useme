@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/engineer/session_tracking_checkin.dart';
-import 'package:useme/widgets/engineer/session_tracking_photos.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/engineer/session_tracking_checkin.dart';
+import 'package:uzme/widgets/engineer/session_tracking_photos.dart';
 
 /// Body content of the session tracking screen
 class SessionTrackingBody extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:useme/core/blocs/artist/artist_event.dart';
-import 'package:useme/core/blocs/artist/artist_state.dart';
-import 'package:useme/core/services/services_exports.dart';
+import 'package:uzme/core/blocs/artist/artist_event.dart';
+import 'package:uzme/core/blocs/artist/artist_state.dart';
+import 'package:uzme/core/services/services_exports.dart';
 
 /// Artist BLoC - Manages artist state
 class ArtistBloc extends Bloc<ArtistEvent, ArtistState> {

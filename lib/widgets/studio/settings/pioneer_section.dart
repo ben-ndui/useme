@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/pioneer_status.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/badges/pioneer_badge.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/pioneer_status.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/badges/pioneer_badge.dart';
 
 /// Settings section for Pioneer users showing badge and benefits status.
 class PioneerSection extends StatelessWidget {

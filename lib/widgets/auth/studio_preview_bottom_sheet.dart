@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/config/useme_theme.dart';
-import 'package:useme/core/models/discovered_studio.dart';
+import 'package:uzme/config/useme_theme.dart';
+import 'package:uzme/core/models/discovered_studio.dart';
 
 /// Simple bottom sheet showing basic studio info for non-authenticated users
 class StudioPreviewBottomSheet extends StatelessWidget {

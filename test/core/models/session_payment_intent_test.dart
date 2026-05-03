@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/session_payment_intent.dart';
+import 'package:uzme/core/models/session_payment_intent.dart';
 
 void main() {
   group('SessionPaymentIntent', () {

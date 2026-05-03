@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:useme/widgets/artist/home/home_exports.dart';
-import 'package:useme/widgets/artist/nearby_studios_carousel.dart';
-import 'package:useme/widgets/artist/studio_detail_bottom_sheet.dart';
-import 'package:useme/widgets/common/dashboard/glass_color_scheme.dart';
-import 'package:useme/widgets/pro/pro_detail_bottom_sheet.dart';
-import 'package:useme/widgets/pro/pro_discovery_carousel.dart';
+import 'package:uzme/widgets/artist/home/home_exports.dart';
+import 'package:uzme/widgets/artist/nearby_studios_carousel.dart';
+import 'package:uzme/widgets/artist/studio_detail_bottom_sheet.dart';
+import 'package:uzme/widgets/common/dashboard/glass_color_scheme.dart';
+import 'package:uzme/widgets/pro/pro_detail_bottom_sheet.dart';
+import 'package:uzme/widgets/pro/pro_discovery_carousel.dart';
 
 /// Main feed content for artist home (inside draggable sheet)
 class ArtistHomeFeed extends StatelessWidget {

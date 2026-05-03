@@ -1,4 +1,4 @@
-import 'package:useme/core/models/payment_method.dart';
+import 'package:uzme/core/models/payment_method.dart';
 
 /// Calculates the refund amount based on cancellation policy and timing.
 class RefundCalculation {

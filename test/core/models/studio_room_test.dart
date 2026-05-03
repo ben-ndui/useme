@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/studio_room.dart';
+import 'package:uzme/core/models/studio_room.dart';
 
 void main() {
   final now = DateTime(2026, 3, 9);

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/pioneer_status.dart';
+import 'package:uzme/core/models/pioneer_status.dart';
 
 void main() {
   group('PioneerStatus', () {

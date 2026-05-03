@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/map/map_bloc.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/services/invitation_service.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/widgets/auth/auth_map_background.dart';
-import 'package:useme/widgets/auth/register_form_content.dart';
-import 'package:useme/widgets/auth/role_selector_sheet.dart';
-import 'package:useme/widgets/common/smooth_draggable_widget.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/blocs/map/map_bloc.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/services/invitation_service.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/widgets/auth/auth_map_background.dart';
+import 'package:uzme/widgets/auth/register_form_content.dart';
+import 'package:uzme/widgets/auth/role_selector_sheet.dart';
+import 'package:uzme/widgets/common/smooth_draggable_widget.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Register screen with map background and draggable form overlay
 class RegisterScreen extends StatelessWidget {

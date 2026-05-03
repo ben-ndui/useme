@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:useme/core/services/studio_room_service.dart';
-import 'package:useme/core/services/subscription_config_service.dart';
+import 'package:uzme/core/services/studio_room_service.dart';
+import 'package:uzme/core/services/subscription_config_service.dart';
 
 import 'studio_room_event.dart';
 import 'studio_room_state.dart';

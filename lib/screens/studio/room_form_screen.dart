@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/studio_room.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/limit_reached_dialog.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/studio_room.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/limit_reached_dialog.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Screen for creating/editing a studio room
 class RoomFormScreen extends StatefulWidget {

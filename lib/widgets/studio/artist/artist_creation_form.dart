@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/core/services/invitation_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
-import 'package:useme/widgets/studio/artist/artist_info_card.dart';
-import 'package:useme/widgets/studio/artist/artist_creation_success.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/core/services/invitation_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/widgets/studio/artist/artist_info_card.dart';
+import 'package:uzme/widgets/studio/artist/artist_creation_success.dart';
 
 /// Form for creating a new artist with invitation
 class ArtistCreationForm extends StatefulWidget {

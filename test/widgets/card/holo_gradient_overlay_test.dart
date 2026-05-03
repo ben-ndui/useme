@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/widgets/card/holo_card_theme.dart';
-import 'package:useme/widgets/card/holo_gradient_overlay.dart';
+import 'package:uzme/widgets/card/holo_card_theme.dart';
+import 'package:uzme/widgets/card/holo_gradient_overlay.dart';
 
 void main() {
   group('HoloGradientOverlay', () {

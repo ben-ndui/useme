@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:useme/firebase_options.dart';
+import 'package:uzme/firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,19 +13,19 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:smoothandesign_auth_biometric/smoothandesign_auth_biometric.dart'
     hide RecentAccountsService;
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/config/useme_theme.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/localization/sango_material_localizations.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/services/auth_service.dart';
-import 'package:useme/core/services/deep_link_service.dart';
-import 'package:useme/core/services/notification_navigation_service.dart';
-import 'package:useme/core/services/notification_service.dart';
-import 'package:useme/core/services/recent_accounts_service.dart';
-import 'package:useme/core/utils/app_logger.dart';
-import 'package:useme/core/utils/crashlytics_bloc_observer.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/router.dart';
+import 'package:uzme/config/useme_theme.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/localization/sango_material_localizations.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/services/auth_service.dart';
+import 'package:uzme/core/services/deep_link_service.dart';
+import 'package:uzme/core/services/notification_navigation_service.dart';
+import 'package:uzme/core/services/notification_service.dart';
+import 'package:uzme/core/services/recent_accounts_service.dart';
+import 'package:uzme/core/utils/app_logger.dart';
+import 'package:uzme/core/utils/crashlytics_bloc_observer.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/routing/router.dart';
 
 /// Global navigator key for notification navigation
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();

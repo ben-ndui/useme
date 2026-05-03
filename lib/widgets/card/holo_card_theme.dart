@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/models/card_config.dart';
+import 'package:uzme/core/models/card_config.dart';
 
 /// Role-based color themes for the holographic digital card.
 class HoloCardTheme {

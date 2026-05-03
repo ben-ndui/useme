@@ -3,7 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:useme/core/services/block_service.dart';
+import 'package:uzme/core/services/block_service.dart';
 
 class MockFirestore extends Mock implements FirebaseFirestore {}
 

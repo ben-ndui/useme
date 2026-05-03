@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/core/services/availability_service.dart';
-import 'package:useme/core/services/engineer_availability_service.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/core/services/availability_service.dart';
+import 'package:uzme/core/services/engineer_availability_service.dart';
 
 import '../../helpers/mock_services.dart';
 import '../../helpers/test_factories.dart';

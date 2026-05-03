@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:useme/core/models/session_payment_intent.dart';
-import 'package:useme/core/services/session_payment_service.dart';
+import 'package:uzme/core/models/session_payment_intent.dart';
+import 'package:uzme/core/services/session_payment_service.dart';
 
 /// States for the session payment flow.
 abstract class SessionPaymentState extends Equatable {

@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/user_contact.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/user_contact.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Generates and shares vCard 3.0 (.vcf) files.
 class VCardService {

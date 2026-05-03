@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:useme/core/utils/app_logger.dart';
-import 'package:useme/widgets/common/permission_dialog.dart';
+import 'package:uzme/core/utils/app_logger.dart';
+import 'package:uzme/widgets/common/permission_dialog.dart';
 
 /// Service for picking and uploading a custom card background image.
 class CardBackgroundService {

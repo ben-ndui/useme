@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/pro_profile.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/pro_profile.dart';
 
 class ProProfileState extends Equatable {
   final ProProfile? profile;

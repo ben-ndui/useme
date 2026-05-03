@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/time_off.dart';
+import 'package:uzme/core/models/time_off.dart';
 
 void main() {
   final baseTimeOff = TimeOff(

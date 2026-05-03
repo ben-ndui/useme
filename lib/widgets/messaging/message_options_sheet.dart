@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/messaging/reaction_button.dart';
-import 'package:useme/widgets/messaging/reaction_picker.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/messaging/reaction_button.dart';
+import 'package:uzme/widgets/messaging/reaction_picker.dart';
 
 /// Bottom sheet for message options with reactions
 class MessageOptionsSheet extends StatelessWidget {

@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/payment_method.dart';
-import 'package:useme/core/models/session.dart';
-import 'package:useme/core/services/engineer_proposal_service.dart';
-import 'package:useme/core/services/payment_config_service.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/payment_method.dart';
+import 'package:uzme/core/models/session.dart';
+import 'package:uzme/core/services/engineer_proposal_service.dart';
+import 'package:uzme/core/services/payment_config_service.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service pour gérer l'acceptation des réservations
 class BookingAcceptanceService {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/widgets/card/holo_card_theme.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/widgets/card/holo_card_theme.dart';
 
 /// Fullscreen bottom sheet displaying a large QR code for scanning.
 class QrFullscreenSheet extends StatelessWidget {

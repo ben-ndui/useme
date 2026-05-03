@@ -1,7 +1,7 @@
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/models/chat_assistant_response.dart';
-import 'package:useme/core/services/ai_response_texts.dart';
-import 'package:useme/core/services/chat_assistant_service.dart';
+import 'package:uzme/core/models/chat_assistant_response.dart';
+import 'package:uzme/core/services/ai_response_texts.dart';
+import 'package:uzme/core/services/chat_assistant_service.dart';
 
 /// Generates local AI responses as fallback when Cloud Function fails.
 /// Also provides welcome messages and suggestions based on user role.

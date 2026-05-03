@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:useme/core/models/recent_account.dart';
+import 'package:uzme/core/models/recent_account.dart';
 
 /// Manages the list of recent accounts for quick re-login.
 class RecentAccountsService {

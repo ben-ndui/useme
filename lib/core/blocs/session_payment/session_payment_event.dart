@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:useme/core/models/session_payment_intent.dart';
+import 'package:uzme/core/models/session_payment_intent.dart';
 
 /// Events for the session payment flow.
 abstract class SessionPaymentEvent extends Equatable {

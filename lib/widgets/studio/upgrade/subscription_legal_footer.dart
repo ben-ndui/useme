@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Legal footer for the subscription screen.
 /// Shows auto-renew notice and links to Terms of Use & Privacy Policy.

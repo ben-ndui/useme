@@ -1,11 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:useme/core/blocs/studio_room/studio_room_bloc.dart';
-import 'package:useme/core/blocs/studio_room/studio_room_event.dart';
-import 'package:useme/core/blocs/studio_room/studio_room_state.dart';
-import 'package:useme/core/models/studio_room.dart';
-import 'package:useme/core/models/subscription_tier_config.dart';
+import 'package:uzme/core/blocs/studio_room/studio_room_bloc.dart';
+import 'package:uzme/core/blocs/studio_room/studio_room_event.dart';
+import 'package:uzme/core/blocs/studio_room/studio_room_state.dart';
+import 'package:uzme/core/models/studio_room.dart';
+import 'package:uzme/core/models/subscription_tier_config.dart';
 
 import '../../helpers/mock_services.dart';
 // FakeStudioRoom from mock_services

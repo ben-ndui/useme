@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/widgets/common/settings/settings_pro_profile_tile.dart';
+import 'package:uzme/widgets/common/settings/settings_pro_profile_tile.dart';
 
 import '../../helpers/widget_test_helpers.dart';
 

@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/studio/sessions/session_card.dart';
-import 'package:useme/widgets/studio/sessions/sessions_empty_state.dart';
-import 'package:useme/widgets/studio/sessions/sessions_filter_sheet.dart';
-import 'package:useme/widgets/studio/sessions/unavailability_card.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/studio/sessions/session_card.dart';
+import 'package:uzme/widgets/studio/sessions/sessions_empty_state.dart';
+import 'package:uzme/widgets/studio/sessions/sessions_filter_sheet.dart';
+import 'package:uzme/widgets/studio/sessions/unavailability_card.dart';
 
 /// Calendar day-sessions list (shown below the calendar)
 class SessionsDayList extends StatelessWidget {

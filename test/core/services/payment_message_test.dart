@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:useme/core/models/payment_method.dart';
-import 'package:useme/core/services/encryption_service.dart';
-import 'package:useme/core/services/payment_config_service.dart';
+import 'package:uzme/core/models/payment_method.dart';
+import 'package:uzme/core/services/encryption_service.dart';
+import 'package:uzme/core/services/payment_config_service.dart';
 
 class MockFirestore extends Mock implements FirebaseFirestore {}
 

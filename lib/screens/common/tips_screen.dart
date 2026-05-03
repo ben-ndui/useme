@@ -1,9 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/models/tip_item.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/models/tip_item.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Screen displaying tips and guides for app usage with smooth animations
 class TipsScreen extends StatefulWidget {

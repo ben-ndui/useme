@@ -5,7 +5,7 @@ import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_manager/nfc_manager_android.dart';
 import 'package:nfc_manager/nfc_manager_ios.dart';
 import 'package:nfc_manager/ndef_record.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service for writing UZME profile URLs to NFC tags.
 class NfcShareService {

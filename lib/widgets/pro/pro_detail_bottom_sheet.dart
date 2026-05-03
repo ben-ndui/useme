@@ -3,18 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/favorite.dart';
-import 'package:useme/core/services/navigation_service.dart';
-import 'package:useme/widgets/common/badges/pioneer_badge.dart';
-import 'package:useme/core/models/pro_profile.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/screens/shared/pro/pro_booking_screen.dart';
-import 'package:useme/screens/shared/pro/pro_profile_view_screen.dart';
-import 'package:useme/widgets/favorite/favorite_button.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/favorite.dart';
+import 'package:uzme/core/services/navigation_service.dart';
+import 'package:uzme/widgets/common/badges/pioneer_badge.dart';
+import 'package:uzme/core/models/pro_profile.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/screens/shared/pro/pro_booking_screen.dart';
+import 'package:uzme/screens/shared/pro/pro_profile_view_screen.dart';
+import 'package:uzme/widgets/favorite/favorite_button.dart';
 
 /// Bottom sheet showing detailed pro profile info.
 class ProDetailBottomSheet extends StatelessWidget {

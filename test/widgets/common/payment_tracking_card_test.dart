@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/session.dart';
-import 'package:useme/widgets/common/payment_tracking_card.dart';
+import 'package:uzme/core/models/session.dart';
+import 'package:uzme/widgets/common/payment_tracking_card.dart';
 
 import '../../helpers/test_factories.dart';
 import '../../helpers/widget_test_helpers.dart';

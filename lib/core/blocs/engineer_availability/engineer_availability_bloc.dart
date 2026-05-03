@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:useme/core/blocs/engineer_availability/engineer_availability_event.dart';
-import 'package:useme/core/blocs/engineer_availability/engineer_availability_state.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/core/services/services_exports.dart';
+import 'package:uzme/core/blocs/engineer_availability/engineer_availability_event.dart';
+import 'package:uzme/core/blocs/engineer_availability/engineer_availability_state.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/core/services/services_exports.dart';
 
 /// BLoC pour gérer les disponibilités des ingénieurs
 class EngineerAvailabilityBloc

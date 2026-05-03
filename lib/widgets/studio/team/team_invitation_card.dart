@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/services/team_service.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/core/services/team_service.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Card displaying a pending team invitation
 class TeamInvitationCard extends StatelessWidget {

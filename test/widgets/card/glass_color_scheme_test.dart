@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/widgets/common/dashboard/glass_color_scheme.dart';
+import 'package:uzme/widgets/common/dashboard/glass_color_scheme.dart';
 
 void main() {
   group('glassColorScheme', () {

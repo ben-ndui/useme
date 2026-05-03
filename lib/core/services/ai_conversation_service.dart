@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:useme/core/models/ai_message.dart';
-import 'package:useme/core/models/chat_assistant_response.dart';
-import 'package:useme/core/services/ai_local_response_helper.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/ai_message.dart';
+import 'package:uzme/core/models/chat_assistant_response.dart';
+import 'package:uzme/core/services/ai_local_response_helper.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Handles AI conversation persistence and Cloud Function calls.
 class AIConversationService {

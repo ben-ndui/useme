@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/studio_invitation.dart';
+import 'package:uzme/core/models/studio_invitation.dart';
 
 void main() {
   final now = DateTime.now();

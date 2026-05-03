@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/pro_profile.dart';
-import 'package:useme/core/services/studio_discovery_service.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/pro_profile.dart';
+import 'package:uzme/core/services/studio_discovery_service.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service pour gérer les profils professionnels (marketplace).
 class ProProfileService {

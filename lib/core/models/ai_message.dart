@@ -1,4 +1,4 @@
-import 'package:useme/core/models/chat_assistant_response.dart';
+import 'package:uzme/core/models/chat_assistant_response.dart';
 
 /// Message dans la conversation IA
 class AIMessage {

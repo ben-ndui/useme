@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Dialog affiché quand une limite d'abonnement est atteinte
 class LimitReachedDialog extends StatelessWidget {

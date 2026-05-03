@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Manual entry form for adding an off-platform contact.
 class AddContactManualForm extends StatelessWidget {

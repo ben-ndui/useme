@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/services/contact_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/services/contact_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Bottom sheet pour démarrer une nouvelle conversation.
 class NewConversationBottomSheet extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:useme/core/services/session_payment_service.dart';
+import 'package:uzme/core/services/session_payment_service.dart';
 
 import 'session_payment_event.dart';
 import 'session_payment_state.dart';

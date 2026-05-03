@@ -6,10 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/main.dart';
-import 'package:useme/widgets/auth/glass_text_field.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/main.dart';
+import 'package:uzme/widgets/auth/glass_text_field.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Register form content with glassmorphism design
 class RegisterFormContent extends StatefulWidget {

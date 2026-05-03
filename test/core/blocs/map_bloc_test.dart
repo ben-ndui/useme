@@ -3,10 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:useme/core/blocs/map/map_bloc.dart';
-import 'package:useme/core/blocs/map/map_event.dart';
-import 'package:useme/core/blocs/map/map_state.dart';
-import 'package:useme/core/models/discovered_studio.dart';
+import 'package:uzme/core/blocs/map/map_bloc.dart';
+import 'package:uzme/core/blocs/map/map_event.dart';
+import 'package:uzme/core/blocs/map/map_state.dart';
+import 'package:uzme/core/models/discovered_studio.dart';
 
 import '../../helpers/mock_services.dart';
 

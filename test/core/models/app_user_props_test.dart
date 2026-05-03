@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/app_user.dart';
+import 'package:uzme/core/models/app_user.dart';
 
 void main() {
   group('AppUser Equatable props', () {

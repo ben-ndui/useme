@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:useme/core/blocs/service/service_event.dart';
-import 'package:useme/core/blocs/service/service_state.dart';
-import 'package:useme/core/services/services_exports.dart';
+import 'package:uzme/core/blocs/service/service_event.dart';
+import 'package:uzme/core/blocs/service/service_state.dart';
+import 'package:uzme/core/services/services_exports.dart';
 
 /// Service BLoC - Manages studio service catalog state
 class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {

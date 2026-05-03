@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:useme/core/models/session.dart';
-import 'package:useme/widgets/studio/sessions/session_status_badge.dart';
+import 'package:uzme/core/models/session.dart';
+import 'package:uzme/widgets/studio/sessions/session_status_badge.dart';
 
 /// Session card for the sessions list
 class SessionCard extends StatelessWidget {

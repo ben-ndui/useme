@@ -1,7 +1,7 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/studio_profile.dart';
-import 'package:useme/core/services/env_service.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/studio_profile.dart';
+import 'package:uzme/core/services/env_service.dart';
 
 /// Studio discovered via location-based search (Google Places or internal DB)
 class DiscoveredStudio {

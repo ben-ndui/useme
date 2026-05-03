@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/services/services_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
-import 'package:useme/widgets/engineer/add_time_off_bottom_sheet.dart';
-import 'package:useme/widgets/engineer/time_off_card.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/widgets/engineer/working_hours_editor.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/services/services_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/widgets/engineer/add_time_off_bottom_sheet.dart';
+import 'package:uzme/widgets/engineer/time_off_card.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/widgets/engineer/working_hours_editor.dart';
 
 /// Écran de gestion des disponibilités de l'ingénieur
 class EngineerAvailabilityScreen extends StatelessWidget {

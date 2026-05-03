@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/payment_method.dart';
-import 'package:useme/core/models/session.dart';
-import 'package:useme/core/services/engineer_availability_service.dart';
-import 'package:useme/core/services/payment_config_service.dart';
-import 'package:useme/core/services/session_payment_service.dart';
-import 'package:useme/widgets/studio/booking/booking_exports.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/payment_method.dart';
+import 'package:uzme/core/models/session.dart';
+import 'package:uzme/core/services/engineer_availability_service.dart';
+import 'package:uzme/core/services/payment_config_service.dart';
+import 'package:uzme/core/services/session_payment_service.dart';
+import 'package:uzme/widgets/studio/booking/booking_exports.dart';
 
 /// Résultat de l'acceptation d'une réservation
 class AcceptBookingResult {

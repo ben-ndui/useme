@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/screens/engineer/engineer_dashboard_page.dart';
-import 'package:useme/screens/engineer/engineer_sessions_page.dart';
-import 'package:useme/screens/engineer/engineer_settings_page.dart';
-import 'package:useme/screens/shared/conversations_screen.dart';
-import 'package:useme/screens/shared/favorites_screen.dart';
-import 'package:useme/widgets/common/app_navigation_rail.dart';
-import 'package:useme/widgets/common/floating_bottom_nav.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/screens/engineer/engineer_dashboard_page.dart';
+import 'package:uzme/screens/engineer/engineer_sessions_page.dart';
+import 'package:uzme/screens/engineer/engineer_settings_page.dart';
+import 'package:uzme/screens/shared/conversations_screen.dart';
+import 'package:uzme/screens/shared/favorites_screen.dart';
+import 'package:uzme/widgets/common/app_navigation_rail.dart';
+import 'package:uzme/widgets/common/floating_bottom_nav.dart';
 
 /// Main scaffold for Engineer role with adaptive navigation
 class EngineerMainScaffold extends StatefulWidget {

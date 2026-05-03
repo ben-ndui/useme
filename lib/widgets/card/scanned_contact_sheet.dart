@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/card_config/card_config_exports.dart';
-import 'package:useme/core/blocs/network/network_exports.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/card_config.dart';
-import 'package:useme/core/models/user_contact.dart';
-import 'package:useme/core/services/card_stats_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/card/holo_card.dart';
-import 'package:useme/widgets/common/app_loader.dart';
+import 'package:uzme/core/blocs/card_config/card_config_exports.dart';
+import 'package:uzme/core/blocs/network/network_exports.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/card_config.dart';
+import 'package:uzme/core/models/user_contact.dart';
+import 'package:uzme/core/services/card_stats_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/card/holo_card.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
 
 /// Bottom sheet shown after scanning a QR code.
 /// Displays the scanned user's HoloCard and offers to add them.

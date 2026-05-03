@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:useme/core/models/card_config.dart';
+import 'package:uzme/core/models/card_config.dart';
 
 class CardConfigState extends Equatable {
   final CardConfig config;

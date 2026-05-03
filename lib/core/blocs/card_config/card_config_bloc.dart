@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:useme/core/models/card_config.dart';
-import 'package:useme/core/services/card_config_service.dart';
+import 'package:uzme/core/models/card_config.dart';
+import 'package:uzme/core/services/card_config_service.dart';
 import 'card_config_event.dart';
 import 'card_config_state.dart';
 

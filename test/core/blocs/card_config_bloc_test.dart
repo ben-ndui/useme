@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/blocs/card_config/card_config_exports.dart';
-import 'package:useme/core/models/card_config.dart';
+import 'package:uzme/core/blocs/card_config/card_config_exports.dart';
+import 'package:uzme/core/models/card_config.dart';
 
 void main() {
   group('CardConfigState', () {

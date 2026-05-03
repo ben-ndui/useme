@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/navigation/navigation_exports.dart';
+import 'package:uzme/core/models/navigation/navigation_exports.dart';
 
 void main() {
   group('DirectionsResult', () {

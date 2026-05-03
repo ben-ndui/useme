@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:useme/core/localization/intl_locale.dart';
+import 'package:uzme/core/localization/intl_locale.dart';
 
 /// A compact date badge showing day and month
 class SessionDateBadge extends StatelessWidget {

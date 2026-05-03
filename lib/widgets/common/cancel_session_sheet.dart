@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/core/models/refund_calculation.dart';
-import 'package:useme/core/services/payment_config_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/core/models/refund_calculation.dart';
+import 'package:uzme/core/services/payment_config_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Result returned by the cancel session sheet.
 class CancelSessionResult {

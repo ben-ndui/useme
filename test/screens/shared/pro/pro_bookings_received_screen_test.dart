@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:useme/core/blocs/session/session_state.dart';
-import 'package:useme/core/models/session.dart';
-import 'package:useme/screens/shared/pro/pro_bookings_received_screen.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/common/payment_tracking_card.dart';
+import 'package:uzme/core/blocs/session/session_state.dart';
+import 'package:uzme/core/models/session.dart';
+import 'package:uzme/screens/shared/pro/pro_bookings_received_screen.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/common/payment_tracking_card.dart';
 
 import '../../../helpers/test_factories.dart';
 import '../../../helpers/widget_test_helpers.dart';

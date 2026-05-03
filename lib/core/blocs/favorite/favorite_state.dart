@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:useme/core/models/favorite.dart';
+import 'package:uzme/core/models/favorite.dart';
 
 /// Base favorite state.
 class FavoriteState extends Equatable {

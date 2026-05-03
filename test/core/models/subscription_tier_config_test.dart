@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/subscription_tier_config.dart';
+import 'package:uzme/core/models/subscription_tier_config.dart';
 
 void main() {
   group('isUnlimited', () {

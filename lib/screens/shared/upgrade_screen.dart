@@ -2,19 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/subscription_tier_config.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/services/iap_service.dart';
-import 'package:useme/core/services/stripe_service.dart';
-import 'package:useme/core/services/subscription_config_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/screens/shared/upgrade_screen_actions.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
-import 'package:useme/widgets/studio/upgrade/period_button.dart';
-import 'package:useme/widgets/studio/upgrade/subscription_legal_footer.dart';
-import 'package:useme/widgets/studio/upgrade/tier_pricing_card.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/subscription_tier_config.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/services/iap_service.dart';
+import 'package:uzme/core/services/stripe_service.dart';
+import 'package:uzme/core/services/subscription_config_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/screens/shared/upgrade_screen_actions.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/widgets/studio/upgrade/period_button.dart';
+import 'package:uzme/widgets/studio/upgrade/subscription_legal_footer.dart';
+import 'package:uzme/widgets/studio/upgrade/tier_pricing_card.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Subscription plans screen for studios.
 /// Uses IAP on iOS and Stripe on Android.

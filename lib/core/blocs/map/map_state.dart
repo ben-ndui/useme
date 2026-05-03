@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:useme/core/models/discovered_studio.dart';
-import 'package:useme/core/models/navigation/navigation_exports.dart';
-import 'package:useme/core/services/location_service.dart';
+import 'package:uzme/core/models/discovered_studio.dart';
+import 'package:uzme/core/models/navigation/navigation_exports.dart';
+import 'package:uzme/core/services/location_service.dart';
 
 /// Map State
 class MapState {

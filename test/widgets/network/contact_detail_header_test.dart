@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/user_contact.dart';
-import 'package:useme/widgets/network/contact_detail_header.dart';
+import 'package:uzme/core/models/user_contact.dart';
+import 'package:uzme/widgets/network/contact_detail_header.dart';
 
 import '../../helpers/widget_test_helpers.dart';
 

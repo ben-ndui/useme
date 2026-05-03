@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:useme/core/localization/intl_locale.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/session/session_date_badge.dart';
-import 'package:useme/widgets/common/session/session_status_chip.dart';
+import 'package:uzme/core/localization/intl_locale.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/session/session_date_badge.dart';
+import 'package:uzme/widgets/common/session/session_status_chip.dart';
 
 /// A modern glass-style session card for artist home feed
 class ModernSessionCard extends StatefulWidget {

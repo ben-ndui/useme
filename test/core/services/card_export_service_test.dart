@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/services/card_export_service.dart';
+import 'package:uzme/core/services/card_export_service.dart';
 
 void main() {
   group('CardExportFormat', () {

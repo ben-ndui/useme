@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:useme/config/useme_theme.dart';
+import 'package:uzme/config/useme_theme.dart';
 
 /// Page pour générer les screenshots des stores.
 /// Accéder via /dev/screenshots en mode debug.

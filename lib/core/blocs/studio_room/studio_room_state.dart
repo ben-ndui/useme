@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:useme/core/models/studio_room.dart';
+import 'package:uzme/core/models/studio_room.dart';
 
 enum StudioRoomStatus { initial, loading, loaded, error, limitReached }
 

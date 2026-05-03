@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:useme/core/models/pro_profile.dart';
+import 'package:uzme/core/models/pro_profile.dart';
 
 abstract class ProProfileEvent extends Equatable {
   const ProProfileEvent();

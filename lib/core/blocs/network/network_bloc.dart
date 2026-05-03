@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:useme/core/services/network_service.dart';
+import 'package:uzme/core/services/network_service.dart';
 
 import 'network_event.dart';
 import 'network_state.dart';

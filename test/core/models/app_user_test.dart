@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/pro_profile.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/pro_profile.dart';
 
 void main() {
   const studioUser = AppUser(

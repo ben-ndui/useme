@@ -3,17 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/session.dart';
-import 'package:useme/core/services/booking_acceptance_service.dart';
-import 'package:useme/core/services/pro_profile_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/common/payment_tracking_card.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
-import 'package:useme/widgets/pro/accept_pro_booking_sheet.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/session.dart';
+import 'package:uzme/core/services/booking_acceptance_service.dart';
+import 'package:uzme/core/services/pro_profile_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/common/payment_tracking_card.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/widgets/pro/accept_pro_booking_sheet.dart';
 
 /// Screen showing booking requests received by a pro.
 class ProBookingsReceivedScreen extends StatelessWidget {

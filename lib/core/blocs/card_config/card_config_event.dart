@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:useme/core/models/card_config.dart';
+import 'package:uzme/core/models/card_config.dart';
 
 abstract class CardConfigEvent extends Equatable {
   const CardConfigEvent();

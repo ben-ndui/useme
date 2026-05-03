@@ -5,7 +5,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Export format presets for social media sharing.
 enum CardExportFormat {

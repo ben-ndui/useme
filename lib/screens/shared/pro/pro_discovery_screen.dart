@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/common/glass/glass_exports.dart';
-import 'package:useme/core/models/pro_profile.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/pro/pro_card.dart';
-import 'package:useme/widgets/pro/pro_detail_bottom_sheet.dart';
-import 'package:useme/widgets/pro/pro_filter_sheet.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/common/glass/glass_exports.dart';
+import 'package:uzme/core/models/pro_profile.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/pro/pro_card.dart';
+import 'package:uzme/widgets/pro/pro_detail_bottom_sheet.dart';
+import 'package:uzme/widgets/pro/pro_filter_sheet.dart';
 
 /// Screen to discover and search for professionals.
 class ProDiscoveryScreen extends StatefulWidget {

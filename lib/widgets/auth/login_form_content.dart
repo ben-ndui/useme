@@ -5,17 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/recent_account.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/main.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/widgets/auth/biometric_opt_in_sheet.dart';
-import 'package:useme/widgets/auth/glass_text_field.dart';
-import 'package:useme/widgets/auth/password_bottom_sheet.dart';
-import 'package:useme/widgets/auth/quick_login_card.dart';
-import 'package:useme/widgets/auth/recent_accounts_list.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/recent_account.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/main.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/widgets/auth/biometric_opt_in_sheet.dart';
+import 'package:uzme/widgets/auth/glass_text_field.dart';
+import 'package:uzme/widgets/auth/password_bottom_sheet.dart';
+import 'package:uzme/widgets/auth/quick_login_card.dart';
+import 'package:uzme/widgets/auth/recent_accounts_list.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Login form content with glassmorphism design
 class LoginFormContent extends StatefulWidget {

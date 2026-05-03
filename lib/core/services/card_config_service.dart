@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:useme/core/models/card_config.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/card_config.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service for loading and saving card customization from Firestore.
 class CardConfigService {

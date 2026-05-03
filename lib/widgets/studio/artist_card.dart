@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/widgets/favorite/favorite_button.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/widgets/favorite/favorite_button.dart';
 
 class ArtistCard extends StatelessWidget {
   final Artist artist;

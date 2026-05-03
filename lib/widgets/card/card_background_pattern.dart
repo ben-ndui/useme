@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:useme/core/models/card_config.dart';
-import 'package:useme/widgets/card/holo_card_theme.dart';
+import 'package:uzme/core/models/card_config.dart';
+import 'package:uzme/widgets/card/holo_card_theme.dart';
 
 /// Renders a subtle background pattern overlay on the card.
 class CardBackgroundPatternWidget extends StatelessWidget {

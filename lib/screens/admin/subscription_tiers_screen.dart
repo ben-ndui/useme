@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/models/subscription_tier_config.dart';
-import 'package:useme/core/services/subscription_config_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/admin/subscription/tier_card.dart';
-import 'package:useme/widgets/admin/subscription/tier_edit_sheet.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/models/subscription_tier_config.dart';
+import 'package:uzme/core/services/subscription_config_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/admin/subscription/tier_card.dart';
+import 'package:uzme/widgets/admin/subscription/tier_edit_sheet.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Ecran SuperAdmin pour configurer les tiers d'abonnement
 class SubscriptionTiersScreen extends StatefulWidget {

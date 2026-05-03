@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/widgets/network/import_phone_button.dart';
+import 'package:uzme/widgets/network/import_phone_button.dart';
 
 import '../../helpers/widget_test_helpers.dart';
 

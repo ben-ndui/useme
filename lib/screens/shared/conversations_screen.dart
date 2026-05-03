@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/config/useme_theme.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/core/services/block_service.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/messaging/new_conversation_bottom_sheet.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/config/useme_theme.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/core/services/block_service.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/messaging/new_conversation_bottom_sheet.dart';
 
 /// Écran listant toutes les conversations.
 class ConversationsScreen extends StatefulWidget {

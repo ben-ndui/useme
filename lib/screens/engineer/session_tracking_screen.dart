@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:useme/core/blocs/session/session_exports.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/core/services/session_photo_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
-import 'package:useme/widgets/engineer/session_tracking_body.dart';
+import 'package:uzme/core/blocs/session/session_exports.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/core/services/session_photo_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/widgets/engineer/session_tracking_body.dart';
 
 /// Session tracking screen - For engineer to check-in/out and add notes
 class SessionTrackingScreen extends StatefulWidget {

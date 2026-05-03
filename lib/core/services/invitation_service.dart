@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:useme/core/models/studio_invitation.dart';
-import 'package:useme/core/models/artist.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/studio_invitation.dart';
+import 'package:uzme/core/models/artist.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service pour gérer les invitations studio → artiste
 class InvitationService {

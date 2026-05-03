@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/auth/glass_text_field.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/auth/glass_text_field.dart';
 
 /// Bottom sheet that proposes enabling biometric login after a fresh sign-in.
 class BiometricOptInSheet extends StatelessWidget {

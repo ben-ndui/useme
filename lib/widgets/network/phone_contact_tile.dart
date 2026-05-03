@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Data class for a phone contact with platform match info.
 class PhoneContactItem {

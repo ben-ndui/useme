@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/widgets/card/gyroscope_controller.dart';
+import 'package:uzme/widgets/card/gyroscope_controller.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

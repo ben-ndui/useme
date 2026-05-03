@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
-import 'package:useme/core/models/models_exports.dart';
+import 'package:uzme/core/models/models_exports.dart';
 
 /// Booking Service - CRUD operations for session bookings
 class BookingService {

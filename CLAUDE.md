@@ -272,7 +272,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
 
 // 5. Local imports
-import 'package:useme/core/models/session.dart';
+import 'package:uzme/core/models/session.dart';
 ```
 
 ## Related Projects

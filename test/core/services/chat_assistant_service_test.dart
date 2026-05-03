@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:useme/core/models/chat_assistant_response.dart';
-import 'package:useme/core/services/chat_assistant_service.dart';
+import 'package:uzme/core/models/chat_assistant_response.dart';
+import 'package:uzme/core/services/chat_assistant_service.dart';
 
 class MockFirestore extends Mock implements FirebaseFirestore {}
 

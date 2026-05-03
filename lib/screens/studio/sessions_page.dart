@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/localization/intl_locale.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/widgets/studio/sessions/sessions_exports.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/localization/intl_locale.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/widgets/studio/sessions/sessions_exports.dart';
 
 /// Sessions page with calendar and list views
 class SessionsPage extends StatefulWidget {

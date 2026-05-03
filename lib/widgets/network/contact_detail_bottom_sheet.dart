@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/core/blocs/blocs_exports.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/card_config.dart';
-import 'package:useme/core/models/user_contact.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/card/holo_card.dart';
-import 'package:useme/core/services/vcard_service.dart';
-import 'package:useme/widgets/network/contact_detail_header.dart';
-import 'package:useme/widgets/network/contact_invite_helper.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/card_config.dart';
+import 'package:uzme/core/models/user_contact.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/card/holo_card.dart';
+import 'package:uzme/core/services/vcard_service.dart';
+import 'package:uzme/widgets/network/contact_detail_header.dart';
+import 'package:uzme/widgets/network/contact_invite_helper.dart';
 
 /// Bottom sheet showing full contact details with actions.
 /// For platform contacts, displays their HoloCard at the top.

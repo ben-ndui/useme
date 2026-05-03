@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service de notifications pour Use Me.
 /// Wrapper autour de BaseNotificationService avec sauvegarde du token.

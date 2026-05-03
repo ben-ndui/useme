@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/blocs/map/map_bloc.dart';
-import 'package:useme/core/blocs/map/map_state.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/widgets/common/smooth_draggable_widget.dart';
-import 'package:useme/widgets/map/floating_nav_widget.dart';
-import 'package:useme/widgets/map/map_dashboard_app_bar.dart';
-import 'package:useme/widgets/map/studio_detail_helper.dart';
-import 'package:useme/widgets/map/studio_map_view.dart';
-import 'package:useme/widgets/studio/dashboard/studio_home_feed.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/blocs/map/map_bloc.dart';
+import 'package:uzme/core/blocs/map/map_state.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/widgets/common/smooth_draggable_widget.dart';
+import 'package:uzme/widgets/map/floating_nav_widget.dart';
+import 'package:uzme/widgets/map/map_dashboard_app_bar.dart';
+import 'package:uzme/widgets/map/studio_detail_helper.dart';
+import 'package:uzme/widgets/map/studio_map_view.dart';
+import 'package:uzme/widgets/studio/dashboard/studio_home_feed.dart';
 
 /// Studio Dashboard - Map + Collapsible Feed
 class StudioDashboardPage extends StatelessWidget {

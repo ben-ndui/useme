@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/models/payment_method.dart';
-import 'package:useme/core/models/pro_profile.dart';
-import 'package:useme/core/models/session.dart';
-import 'package:useme/core/services/session_payment_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/studio/booking/booking_payment_selector.dart';
+import 'package:uzme/core/models/payment_method.dart';
+import 'package:uzme/core/models/pro_profile.dart';
+import 'package:uzme/core/models/session.dart';
+import 'package:uzme/core/services/session_payment_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/studio/booking/booking_payment_selector.dart';
 
 /// Résultat de l'acceptation d'une demande pro
 class AcceptProBookingResult {

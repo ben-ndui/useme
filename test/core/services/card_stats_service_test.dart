@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/services/card_stats_service.dart';
+import 'package:uzme/core/services/card_stats_service.dart';
 
 void main() {
   group('CardStats', () {

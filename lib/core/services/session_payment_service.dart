@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:useme/core/models/session_payment_intent.dart';
+import 'package:uzme/core/models/session_payment_intent.dart';
 
 /// Base URL for the Cloud Functions API.
 const _apiBaseUrl =

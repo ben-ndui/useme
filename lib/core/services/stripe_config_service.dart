@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:useme/core/models/stripe_config.dart';
-import 'package:useme/core/services/encryption_service.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/stripe_config.dart';
+import 'package:uzme/core/services/encryption_service.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service de gestion de la configuration Stripe (DevMaster only)
 /// Collection Firestore: 'app_config' doc 'stripe'

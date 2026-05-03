@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/localization/intl_locale.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/dashboard/glass_color_scheme.dart';
-import 'package:useme/widgets/studio/dashboard/studio_dashboard_exports.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/localization/intl_locale.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/dashboard/glass_color_scheme.dart';
+import 'package:uzme/widgets/studio/dashboard/studio_dashboard_exports.dart';
 
 /// Feed content for studio dashboard (inside draggable sheet)
 class StudioHomeFeed extends StatelessWidget {

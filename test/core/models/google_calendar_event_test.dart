@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/google_calendar_event.dart';
+import 'package:uzme/core/models/google_calendar_event.dart';
 
 void main() {
   final start = DateTime(2026, 3, 15, 10, 0);

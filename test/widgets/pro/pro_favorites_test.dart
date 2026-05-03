@@ -3,10 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/favorite.dart';
-import 'package:useme/widgets/favorite/favorite_button.dart';
-import 'package:useme/widgets/pro/pro_card.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/favorite.dart';
+import 'package:uzme/widgets/favorite/favorite_button.dart';
+import 'package:uzme/widgets/pro/pro_card.dart';
 
 import '../../helpers/widget_test_helpers.dart';
 

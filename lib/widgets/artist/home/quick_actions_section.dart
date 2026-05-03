@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/routing/app_routes.dart';
-import 'package:useme/widgets/artist/studio_selector_bottom_sheet.dart';
-import 'package:useme/widgets/card/digital_card_sheet.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/routing/app_routes.dart';
+import 'package:uzme/widgets/artist/studio_selector_bottom_sheet.dart';
+import 'package:uzme/widgets/card/digital_card_sheet.dart';
 
 /// Quick actions horizontal scrollable section
 class QuickActionsSection extends StatelessWidget {

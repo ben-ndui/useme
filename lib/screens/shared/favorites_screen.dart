@@ -3,15 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/favorite.dart';
-import 'package:useme/core/services/pro_profile_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/favorite/favorite_button.dart';
-import 'package:useme/widgets/pro/pro_detail_bottom_sheet.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/favorite.dart';
+import 'package:uzme/core/services/pro_profile_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/favorite/favorite_button.dart';
+import 'package:uzme/widgets/pro/pro_detail_bottom_sheet.dart';
 
 /// Écran listant les favoris de l'utilisateur (adapté selon le rôle).
 class FavoritesScreen extends StatelessWidget {

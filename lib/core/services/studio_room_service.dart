@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:useme/core/models/studio_room.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/studio_room.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service for managing studio rooms
 class StudioRoomService {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/payment_method.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/core/models/payment_method.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Form widget for managing pro payment methods.
 class ProPaymentMethodsForm extends StatelessWidget {

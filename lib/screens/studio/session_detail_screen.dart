@@ -5,20 +5,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/localization/intl_locale.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/core/services/booking_acceptance_service.dart';
-import 'package:useme/core/services/payment_config_service.dart';
-import 'package:useme/core/services/session_payment_service.dart';
-import 'package:useme/widgets/common/cancel_session_sheet.dart';
-import 'package:useme/core/services/service_catalog_service.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/common/payment_tracking_card.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
-import 'package:useme/widgets/studio/accept_booking_sheet.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/localization/intl_locale.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/core/services/booking_acceptance_service.dart';
+import 'package:uzme/core/services/payment_config_service.dart';
+import 'package:uzme/core/services/session_payment_service.dart';
+import 'package:uzme/widgets/common/cancel_session_sheet.dart';
+import 'package:uzme/core/services/service_catalog_service.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/common/payment_tracking_card.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/widgets/studio/accept_booking_sheet.dart';
 
 /// Session detail screen for studios to view and manage session requests
 class SessionDetailScreen extends StatefulWidget {

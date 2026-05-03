@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/widgets/card/holo_card_content.dart';
-import 'package:useme/widgets/card/holo_card_theme.dart';
+import 'package:uzme/widgets/card/holo_card_content.dart';
+import 'package:uzme/widgets/card/holo_card_theme.dart';
 import '../../helpers/widget_test_helpers.dart';
 
 void main() {

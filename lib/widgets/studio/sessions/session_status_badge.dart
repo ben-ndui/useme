@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:useme/core/models/session.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/core/models/session.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Status badge for session cards
 class SessionStatusBadge extends StatelessWidget {

@@ -4,14 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/config/responsive_config.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/pro_profile.dart';
-import 'package:useme/core/models/session.dart';
-import 'package:useme/core/services/session_service.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/artist/session_request/session_type_selector.dart';
-import 'package:useme/widgets/common/snackbar/app_snackbar.dart';
+import 'package:uzme/config/responsive_config.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/pro_profile.dart';
+import 'package:uzme/core/models/session.dart';
+import 'package:uzme/core/services/session_service.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/artist/session_request/session_type_selector.dart';
+import 'package:uzme/widgets/common/snackbar/app_snackbar.dart';
 
 /// Screen to book a pro's services.
 class ProBookingScreen extends StatefulWidget {

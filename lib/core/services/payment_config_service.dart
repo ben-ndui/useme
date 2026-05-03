@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:useme/core/models/payment_method.dart';
-import 'package:useme/core/services/encryption_service.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/models/payment_method.dart';
+import 'package:uzme/core/services/encryption_service.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service pour gérer la configuration des paiements d'un studio
 /// avec chiffrement AES-256 des données sensibles

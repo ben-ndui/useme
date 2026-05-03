@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:useme/core/blocs/map/map_event.dart';
-import 'package:useme/core/blocs/map/map_state.dart';
-import 'package:useme/core/models/discovered_studio.dart';
-import 'package:useme/core/models/navigation/navigation_exports.dart';
-import 'package:useme/core/services/directions_service.dart';
-import 'package:useme/core/services/location_service.dart';
-import 'package:useme/core/services/studio_discovery_service.dart';
+import 'package:uzme/core/blocs/map/map_event.dart';
+import 'package:uzme/core/blocs/map/map_state.dart';
+import 'package:uzme/core/models/discovered_studio.dart';
+import 'package:uzme/core/models/navigation/navigation_exports.dart';
+import 'package:uzme/core/services/directions_service.dart';
+import 'package:uzme/core/services/location_service.dart';
+import 'package:uzme/core/services/studio_discovery_service.dart';
 
 /// BLoC for managing map state and studio discovery
 class MapBloc extends Bloc<MapEvent, MapState> {

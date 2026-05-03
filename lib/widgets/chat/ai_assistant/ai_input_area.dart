@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/config/useme_theme.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/config/useme_theme.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Zone de saisie pour la conversation IA
 class AIInputArea extends StatelessWidget {

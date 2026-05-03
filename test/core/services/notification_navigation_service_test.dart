@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/services/notification_navigation_service.dart';
-import 'package:useme/routing/app_routes.dart';
+import 'package:uzme/core/services/notification_navigation_service.dart';
+import 'package:uzme/routing/app_routes.dart';
 
 void main() {
   late NotificationNavigationService service;

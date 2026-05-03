@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/config/useme_theme.dart';
+import 'package:uzme/config/useme_theme.dart';
 
 /// Typing indicator shown while the AI is generating a response.
 /// Matches the AIMessageBubble layout: avatar + bubble with animated dots.

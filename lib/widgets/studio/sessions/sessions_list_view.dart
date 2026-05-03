@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:useme/core/blocs/blocs_exports.dart';
-import 'package:useme/core/models/models_exports.dart';
-import 'package:useme/l10n/app_localizations.dart';
-import 'package:useme/widgets/common/app_loader.dart';
-import 'package:useme/widgets/studio/sessions/session_card.dart';
-import 'package:useme/widgets/studio/sessions/sessions_empty_state.dart';
-import 'package:useme/widgets/studio/sessions/sessions_filter_sheet.dart';
+import 'package:uzme/core/blocs/blocs_exports.dart';
+import 'package:uzme/core/models/models_exports.dart';
+import 'package:uzme/l10n/app_localizations.dart';
+import 'package:uzme/widgets/common/app_loader.dart';
+import 'package:uzme/widgets/studio/sessions/session_card.dart';
+import 'package:uzme/widgets/studio/sessions/sessions_empty_state.dart';
+import 'package:uzme/widgets/studio/sessions/sessions_filter_sheet.dart';
 
 /// List view with tabs for upcoming, in-progress, and past sessions
 class SessionsListView extends StatelessWidget {

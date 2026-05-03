@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:smoothandesign_package/smoothandesign.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 // Re-export les types du package pour simplifier les imports
 export 'package:smoothandesign_package/smoothandesign.dart'

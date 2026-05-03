@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:useme/core/models/payment_method.dart';
-import 'package:useme/core/models/refund_calculation.dart';
+import 'package:uzme/core/models/payment_method.dart';
+import 'package:uzme/core/models/refund_calculation.dart';
 
 void main() {
   group('RefundCalculation', () {

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:app_links/app_links.dart';
-import 'package:useme/core/utils/app_logger.dart';
+import 'package:uzme/core/utils/app_logger.dart';
 
 /// Service to handle deep links (OAuth callbacks, etc.)
 class DeepLinkService {

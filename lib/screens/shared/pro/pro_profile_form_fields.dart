@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:useme/core/models/pro_profile.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/core/models/pro_profile.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Champs du formulaire profil pro.
 class ProProfileFormFields extends StatelessWidget {

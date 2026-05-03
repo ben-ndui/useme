@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:useme/core/models/subscription_tier_config.dart';
-import 'package:useme/l10n/app_localizations.dart';
+import 'package:uzme/core/models/subscription_tier_config.dart';
+import 'package:uzme/l10n/app_localizations.dart';
 
 /// Displays the list of features for a subscription tier.
 ///

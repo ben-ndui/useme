@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:useme/config/useme_theme.dart';
+import 'package:uzme/config/useme_theme.dart';
 
 /// Collapsible draggable sheet widget - adapted from Viba
 class SmoothDraggableWidget extends StatefulWidget {

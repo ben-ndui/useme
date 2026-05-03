@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:useme/core/models/app_user.dart';
-import 'package:useme/core/models/card_config.dart';
-import 'package:useme/core/services/card_export_service.dart';
-import 'package:useme/widgets/card/holo_card_content.dart';
-import 'package:useme/widgets/card/holo_card_theme.dart';
+import 'package:uzme/core/models/app_user.dart';
+import 'package:uzme/core/models/card_config.dart';
+import 'package:uzme/core/services/card_export_service.dart';
+import 'package:uzme/widgets/card/holo_card_content.dart';
+import 'package:uzme/widgets/card/holo_card_theme.dart';
 
 /// Export-only background — intentionally hardcoded because this renders
 /// to a standalone PNG, not an in-app UI surface.
