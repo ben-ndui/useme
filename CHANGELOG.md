@@ -5,6 +5,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
+## [1.5.26] - 2026-08-03
+
+### Changed
+- **Google Play Billing Library 8.0.0** — `smoothandesign_package` v1.5.0 → v1.5.1 (`in_app_purchase` ^3.3.0 → `in_app_purchase_android` 0.5.2). Exigence Google Play au 31/08/2026 : les mises à jour seraient refusées avec l'ancienne Billing Library 7. Aucun changement d'API côté app.
+
+---
+
 ## [1.3.2] - 2026-04-09
 
 ### Changed

@@ -2,7 +2,7 @@ name: uzme
 description: "UZME — réservation de sessions studio entre artistes, ingénieurs son et propriétaires de studios."
 publish_to: 'none'
 
-version: 1.5.25+54
+version: 1.5.26+55
 
 environment:
   sdk: ^3.9.0
@@ -20,7 +20,7 @@ dependencies:
       # ⚠️ La CI builde avec CETTE ref (pubspec_overrides.yaml est
       # gitignoré) — elle doit suivre les tags du package, sinon la CI
       # compile une version antérieure à celle testée en local.
-      ref: v1.5.0
+      ref: v1.5.1
 
   # Smooth & Design Biometric Auth (Face ID / Touch ID / fingerprint)
   smoothandesign_auth_biometric:
