@@ -66,17 +66,11 @@ class EncryptionService {
         value: _iv!.base64,
       );
     } catch (e) {
+      // Fail-fast : pas de clé serveur = pas de chiffrement possible. L'ancien
+      // fallback dérivait la clé du userId (public) — prédictible, supprimé.
       appLog('Erreur récupération clé: $e');
-      // Fallback: générer une clé locale (moins sécurisé mais fonctionnel)
-      _generateLocalKey(userId);
+      rethrow;
     }
-  }
-
-  /// Génère une clé locale en fallback
-  void _generateLocalKey(String userId) {
-    final derivedKey = _deriveKey(userId, 'useme_local_salt_2024');
-    _encryptionKey = encrypt.Key(Uint8List.fromList(derivedKey));
-    _iv = encrypt.IV.fromSecureRandom(16);
   }
 
   /// Dérive une clé AES-256 (32 bytes) à partir d'une chaîne
@@ -86,22 +80,19 @@ class EncryptionService {
     return hash.bytes; // SHA-256 = 32 bytes = AES-256
   }
 
-  /// Chiffre une chaîne de caractères
+  /// Chiffre une chaîne de caractères.
+  ///
+  /// Lève une [StateError] si le service n'est pas initialisé et relance toute
+  /// erreur de chiffrement : retourner le clair écrirait silencieusement des
+  /// secrets (clés Stripe, IBAN...) non chiffrés dans Firestore.
   String? encryptString(String? plainText) {
     if (plainText == null || plainText.isEmpty) return plainText;
     if (_encryptionKey == null || _iv == null) {
-      appLog('EncryptionService non initialisé');
-      return plainText;
+      throw StateError('EncryptionService non initialisé — appeler initialize() avant encryptString()');
     }
 
-    try {
-      final encrypter = encrypt.Encrypter(encrypt.AES(_encryptionKey!));
-      final encrypted = encrypter.encrypt(plainText, iv: _iv);
-      return encrypted.base64;
-    } catch (e) {
-      appLog('Erreur chiffrement: $e');
-      return plainText;
-    }
+    final encrypter = encrypt.Encrypter(encrypt.AES(_encryptionKey!));
+    return encrypter.encrypt(plainText, iv: _iv).base64;
   }
 
   /// Déchiffre une chaîne de caractères
