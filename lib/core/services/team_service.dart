@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smoothandesign_package/smoothandesign.dart' show SmoothResponse;
 import 'package:uzme/core/models/app_user.dart';
@@ -324,12 +326,11 @@ class TeamService {
   }
 
   String _generateCode() {
+    // Random.secure obligatoire : un code dérivé de l'horloge est prévisible
+    // et permettrait de deviner l'invitation d'un autre studio.
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    final random = DateTime.now().millisecondsSinceEpoch;
-    var code = '';
-    for (var i = 0; i < 6; i++) {
-      code += chars[(random + i * 7) % chars.length];
-    }
+    final random = Random.secure();
+    final code = List.generate(6, (_) => chars[random.nextInt(chars.length)]).join();
     return 'TEAM-$code';
   }
 }

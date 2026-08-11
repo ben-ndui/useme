@@ -37,7 +37,8 @@ class DirectionsService {
         'language': 'fr',
       });
 
-      debugPrint('[Directions] GET $uri');
+      // Ne jamais logger l'URI complète : elle contient la clé API en query param.
+      debugPrint('[Directions] GET directions ${mode.apiValue}');
       final response = await _client.get(uri);
       debugPrint('[Directions] status=${response.statusCode}');
 
